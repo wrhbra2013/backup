@@ -1,20 +1,20 @@
 #!/bin/bash
 set -euo pipefail
 
-REPO="ungoogled-software/ungoogled-chromium-portablelinux"
-BIN_PATH="/usr/local/bin/ungoogled-chromium"
+REPO="VSCodium/vscodium"
+BIN_PATH="/usr/local/bin/vscodium"
 ICON_DIR="/usr/local/share/icons"
-ICON_PATH="$ICON_DIR/ungoogled-chromium.png"
-DESKTOP_PATH="/usr/share/applications/ungoogled-chromium.desktop"
+ICON_PATH="$ICON_DIR/vscodium.png"
+DESKTOP_PATH="/usr/share/applications/vscodium.desktop"
 SRC_DIR="$(cd "$(dirname "$0")" && pwd)"
 
-echo "=== Instalador Ungoogled Chromium ==="
+echo "=== Instalador VSCodium ==="
 echo ""
 
 # --- Buscar AppImage ---
 APPIMAGE_PATH=""
 shopt -s nullglob
-for f in "$SRC_DIR"/ungoogled-chromium-*-x86_64.AppImage; do
+for f in "$SRC_DIR"/VSCodium-*-x86_64.AppImage; do
     APPIMAGE_PATH="$f"
     break
 done
@@ -36,6 +36,7 @@ else
     DOWNLOAD_URL=$(echo "$JSON" \
         | grep -Po '"browser_download_url":\s*"\K[^"]+(?=")' \
         | grep -i 'AppImage' \
+        | grep -v 'arm64\|armhf\|aarch64' \
         | head -1 || true)
 
     if [ -z "$DOWNLOAD_URL" ]; then
@@ -86,13 +87,18 @@ ICON_EXTRACTED=false
 EXTRACT_DIR=$(mktemp -d)
 cd "$EXTRACT_DIR"
 for path in \
-    "usr/share/icons/hicolor/256x256/apps/chromium.png" \
-    "usr/share/icons/hicolor/128x128/apps/chromium.png" \
-    "usr/share/icons/hicolor/96x96/apps/chromium.png" \
-    "usr/share/icons/hicolor/64x64/apps/chromium.png" \
-    "usr/share/icons/hicolor/48x48/apps/chromium.png" \
-    "usr/share/icons/hicolor/32x32/apps/chromium.png" \
-    "chromium.png" \
+    "usr/share/icons/hicolor/256x256/apps/vscodium.png" \
+    "usr/share/icons/hicolor/128x128/apps/vscodium.png" \
+    "usr/share/icons/hicolor/96x96/apps/vscodium.png" \
+    "usr/share/icons/hicolor/64x64/apps/vscodium.png" \
+    "usr/share/icons/hicolor/48x48/apps/vscodium.png" \
+    "usr/share/icons/hicolor/32x32/apps/vscodium.png" \
+    "usr/share/icons/hicolor/256x256/apps/codium.png" \
+    "usr/share/icons/hicolor/128x128/apps/codium.png" \
+    "usr/share/icons/hicolor/64x64/apps/codium.png" \
+    "usr/share/icons/hicolor/48x48/apps/codium.png" \
+    "vscodium.png" \
+    "codium.png" \
     ".DirIcon"; do
     if "$BIN_PATH" --appimage-extract "$path" >/dev/null 2>&1 && [ -f "squashfs-root/$path" ]; then
         sudo cp "squashfs-root/$path" "$ICON_PATH"
@@ -107,18 +113,16 @@ rm -rf "$EXTRACT_DIR"
 if [ "$ICON_EXTRACTED" = false ]; then
     echo "Ícone não encontrado no AppImage. Baixando do repositório oficial..."
     sudo wget -q -O "$ICON_PATH" \
-        "https://raw.githubusercontent.com/ungoogled-software/ungoogled-chromium/master/logo/ungoogled_chromium_logo_256.png" \
+        "https://raw.githubusercontent.com/VSCodium/vscodium/master/icons/vscodium.png" \
         || sudo wget -q -O "$ICON_PATH" \
-        "https://raw.githubusercontent.com/ungoogled-software/ungoogled-chromium/refs/heads/master/logo/ungoogled_chromium_logo_256.png" \
+        "https://raw.githubusercontent.com/VSCodium/vscodium/refs/heads/master/icons/vscodium.png" \
         || {
-        echo "Aviso: baixando ícone genérico do Chromium..."
+        echo "Aviso: baixando ícone alternativo..."
         sudo wget -q -O "$ICON_PATH" \
-            "https://upload.wikimedia.org/wikipedia/commons/a/a5/Chromium_11_Logo.png" \
-            || sudo wget -q -O "$ICON_PATH" \
-            "https://raw.githubusercontent.com/chromium/chromium/main/chrome/app/theme/chromium/linux/product_logo_256.png" \
+            "https://upload.wikimedia.org/wikipedia/commons/e/e8/VSCodium_logo.png" \
             || {
             echo "Erro: não foi possível obter nenhum ícone."
-            ICON_PATH="chromium-browser"
+            ICON_PATH="code"
         }
     }
 fi
@@ -126,19 +130,20 @@ fi
 echo "[3/4] Criando atalho .desktop..."
 sudo tee "$DESKTOP_PATH" > /dev/null << DESKTOP
 [Desktop Entry]
-Name=Ungoogled Chromium
-Comment=Navegador sem serviços do Google
+Name=VSCodium
+Comment=Editor de código livre e open-source
 Exec=$BIN_PATH
 Icon=$ICON_PATH
 Terminal=false
 Type=Application
-Categories=Network;WebBrowser;
-StartupWMClass=ungoogled-chromium
+Categories=Development;IDE;
+StartupWMClass=vscodium
+StartupNotify=true
 DESKTOP
 
 echo "[4/4] Atualizando banco de dados do menu..."
 sudo update-desktop-database /usr/share/applications 2>/dev/null || true
 
 echo ""
-echo "Pronto! Ungoogled Chromium instalado em $BIN_PATH"
+echo "Pronto! VSCodium instalado em $BIN_PATH"
 echo "Atalho criado em $DESKTOP_PATH"
