@@ -1,204 +1,184 @@
 #!/usr/bin/env bash
-set -euo pipefail
+set -uo pipefail
 
 APP_DIR="${1:-$HOME/Applications}"
 LOGFILE="$HOME/.cache/update-appimages.log"
 DESKTOP_DIR="$HOME/.local/share/applications"
 mkdir -p "$APP_DIR" "$(dirname "$LOGFILE")" "$DESKTOP_DIR"
 
-exec > >(tee -a "$LOGFILE") 2>&1
-
+exec > >(tee -a "$LOGFILE")
 log() { echo "[$(date '+%Y-%m-%d %H:%M:%S')] $*"; }
 
-get_latest_appimage() {
-    local repo="$1"
-    local filter="${2:-AppImage}"
-    curl -sL "https://api.github.com/repos/$repo/releases/latest" |
-        python3 -c "
+# IPs conhecidos do GitHub API (DNS local resolve para IP invalido)
+GH_API_IPS=("140.82.112.5" "140.82.113.5" "140.82.114.5" "140.82.116.5")
+GH_RESOLVE=""
+for ip in "${GH_API_IPS[@]}"; do
+    GH_RESOLVE+=" --resolve api.github.com:443:$ip"
+done
+
+fetch_release() {
+    local repo="$1" filter="$2"
+    local json
+
+    # Tentar API com --resolve (contorna DNS invalido)
+    json=$(curl -sL $GH_RESOLVE --connect-timeout 10 --max-time 20 \
+        "https://api.github.com/repos/$repo/releases/latest" 2>&1) || {
+        # Fallback: scraping da pagina HTML (funciona para alguns repos)
+        fetch_release_html "$repo" "$filter" && return 0
+        fetch_err="API e fallback HTML falharam"
+        return 1
+    }
+
+    VERSION=$(echo "$json" | python3 -c "import json,sys; print(json.load(sys.stdin).get('tag_name',''))" 2>/dev/null) || VERSION=""
+    URL=$(echo "$json" | python3 -c "
 import json,sys
-data=json.load(sys.stdin)
-for a in data.get('assets', []):
+for a in json.load(sys.stdin).get('assets', []):
     if '$filter' in a['name'] and 'zsync' not in a['name']:
         print(a['browser_download_url'])
         break
-" 2>/dev/null
-}
+" 2>/dev/null) || URL=""
 
-install_desktop_entry() {
-    local app="$1"
-    local exec_path="$2"
-    local desktop_file="$3"
-    local content="$4"
-
-    echo "$content" > "$DESKTOP_DIR/$desktop_file"
-    chmod 644 "$DESKTOP_DIR/$desktop_file"
-    log "[OK] .desktop criado: $DESKTOP_DIR/$desktop_file → $exec_path"
-}
-
-set_default_mime() {
-    local desktop_file="$1"
-    shift
-    local mime_types=("$@")
-    for mime in "${mime_types[@]}"; do
-        if command -v xdg-mime &>/dev/null; then
-            xdg-mime default "$desktop_file" "$mime" 2>/dev/null
-            log "[OK] Padrão $mime → $desktop_file"
-        fi
-    done
-}
-
-set_default_browser() {
-    local desktop_file="$1"
-    if command -v xdg-settings &>/dev/null; then
-        xdg-settings set default-web-browser "$desktop_file" 2>/dev/null
-        log "[OK] Navegador padrão → $desktop_file"
-    fi
-}
-
-update_appimage() {
-    local name="$1"
-    local url="$2"
-    local app_label="$3"
-    local desktop_id="$4"
-    local desktop_name="$5"
-    local desktop_comment="$6"
-    local icon_name="$7"
-    shift 7
-    local mime_list=("$@")
-
-    local output="$APP_DIR/$name"
-    local old_size=0
-    local new_size=0
-    local updated=false
-
-    log "=== Iniciando: $app_label ==="
-
-    [[ -z "$url" ]] && { log "[ERRO] URL vazia"; return 1; }
-
-    if [[ -f "$output" ]]; then
-        old_size=$(stat -c%s "$output" 2>/dev/null || echo 0)
-        log "Arquivo existente: $(numfmt --to=iec $old_size)"
-    else
-        log "Arquivo não existe, será baixado"
-    fi
-
-    # Remove versão anterior e resíduos de download
-    rm -f "$output.part"
-    if [[ -f "$output" ]]; then
-        rm -f "$output"
-        log "Versão anterior removida"
-    fi
-
-    log "Baixando..."
-    if wget -c -q --show-progress \
-        --connect-timeout=30 --read-timeout=30 --dns-timeout=15 \
-        --tries=5 --retry-connrefused \
-        -O "$output.part" "$url"; then
-
-        new_size=$(stat -c%s "$output.part" 2>/dev/null || echo 0)
-        if [[ "$new_size" -eq 0 ]]; then
-            log "[ERRO] Download vazio"
-            rm -f "$output.part"
-            return 1
-        fi
-        chmod +x "$output.part"
-        mv "$output.part" "$output"
-
-        if [[ "$old_size" -eq "$new_size" ]]; then
-            log "[OK] $app_label — mesmo tamanho, já atualizado ($(numfmt --to=iec $new_size))"
-        else
-            log "[OK] $app_label: $(numfmt --to=iec $old_size) → $(numfmt --to=iec $new_size)"
-        fi
-    else
-        log "[AVISO] Download interrompido"
-        log "        Re-execute o script para retomar"
+    if [[ -z "$URL" ]]; then
+        fetch_err="nenhum asset encontrado para: $filter"
         return 1
     fi
-
-    # Criar entrada .desktop
-    local desktop_content="[Desktop Entry]
-Type=Application
-Name=$desktop_name
-Comment=$desktop_comment
-Exec=\"$output\" %F
-Icon=$icon_name
-Terminal=false
-Categories=Development;Network;WebBrowser;
-MimeType=$(IFS=';'; echo "${mime_list[*]};")
-StartupNotify=true"
-
-    install_desktop_entry "$app_label" "$output" "$desktop_id" "$desktop_content"
-
-    # Configurar como padrão
-    if [[ "$desktop_id" == *"chromium"* ]]; then
-        set_default_browser "$desktop_id"
-    fi
-    set_default_mime "$desktop_id" "${mime_list[@]}"
 }
 
-# ─────────────────────────────────────────────
+fetch_release_html() {
+    local repo="$1" filter="$2"
 
-echo "========================================"
-echo " Atualizador de AppImages"
-echo " Início: $(date '+%Y-%m-%d %H:%M:%S')"
-echo " Diretório: $APP_DIR"
-echo " Log: $LOGFILE"
-echo "========================================"
+    local page_url
+    page_url=$(curl -sL --connect-timeout 10 --max-time 20 \
+        -o /dev/null -w '%{url_effective}' \
+        "https://github.com/$repo/releases/latest") || return 1
+
+    VERSION=$(echo "$page_url" | sed 's|.*/tag/||')
+    [[ -z "$VERSION" ]] && return 1
+
+    local html
+    html=$(curl -sL --connect-timeout 10 --max-time 20 "$page_url") || return 1
+
+    local path
+    path=$(echo "$html" | python3 -c "
+import sys, re
+html = sys.stdin.read()
+repo = '$repo'
+f = '$filter'
+for m in re.finditer(r'href=\"([^\"]+?)\"', html):
+    u = m.group(1)
+    if repo in u and '/releases/download/' in u and f in u and 'zsync' not in u:
+        print(u)
+        break
+" 2>/dev/null) || return 1
+
+    [[ -z "$path" ]] && return 1
+
+    if [[ "$path" == https://* ]]; then
+        URL="$path"
+    else
+        URL="https://github.com$path"
+    fi
+}
+
+download_app() {
+    local url="$1" output="$2"
+    local start elapsed bytes total_size
+
+    # Mostrar tamanho do arquivo antes de baixar
+    total_size=$(curl -sI --connect-timeout 10 --max-time 15 "$url" 2>/dev/null \
+        | grep -i '^content-length:' | awk '{print $2}' | tr -d '\r ')
+    if [[ -n "$total_size" ]]; then
+        echo "  Tamanho: $(numfmt --to=iec "$total_size")"
+    fi
+
+    start=$(date +%s%N)
+    curl -L --connect-timeout 10 --progress-bar \
+        -o "$output.part" "$url" || return 1
+    elapsed=$(( ($(date +%s%N) - start) / 1000000 )) # ms
+
+    chmod +x "$output.part"
+    mv "$output.part" "$output"
+
+    bytes=$(stat -c%s "$output" 2>/dev/null)
+    if [[ "$elapsed" -gt 0 && -n "$bytes" && "$bytes" -gt 0 ]]; then
+        local speed=$(( bytes * 1000 / elapsed ))
+        DOWNLOAD_SPEED="$(numfmt --to=iec "$speed")/s"
+        DOWNLOAD_SIZE="$bytes"
+    fi
+}
+
+install_desktop() {
+    local name="$1" exec="$2" file="$3" icon="$4" mime="$5"
+    cat > "$DESKTOP_DIR/$file" <<-EOF
+[Desktop Entry]
+Type=Application
+Name=$name
+Exec=$exec %F
+Icon=$icon
+Terminal=false
+Categories=Development;Network;WebBrowser;
+MimeType=$mime
+StartupNotify=true
+EOF
+    chmod 644 "$DESKTOP_DIR/$file"
+}
+
+# ── Apps ──────────────────────────────────────
+
+echo ""
+echo "Atualizador de AppImages — $(date '+%Y-%m-%d %H:%M:%S')"
+echo "Diretório: $APP_DIR"
 echo ""
 
 FAIL=0
 
-echo "[.] Obtendo URL do VSCodium..."
-VSC_URL=$(get_latest_appimage "VSCodium/vscodium" "glibc2.30-x86_64.AppImage")
-echo "    → ${VSC_URL:-falhou}"
+while IFS='|' read -r repo filter filename label desktop icon mime; do
+    echo "--- $label ---"
 
-echo "[.] Obtendo URL do ungoogled-chromium..."
-UCL_URL=$(get_latest_appimage "ungoogled-software/ungoogled-chromium-portablelinux" "x86_64.AppImage")
-echo "    → ${UCL_URL:-falhou}"
+    printf "  Release... "
+    VERSION="" URL="" fetch_err=""
+    if fetch_release "$repo" "$filter"; then
+        echo "$VERSION"
+    else
+        echo "FALHOU ($fetch_err)"
+        FAIL=1
+        continue
+    fi
 
-echo "[.] Obtendo URL do opencode..."
-OC_URL=$(get_latest_appimage "anomalyco/opencode" "opencode-desktop-linux-x86_64.AppImage")
-echo "    → ${OC_URL:-falhou}"
+    output="$APP_DIR/$filename"
+    vfile="$output.version"
 
-echo ""
+    if [[ -f "$vfile" ]] && [[ "$(cat "$vfile")" == "$VERSION" ]] && [[ -f "$output" ]]; then
+        echo "  Ja atualizado ($VERSION)"
+    else
+        echo "  Baixando... "
+        if download_app "$URL" "$output"; then
+            echo "  OK ($(numfmt --to=iec "$DOWNLOAD_SIZE") em ${DOWNLOAD_SPEED:-?})"
+            echo "$VERSION" > "$vfile"
+        else
+            echo "  FALHOU"
+            FAIL=1
+            continue
+        fi
+    fi
 
-update_appimage "VSCodium.AppImage" "$VSC_URL" \
-    "VSCodium" "codium-appimage.desktop" \
-    "VSCodium (AppImage)" "Editor de código e texto" "vscodium" \
-    "text/plain" "text/x-python" "text/x-shellscript" "text/x-c" \
-    "text/x-c++" "text/x-java" "text/javascript" "application/json" \
-    "text/x-markdown" "text/x-yaml" "text/x-toml" "text/xml" \
-    "text/css" "text/html" "application/typescript" \
-    || FAIL=1
+    install_desktop "$label" "$output" "$desktop" "$icon" "$mime"
+    echo "  .desktop criado"
 
-update_appimage "ungoogled-chromium.AppImage" "$UCL_URL" \
-    "ungoogled-chromium" "ungoogled-chromium-appimage.desktop" \
-    "Chromium" "Navegador web" "chromium" \
-    "x-scheme-handler/http" "x-scheme-handler/https" "text/html" \
-    "application/xhtml+xml" "x-scheme-handler/ftp" "text/plain" \
-    || FAIL=1
+    if [[ "$desktop" == Chromium ]] && command -v xdg-settings &>/dev/null; then
+        xdg-settings set default-web-browser "$desktop" 2>/dev/null || true
+    fi
 
-update_appimage "opencode-desktop-linux-x86_64.AppImage" "$OC_URL" \
-    "OpenCode" "opencode-appimage.desktop" \
-    "OpenCode" "Agente de IA para codigo" "opencode" \
-    "text/plain" \
-    || FAIL=1
+    echo ""
+done <<-APPS
+VSCodium/vscodium|glibc2.30-x86_64.AppImage|VSCodium.AppImage|VSCodium|codium-appimage.desktop|vscodium|text/plain;text/x-python;text/x-c;text/html;application/json
+ungoogled-software/ungoogled-chromium-portablelinux|x86_64.AppImage|ungoogled-chromium.AppImage|Chromium|ungoogled-chromium-appimage.desktop|chromium|x-scheme-handler/http;x-scheme-handler/https;text/html
+anomalyco/opencode|opencode-desktop-linux-x86_64.AppImage|opencode-desktop-linux-x86_64.AppImage|OpenCode|opencode-appimage.desktop|opencode|text/plain
+APPS
 
-# Atualizar cache do desktop
-if command -v update-desktop-database &>/dev/null; then
-    update-desktop-database "$DESKTOP_DIR" 2>/dev/null
-    log "[OK] Cache desktop atualizado"
-fi
+command -v update-desktop-database &>/dev/null && update-desktop-database "$DESKTOP_DIR" 2>/dev/null || true
 
-echo ""
-echo "========================================"
-echo " Resumo"
-echo "========================================"
-if [[ "$FAIL" -eq 0 ]]; then
-    echo " Status: ✓ Sucesso"
-else
-    echo " Status: ⚠ Falha em algum item"
-fi
-echo " Log: $LOGFILE"
-echo "========================================"
+echo "---"
+echo "Status: $([ "$FAIL" -eq 0 ] && echo "Sucesso" || echo "Falha em algum item")"
+echo "Log: $LOGFILE"
 exit "$FAIL"
