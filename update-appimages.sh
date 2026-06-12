@@ -123,6 +123,45 @@ EOF
     chmod 644 "$DESKTOP_DIR/$file"
 }
 
+install_icon() {
+    local appimage="$1" icon_name="$2"
+    [[ -f "$appimage" && -n "$icon_name" ]] || return 1
+
+    local existing
+    existing=$(find "$HOME/.local/share/icons" -name "${icon_name}.*" 2>/dev/null | head -1)
+    [[ -n "$existing" ]] && return 0
+
+    local tmpdir icon_src
+    tmpdir=$(mktemp -d)
+    (cd "$tmpdir" && "$appimage" --appimage-extract) >/dev/null 2>&1 || {
+        rm -rf "$tmpdir"
+        return 1
+    }
+
+    local root="$tmpdir/squashfs-root"
+
+    if [[ -f "$root/.DirIcon" ]]; then
+        icon_src="$root/.DirIcon"
+    else
+        icon_src=$(find "$root" -name "${icon_name}.png" -o -name "${icon_name}.svg" 2>/dev/null | head -1)
+    fi
+
+    if [[ -z "$icon_src" ]]; then
+        icon_src=$(find "$root" -name "*.png" 2>/dev/null | head -1)
+    fi
+
+    if [[ -n "$icon_src" ]]; then
+        local ext="${icon_src##*.}"
+        mkdir -p "$HOME/.local/share/icons"
+        cp "$icon_src" "$HOME/.local/share/icons/${icon_name}.${ext}"
+        rm -rf "$tmpdir"
+        return 0
+    fi
+
+    rm -rf "$tmpdir"
+    return 1
+}
+
 # ── Apps ──────────────────────────────────────
 
 echo ""
@@ -164,19 +203,28 @@ while IFS='|' read -r repo filter filename label desktop icon mime; do
 
     install_desktop "$label" "$output" "$desktop" "$icon" "$mime"
     echo "  .desktop criado"
+    if [[ -f "$output" ]]; then
+        install_icon "$output" "$icon" && echo "  Icone instalado" || echo "  Icone nao encontrado no AppImage"
+    fi
 
-    if [[ "$desktop" == Chromium ]] && command -v xdg-settings &>/dev/null; then
-        xdg-settings set default-web-browser "$desktop" 2>/dev/null || true
+    if command -v xdg-settings &>/dev/null; then
+        case "$label" in
+            "Brave Browser"|"Chromium")
+                xdg-settings set default-web-browser "$(basename "$desktop" .desktop)" 2>/dev/null || true
+                ;;
+        esac
     fi
 
     echo ""
 done <<-APPS
+srevinsaju/Brave-AppImage|x86_64.AppImage|brave.AppImage|Brave Browser|brave-browser.desktop|brave-browser|x-scheme-handler/http;x-scheme-handler/https;text/html
 VSCodium/vscodium|glibc2.30-x86_64.AppImage|VSCodium.AppImage|VSCodium|codium-appimage.desktop|vscodium|text/plain;text/x-python;text/x-c;text/html;application/json
 ungoogled-software/ungoogled-chromium-portablelinux|x86_64.AppImage|ungoogled-chromium.AppImage|Chromium|ungoogled-chromium-appimage.desktop|chromium|x-scheme-handler/http;x-scheme-handler/https;text/html
 anomalyco/opencode|opencode-desktop-linux-x86_64.AppImage|opencode-desktop-linux-x86_64.AppImage|OpenCode|opencode-appimage.desktop|opencode|text/plain
 APPS
 
 command -v update-desktop-database &>/dev/null && update-desktop-database "$DESKTOP_DIR" 2>/dev/null || true
+command -v gtk-update-icon-cache &>/dev/null && gtk-update-icon-cache "$HOME/.local/share/icons" 2>/dev/null || true
 
 echo "---"
 echo "Status: $([ "$FAIL" -eq 0 ] && echo "Sucesso" || echo "Falha em algum item")"
