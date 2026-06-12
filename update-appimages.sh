@@ -1,12 +1,28 @@
 #!/usr/bin/env bash
 set -uo pipefail
 
-APP_DIR="${1:-$HOME/Applications}"
 LOGFILE="$HOME/.cache/update-appimages.log"
 DESKTOP_DIR="$HOME/.local/share/applications"
+
+MODE="update"
+case "${1:-}" in
+    --menu) MODE="menu"; shift ;;
+    --status) MODE="status"; shift ;;
+    --uninstall) MODE="uninstall"; UNINSTALL_APP="${2:-}"; shift 2 ;;
+esac
+
+APP_DIR="${1:-$HOME/Applications}"
 mkdir -p "$APP_DIR" "$(dirname "$LOGFILE")" "$DESKTOP_DIR"
 
-exec > >(tee -a "$LOGFILE")
+# Apps data: repo|filter|filename|label|desktop|icon|mime
+APPS_DATA=(
+    "srevinsaju/Brave-AppImage|x86_64.AppImage|brave.AppImage|Brave Browser|brave-browser.desktop|brave-browser|x-scheme-handler/http;x-scheme-handler/https;text/html"
+    "VSCodium/vscodium|glibc2.30-x86_64.AppImage|VSCodium.AppImage|VSCodium|codium-appimage.desktop|vscodium|text/plain;text/x-python;text/x-c;text/html;application/json"
+    "ungoogled-software/ungoogled-chromium-portablelinux|x86_64.AppImage|ungoogled-chromium.AppImage|Chromium|ungoogled-chromium-appimage.desktop|chromium|x-scheme-handler/http;x-scheme-handler/https;text/html"
+    "anomalyco/opencode|opencode-desktop-linux-x86_64.AppImage|opencode-desktop-linux-x86_64.AppImage|OpenCode|opencode-appimage.desktop|opencode|text/plain"
+)
+
+[[ "$MODE" != "update" ]] && exec > >(tee -a "$LOGFILE")
 log() { echo "[$(date '+%Y-%m-%d %H:%M:%S')] $*"; }
 
 # IPs conhecidos do GitHub API (DNS local resolve para IP invalido)
@@ -162,71 +178,217 @@ install_icon() {
     return 1
 }
 
-# ── Apps ──────────────────────────────────────
+# ── Status / List ──────────────────────────────
 
-echo ""
-echo "Atualizador de AppImages — $(date '+%Y-%m-%d %H:%M:%S')"
-echo "Diretório: $APP_DIR"
-echo ""
-
-FAIL=0
-
-while IFS='|' read -r repo filter filename label desktop icon mime; do
-    echo "--- $label ---"
-
-    printf "  Release... "
-    VERSION="" URL="" fetch_err=""
-    if fetch_release "$repo" "$filter"; then
-        echo "$VERSION"
-    else
-        echo "FALHOU ($fetch_err)"
-        FAIL=1
-        continue
-    fi
-
-    output="$APP_DIR/$filename"
-    vfile="$output.version"
-
-    if [[ -f "$vfile" ]] && [[ "$(cat "$vfile")" == "$VERSION" ]] && [[ -f "$output" ]]; then
-        echo "  Ja atualizado ($VERSION)"
-    else
-        echo "  Baixando... "
-        if download_app "$URL" "$output"; then
-            echo "  OK ($(numfmt --to=iec "$DOWNLOAD_SIZE") em ${DOWNLOAD_SPEED:-?})"
-            echo "$VERSION" > "$vfile"
-        else
-            echo "  FALHOU"
-            FAIL=1
-            continue
+list_installed() {
+    echo ""
+    echo "═══ Apps Instalados ═══"
+    echo ""
+    local found=0
+    local outdated=0
+    for entry in "${APPS_DATA[@]}"; do
+        IFS='|' read -r repo filter filename label desktop icon mime <<< "$entry"
+        local output="$APP_DIR/$filename"
+        local vfile="$output.version"
+        if [[ -f "$output" ]]; then
+            found=1
+            local version=""
+            [[ -f "$vfile" ]] && version=$(cat "$vfile")
+            echo "  $label"
+            echo "    Arquivo: $filename ($(numfmt --to=iec "$(stat -c%s "$output" 2>/dev/null)" 2>/dev/null || echo "?"))"
+            if [[ -n "$version" ]]; then
+                echo "    Versao: $version"
+            else
+                echo "    Versao: desconhecida"
+            fi
         fi
-    fi
+    done
+    [[ "$found" -eq 0 ]] && echo "  Nenhum AppImage instalado em $APP_DIR"
+    echo ""
+}
 
-    install_desktop "$label" "$output" "$desktop" "$icon" "$mime"
-    echo "  .desktop criado"
-    if [[ -f "$output" ]]; then
-        install_icon "$output" "$icon" && echo "  Icone instalado" || echo "  Icone nao encontrado no AppImage"
-    fi
+# ── Uninstall ──────────────────────────────────
 
-    if command -v xdg-settings &>/dev/null; then
-        case "$label" in
-            "Brave Browser"|"Chromium")
-                xdg-settings set default-web-browser "$(basename "$desktop" .desktop)" 2>/dev/null || true
-                ;;
-        esac
+uninstall_app() {
+    local target_label="$1"
+    for entry in "${APPS_DATA[@]}"; do
+        IFS='|' read -r repo filter filename label desktop icon mime <<< "$entry"
+        if [[ "$label" == "$target_label" ]]; then
+            local output="$APP_DIR/$filename"
+            local vfile="$output.version"
+            local removed=0
+
+            if [[ -f "$output" ]]; then
+                rm -f "$output" && echo "  Removido: $output" && removed=1
+            fi
+            if [[ -f "$vfile" ]]; then
+                rm -f "$vfile" && echo "  Removido: $vfile"
+            fi
+            if [[ -f "$DESKTOP_DIR/$desktop" ]]; then
+                rm -f "$DESKTOP_DIR/$desktop" && echo "  Removido: $DESKTOP_DIR/$desktop"
+            fi
+
+            local icon_file
+            icon_file=$(find "$HOME/.local/share/icons" -maxdepth 1 -name "${icon}.*" 2>/dev/null | head -1)
+            if [[ -n "$icon_file" ]]; then
+                rm -f "$icon_file" && echo "  Removido: $icon_file"
+            fi
+
+            if [[ "$removed" -eq 0 ]]; then
+                echo "  '$label' nao esta instalado."
+            else
+                echo "  '$label' desinstalado com sucesso."
+            fi
+            return 0
+        fi
+    done
+    echo "  App '$target_label' nao encontrado."
+}
+
+uninstall_menu() {
+    local installed=()
+    local labels=()
+    for entry in "${APPS_DATA[@]}"; do
+        IFS='|' read -r repo filter filename label desktop icon mime <<< "$entry"
+        if [[ -f "$APP_DIR/$filename" ]]; then
+            installed+=("$entry")
+            labels+=("$label")
+        fi
+    done
+
+    if [[ ${#installed[@]} -eq 0 ]]; then
+        echo ""
+        echo "Nenhum app instalado para desinstalar."
+        return
     fi
 
     echo ""
-done <<-APPS
-srevinsaju/Brave-AppImage|x86_64.AppImage|brave.AppImage|Brave Browser|brave-browser.desktop|brave-browser|x-scheme-handler/http;x-scheme-handler/https;text/html
-VSCodium/vscodium|glibc2.30-x86_64.AppImage|VSCodium.AppImage|VSCodium|codium-appimage.desktop|vscodium|text/plain;text/x-python;text/x-c;text/html;application/json
-ungoogled-software/ungoogled-chromium-portablelinux|x86_64.AppImage|ungoogled-chromium.AppImage|Chromium|ungoogled-chromium-appimage.desktop|chromium|x-scheme-handler/http;x-scheme-handler/https;text/html
-anomalyco/opencode|opencode-desktop-linux-x86_64.AppImage|opencode-desktop-linux-x86_64.AppImage|OpenCode|opencode-appimage.desktop|opencode|text/plain
-APPS
+    echo "═══ Desinstalar App ═══"
+    echo ""
+    for i in "${!labels[@]}"; do
+        echo "  $((i+1))) ${labels[$i]}"
+    done
+    echo "  q) Cancelar"
+    echo ""
+    read -rp "Escolha um app para desinstalar: " choice
 
-command -v update-desktop-database &>/dev/null && update-desktop-database "$DESKTOP_DIR" 2>/dev/null || true
-command -v gtk-update-icon-cache &>/dev/null && gtk-update-icon-cache "$HOME/.local/share/icons" 2>/dev/null || true
+    [[ "$choice" == "q" ]] && return
 
-echo "---"
-echo "Status: $([ "$FAIL" -eq 0 ] && echo "Sucesso" || echo "Falha em algum item")"
-echo "Log: $LOGFILE"
-exit "$FAIL"
+    if [[ "$choice" =~ ^[0-9]+$ ]] && [[ "$choice" -ge 1 ]] && [[ "$choice" -le ${#labels[@]} ]]; then
+        local idx=$((choice-1))
+        local label="${labels[$idx]}"
+        echo ""
+        read -rp "Tem certeza que deseja desinstalar '$label'? (s/N): " confirm
+        if [[ "$confirm" == "s" || "$confirm" == "S" ]]; then
+            uninstall_app "$label"
+        else
+            echo "Cancelado."
+        fi
+    else
+        echo "Opcao invalida."
+    fi
+}
+
+# ── Menu ───────────────────────────────────────
+
+show_menu() {
+    while true; do
+        echo ""
+        echo "╔══════════════════════════════════════╗"
+        echo "║      Gerenciador de AppImages        ║"
+        echo "╚══════════════════════════════════════╝"
+        echo ""
+        echo "1) Atualizar todos os apps"
+        echo "2) Listar apps instalados e status"
+        echo "3) Desinstalar um app"
+        echo "4) Sair"
+        echo ""
+        read -rp "Escolha uma opcao: " choice
+
+        case "$choice" in
+            1) update_all ;;
+            2) list_installed ;;
+            3) uninstall_menu ;;
+            4) echo ""; exit 0 ;;
+            *) echo "Opcao invalida." ;;
+        esac
+        echo ""
+        read -rp "Pressione Enter para continuar..."
+    done
+}
+
+# ── Main ───────────────────────────────────────
+
+update_all() {
+    echo ""
+    echo "Atualizador de AppImages — $(date '+%Y-%m-%d %H:%M:%S')"
+    echo "Diretorio: $APP_DIR"
+    echo ""
+
+    local FAIL=0
+
+    for entry in "${APPS_DATA[@]}"; do
+        IFS='|' read -r repo filter filename label desktop icon mime <<< "$entry"
+        echo "--- $label ---"
+
+        printf "  Release... "
+        VERSION="" URL="" fetch_err=""
+        if fetch_release "$repo" "$filter"; then
+            echo "$VERSION"
+        else
+            echo "FALHOU ($fetch_err)"
+            FAIL=1
+            continue
+        fi
+
+        local output="$APP_DIR/$filename"
+        local vfile="$output.version"
+
+        if [[ -f "$vfile" ]] && [[ "$(cat "$vfile")" == "$VERSION" ]] && [[ -f "$output" ]]; then
+            echo "  Ja atualizado ($VERSION)"
+        else
+            echo "  Baixando... "
+            if download_app "$URL" "$output"; then
+                echo "  OK ($(numfmt --to=iec "$DOWNLOAD_SIZE") em ${DOWNLOAD_SPEED:-?})"
+                echo "$VERSION" > "$vfile"
+            else
+                echo "  FALHOU"
+                FAIL=1
+                continue
+            fi
+        fi
+
+        install_desktop "$label" "$output" "$desktop" "$icon" "$mime"
+        echo "  .desktop criado"
+        if [[ -f "$output" ]]; then
+            install_icon "$output" "$icon" && echo "  Icone instalado" || echo "  Icone nao encontrado no AppImage"
+        fi
+
+        if command -v xdg-settings &>/dev/null; then
+            case "$label" in
+                "Brave Browser"|"Chromium")
+                    xdg-settings set default-web-browser "$(basename "$desktop" .desktop)" 2>/dev/null || true
+                    ;;
+            esac
+        fi
+
+        echo ""
+    done
+
+    command -v update-desktop-database &>/dev/null && update-desktop-database "$DESKTOP_DIR" 2>/dev/null || true
+    command -v gtk-update-icon-cache &>/dev/null && gtk-update-icon-cache "$HOME/.local/share/icons" 2>/dev/null || true
+
+    echo "---"
+    echo "Status: $([ "$FAIL" -eq 0 ] && echo "Sucesso" || echo "Falha em algum item")"
+    echo "Log: $LOGFILE"
+    return "$FAIL"
+}
+
+# ── Entrypoint ─────────────────────────────────
+
+case "$MODE" in
+    menu) show_menu ;;
+    status) list_installed ;;
+    uninstall) uninstall_app "$UNINSTALL_APP" ;;
+    update) update_all ;;
+esac
