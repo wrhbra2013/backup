@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>node.sh — Script Details</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, monospace; background: #f5f5f5; color: #1a1a1a; line-height: 1.6; }
+.container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+h1 { font-size: 1.8rem; margin-bottom: 8px; }
+h2 { font-size: 1.3rem; margin: 24px 0 12px; color: #2563eb; border-bottom: 2px solid #e5e7eb; padding-bottom: 6px; }
+h3 { font-size: 1rem; margin: 16px 0 8px; color: #374151; }
+.subtitle { color: #6b7280; margin-bottom: 20px; font-size: 0.95rem; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+.header-bar { background: #1e293b; color: #fff; padding: 16px 0; margin-bottom: 24px; }
+.header-bar .container { display: flex; justify-content: space-between; align-items: center; }
+.header-bar h1 { margin: 0; font-size: 1.3rem; }
+.header-bar h1 a { color: #fff; }
+.header-bar h1 a:hover { text-decoration: none; }
+.header-bar .nav a { color: #93c5fd; margin-left: 16px; font-size: 0.9rem; }
+.search-box { width: 100%; padding: 10px 14px; border: 2px solid #d1d5db; border-radius: 8px; font-size: 0.95rem; margin-bottom: 20px; outline: none; transition: border-color 0.2s; }
+.search-box:focus { border-color: #2563eb; }
+table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+th, td { padding: 10px 14px; text-align: left; font-size: 0.9rem; }
+th { background: #f8fafc; font-weight: 600; color: #374151; border-bottom: 2px solid #e5e7eb; }
+td { border-bottom: 1px solid #f0f0f0; }
+tr:hover td { background: #f8fafc; }
+.badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; margin: 1px 2px; }
+.badge-pkg { background: #dcfce7; color: #166534; }
+.badge-cmd { background: #dbeafe; color: #1e40af; }
+.badge-func { background: #fef3c7; color: #92400e; }
+.badge-dir { background: #e5e7eb; color: #374151; }
+.tag { display: inline-block; padding: 2px 6px; border-radius: 3px; font-size: 0.7rem; font-weight: 600; background: #e5e7eb; color: #374151; margin: 1px; }
+.tag-category { background: #ede9fe; color: #5b21b6; }
+.cmd-count { font-size: 0.8rem; color: #6b7280; }
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 24px; }
+.stat-card { background: #fff; border-radius: 8px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); text-align: center; }
+.stat-card .num { font-size: 1.8rem; font-weight: 700; color: #2563eb; }
+.stat-card .label { font-size: 0.8rem; color: #6b7280; margin-top: 4px; }
+.script-page { max-width: 960px; margin: 0 auto; }
+.meta-table { width: 100%; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 20px; }
+.meta-table td { padding: 8px 14px; border-bottom: 1px solid #f0f0f0; }
+.meta-table td:first-child { font-weight: 600; color: #374151; width: 140px; background: #f8fafc; }
+.cmd-group { margin-bottom: 16px; }
+.cmd-group-title { font-size: 0.85rem; font-weight: 600; color: #5b21b6; margin-bottom: 6px; }
+.cmd-list { display: flex; flex-wrap: wrap; gap: 4px; }
+.source-box { margin: 12px 0; }
+.source-box textarea { width: 100%; padding: 12px; border: 2px solid #d1d5db; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 0.8rem; line-height: 1.4; background: #1e293b; color: #e5e7eb; resize: vertical; outline: none; }
+.source-box textarea:focus { border-color: #2563eb; }
+.copy-btn { display: inline-block; padding: 8px 16px; background: #2563eb; color: #fff; border: none; border-radius: 6px; font-size: 0.85rem; cursor: pointer; margin: 8px 4px 4px 0; transition: background 0.2s; }
+.copy-btn:hover { background: #1d4ed8; }
+.copy-btn.copied { background: #16a34a; }
+.download-btn { display: inline-block; padding: 8px 16px; background: #374151; color: #fff; border: none; border-radius: 6px; font-size: 0.85rem; cursor: pointer; margin: 8px 4px 4px 0; transition: background 0.2s; text-decoration: none; }
+.download-btn:hover { background: #1f2937; text-decoration: none; }
+.func-list { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+.func-item { background: #fef3c7; color: #92400e; padding: 3px 10px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 0.8rem; }
+.var-list { display: flex; flex-wrap: wrap; gap: 6px; }
+.var-item { background: #f0fdf4; color: #166534; padding: 3px 10px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 0.78rem; }
+.var-item code { font-size: 0.78rem; }
+.back-link { display: inline-block; margin-bottom: 16px; color: #2563eb; font-size: 0.9rem; }
+.back-link:before { content: "← "; }
+.stat-line { font-size: 0.8rem; color: #6b7280; margin-bottom: 12px; }
+@media (max-width: 600px) { .container { padding: 12px; } th, td { padding: 6px 8px; font-size: 0.8rem; } }
+</style>
+</head>
+<body>
+<div class="header-bar">
+  <div class="container">
+    <h1><a href="../index.html">📜 Backup Scripts</a></h1>
+    <div class="nav">
+      <a href="../index.html">Dashboard</a>
+    </div>
+  </div>
+</div>
+<div class="container script-page">
+  <a href="../index.html" class="back-link">Voltar ao Dashboard</a>
+
+  <h1>node.sh</h1>
+  <p class="subtitle">=====================================================================</p>
+
+  <div class="meta-table"><table><tr><td colspan='2'>=====================================================================</td></tr><tr><td colspan='2'>SCRIPT DE PROVISIONAMENTO: Git, Node.js, PostgreSQL, Nginx e PM2</td></tr><tr><td colspan='2'>Ambiente: Ubuntu/Debian</td></tr><tr><td colspan='2'>=====================================================================</td></tr><tr><td colspan='2'>&nbsp;</td></tr><tr><td colspan='2'>--- Variáveis de Configuração Padrão ---</td></tr></table></div>
+  <div class="meta-table"><table><tr><td>Arquivo</td><td><code>system_scripts/node.sh</code></td></tr><tr><td>Shebang</td><td><code></code></td></tr><tr><td>Tamanho</td><td>6.8 KB · 199 linhas</td></tr></table></div>
+  <h2>Funções</h2><div class='func-list'><span class="func-item">die() <span style="opacity:0.5">linha 16</span></span><span class="func-item">ok() <span style="opacity:0.5">linha 22</span></span><span class="func-item">check_error() <span style="opacity:0.5">linha 27</span></span></div>
+  <h2>Variáveis de Configuração</h2><div class='var-list'><span class="var-item"><code>NODE_VERSION</code> = <code>20</code></span><span class="var-item"><code>APP_USER</code> = <code>deploy_user</code></span><span class="var-item"><code>APP_DIR</code> = <code>/home/$APP_USER/app</code></span><span class="var-item"><code>APP_PORT</code> = <code>${APP_PORT:-3000}</code></span><span class="var-item"><code>DB_USER</code> = <code>app_user</code></span><span class="var-item"><code>DB_NAME</code> = <code>app_db</code></span><span class="var-item"><code>APP_NAME</code> = <code>$(basename &quot;$GIT_REPO_URL&quot; .git)</code></span></div>
+  <h2>Comandos Utilizados</h2><div class="cmd-group"><div class="cmd-group-title">System Service</div><div class="cmd-list"><span class="badge badge-cmd">systemctl</span></div></div><div class="cmd-group"><div class="cmd-group-title">Git</div><div class="cmd-list"><span class="badge badge-cmd">git</span></div></div><div class="cmd-group"><div class="cmd-group-title">Download</div><div class="cmd-list"><span class="badge badge-cmd">curl</span><span class="badge badge-cmd">wget</span></div></div><div class="cmd-group"><div class="cmd-group-title">File Operations</div><div class="cmd-list"><span class="badge badge-cmd">ln</span><span class="badge badge-cmd">mkdir</span><span class="badge badge-cmd">rm</span></div></div><div class="cmd-group"><div class="cmd-group-title">Permissions</div><div class="cmd-list"><span class="badge badge-cmd">chown</span></div></div><div class="cmd-group"><div class="cmd-group-title">Node.js</div><div class="cmd-list"><span class="badge badge-cmd">npm</span><span class="badge badge-cmd">pm2</span></div></div><div class="cmd-group"><div class="cmd-group-title">Web Server</div><div class="cmd-list"><span class="badge badge-cmd">nginx</span></div></div><div class="cmd-group"><div class="cmd-group-title">Firewall</div><div class="cmd-list"><span class="badge badge-cmd">ufw</span></div></div>
+  
+
+  <h2>Código Fonte</h2>
+  <div class="source-box">
+    <textarea id="source-code" rows="20" readonly spellcheck="false"> #!/bin/bash
+
+# =====================================================================
+# SCRIPT DE PROVISIONAMENTO: Git, Node.js, PostgreSQL, Nginx e PM2
+# Ambiente: Ubuntu/Debian
+# =====================================================================
+
+# --- Variáveis de Configuração Padrão ---
+NODE_VERSION=&quot;20&quot;               # Versão LTS do Node.js
+APP_USER=&quot;deploy_user&quot;          # Usuário não-root para rodar a aplicação
+APP_DIR=&quot;/home/$APP_USER/app&quot;   # Diretório onde a aplicação será clonada
+
+# --- Funções de Utilidade ---
+
+# Função para exibir mensagem de erro e sair
+die() {
+    echo -e &quot;\n\033[1;31mERRO: $1\033[0m&quot; &gt;&amp;2
+    exit 1
+}
+
+# Função para exibir mensagem de sucesso
+ok() {
+    echo -e &quot;\033[1;32mSUCESSO: $1\033[0m&quot;
+}
+
+# Função para verificar o código de saída do último comando
+check_error() {
+    if [ $? -ne 0 ]; then
+        die &quot;Falha na etapa anterior. Saindo.&quot;
+    fi
+}
+
+# --- ETAPA 0: Coletar Entradas do Usuário ---
+echo &quot;--------------------------------------------------------&quot;
+echo &quot;--- Configuração de Deploy para Node.js ---&quot;
+echo &quot;--------------------------------------------------------&quot;
+
+# 1. URL do Repositório Git
+read -p &quot;1/5. URL do Repositório GIT (Ex: https://github.com/user/repo.git): &quot; GIT_REPO_URL
+[ -z &quot;$GIT_REPO_URL&quot; ] &amp;&amp; die &quot;A URL do repositório Git é obrigatória.&quot;
+
+# 2. Nome do Arquivo de Entrada
+read -p &quot;2/5. Nome do arquivo principal da aplicação Node.js (Ex: index.js ou server.js): &quot; NODE_ENTRY_FILE
+[ -z &quot;$NODE_ENTRY_FILE&quot; ] &amp;&amp; die &quot;O nome do arquivo de entrada é obrigatório.&quot;
+
+# 3. Domínio/IP Público
+read -p &quot;3/5. Seu Domínio ou IP Público (Ex: meuapp.com): &quot; DOMAIN
+[ -z &quot;$DOMAIN&quot; ] &amp;&amp; die &quot;O Domínio ou IP não pode ser vazio.&quot;
+
+# 4. Porta do Backend
+read -p &quot;4/5. PORTA local da sua aplicação Node.js (Ex: 3000): &quot; APP_PORT
+APP_PORT=${APP_PORT:-3000} # Padrão para 3000
+
+# 5. Senha do Banco de Dados
+read -sp &quot;5/5. Defina a senha para o usuário &#x27;app_user&#x27; do PostgreSQL: &quot; DB_PASSWORD
+echo &quot;&quot;
+[ -z &quot;$DB_PASSWORD&quot; ] &amp;&amp; die &quot;A senha do banco de dados não pode ser vazia.&quot;
+
+# Nome do Banco de Dados/Usuário (Padrões)
+DB_USER=&quot;app_user&quot;
+DB_NAME=&quot;app_db&quot;
+APP_NAME=$(basename &quot;$GIT_REPO_URL&quot; .git) # Usa o nome do repositório como nome do processo PM2
+
+
+# --- ETAPA 1: Configuração Inicial do Sistema ---
+echo -e &quot;\n## 1. Configurando o sistema...&quot;
+sudo apt update
+sudo apt install -y curl wget git nginx postgresql postgresql-contrib
+check_error
+ok &quot;Pacotes básicos (Git, Nginx, PostgreSQL) instalados.&quot;
+
+# Cria um usuário não-root se não existir (melhor prática de segurança)
+if ! id -u &quot;$APP_USER&quot; &gt;/dev/null 2&gt;&amp;1; then
+    sudo adduser --disabled-password --gecos &quot;&quot; &quot;$APP_USER&quot;
+    ok &quot;Usuário &#x27;$APP_USER&#x27; criado.&quot;
+fi
+
+# Cria o diretório de aplicação
+sudo mkdir -p &quot;$APP_DIR&quot;
+sudo chown -R &quot;$APP_USER:$APP_USER&quot; &quot;/home/$APP_USER&quot;
+
+
+# --- ETAPA 2: Instalação do Node.js e PM2 ---
+echo -e &quot;\n## 2. Instalando Node.js (LTS v$NODE_VERSION) e PM2...&quot;
+curl -fsSL https://deb.nodesource.com/setup_$NODE_VERSION.x | sudo -E bash -
+sudo apt install -y nodejs
+check_error
+sudo npm install pm2 -g
+check_error
+ok &quot;Node.js e PM2 instalados.&quot;
+
+
+# --- ETAPA 3: Clonagem do Projeto e Instalação de Dependências ---
+echo -e &quot;\n## 3. Clonando projeto Git e instalando dependências...&quot;
+
+# Executa as ações como o usuário não-root
+sudo -u &quot;$APP_USER&quot; bash &lt;&lt; EOF
+    # Vai para o diretório
+    cd $APP_DIR
+
+    # Clona o repositório
+    git clone $GIT_REPO_URL .
+    
+    # Instala as dependências
+    npm install
+EOF
+check_error
+ok &quot;Projeto clonado e dependências instaladas em $APP_DIR.&quot;
+
+
+# --- ETAPA 4: Configuração do PostgreSQL ---
+echo -e &quot;\n## 4. Configurando Usuário e Banco de Dados no PostgreSQL...&quot;
+
+# Cria o usuário e o banco de dados
+sudo -u postgres psql -c &quot;CREATE USER $DB_USER WITH ENCRYPTED PASSWORD &#x27;$DB_PASSWORD&#x27;;&quot;
+check_error
+sudo -u postgres psql -c &quot;CREATE DATABASE $DB_NAME OWNER $DB_USER;&quot;
+check_error
+
+ok &quot;Usuário &#x27;$DB_USER&#x27; e Banco de Dados &#x27;$DB_NAME&#x27; criados. **Lembre-se de configurar as variáveis de ambiente PG no seu app.**&quot;
+
+
+# --- ETAPA 5: Configuração e Início do PM2 ---
+echo -e &quot;\n## 5. Configurando e iniciando o PM2...&quot;
+
+# Inicia a aplicação Node.js com PM2 (executado como o usuário de aplicação)
+sudo -u &quot;$APP_USER&quot; pm2 start &quot;$APP_DIR/$NODE_ENTRY_FILE&quot; --name &quot;$APP_NAME&quot; --interpreter node -- start
+check_error
+
+# Configura o PM2 para iniciar automaticamente após o reboot
+sudo env PATH=$PATH:/usr/bin pm2 startup systemd -u $APP_USER --hp /home/$APP_USER
+sudo pm2 save
+ok &quot;Aplicação &#x27;$APP_NAME&#x27; iniciada com PM2 e configurada para auto-inicialização.&quot;
+
+
+# --- ETAPA 6: Configuração do Nginx (Proxy Reverso) ---
+echo -e &quot;\n## 6. Configurando Nginx para $DOMAIN na porta $APP_PORT...&quot;
+
+NGINX_CONF=&quot;/etc/nginx/sites-available/$DOMAIN&quot;
+NGINX_SITES_ENABLED=&quot;/etc/nginx/sites-enabled&quot;
+
+# Cria o arquivo de configuração do Virtual Host
+sudo cat &gt; &quot;$NGINX_CONF&quot; &lt;&lt;EOF
+server {
+    listen 80;
+    server_name $DOMAIN www.$DOMAIN;
+
+    location / {
+        # Proxy Reverso para a porta onde o PM2 está rodando (a porta do seu Node.js)
+        proxy_pass http://localhost:$APP_PORT;
+        
+        # Headers essenciais
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade \$http_upgrade;
+        proxy_set_header Connection &#x27;upgrade&#x27;;
+        proxy_set_header Host \$host;
+        proxy_cache_bypass \$http_upgrade;
+    }
+}
+EOF
+
+# Habilitar e Testar o Nginx
+sudo rm -f &quot;$NGINX_SITES_ENABLED/default&quot; 2&gt;/dev/null
+sudo ln -s &quot;$NGINX_CONF&quot; &quot;$NGINX_SITES_ENABLED/&quot;
+check_error &quot;Falha ao criar o link simbólico do Nginx.&quot;
+
+sudo nginx -t
+check_error &quot;Sintaxe do Nginx falhou. Verifique $NGINX_CONF.&quot;
+
+sudo systemctl restart nginx
+check_error &quot;Falha ao reiniciar Nginx.&quot;
+ok &quot;Nginx configurado e ativo, expondo $DOMAIN na porta 80.&quot;
+
+
+# --- ETAPA 7: Configuração do Firewall (UFW) ---
+echo -e &quot;\n## 7. Configurando Firewall (UFW)...&quot;
+sudo ufw allow &#x27;Nginx HTTP&#x27;
+sudo ufw enable
+ok &quot;Porta 80 (HTTP) liberada no UFW.&quot;
+
+
+# --- Instruções Finais ---
+echo -e &quot;\n=============================================================&quot;
+echo -e &quot;--- DEPLOY CONCLUÍDO! ---&quot;
+echo -e &quot;=============================================================&quot;
+echo -e &quot;Sua aplicação Node.js está rodando em $APP_DIR, gerenciada pelo PM2.&quot;
+echo -e &quot;O Nginx a está expondo publicamente em \033[1;34mhttp://$DOMAIN\033[0m&quot;
+echo &quot;&quot;
+
+echo -e &quot;\033[1;33mPRÓXIMOS PASSOS CRÍTICOS:\033[0m&quot;
+echo &quot;1. **Variáveis de Ambiente**: Verifique se seu aplicativo está lendo as variáveis de ambiente necessárias (como a porta &#x27;$APP_PORT&#x27; e as credenciais do PostgreSQL) e ajuste-as dentro do seu projeto, se necessário.&quot;
+echo &quot;   - Usuário PG: $DB_USER&quot;
+echo &quot;   - Senha PG: $DB_PASSWORD&quot;
+echo &quot;   - Banco PG: $DB_NAME&quot;
+echo &quot;&quot;
+echo &quot;2. **PM2 Logs**: Monitore sua aplicação para garantir que iniciou corretamente:&quot;
+echo &quot;   \033[1m$ pm2 logs $APP_NAME\033[0m&quot;
+echo &quot;-------------------------------------------------------------&quot;
+</textarea>
+    <div>
+      <button class="copy-btn" onclick="copySource()" id="copy-btn">📋 Copiar código</button>
+      <button class="copy-btn" onclick="downloadSource()" id="dl-btn">💾 Download .sh</button>
+      <a href="node.desktop" class="download-btn" download>▶️ Abrir no Terminal (.desktop)</a>
+    </div>
+  </div>
+</div>
+
+<script>
+function copySource() {
+  var textarea = document.getElementById('source-code');
+  textarea.select();
+  textarea.setSelectionRange(0, 999999);
+  document.execCommand('copy');
+  var btn = document.getElementById('copy-btn');
+  btn.textContent = '✅ Copiado!';
+  btn.classList.add('copied');
+  setTimeout(function() {
+    btn.textContent = '📋 Copiar código';
+    btn.classList.remove('copied');
+  }, 2000);
+}
+
+function downloadSource() {
+  var content = document.getElementById('source-code').value;
+  var blob = new Blob([content], {type: 'application/x-shellscript'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'node.sh';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  var btn = document.getElementById('dl-btn');
+  btn.textContent = '✅ Baixado!';
+  setTimeout(function() {
+    btn.textContent = '💾 Download .sh';
+  }, 2000);
+}
+</script>
+</body>
+</html>

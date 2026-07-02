@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>build_backup.sh — Script Details</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, monospace; background: #f5f5f5; color: #1a1a1a; line-height: 1.6; }
+.container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+h1 { font-size: 1.8rem; margin-bottom: 8px; }
+h2 { font-size: 1.3rem; margin: 24px 0 12px; color: #2563eb; border-bottom: 2px solid #e5e7eb; padding-bottom: 6px; }
+h3 { font-size: 1rem; margin: 16px 0 8px; color: #374151; }
+.subtitle { color: #6b7280; margin-bottom: 20px; font-size: 0.95rem; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+.header-bar { background: #1e293b; color: #fff; padding: 16px 0; margin-bottom: 24px; }
+.header-bar .container { display: flex; justify-content: space-between; align-items: center; }
+.header-bar h1 { margin: 0; font-size: 1.3rem; }
+.header-bar h1 a { color: #fff; }
+.header-bar h1 a:hover { text-decoration: none; }
+.header-bar .nav a { color: #93c5fd; margin-left: 16px; font-size: 0.9rem; }
+.search-box { width: 100%; padding: 10px 14px; border: 2px solid #d1d5db; border-radius: 8px; font-size: 0.95rem; margin-bottom: 20px; outline: none; transition: border-color 0.2s; }
+.search-box:focus { border-color: #2563eb; }
+table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+th, td { padding: 10px 14px; text-align: left; font-size: 0.9rem; }
+th { background: #f8fafc; font-weight: 600; color: #374151; border-bottom: 2px solid #e5e7eb; }
+td { border-bottom: 1px solid #f0f0f0; }
+tr:hover td { background: #f8fafc; }
+.badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; margin: 1px 2px; }
+.badge-pkg { background: #dcfce7; color: #166534; }
+.badge-cmd { background: #dbeafe; color: #1e40af; }
+.badge-func { background: #fef3c7; color: #92400e; }
+.badge-dir { background: #e5e7eb; color: #374151; }
+.tag { display: inline-block; padding: 2px 6px; border-radius: 3px; font-size: 0.7rem; font-weight: 600; background: #e5e7eb; color: #374151; margin: 1px; }
+.tag-category { background: #ede9fe; color: #5b21b6; }
+.cmd-count { font-size: 0.8rem; color: #6b7280; }
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 24px; }
+.stat-card { background: #fff; border-radius: 8px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); text-align: center; }
+.stat-card .num { font-size: 1.8rem; font-weight: 700; color: #2563eb; }
+.stat-card .label { font-size: 0.8rem; color: #6b7280; margin-top: 4px; }
+.script-page { max-width: 960px; margin: 0 auto; }
+.meta-table { width: 100%; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 20px; }
+.meta-table td { padding: 8px 14px; border-bottom: 1px solid #f0f0f0; }
+.meta-table td:first-child { font-weight: 600; color: #374151; width: 140px; background: #f8fafc; }
+.cmd-group { margin-bottom: 16px; }
+.cmd-group-title { font-size: 0.85rem; font-weight: 600; color: #5b21b6; margin-bottom: 6px; }
+.cmd-list { display: flex; flex-wrap: wrap; gap: 4px; }
+.source-box { margin: 12px 0; }
+.source-box textarea { width: 100%; padding: 12px; border: 2px solid #d1d5db; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 0.8rem; line-height: 1.4; background: #1e293b; color: #e5e7eb; resize: vertical; outline: none; }
+.source-box textarea:focus { border-color: #2563eb; }
+.copy-btn { display: inline-block; padding: 8px 16px; background: #2563eb; color: #fff; border: none; border-radius: 6px; font-size: 0.85rem; cursor: pointer; margin: 8px 4px 4px 0; transition: background 0.2s; }
+.copy-btn:hover { background: #1d4ed8; }
+.copy-btn.copied { background: #16a34a; }
+.download-btn { display: inline-block; padding: 8px 16px; background: #374151; color: #fff; border: none; border-radius: 6px; font-size: 0.85rem; cursor: pointer; margin: 8px 4px 4px 0; transition: background 0.2s; text-decoration: none; }
+.download-btn:hover { background: #1f2937; text-decoration: none; }
+.func-list { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+.func-item { background: #fef3c7; color: #92400e; padding: 3px 10px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 0.8rem; }
+.var-list { display: flex; flex-wrap: wrap; gap: 6px; }
+.var-item { background: #f0fdf4; color: #166534; padding: 3px 10px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 0.78rem; }
+.var-item code { font-size: 0.78rem; }
+.back-link { display: inline-block; margin-bottom: 16px; color: #2563eb; font-size: 0.9rem; }
+.back-link:before { content: "← "; }
+.stat-line { font-size: 0.8rem; color: #6b7280; margin-bottom: 12px; }
+@media (max-width: 600px) { .container { padding: 12px; } th, td { padding: 6px 8px; font-size: 0.8rem; } }
+</style>
+</head>
+<body>
+<div class="header-bar">
+  <div class="container">
+    <h1><a href="../index.html">📜 Backup Scripts</a></h1>
+    <div class="nav">
+      <a href="../index.html">Dashboard</a>
+    </div>
+  </div>
+</div>
+<div class="container script-page">
+  <a href="../index.html" class="back-link">Voltar ao Dashboard</a>
+
+  <h1>build_backup.sh</h1>
+  <p class="subtitle">==============================================================================</p>
+
+  <div class="meta-table"><table><tr><td colspan='2'>==============================================================================</td></tr><tr><td colspan='2'>CONFIGURAÇÕES GERAIS</td></tr><tr><td colspan='2'>==============================================================================</td></tr></table></div>
+  <div class="meta-table"><table><tr><td>Arquivo</td><td><code>system_scripts/build_backup.sh</code></td></tr><tr><td>Shebang</td><td><code></code></td></tr><tr><td>Tamanho</td><td>7.5 KB · 210 linhas</td></tr></table></div>
+  
+  <h2>Variáveis de Configuração</h2><div class='var-list'><span class="var-item"><code>DATA</code> = <code>$(date +%F)</code></span><span class="var-item"><code>ISO_BASE</code> = <code>OracleLinux-R9-U4-x86_64-dvd.iso</code></span><span class="var-item"><code>ISO_NAME</code> = <code>ol9-custom-install-${DATA}.iso</code></span><span class="var-item"><code>WORKDIR</code> = <code>/tmp/custom-iso</code></span><span class="var-item"><code>ROOTFS</code> = <code>$WORKDIR/rootfs</code></span><span class="var-item"><code>RPM_EXTRA</code> = <code>./software_rpm</code></span><span class="var-item"><code>FAVORITOS</code> = <code>./favoritos</code></span><span class="var-item"><code>KICKSTART_FILE</code> = <code>kickstart.cfg</code></span><span class="var-item"><code>MNT_BASE</code> = <code>$WORKDIR/mnt_base</code></span><span class="var-item"><code>KERNEL_FILE</code> = <code>vmlinuz</code></span><span class="var-item"><code>INITRD_FILE</code> = <code>initrd.img</code></span><span class="var-item"><code>REPO_BASE</code> = <code>https://yum.oracle.com/repo/OracleLinux/OL9/baseos/latest...</code></span><span class="var-item"><code>REPO_APPSTREAM</code> = <code>https://yum.oracle.com/repo/OracleLinux/OL9/appstream/lat...</code></span><span class="var-item"><code>REPO_EPEL</code> = <code>https://dl.fedoraproject.org/pub/epel/9/Everything/x86_64/</code></span><span class="var-item"><code>REPO_RPMFUSION_FREE</code> = <code>https://download1.rpmfusion.org/free/el/rpmfusion-free-re...</code></span><span class="var-item"><code>RPMFUSION_RELEASE_PKG</code> = <code>$WORKDIR/rpmfusion-release-pkg.rpm</code></span></div>
+  <h2>Comandos Utilizados</h2><div class="cmd-group"><div class="cmd-group-title">Package Manager</div><div class="cmd-list"><span class="badge badge-cmd">dnf</span><span class="badge badge-cmd">rpm</span><span class="badge badge-cmd">yum</span></div></div><div class="cmd-group"><div class="cmd-group-title">Filesystem</div><div class="cmd-list"><span class="badge badge-cmd">mount</span><span class="badge badge-cmd">umount</span></div></div><div class="cmd-group"><div class="cmd-group-title">Download</div><div class="cmd-list"><span class="badge badge-cmd">curl</span><span class="badge badge-cmd">wget</span></div></div><div class="cmd-group"><div class="cmd-group-title">Sync/Backup</div><div class="cmd-list"><span class="badge badge-cmd">rsync</span></div></div><div class="cmd-group"><div class="cmd-group-title">File Operations</div><div class="cmd-list"><span class="badge badge-cmd">cp</span><span class="badge badge-cmd">mkdir</span><span class="badge badge-cmd">rm</span></div></div><div class="cmd-group"><div class="cmd-group-title">ISO Tool</div><div class="cmd-list"><span class="badge badge-cmd">mksquashfs</span><span class="badge badge-cmd">xorriso</span></div></div><div class="cmd-group"><div class="cmd-group-title">Repository</div><div class="cmd-list"><span class="badge badge-cmd">createrepo_c</span></div></div><div class="cmd-group"><div class="cmd-group-title">Initramfs</div><div class="cmd-list"><span class="badge badge-cmd">dracut</span></div></div><div class="cmd-group"><div class="cmd-group-title">User Management</div><div class="cmd-list"><span class="badge badge-cmd">passwd</span></div></div>
+  <h2>Pacotes / Dependências</h2><div class='cmd-list'><span class="badge badge-pkg">createrepo_c</span><span class="badge badge-pkg">curl</span><span class="badge badge-pkg">isomd5sum</span><span class="badge badge-pkg">rsync</span><span class="badge badge-pkg">squashfs-tools</span><span class="badge badge-pkg">xterm</span></div>
+
+  <h2>Código Fonte</h2>
+  <div class="source-box">
+    <textarea id="source-code" rows="20" readonly spellcheck="false"> #!/bin/bash
+
+# ==============================================================================
+# CONFIGURAÇÕES GERAIS
+# ==============================================================================
+DATA=$(date +%F)
+ISO_BASE=&quot;OracleLinux-R9-U4-x86_64-dvd.iso&quot; # &lt;&lt;&lt; ARQUIVO ISO BASE DO ORACLE LINUX 9
+ISO_NAME=&quot;ol9-custom-install-${DATA}.iso&quot;
+WORKDIR=&quot;/tmp/custom-iso&quot;
+ROOTFS=&quot;$WORKDIR/rootfs&quot; # RootFS para o ambiente Live CD
+RPM_EXTRA=&quot;./software_rpm&quot;
+FAVORITOS=&quot;./favoritos&quot;
+KICKSTART_FILE=&quot;kickstart.cfg&quot;
+
+MNT_BASE=&quot;$WORKDIR/mnt_base&quot;
+KERNEL_FILE=&quot;vmlinuz&quot;
+INITRD_FILE=&quot;initrd.img&quot;
+
+# REPOSITÓRIOS OFICIAIS (Oracle Linux 9)
+REPO_BASE=&quot;https://yum.oracle.com/repo/OracleLinux/OL9/baseos/latest/x86_64/&quot;
+REPO_APPSTREAM=&quot;https://yum.oracle.com/repo/OracleLinux/OL9/appstream/latest/x86_64/&quot;
+REPO_EPEL=&quot;https://dl.fedoraproject.org/pub/epel/9/Everything/x86_64/&quot;
+REPO_RPMFUSION_FREE=&quot;https://download1.rpmfusion.org/free/el/rpmfusion-free-release-9.noarch.rpm&quot;
+RPMFUSION_RELEASE_PKG=&quot;$WORKDIR/rpmfusion-release-pkg.rpm&quot;
+
+# ==============================================================================
+# 🧹 LIMPEZA E DEPENDÊNCIAS
+# ==============================================================================
+echo &quot;🧹 Limpando e preparando diretórios...&quot;
+rm -f ol9-custom-install-*.iso
+rm -rf &quot;$WORKDIR&quot;
+mkdir -p &quot;$ROOTFS&quot; &quot;$MNT_BASE&quot; &quot;$WORKDIR/LiveOS&quot; &quot;$WORKDIR/rpms-extra&quot;
+
+echo &quot;📦 Instalando dependências essenciais...&quot;
+sudo dnf install -y rsync xorriso squashfs-tools syslinux isomd5sum pykickstart createrepo_c wget curl dnf-utils
+
+if [ ! -f &quot;$ISO_BASE&quot; ]; then
+    echo &quot;❌ Erro: O arquivo ISO base ($ISO_BASE) não foi encontrado.&quot;
+    exit 1
+fi
+
+# ==============================================================================
+# 1. PREPARAÇÃO: DOWNLOADS E CÓPIA DA ESTRUTURA BASE
+# ==============================================================================
+echo &quot;⬇️ Baixando pacote de release do RPM Fusion e montando ISO base...&quot;
+wget -O &quot;$RPMFUSION_RELEASE_PKG&quot; &quot;$REPO_RPMFUSION_FREE&quot;
+
+sudo mount -o loop &quot;$ISO_BASE&quot; &quot;$MNT_BASE&quot;
+
+# Copiar arquivos de boot e estrutura do instalador (EFI, ISOLINUX, images)
+cp &quot;$MNT_BASE/isolinux/$KERNEL_FILE&quot; &quot;$WORKDIR/&quot;
+cp &quot;$MNT_BASE/isolinux/$INITRD_FILE&quot; &quot;$WORKDIR/&quot;
+rsync -aAXv &quot;$MNT_BASE/EFI&quot; &quot;$WORKDIR/&quot;
+rsync -aAXv &quot;$MNT_BASE/images&quot; &quot;$WORKDIR/&quot;
+rsync -aAXv &quot;$MNT_BASE/isolinux&quot; &quot;$WORKDIR/&quot;
+mkdir -p &quot;$WORKDIR/BaseOS&quot; &quot;$WORKDIR/AppStream&quot;
+rsync -aAXv &quot;$MNT_BASE/BaseOS/repodata&quot; &quot;$WORKDIR/BaseOS/&quot;
+rsync -aAXv &quot;$MNT_BASE/AppStream/repodata&quot; &quot;$WORKDIR/AppStream/&quot;
+
+sudo umount &quot;$MNT_BASE&quot;
+
+# ==============================================================================
+# 2. CRIAÇÃO DO ROOTFS (LIVE CD) DO ZERO
+# ==============================================================================
+echo &quot;🛠️ Criando um RootFS MÍNIMO para o Live CD com dnf...&quot;
+
+# 2.1 Instalar pacotes base no RootFS (usando dnf --installroot)
+sudo dnf install -y --installroot=&quot;$ROOTFS&quot; \
+  kernel-core \
+  dracut \
+  systemd \
+  yum \
+  dnf \
+  passwd \
+  bash \
+  coreutils \
+  procps \
+  iproute \
+  openssh-clients \
+  @core --exclude=dracut-config-generic
+
+# 2.2 Configurar repositórios e instalar pacotes extras no Live CD
+echo &quot;⚙️ Configurando DNF, EPEL e RPM Fusion no Live CD RootFS...&quot;
+
+# Copiar arquivos necessários para o chroot
+cp /etc/resolv.conf &quot;$ROOTFS/etc/&quot;
+cp &quot;$RPMFUSION_RELEASE_PKG&quot; &quot;$ROOTFS/tmp/&quot;
+
+# Adicionar repositórios básicos para o chroot
+sudo chroot &quot;$ROOTFS&quot; /bin/bash &lt;&lt;EOF_CHROOT
+  # Habilitar EPEL (se não foi instalado com dnf --installroot)
+  dnf install -y $REPO_EPEL
+  
+  # Instalar RPM Fusion
+  dnf install -y /tmp/$(basename &quot;$RPMFUSION_RELEASE_PKG&quot;)
+  
+  # Instalar ambiente gráfico mínimo para o Live CD
+  dnf groupinstall -y &quot;Minimal Install&quot;
+  dnf install -y xterm
+  
+  # Instalar favoritos e pacotes extras (se forem necessários no Live CD)
+  mkdir -p /home/usuario/Favoritos
+  
+  dnf clean all
+  rm -f /tmp/$(basename &quot;$RPMFUSION_RELEASE_PKG&quot;)
+EOF_CHROOT
+
+# 2.3 Incluir arquivos de personalização e pacotes RPM extras
+echo &quot;📁 Incluindo favoritos e pacotes RPM extras...&quot;
+cp -r &quot;$FAVORITOS&quot;/* &quot;$ROOTFS/home/usuario/Favoritos&quot;
+cp &quot;$RPM_EXTRA&quot;/*.rpm &quot;$WORKDIR/rpms-extra/&quot;
+cp &quot;$RPMFUSION_RELEASE_PKG&quot; &quot;$WORKDIR/&quot; # Copiar também para a raiz da ISO
+
+# ==============================================================================
+# 3. CRIAÇÃO DO SQUASHFS CUSTOMIZADO (LIVE CD)
+# ==============================================================================
+echo &quot;🗜️ Compactando rootfs customizado (Live CD)...&quot;
+# Garantir que /boot e /dev não estão no squashfs
+rm -rf &quot;$ROOTFS/boot&quot; &quot;$ROOTFS/dev&quot; &quot;$ROOTFS/proc&quot; &quot;$ROOTFS/sys&quot;
+mksquashfs &quot;$ROOTFS&quot; &quot;$WORKDIR/LiveOS/custom.squashfs&quot; -comp xz -Xbc
+
+# ==============================================================================
+# 4. GERAR ARQUIVO KICKSTART (INSTALAÇÃO)
+# ==============================================================================
+echo &quot;📝 Gerando arquivo Kickstart com repositórios externos...&quot;
+cat &lt;&lt;EOF &gt; &quot;$WORKDIR/$KICKSTART_FILE&quot;
+#version=RHEL9
+install
+lang pt_BR.UTF-8
+keyboard br-abnt2
+timezone America/Sao_Paulo
+network --bootproto=dhcp
+rootpw --plaintext senha123
+firewall --enabled
+selinux --enforcing
+reboot
+
+# DEFINIÇÃO DOS REPOSITÓRIOS ONLINE PARA O ANACONDA 
+repo --name=&quot;ol9_baseos&quot; --baseurl=$REPO_BASE
+repo --name=&quot;ol9_appstream&quot; --baseurl=$REPO_APPSTREAM
+repo --name=&quot;epel&quot; --baseurl=$REPO_EPEL
+url --url=$REPO_BASE
+
+%packages
+@^graphical-server-environment
+gnome-terminal
+firefox
+# Adicionar outros pacotes, ex: vlc, htop
+%end
+
+%post
+# 1. Instalar o pacote de release do RPM Fusion
+echo &quot;Instalando RPM Fusion no sistema instalado...&quot;
+cp /run/install/repo/$(basename &quot;$RPMFUSION_RELEASE_PKG&quot;) /mnt/sysimage/tmp/
+chroot /mnt/sysimage dnf install -y /tmp/$(basename &quot;$RPMFUSION_RELEASE_PKG&quot;)
+chroot /mnt/sysimage rm -f /tmp/$(basename &quot;$RPMFUSION_RELEASE_PKG&quot;)
+
+# 2. Instalar pacotes RPM Extras
+echo &quot;Instalando pacotes extras...&quot;
+cp -r /run/install/repo/rpms-extra/*.rpm /mnt/sysimage/root/
+chroot /mnt/sysimage dnf install -y /root/*.rpm
+chroot /mnt/sysimage rm -f /root/*.rpm
+%end
+EOF
+
+# ==============================================================================
+# 5. CONFIGURAÇÃO DE BOOT E GERAÇÃO DA ISO
+# ==============================================================================
+echo &quot;⚙️ Ajustando isolinux.cfg para opções Live/Install...&quot;
+ISOCONF=&quot;$WORKDIR/isolinux/isolinux.cfg&quot;
+# O kernel/initrd copiado da ISO base será usado para todos os boots
+
+# Adiciona as opções de boot customizadas ao arquivo isolinux.cfg
+cat &lt;&lt;EOF &gt;&gt; &quot;$ISOCONF&quot;
+
+label customlive
+  menu label ^Custom OL9 Live Environment (Minimal)
+  kernel /$KERNEL_FILE
+  append initrd=/$INITRD_FILE root=live:LABEL=OracleLinux rd.live.image quiet
+
+label custominstall
+  menu label ^Custom OL9 Installation (Kickstart)
+  kernel /$KERNEL_FILE
+  append initrd=/$INITRD_FILE inst.stage2=hd:LABEL=OracleLinux inst.ks=hd:LABEL=OracleLinux:/$KICKSTART_FILE quiet
+
+label livegui
+  menu label ^Live CD com Instalador GUI (OL Padrão)
+  kernel /$KERNEL_FILE
+  append initrd=/$INITRD_FILE inst.stage2=hd:LABEL=OracleLinux inst.repo=hd:LABEL=OracleLinux quiet
+EOF
+
+# Geração da ISO
+echo &quot;🔥 Gerando imagem ISO híbrida...&quot;
+xorriso -as mkisofs \
+  -isohybrid-mbr &quot;$WORKDIR/isolinux/isohdpfx.bin&quot; \
+  -c isolinux/boot.cat \
+  -b isolinux/isolinux.bin \
+  -no-emul-boot -boot-load-size 4 -boot-info-table \
+  -eltorito-alt-boot \
+  -e EFI/BOOT/BOOTX64.EFI \
+  -no-emul-boot \
+  -V &quot;OracleLinux&quot; \
+  -J -R -T -D \
+  -r -T &quot;$WORKDIR&quot; \
+  -o &quot;$ISO_NAME&quot;
+
+isohybrid &quot;$ISO_NAME&quot;
+
+echo &quot;✅ ISO híbrida de Instalação/Live criada com sucesso: $ISO_NAME&quot;
+</textarea>
+    <div>
+      <button class="copy-btn" onclick="copySource()" id="copy-btn">📋 Copiar código</button>
+      <button class="copy-btn" onclick="downloadSource()" id="dl-btn">💾 Download .sh</button>
+      <a href="build-backup.desktop" class="download-btn" download>▶️ Abrir no Terminal (.desktop)</a>
+    </div>
+  </div>
+</div>
+
+<script>
+function copySource() {
+  var textarea = document.getElementById('source-code');
+  textarea.select();
+  textarea.setSelectionRange(0, 999999);
+  document.execCommand('copy');
+  var btn = document.getElementById('copy-btn');
+  btn.textContent = '✅ Copiado!';
+  btn.classList.add('copied');
+  setTimeout(function() {
+    btn.textContent = '📋 Copiar código';
+    btn.classList.remove('copied');
+  }, 2000);
+}
+
+function downloadSource() {
+  var content = document.getElementById('source-code').value;
+  var blob = new Blob([content], {type: 'application/x-shellscript'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'build_backup.sh';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  var btn = document.getElementById('dl-btn');
+  btn.textContent = '✅ Baixado!';
+  setTimeout(function() {
+    btn.textContent = '💾 Download .sh';
+  }, 2000);
+}
+</script>
+</body>
+</html>

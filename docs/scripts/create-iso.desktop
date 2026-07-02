@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=create_iso.sh
+Comment===============================================================================
+Exec=x-terminal-emulator -e bash -c '/home/wander/Public/backup/system_scripts/create_iso.sh; echo ""; echo "=== Script finalizado. Pressione Enter para fechar ==="; read'
+Terminal=true
+Icon=terminal
+Categories=Development;System;

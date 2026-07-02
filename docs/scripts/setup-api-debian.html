@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>setup-api-debian.sh — Script Details</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, monospace; background: #f5f5f5; color: #1a1a1a; line-height: 1.6; }
+.container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+h1 { font-size: 1.8rem; margin-bottom: 8px; }
+h2 { font-size: 1.3rem; margin: 24px 0 12px; color: #2563eb; border-bottom: 2px solid #e5e7eb; padding-bottom: 6px; }
+h3 { font-size: 1rem; margin: 16px 0 8px; color: #374151; }
+.subtitle { color: #6b7280; margin-bottom: 20px; font-size: 0.95rem; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+.header-bar { background: #1e293b; color: #fff; padding: 16px 0; margin-bottom: 24px; }
+.header-bar .container { display: flex; justify-content: space-between; align-items: center; }
+.header-bar h1 { margin: 0; font-size: 1.3rem; }
+.header-bar h1 a { color: #fff; }
+.header-bar h1 a:hover { text-decoration: none; }
+.header-bar .nav a { color: #93c5fd; margin-left: 16px; font-size: 0.9rem; }
+.search-box { width: 100%; padding: 10px 14px; border: 2px solid #d1d5db; border-radius: 8px; font-size: 0.95rem; margin-bottom: 20px; outline: none; transition: border-color 0.2s; }
+.search-box:focus { border-color: #2563eb; }
+table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+th, td { padding: 10px 14px; text-align: left; font-size: 0.9rem; }
+th { background: #f8fafc; font-weight: 600; color: #374151; border-bottom: 2px solid #e5e7eb; }
+td { border-bottom: 1px solid #f0f0f0; }
+tr:hover td { background: #f8fafc; }
+.badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; margin: 1px 2px; }
+.badge-pkg { background: #dcfce7; color: #166534; }
+.badge-cmd { background: #dbeafe; color: #1e40af; }
+.badge-func { background: #fef3c7; color: #92400e; }
+.badge-dir { background: #e5e7eb; color: #374151; }
+.tag { display: inline-block; padding: 2px 6px; border-radius: 3px; font-size: 0.7rem; font-weight: 600; background: #e5e7eb; color: #374151; margin: 1px; }
+.tag-category { background: #ede9fe; color: #5b21b6; }
+.cmd-count { font-size: 0.8rem; color: #6b7280; }
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 24px; }
+.stat-card { background: #fff; border-radius: 8px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); text-align: center; }
+.stat-card .num { font-size: 1.8rem; font-weight: 700; color: #2563eb; }
+.stat-card .label { font-size: 0.8rem; color: #6b7280; margin-top: 4px; }
+.script-page { max-width: 960px; margin: 0 auto; }
+.meta-table { width: 100%; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 20px; }
+.meta-table td { padding: 8px 14px; border-bottom: 1px solid #f0f0f0; }
+.meta-table td:first-child { font-weight: 600; color: #374151; width: 140px; background: #f8fafc; }
+.cmd-group { margin-bottom: 16px; }
+.cmd-group-title { font-size: 0.85rem; font-weight: 600; color: #5b21b6; margin-bottom: 6px; }
+.cmd-list { display: flex; flex-wrap: wrap; gap: 4px; }
+.source-box { margin: 12px 0; }
+.source-box textarea { width: 100%; padding: 12px; border: 2px solid #d1d5db; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 0.8rem; line-height: 1.4; background: #1e293b; color: #e5e7eb; resize: vertical; outline: none; }
+.source-box textarea:focus { border-color: #2563eb; }
+.copy-btn { display: inline-block; padding: 8px 16px; background: #2563eb; color: #fff; border: none; border-radius: 6px; font-size: 0.85rem; cursor: pointer; margin: 8px 4px 4px 0; transition: background 0.2s; }
+.copy-btn:hover { background: #1d4ed8; }
+.copy-btn.copied { background: #16a34a; }
+.download-btn { display: inline-block; padding: 8px 16px; background: #374151; color: #fff; border: none; border-radius: 6px; font-size: 0.85rem; cursor: pointer; margin: 8px 4px 4px 0; transition: background 0.2s; text-decoration: none; }
+.download-btn:hover { background: #1f2937; text-decoration: none; }
+.func-list { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+.func-item { background: #fef3c7; color: #92400e; padding: 3px 10px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 0.8rem; }
+.var-list { display: flex; flex-wrap: wrap; gap: 6px; }
+.var-item { background: #f0fdf4; color: #166534; padding: 3px 10px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 0.78rem; }
+.var-item code { font-size: 0.78rem; }
+.back-link { display: inline-block; margin-bottom: 16px; color: #2563eb; font-size: 0.9rem; }
+.back-link:before { content: "← "; }
+.stat-line { font-size: 0.8rem; color: #6b7280; margin-bottom: 12px; }
+@media (max-width: 600px) { .container { padding: 12px; } th, td { padding: 6px 8px; font-size: 0.8rem; } }
+</style>
+</head>
+<body>
+<div class="header-bar">
+  <div class="container">
+    <h1><a href="../index.html">📜 Backup Scripts</a></h1>
+    <div class="nav">
+      <a href="../index.html">Dashboard</a>
+    </div>
+  </div>
+</div>
+<div class="container script-page">
+  <a href="../index.html" class="back-link">Voltar ao Dashboard</a>
+
+  <h1>setup-api-debian.sh</h1>
+  <p class="subtitle">setup-api-debian.sh</p>
+
+  
+  <div class="meta-table"><table><tr><td>Arquivo</td><td><code>vm_scripts/setup-api-debian.sh</code></td></tr><tr><td>Shebang</td><td><code>#!/bin/bash</code></td></tr><tr><td>Tamanho</td><td>17.4 KB · 611 linhas</td></tr></table></div>
+  <h2>Funções</h2><div class='func-list'><span class="func-item">init_postgres_credentials() <span style="opacity:0.5">linha 9</span></span><span class="func-item">save_config() <span style="opacity:0.5">linha 33</span></span><span class="func-item">update_config() <span style="opacity:0.5">linha 37</span></span><span class="func-item">check_port() <span style="opacity:0.5">linha 50</span></span><span class="func-item">kill_port() <span style="opacity:0.5">linha 59</span></span><span class="func-item">cleanup_pm2() <span style="opacity:0.5">linha 70</span></span><span class="func-item">remove_location() <span style="opacity:0.5">linha 77</span></span><span class="func-item">cleanup_database() <span style="opacity:0.5">linha 85</span></span><span class="func-item">list_projects() <span style="opacity:0.5">linha 94</span></span><span class="func-item">generate_nginx_conf() <span style="opacity:0.5">linha 104</span></span><span class="func-item">rollback_project() <span style="opacity:0.5">linha 133</span></span><span class="func-item">create_backup() <span style="opacity:0.5">linha 192</span></span><span class="func-item">install_base() <span style="opacity:0.5">linha 220</span></span><span class="func-item">create_project() <span style="opacity:0.5">linha 256</span></span><span class="func-item">show_menu() <span style="opacity:0.5">linha 572</span></span></div>
+  <h2>Variáveis de Configuração</h2><div class='var-list'><span class="var-item"><code>CONFIG_FILE</code> = <code>/var/www/.setup-api-config</code></span><span class="var-item"><code>NGINX_MAIN_CONF</code> = <code>/etc/nginx/sites-available/main</code></span><span class="var-item"><code>PG_ADMIN_USER</code> = <code>postgres</code></span></div>
+  <h2>Comandos Utilizados</h2><div class="cmd-group"><div class="cmd-group-title">System Service</div><div class="cmd-list"><span class="badge badge-cmd">systemctl</span></div></div><div class="cmd-group"><div class="cmd-group-title">Download</div><div class="cmd-list"><span class="badge badge-cmd">curl</span></div></div><div class="cmd-group"><div class="cmd-group-title">Text Processing</div><div class="cmd-list"><span class="badge badge-cmd">grep</span><span class="badge badge-cmd">sed</span></div></div><div class="cmd-group"><div class="cmd-group-title">File Operations</div><div class="cmd-list"><span class="badge badge-cmd">ln</span><span class="badge badge-cmd">mkdir</span><span class="badge badge-cmd">mv</span><span class="badge badge-cmd">rm</span><span class="badge badge-cmd">tee</span></div></div><div class="cmd-group"><div class="cmd-group-title">Node.js</div><div class="cmd-list"><span class="badge badge-cmd">npm</span><span class="badge badge-cmd">pm2</span></div></div><div class="cmd-group"><div class="cmd-group-title">Web Server</div><div class="cmd-list"><span class="badge badge-cmd">nginx</span></div></div><div class="cmd-group"><div class="cmd-group-title">Archive</div><div class="cmd-list"><span class="badge badge-cmd">tar</span></div></div>
+  
+
+  <h2>Código Fonte</h2>
+  <div class="source-box">
+    <textarea id="source-code" rows="20" readonly spellcheck="false">#!/bin/bash
+
+CONFIG_FILE=&quot;/var/www/.setup-api-config&quot;
+NGINX_MAIN_CONF=&quot;/etc/nginx/sites-available/main&quot;
+
+PG_ADMIN_USER=&quot;postgres&quot;
+PG_ADMIN_PASS=&quot;&quot;
+
+init_postgres_credentials() {
+    echo &quot;&quot;
+    echo &quot;==============================================&quot;
+    echo &quot;  ACESSSO POSTGRESQL&quot;
+    echo &quot;==============================================&quot;
+    
+    while [ -z &quot;$PG_ADMIN_USER&quot; ]; do
+        read -p &quot;Usuário PostgreSQL: &quot; PG_ADMIN_USER
+        if [ -z &quot;$PG_ADMIN_USER&quot; ]; then
+            echo &quot;Informe o usuário&quot;
+        fi
+    done
+    
+    while [ -z &quot;$PG_ADMIN_PASS&quot; ]; do
+        read -s -p &quot;Senha PostgreSQL: &quot; PG_ADMIN_PASS
+        if [ -z &quot;$PG_ADMIN_PASS&quot; ]; then
+            echo &quot;Informe a senha&quot;
+        fi
+    done
+    echo &quot;&quot;
+}
+
+init_postgres_credentials
+
+save_config() {
+    grep -q &quot;^$PROJECT_NAME|&quot; &quot;$CONFIG_FILE&quot; 2&gt;/dev/null || echo &quot;$PROJECT_NAME|$DB_NAME|$DB_USER|$PORT|$LOCATION&quot; &gt;&gt; &quot;$CONFIG_FILE&quot;
+}
+
+update_config() {
+    local name=$1
+    local port=$2
+    local location=$3
+    if [ -f &quot;$CONFIG_FILE&quot; ]; then
+        if grep -q &quot;^$name|&quot; &quot;$CONFIG_FILE&quot;; then
+            sed -i &quot;s|^$name|.*|$name|$port|$location|&quot; &quot;$CONFIG_FILE&quot;
+        else
+            echo &quot;$name||$port|$location&quot; &gt;&gt; &quot;$CONFIG_FILE&quot;
+        fi
+    fi
+}
+
+check_port() {
+    local port=$1
+    if lsof -Pi :$port -sTCP:LISTEN -t &gt;/dev/null 2&gt;&amp;1; then
+        echo &quot;Porta $port já está em uso&quot;
+        return 1
+    fi
+    return 0
+}
+
+kill_port() {
+    local port=$1
+    echo &quot;Verificando porta $port...&quot;
+    local pids=$(lsof -Pi :$port -t 2&gt;/dev/null || true)
+    if [ -n &quot;$pids&quot; ]; then
+        echo &quot;Matando processos na porta $port: $pids&quot;
+        echo &quot;$pids&quot; | xargs -r sudo kill -9 2&gt;/dev/null || true
+        sleep 1
+    fi
+}
+
+cleanup_pm2() {
+    local name=$1
+    echo &quot;Limpando PM2 para $name...&quot;
+    sudo pm2 stop &quot;$name&quot; 2&gt;/dev/null || true
+    sudo pm2 delete &quot;$name&quot; 2&gt;/dev/null || true
+}
+
+remove_location() {
+    local name=$1
+    if [ -f &quot;$NGINX_MAIN_CONF&quot; ]; then
+        echo &quot;Removendo location /$name do Nginx...&quot;
+        sudo sed -i &quot;/location \/$name/,/}/d&quot; &quot;$NGINX_MAIN_CONF&quot;
+    fi
+}
+
+cleanup_database() {
+    local db_name=$1
+    local db_user=$2
+    echo &quot;Limpando banco de dados...&quot;
+    sudo -u postgres psql -c &quot;SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname = &#x27;$db_name&#x27; AND pid &lt;&gt; pg_backend_pid();&quot; 2&gt;/dev/null || true
+    sudo -u postgres psql -c &quot;DROP DATABASE IF EXISTS $db_name;&quot; 2&gt;/dev/null || true
+    sudo -u postgres psql -c &quot;DROP USER IF EXISTS $db_user;&quot; 2&gt;/dev/null || true
+}
+
+list_projects() {
+    if [ -f &quot;$CONFIG_FILE&quot; ]; then
+        echo &quot;&quot;
+        echo &quot;Projetos existentes:&quot;
+        cat &quot;$CONFIG_FILE&quot; | while IFS=&#x27;|&#x27; read -r name dbname dbuser port location; do
+            echo &quot;  - $name (porta: $port, path: /$location)&quot;
+        done
+    fi
+}
+
+generate_nginx_conf() {
+    local server_name=$1
+    shift
+    local locations=(&quot;$@&quot;)
+    
+    local conf=&quot;server {
+    listen 80;
+    server_name $server_name;
+&quot;
+    for loc in &quot;${locations[@]}&quot;; do
+        IFS=&#x27;|&#x27; read -r name port &lt;&lt;&lt; &quot;$loc&quot;
+        conf+=&quot;
+    location /$name/ {
+        proxy_pass http://127.0.0.1:$port/;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade \$http_upgrade;
+        proxy_set_header Connection &#x27;upgrade&#x27;;
+        proxy_set_header Host \$host;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+        proxy_cache_bypass \$http_upgrade;
+    }
+&quot;
+    done
+    conf+=&quot;
+}&quot;
+    echo &quot;$conf&quot;
+}
+
+rollback_project() {
+    echo &quot;&quot;
+    echo &quot;==============================================&quot;
+    echo &quot;  REVERTENDO PROJETO&quot;
+    echo &quot;==============================================&quot;
+
+    list_projects
+
+    read -p &quot;Nome do projeto a remover: &quot; ROLLBACK_NAME
+
+    if [ -z &quot;$ROLLBACK_NAME&quot; ]; then
+        echo &quot;Nome não pode ser vazio&quot;
+        return 1
+    fi
+
+    PROJECT_DIR=&quot;/var/www/$ROLLBACK_NAME&quot;
+
+    echo &quot;&quot;
+    echo &quot;ATENÇÃO: Isso irá remover:&quot;
+    echo &quot;  - Diretório: $PROJECT_DIR&quot;
+    echo &quot;  - Banco de dados PostgreSQL&quot;
+    echo &quot;  - Location Nginx: /$ROLLBACK_NAME/&quot;
+    echo &quot;  - Processo PM2&quot;
+    echo &quot;&quot;
+    read -p &quot;Confirmar? (sim/não): &quot; CONFIRM
+    if [ &quot;$CONFIRM&quot; != &quot;sim&quot; ]; then
+        echo &quot;Cancelado&quot;
+        return 0
+    fi
+
+    DB_NAME=&quot;${ROLLBACK_NAME}_db&quot;
+    DB_USER=&quot;${ROLLBACK_NAME}_user&quot;
+    PORT=$(grep &quot;^PORT=&quot; &quot;$PROJECT_DIR/.env&quot; 2&gt;/dev/null | cut -d= -f2 || echo &quot;3000&quot;)
+
+    echo &quot;&quot;
+    echo &quot;1. Parando PM2...&quot;
+    cleanup_pm2 &quot;$ROLLBACK_NAME&quot;
+
+    echo &quot;2. Removendo location Nginx...&quot;
+    remove_location &quot;$ROLLBACK_NAME&quot;
+
+    echo &quot;3. Liberando porta $PORT...&quot;
+    kill_port &quot;$PORT&quot;
+
+    echo &quot;4. Removendo banco de dados...&quot;
+    cleanup_database &quot;$DB_NAME&quot; &quot;$DB_USER&quot;
+
+    echo &quot;5. Removendo diretório...&quot;
+    sudo rm -rf &quot;$PROJECT_DIR&quot;
+
+    echo &quot;6. Atualizando config...&quot;
+    if [ -f &quot;$CONFIG_FILE&quot; ]; then
+        grep -v &quot;^$ROLLBACK_NAME|&quot; &quot;$CONFIG_FILE&quot; &gt; &quot;${CONFIG_FILE}.tmp&quot; &amp;&amp; mv &quot;${CONFIG_FILE}.tmp&quot; &quot;$CONFIG_FILE&quot;
+    fi
+
+    echo &quot;&quot;
+    echo &quot;=== Projeto $ROLLBACK_NAME removido com sucesso! ===&quot;
+}
+
+create_backup() {
+    echo &quot;&quot;
+    echo &quot;==============================================&quot;
+    echo &quot;  CRIAR BACKUP&quot;
+    echo &quot;==============================================&quot;
+
+    read -p &quot;Nome do projeto: &quot; BACKUP_NAME
+
+    PROJECT_DIR=&quot;/var/www/$BACKUP_NAME&quot;
+    if [ ! -d &quot;$PROJECT_DIR&quot; ]; then
+        echo &quot;Projeto não encontrado: $PROJECT_DIR&quot;
+        return 1
+    fi
+
+    BACKUP_FILE=&quot;/tmp/${BACKUP_NAME}_backup_$(date +%Y%m%d_%H%M%S).tar.gz&quot;
+
+    echo &quot;Criando backup de $PROJECT_DIR...&quot;
+    sudo tar -czf &quot;$BACKUP_FILE&quot; -C &quot;$(dirname &quot;$PROJECT_DIR&quot;)&quot; &quot;$(basename &quot;$PROJECT_DIR&quot;)&quot;
+
+    if [ -f &quot;$PROJECT_DIR/.env&quot; ]; then
+        echo &quot;Backup criado: $BACKUP_FILE&quot;
+        ls -lh &quot;$BACKUP_FILE&quot;
+    else
+        echo &quot;Erro ao criar backup&quot;
+        rm -f &quot;$BACKUP_FILE&quot;
+    fi
+}
+
+install_base() {
+    echo &quot;&quot;
+    echo &quot;--- INSTALAÇÃO BASE ---&quot;
+
+    echo &quot;1. Atualizando pacotes...&quot;
+    sudo apt update &amp;&amp; sudo apt upgrade -y
+
+    echo &quot;2. Instalando Node.js 20...&quot;
+    if ! command -v node &amp;&gt; /dev/null; then
+        curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+        sudo apt install -y nodejs
+    fi
+
+    echo &quot;3. Instalando PostgreSQL...&quot;
+    if ! command -v psql &amp;&gt; /dev/null; then
+        sudo apt install -y postgresql postgresql-contrib
+    fi
+
+    echo &quot;4. Instalando Nginx e PM2...&quot;
+    if ! command -v nginx &amp;&gt; /dev/null; then
+        sudo apt install -y nginx
+    fi
+    if ! command -v pm2 &amp;&gt; /dev/null; then
+        sudo npm install -g pm2
+    fi
+
+    echo &quot;5. Verificando instalações...&quot;
+    node -v
+    nginx -v
+    psql --version
+    pm2 --version
+
+    echo &quot;&quot;
+    echo &quot;Base instalada com sucesso!&quot;
+}
+
+create_project() {
+    echo &quot;&quot;
+    echo &quot;==============================================&quot;
+    echo &quot;  CRIAR NOVO PROJETO&quot;
+    echo &quot;==============================================&quot;
+
+    read -p &quot;Nome do projeto (ex: crebortoli): &quot; PROJECT_NAME
+    read -p &quot;Domínio/IP principal (ex: 201.54.22.122): &quot; SERVER_NAME
+    SERVER_NAME=&quot;${SERVER_NAME:-201.54.22.122}&quot;
+    read -p &quot;Porta (Enter para auto-detectar): &quot; PORT
+
+    if [ -z &quot;$PORT&quot; ]; then
+        PORT=3001
+        while ! check_port &quot;$PORT&quot;; do
+            PORT=$((PORT + 1))
+        done
+    else
+        if ! check_port &quot;$PORT&quot;; then
+            echo &quot;&quot;
+            echo &quot;ERRO: Porta $PORT já está em uso!&quot;
+            read -p &quot;Deseja limpar a porta e continuar? (sim/não): &quot; CLEAN_PORT
+            if [ &quot;$CLEAN_PORT&quot; == &quot;sim&quot; ]; then
+                kill_port &quot;$PORT&quot;
+            else
+                echo &quot;Cancelado&quot;
+                return 1
+            fi
+        fi
+    fi
+
+    LOCATION=&quot;$PROJECT_NAME&quot;
+    PROJECT_DIR=&quot;/var/www/$PROJECT_NAME&quot;
+
+    if [ -d &quot;$PROJECT_DIR&quot; ]; then
+        echo &quot;&quot;
+        echo &quot;Projeto já existe em $PROJECT_DIR&quot;
+        read -p &quot;Deseja remover e recriar? (sim/não): &quot; RECREATE
+        if [ &quot;$RECREATE&quot; == &quot;sim&quot; ]; then
+            DB_NAME=&quot;${PROJECT_NAME}_db&quot;
+            DB_USER=&quot;${PROJECT_NAME}_user&quot;
+            cleanup_pm2 &quot;$PROJECT_NAME&quot;
+            remove_location &quot;$PROJECT_NAME&quot;
+            kill_port &quot;$PORT&quot;
+            cleanup_database &quot;$DB_NAME&quot; &quot;$DB_USER&quot;
+            sudo rm -rf &quot;$PROJECT_DIR&quot;
+        else
+            echo &quot;Cancelado&quot;
+            return 0
+        fi
+    else
+        echo &quot;&quot;
+        echo &quot;--- Configuração do Banco de Dados ---&quot;
+        read -p &quot;Nome do banco de dados [${PROJECT_NAME}_db]: &quot; DB_NAME
+        DB_NAME=&quot;${DB_NAME:-${PROJECT_NAME}_db}&quot;
+
+        read -p &quot;Usuário do banco [${PROJECT_NAME}_user]: &quot; DB_USER
+        DB_USER=&quot;${DB_USER:-${PROJECT_NAME}_user}&quot;
+
+        while [ -z &quot;$DB_PASS&quot; ]; do
+            read -s -p &quot;Senha do banco: &quot; DB_PASS
+            echo &quot;&quot;
+            if [ -z &quot;$DB_PASS&quot; ]; then
+                echo &quot;Senha não pode ser vazia&quot;
+            fi
+        done
+    fi
+
+    read -p &quot;Tabelas (Enter para agendamentos,servicos,clientes,contatos): &quot; TABLES_INPUT
+    TABLES=&quot;${TABLES_INPUT:-agendamentos,servicos,clientes,contatos}&quot;
+
+    echo &quot;&quot;
+    echo &quot;==============================================&quot;
+    echo &quot;  CRIANDO BANCO DE DADOS&quot;
+    echo &quot;==============================================&quot;
+
+    sudo -u postgres psql -c &quot;CREATE USER $DB_USER WITH PASSWORD &#x27;$DB_PASS&#x27;;&quot; 2&gt;/dev/null || echo &quot;Usuário já existe&quot;
+    sudo -u postgres psql -c &quot;CREATE DATABASE $DB_NAME OWNER $DB_USER;&quot; 2&gt;/dev/null || echo &quot;Banco já existe&quot;
+    sudo -u postgres psql -c &quot;GRANT ALL PRIVILEGES ON DATABASE $DB_NAME TO $DB_USER;&quot;
+
+    echo &quot;&quot;
+    echo &quot;==============================================&quot;
+    echo &quot;  CRIANDO PROJETO&quot;
+    echo &quot;==============================================&quot;
+
+    sudo mkdir -p &quot;$PROJECT_DIR/src&quot;
+    sudo mkdir -p &quot;$PROJECT_DIR/public&quot;
+
+    sudo tee &quot;$PROJECT_DIR/package.json&quot; &gt; /dev/null &lt;&lt;EOF
+{
+  &quot;name&quot;: &quot;$PROJECT_NAME&quot;,
+  &quot;version&quot;: &quot;1.0.0&quot;,
+  &quot;main&quot;: &quot;src/server.js&quot;,
+  &quot;scripts&quot;: {
+    &quot;start&quot;: &quot;node src/server.js&quot;,
+    &quot;dev&quot;: &quot;node --watch src/server.js&quot;
+  },
+  &quot;dependencies&quot;: {
+    &quot;express&quot;: &quot;^4.18.0&quot;,
+    &quot;dotenv&quot;: &quot;^16.0.0&quot;,
+    &quot;pg&quot;: &quot;^8.11.0&quot;,
+    &quot;cors&quot;: &quot;^2.8.5&quot;
+  },
+  &quot;engines&quot;: {
+    &quot;node&quot;: &quot;&gt;=18.0.0&quot;
+  }
+}
+EOF
+
+    sudo tee &quot;$PROJECT_DIR/.env&quot; &gt; /dev/null &lt;&lt;EOF
+PORT=$PORT
+NODE_ENV=production
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=$DB_NAME
+DB_USER=$DB_USER
+DB_PASS=$DB_PASS
+EOF
+
+    sudo tee &quot;$PROJECT_DIR/src/server.js&quot; &gt; /dev/null &lt;&lt;SERVEREOF
+const express = require(&#x27;express&#x27;);
+const { Pool } = require(&#x27;pg&#x27;);
+const cors = require(&#x27;cors&#x27;);
+require(&#x27;dotenv&#x27;).config();
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+const pool = new Pool({
+    host: process.env.DB_HOST || &#x27;localhost&#x27;,
+    port: process.env.DB_PORT || 5432,
+    database: process.env.DB_NAME,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS
+});
+
+pool.on(&#x27;error&#x27;, (err) =&gt; console.error(&#x27;DB Error:&#x27;, err));
+
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.get(&#x27;/&#x27;, (req, res) =&gt; {
+    res.json({ 
+        message: &#x27;API Running&#x27;, 
+        status: &#x27;OK&#x27;,
+        project: process.env.npm_package_name || &#x27;api&#x27;,
+        timestamp: new Date().toISOString()
+    });
+});
+
+app.get(&#x27;/health&#x27;, async (req, res) =&gt; {
+    try {
+        await pool.query(&#x27;SELECT 1&#x27;);
+        res.json({ status: &#x27;healthy&#x27;, database: &#x27;connected&#x27;, timestamp: new Date().toISOString() });
+    } catch (err) {
+        res.json({ status: &#x27;unhealthy&#x27;, database: &#x27;disconnected&#x27;, error: err.message });
+    }
+});
+
+app.get(&#x27;/api/tables&#x27;, async (req, res) =&gt; {
+    try {
+        const result = await pool.query(\`
+            SELECT table_name FROM information_schema.tables 
+            WHERE table_schema = &#x27;public&#x27; AND table_type = &#x27;BASE TABLE&#x27;
+            ORDER BY table_name;
+        \`);
+        res.json({ tables: result.rows.map(r =&gt; r.table_name) });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+app.get(&#x27;/api/tables/:tableName&#x27;, async (req, res) =&gt; {
+    const { tableName } = req.params;
+    try {
+        const result = await pool.query(\`SELECT * FROM &quot;\${tableName}&quot; LIMIT 100;\`);
+        res.json({ table: tableName, data: result.rows });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+app.post(&#x27;/api/tables/:tableName&#x27;, async (req, res) =&gt; {
+    const { tableName } = req.params;
+    const data = req.body;
+    try {
+        const keys = Object.keys(data).map(k =&gt; &#x27;&quot;${k}&quot;&#x27;).join(&#x27;, &#x27;);
+        const values = Object.keys(data).map((_, i) =&gt; \`$\${i + 1}\`).join(&#x27;, &#x27;);
+        const result = await pool.query(\`INSERT INTO &quot;\${tableName}&quot; (\${keys}) VALUES (\${values}) RETURNING *;\`, Object.values(data));
+        res.json({ success: true, data: result.rows[0] });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+app.put(&#x27;/api/tables/:tableName/:id&#x27;, async (req, res) =&gt; {
+    const { tableName, id } = req.params;
+    const data = req.body;
+    try {
+        const keys = Object.keys(data).map((k, i) =&gt; \`&quot;\${k}&quot; = $\${i + 1}\`).join(&#x27;, &#x27;);
+        const result = await pool.query(\`UPDATE &quot;\${tableName}&quot; SET \${keys} WHERE id = $\${Object.keys(data).length + 1} RETURNING *;\`, [...Object.values(data), id]);
+        res.json({ success: true, data: result.rows[0] });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+app.delete(&#x27;/api/tables/:tableName/:id&#x27;, async (req, res) =&gt; {
+    const { tableName, id } = req.params;
+    try {
+        await pool.query(\`DELETE FROM &quot;\${tableName}&quot; WHERE id = $1;\`, [id]);
+        res.json({ success: true });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+app.listen(PORT, &#x27;0.0.0.0&#x27;, () =&gt; {
+    console.log(\`Server running on port \${PORT}\`);
+});
+SERVEREOF
+
+    echo &quot;&quot;
+    echo &quot;==============================================&quot;
+    echo &quot;  CRIANDO TABELAS PADRÃO&quot;
+    echo &quot;==============================================&quot;
+
+    IFS=&#x27;,&#x27; read -ra TABLE_ARRAY &lt;&lt;&lt; &quot;$TABLES&quot;
+    for table in &quot;${TABLE_ARRAY[@]}&quot;; do
+        table=$(echo &quot;$table&quot; | xargs)
+        if [ -n &quot;$table&quot; ]; then
+            echo &quot;Criando tabela: $table&quot;
+            sudo -u postgres psql -d &quot;$DB_NAME&quot; -c &quot;
+                CREATE TABLE IF NOT EXISTS \&quot;$table\&quot; (
+                    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+                    created_at TIMESTAMP DEFAULT NOW(),
+                    updated_at TIMESTAMP DEFAULT NOW()
+                );
+            &quot; 2&gt;/dev/null || echo &quot;Tabela $table já existe&quot;
+        fi
+    done
+
+    cd &quot;$PROJECT_DIR&quot;
+    sudo npm install
+
+    echo &quot;&quot;
+    echo &quot;==============================================&quot;
+    echo &quot;  CONFIGURANDO PM2&quot;
+    echo &quot;==============================================&quot;
+
+    cleanup_pm2 &quot;$PROJECT_NAME&quot;
+    sudo pm2 start &quot;$PROJECT_DIR/src/server.js&quot; --name &quot;$PROJECT_NAME&quot;
+    sudo pm2 save
+
+    SYSTEMD_SERVICE=$(sudo pm2 startup | tail -1)
+    if [ -n &quot;$SYSTEMD_SERVICE&quot; ]; then
+        echo &quot;$SYSTEMD_SERVICE&quot; | sudo bash 2&gt;/dev/null || true
+    fi
+
+    echo &quot;&quot;
+    echo &quot;==============================================&quot;
+    echo &quot;  CONFIGURANDO NGINX (MULTI-LOCATION)&quot;
+    echo &quot;==============================================&quot;
+
+    local location_block=&quot;
+    location /$LOCATION/ {
+        proxy_pass http://127.0.0.1:$PORT/;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade \$http_upgrade;
+        proxy_set_header Connection &#x27;upgrade&#x27;;
+        proxy_set_header Host \$host;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+        proxy_cache_bypass \$http_upgrade;
+    }
+&quot;
+
+    if [ -f &quot;$NGINX_MAIN_CONF&quot; ]; then
+        echo &quot;Adicionando location /$LOCATION/ ao config existente...&quot;
+        if ! grep -q &quot;location /$LOCATION/&quot; &quot;$NGINX_MAIN_CONF&quot;; then
+            sudo sed -i &quot;s|server {|server {\n$location_block|&quot; &quot;$NGINX_MAIN_CONF&quot;
+        fi
+    else
+        echo &quot;Criando novo config Nginx...&quot;
+        sudo tee &quot;$NGINX_MAIN_CONF&quot; &gt; /dev/null &lt;&lt;EOF
+server {
+    listen 80;
+    server_name $SERVER_NAME;
+$location_block
+}
+EOF
+    fi
+
+    sudo ln -sf &quot;$NGINX_MAIN_CONF&quot; /etc/nginx/sites-enabled/main 2&gt;/dev/null || true
+    sudo nginx -t &amp;&amp; sudo systemctl reload nginx
+
+    save_config
+
+    echo &quot;&quot;
+    echo &quot;==============================================&quot;
+    echo &quot;  RESUMO DO PROJETO&quot;
+    echo &quot;==============================================&quot;
+    echo &quot;&quot;
+    echo &quot;Projeto: $PROJECT_NAME&quot;
+    echo &quot;Diretório: $PROJECT_DIR&quot;
+    echo &quot;Porta: $PORT&quot;
+    echo &quot;Location: /$LOCATION/&quot;
+    echo &quot;Banco: $DB_NAME&quot;
+    echo &quot;Usuário: $DB_USER&quot;
+    echo &quot;Tabelas: $TABLES&quot;
+    echo &quot;&quot;
+    echo &quot;URL: http://$SERVER_NAME/$LOCATION/&quot;
+    echo &quot;&quot;
+    echo &quot;=== Projeto criado com sucesso! ===&quot;
+}
+
+show_menu() {
+    echo &quot;&quot;
+    echo &quot;==============================================&quot;
+    echo &quot;  Setup API Multi-Projeto (Nginx Locations)&quot;
+    echo &quot;==============================================&quot;
+    echo &quot;&quot;
+    echo &quot;Escolha uma opção:&quot;
+    echo &quot;  1 - Instalar base (Node, PostgreSQL, Nginx, PM2)&quot;
+    echo &quot;  2 - Criar novo projeto&quot;
+    echo &quot;  3 - Listar projetos&quot;
+    echo &quot;  4 - Reverter/remover projeto&quot;
+    echo &quot;  5 - Criar backup&quot;
+    echo &quot;  6 - Sair&quot;
+    echo &quot;&quot;
+    read -p &quot;Opção: &quot; OPTION
+
+    case $OPTION in
+        1) install_base ;;
+        2) create_project ;;
+        3) list_projects ;;
+        4) rollback_project ;;
+        5) create_backup ;;
+        6) echo &quot;Saindo...&quot;; exit 0 ;;
+        *) echo &quot;Opção inválida&quot; ;;
+    esac
+}
+
+if [ &quot;$1&quot; == &quot;install&quot; ]; then
+    install_base
+elif [ &quot;$1&quot; == &quot;create&quot; ]; then
+    create_project
+elif [ &quot;$1&quot; == &quot;list&quot; ]; then
+    list_projects
+elif [ &quot;$1&quot; == &quot;rollback&quot; ]; then
+    rollback_project
+elif [ &quot;$1&quot; == &quot;backup&quot; ]; then
+    create_backup
+else
+    show_menu
+fi</textarea>
+    <div>
+      <button class="copy-btn" onclick="copySource()" id="copy-btn">📋 Copiar código</button>
+      <button class="copy-btn" onclick="downloadSource()" id="dl-btn">💾 Download .sh</button>
+      <a href="setup-api-debian.desktop" class="download-btn" download>▶️ Abrir no Terminal (.desktop)</a>
+    </div>
+  </div>
+</div>
+
+<script>
+function copySource() {
+  var textarea = document.getElementById('source-code');
+  textarea.select();
+  textarea.setSelectionRange(0, 999999);
+  document.execCommand('copy');
+  var btn = document.getElementById('copy-btn');
+  btn.textContent = '✅ Copiado!';
+  btn.classList.add('copied');
+  setTimeout(function() {
+    btn.textContent = '📋 Copiar código';
+    btn.classList.remove('copied');
+  }, 2000);
+}
+
+function downloadSource() {
+  var content = document.getElementById('source-code').value;
+  var blob = new Blob([content], {type: 'application/x-shellscript'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'setup-api-debian.sh';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  var btn = document.getElementById('dl-btn');
+  btn.textContent = '✅ Baixado!';
+  setTimeout(function() {
+    btn.textContent = '💾 Download .sh';
+  }, 2000);
+}
+</script>
+</body>
+</html>

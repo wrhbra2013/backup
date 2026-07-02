@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=manut.sh
+Comment=--- Configurações ---
+Exec=x-terminal-emulator -e bash -c '/home/wander/Public/backup/system_scripts/manut.sh; echo ""; echo "=== Script finalizado. Pressione Enter para fechar ==="; read'
+Terminal=true
+Icon=terminal
+Categories=Development;System;

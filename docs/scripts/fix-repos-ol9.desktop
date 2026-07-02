@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=fix-repos-ol9.sh
+Comment=fix-repos-ol9.sh
+Exec=x-terminal-emulator -e bash -c '/home/wander/Public/backup/system_scripts/fix-repos-ol9.sh; echo ""; echo "=== Script finalizado. Pressione Enter para fechar ==="; read'
+Terminal=true
+Icon=terminal
+Categories=Development;System;

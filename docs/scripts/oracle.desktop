@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=oracle.sh
+Comment===============================================================================
+Exec=x-terminal-emulator -e bash -c '/home/wander/Public/backup/oracle.sh; echo ""; echo "=== Script finalizado. Pressione Enter para fechar ==="; read'
+Terminal=true
+Icon=terminal
+Categories=Development;System;

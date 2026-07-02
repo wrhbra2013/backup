@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>setup-xfce-tiling.sh — Script Details</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, monospace; background: #f5f5f5; color: #1a1a1a; line-height: 1.6; }
+.container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+h1 { font-size: 1.8rem; margin-bottom: 8px; }
+h2 { font-size: 1.3rem; margin: 24px 0 12px; color: #2563eb; border-bottom: 2px solid #e5e7eb; padding-bottom: 6px; }
+h3 { font-size: 1rem; margin: 16px 0 8px; color: #374151; }
+.subtitle { color: #6b7280; margin-bottom: 20px; font-size: 0.95rem; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+.header-bar { background: #1e293b; color: #fff; padding: 16px 0; margin-bottom: 24px; }
+.header-bar .container { display: flex; justify-content: space-between; align-items: center; }
+.header-bar h1 { margin: 0; font-size: 1.3rem; }
+.header-bar h1 a { color: #fff; }
+.header-bar h1 a:hover { text-decoration: none; }
+.header-bar .nav a { color: #93c5fd; margin-left: 16px; font-size: 0.9rem; }
+.search-box { width: 100%; padding: 10px 14px; border: 2px solid #d1d5db; border-radius: 8px; font-size: 0.95rem; margin-bottom: 20px; outline: none; transition: border-color 0.2s; }
+.search-box:focus { border-color: #2563eb; }
+table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+th, td { padding: 10px 14px; text-align: left; font-size: 0.9rem; }
+th { background: #f8fafc; font-weight: 600; color: #374151; border-bottom: 2px solid #e5e7eb; }
+td { border-bottom: 1px solid #f0f0f0; }
+tr:hover td { background: #f8fafc; }
+.badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; margin: 1px 2px; }
+.badge-pkg { background: #dcfce7; color: #166534; }
+.badge-cmd { background: #dbeafe; color: #1e40af; }
+.badge-func { background: #fef3c7; color: #92400e; }
+.badge-dir { background: #e5e7eb; color: #374151; }
+.tag { display: inline-block; padding: 2px 6px; border-radius: 3px; font-size: 0.7rem; font-weight: 600; background: #e5e7eb; color: #374151; margin: 1px; }
+.tag-category { background: #ede9fe; color: #5b21b6; }
+.cmd-count { font-size: 0.8rem; color: #6b7280; }
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 24px; }
+.stat-card { background: #fff; border-radius: 8px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); text-align: center; }
+.stat-card .num { font-size: 1.8rem; font-weight: 700; color: #2563eb; }
+.stat-card .label { font-size: 0.8rem; color: #6b7280; margin-top: 4px; }
+.script-page { max-width: 960px; margin: 0 auto; }
+.meta-table { width: 100%; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 20px; }
+.meta-table td { padding: 8px 14px; border-bottom: 1px solid #f0f0f0; }
+.meta-table td:first-child { font-weight: 600; color: #374151; width: 140px; background: #f8fafc; }
+.cmd-group { margin-bottom: 16px; }
+.cmd-group-title { font-size: 0.85rem; font-weight: 600; color: #5b21b6; margin-bottom: 6px; }
+.cmd-list { display: flex; flex-wrap: wrap; gap: 4px; }
+.source-box { margin: 12px 0; }
+.source-box textarea { width: 100%; padding: 12px; border: 2px solid #d1d5db; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 0.8rem; line-height: 1.4; background: #1e293b; color: #e5e7eb; resize: vertical; outline: none; }
+.source-box textarea:focus { border-color: #2563eb; }
+.copy-btn { display: inline-block; padding: 8px 16px; background: #2563eb; color: #fff; border: none; border-radius: 6px; font-size: 0.85rem; cursor: pointer; margin: 8px 4px 4px 0; transition: background 0.2s; }
+.copy-btn:hover { background: #1d4ed8; }
+.copy-btn.copied { background: #16a34a; }
+.download-btn { display: inline-block; padding: 8px 16px; background: #374151; color: #fff; border: none; border-radius: 6px; font-size: 0.85rem; cursor: pointer; margin: 8px 4px 4px 0; transition: background 0.2s; text-decoration: none; }
+.download-btn:hover { background: #1f2937; text-decoration: none; }
+.func-list { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+.func-item { background: #fef3c7; color: #92400e; padding: 3px 10px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 0.8rem; }
+.var-list { display: flex; flex-wrap: wrap; gap: 6px; }
+.var-item { background: #f0fdf4; color: #166534; padding: 3px 10px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 0.78rem; }
+.var-item code { font-size: 0.78rem; }
+.back-link { display: inline-block; margin-bottom: 16px; color: #2563eb; font-size: 0.9rem; }
+.back-link:before { content: "← "; }
+.stat-line { font-size: 0.8rem; color: #6b7280; margin-bottom: 12px; }
+@media (max-width: 600px) { .container { padding: 12px; } th, td { padding: 6px 8px; font-size: 0.8rem; } }
+</style>
+</head>
+<body>
+<div class="header-bar">
+  <div class="container">
+    <h1><a href="../index.html">📜 Backup Scripts</a></h1>
+    <div class="nav">
+      <a href="../index.html">Dashboard</a>
+    </div>
+  </div>
+</div>
+<div class="container script-page">
+  <a href="../index.html" class="back-link">Voltar ao Dashboard</a>
+
+  <h1>setup-xfce-tiling.sh</h1>
+  <p class="subtitle">Ativa window tiling no XFCE4 (mouse + teclado)</p>
+
+  <div class="meta-table"><table><tr><td colspan='2'>Ativa window tiling no XFCE4 (mouse + teclado)</td></tr><tr><td colspan='2'>Força tiling left/right via xdotool para sobrepor qualquer aplicativo (Firefox, etc.)</td></tr><tr><td colspan='2'>&nbsp;</td></tr></table></div>
+  <div class="meta-table"><table><tr><td>Arquivo</td><td><code>system_scripts/setup-xfce-tiling.sh</code></td></tr><tr><td>Shebang</td><td><code>#!/bin/bash</code></td></tr><tr><td>Tamanho</td><td>6.3 KB · 152 linhas</td></tr></table></div>
+  
+  <h2>Variáveis de Configuração</h2><div class='var-list'><span class="var-item"><code>BINDIR</code> = <code>${HOME}/.local/bin</code></span><span class="var-item"><code>WIN</code> = <code>$(xdotool getactivewindow 2&gt;/dev/null) || exit 1</code></span><span class="var-item"><code>WA_X</code> = <code>${WA_X:-0}; WA_Y=${WA_Y:-0}; WA_W=${WA_W:-1920}; WA_H=${W...</code></span><span class="var-item"><code>WIN_X</code> = <code>$(xdotool getwindowgeometry &quot;$WIN&quot; 2&gt;/dev/null | awk &#x27;/Po...</code></span><span class="var-item"><code>CENTER</code> = <code>$((WIN_X + WA_X))</code></span><span class="var-item"><code>MON_X</code> = <code>0; MON_W=$WA_W</code></span><span class="var-item"><code>RECT</code> = <code>$(echo &quot;$line&quot; | grep -oP &#x27;\d+x\d+\+\d+\+\d+&#x27;)</code></span><span class="var-item"><code>MX</code> = <code>$(echo &quot;$RECT&quot; | cut -d&#x27;+&#x27; -f2)</code></span><span class="var-item"><code>MY</code> = <code>$(echo &quot;$RECT&quot; | cut -d&#x27;+&#x27; -f3)</code></span><span class="var-item"><code>MW</code> = <code>$(echo &quot;$RECT&quot; | cut -d&#x27;x&#x27; -f1)</code></span><span class="var-item"><code>MH</code> = <code>$(echo &quot;$RECT&quot; | cut -d&#x27;x&#x27; -f2 | cut -d&#x27;+&#x27; -f1)</code></span><span class="var-item"><code>HALF</code> = <code>$((MON_W / 2))</code></span></div>
+  <h2>Comandos Utilizados</h2><div class="cmd-group"><div class="cmd-group-title">Text Processing</div><div class="cmd-list"><span class="badge badge-cmd">awk</span><span class="badge badge-cmd">grep</span></div></div><div class="cmd-group"><div class="cmd-group-title">Display</div><div class="cmd-list"><span class="badge badge-cmd">xrandr</span></div></div><div class="cmd-group"><div class="cmd-group-title">File Operations</div><div class="cmd-list"><span class="badge badge-cmd">mkdir</span></div></div><div class="cmd-group"><div class="cmd-group-title">Permissions</div><div class="cmd-list"><span class="badge badge-cmd">chmod</span></div></div><div class="cmd-group"><div class="cmd-group-title">XFCE</div><div class="cmd-list"><span class="badge badge-cmd">xdotool</span><span class="badge badge-cmd">xfconf-query</span></div></div>
+  
+
+  <h2>Código Fonte</h2>
+  <div class="source-box">
+    <textarea id="source-code" rows="20" readonly spellcheck="false">#!/bin/bash
+
+# Ativa window tiling no XFCE4 (mouse + teclado)
+# Força tiling left/right via xdotool para sobrepor qualquer aplicativo (Firefox, etc.)
+
+set -euo pipefail
+
+echo &quot;[1/3] Verificando dependencias...&quot;
+for cmd in xfconf-query xdotool xprop xrandr; do
+    if ! command -v $cmd &amp;&gt;/dev/null; then
+        echo &quot;Erro: $cmd nao encontrado. Instale-o primeiro.&quot;
+        exit 1
+    fi
+done
+
+echo &quot;[2/3] Ativando tiling com mouse...&quot;
+xfconf-query -c xfwm4 -p /general/tile_on_move -s true 2&gt;/dev/null || \
+    xfconf-query -c xfwm4 -p /general/tile_on_move -n -t bool -s true
+
+xfconf-query -c xfwm4 -p /general/tile_on_move_centered -s false 2&gt;/dev/null || \
+    xfconf-query -c xfwm4 -p /general/tile_on_move_centered -n -t bool -s false
+
+echo &quot;[3/3] Configurando atalhos de teclado (com override total via xdotool)...&quot;
+
+BINDIR=&quot;${HOME}/.local/bin&quot;
+mkdir -p &quot;$BINDIR&quot;
+
+# --- Tile Left ---
+cat &gt; &quot;$BINDIR/xfce-tile-left.sh&quot; &lt;&lt; &#x27;XFCE_TILE_LEFT&#x27;
+#!/bin/bash
+set -euo pipefail
+
+WIN=$(xdotool getactivewindow 2&gt;/dev/null) || exit 1
+
+# Ignora se for a área de trabalho
+if xprop -id &quot;$WIN&quot; _NET_WM_WINDOW_TYPE 2&gt;/dev/null | grep -q _NET_WM_WINDOW_TYPE_DESKTOP; then
+    exit 0
+fi
+
+# Workarea global (exclui painéis)
+read -r WA_X WA_Y WA_W WA_H &lt;&lt;&lt; &quot;$(xprop -root _NET_WORKAREA | awk -F&#x27;= &#x27; &#x27;{print $2}&#x27; | tr &#x27;,&#x27; &#x27; &#x27;)&quot;
+WA_X=${WA_X:-0}; WA_Y=${WA_Y:-0}; WA_W=${WA_W:-1920}; WA_H=${WA_H:-1080}
+
+# Pega posição da janela para descobrir em qual monitor está
+WIN_X=$(xdotool getwindowgeometry &quot;$WIN&quot; 2&gt;/dev/null | awk &#x27;/Position:/{print $2}&#x27; | cut -d&#x27;,&#x27; -f1)
+WIN_X=${WIN_X:-0}
+CENTER=$((WIN_X + WA_X))
+
+# Acha o monitor onde a janela está centrada
+MON_X=0; MON_W=$WA_W
+while read -r line; do
+    [[ &quot;$line&quot; != *&quot; connected&quot;* ]] &amp;&amp; continue
+    RECT=$(echo &quot;$line&quot; | grep -oP &#x27;\d+x\d+\+\d+\+\d+&#x27;)
+    [[ -z &quot;$RECT&quot; ]] &amp;&amp; continue
+    MX=$(echo &quot;$RECT&quot; | cut -d&#x27;+&#x27; -f2)
+    MY=$(echo &quot;$RECT&quot; | cut -d&#x27;+&#x27; -f3)
+    MW=$(echo &quot;$RECT&quot; | cut -d&#x27;x&#x27; -f1)
+    MH=$(echo &quot;$RECT&quot; | cut -d&#x27;x&#x27; -f2 | cut -d&#x27;+&#x27; -f1)
+    if (( CENTER &gt;= MX &amp;&amp; CENTER &lt; MX + MW )); then
+        MON_X=$MX; MON_Y=$MY; MON_W=$MW; MON_H=$MH
+        break
+    fi
+done &lt; &lt;(xrandr --current)
+
+HALF=$((MON_W / 2))
+
+xdotool windowmove &quot;$WIN&quot; &quot;$MON_X&quot; &quot;$MON_Y&quot;
+xdotool windowsize &quot;$WIN&quot; &quot;$HALF&quot; &quot;$MON_H&quot;
+XFCE_TILE_LEFT
+chmod +x &quot;$BINDIR/xfce-tile-left.sh&quot;
+
+# --- Tile Right ---
+cat &gt; &quot;$BINDIR/xfce-tile-right.sh&quot; &lt;&lt; &#x27;XFCE_TILE_RIGHT&#x27;
+#!/bin/bash
+set -euo pipefail
+
+WIN=$(xdotool getactivewindow 2&gt;/dev/null) || exit 1
+
+if xprop -id &quot;$WIN&quot; _NET_WM_WINDOW_TYPE 2&gt;/dev/null | grep -q _NET_WM_WINDOW_TYPE_DESKTOP; then
+    exit 0
+fi
+
+read -r WA_X WA_Y WA_W WA_H &lt;&lt;&lt; &quot;$(xprop -root _NET_WORKAREA | awk -F&#x27;= &#x27; &#x27;{print $2}&#x27; | tr &#x27;,&#x27; &#x27; &#x27;)&quot;
+WA_X=${WA_X:-0}; WA_Y=${WA_Y:-0}; WA_W=${WA_W:-1920}; WA_H=${WA_H:-1080}
+
+WIN_X=$(xdotool getwindowgeometry &quot;$WIN&quot; 2&gt;/dev/null | awk &#x27;/Position:/{print $2}&#x27; | cut -d&#x27;,&#x27; -f1)
+WIN_X=${WIN_X:-0}
+CENTER=$((WIN_X + WA_X))
+
+MON_X=0; MON_W=$WA_W
+while read -r line; do
+    [[ &quot;$line&quot; != *&quot; connected&quot;* ]] &amp;&amp; continue
+    RECT=$(echo &quot;$line&quot; | grep -oP &#x27;\d+x\d+\+\d+\+\d+&#x27;)
+    [[ -z &quot;$RECT&quot; ]] &amp;&amp; continue
+    MX=$(echo &quot;$RECT&quot; | cut -d&#x27;+&#x27; -f2)
+    MY=$(echo &quot;$RECT&quot; | cut -d&#x27;+&#x27; -f3)
+    MW=$(echo &quot;$RECT&quot; | cut -d&#x27;x&#x27; -f1)
+    MH=$(echo &quot;$RECT&quot; | cut -d&#x27;x&#x27; -f2 | cut -d&#x27;+&#x27; -f1)
+    if (( CENTER &gt;= MX &amp;&amp; CENTER &lt; MX + MW )); then
+        MON_X=$MX; MON_Y=$MY; MON_W=$MW; MON_H=$MH
+        break
+    fi
+done &lt; &lt;(xrandr --current)
+
+HALF=$((MON_W / 2))
+
+xdotool windowmove &quot;$WIN&quot; &quot;$((MON_X + HALF))&quot; &quot;$MON_Y&quot;
+xdotool windowsize &quot;$WIN&quot; &quot;$HALF&quot; &quot;$MON_H&quot;
+XFCE_TILE_RIGHT
+chmod +x &quot;$BINDIR/xfce-tile-right.sh&quot;
+
+# Remove atalhos XFWM antigos (que são interceptados por apps)
+xfconf-query -c xfce4-keyboard-shortcuts -p /xfwm4/custom/&quot;&lt;Super&gt;Left&quot; -r 2&gt;/dev/null || true
+xfconf-query -c xfce4-keyboard-shortcuts -p /xfwm4/custom/&quot;&lt;Super&gt;Right&quot; -r 2&gt;/dev/null || true
+
+# Registra os scripts como comandos customizados (não passam pelo XFWM)
+xfconf-query -c xfce4-keyboard-shortcuts -p /commands/custom/&quot;&lt;Super&gt;Left&quot; -n -t string -s &quot;$BINDIR/xfce-tile-left.sh&quot; 2&gt;/dev/null || \
+    xfconf-query -c xfce4-keyboard-shortcuts -p /commands/custom/&quot;&lt;Super&gt;Left&quot; -t string -s &quot;$BINDIR/xfce-tile-left.sh&quot;
+
+xfconf-query -c xfce4-keyboard-shortcuts -p /commands/custom/&quot;&lt;Super&gt;Right&quot; -n -t string -s &quot;$BINDIR/xfce-tile-right.sh&quot; 2&gt;/dev/null || \
+    xfconf-query -c xfce4-keyboard-shortcuts -p /commands/custom/&quot;&lt;Super&gt;Right&quot; -t string -s &quot;$BINDIR/xfce-tile-right.sh&quot;
+
+# Manter os demais atalhos XFWM (up/down/cantos) que geralmente não tem conflito
+xfconf-query -c xfce4-keyboard-shortcuts -p /xfwm4/custom/&quot;&lt;Super&gt;Up&quot; -n -t string -s tile_up_key 2&gt;/dev/null || \
+    xfconf-query -c xfce4-keyboard-shortcuts -p /xfwm4/custom/&quot;&lt;Super&gt;Up&quot; -t string -s tile_up_key
+
+xfconf-query -c xfce4-keyboard-shortcuts -p /xfwm4/custom/&quot;&lt;Super&gt;Down&quot; -n -t string -s tile_down_key 2&gt;/dev/null || \
+    xfconf-query -c xfce4-keyboard-shortcuts -p /xfwm4/custom/&quot;&lt;Super&gt;Down&quot; -t string -s tile_down_key
+
+xfconf-query -c xfce4-keyboard-shortcuts -p /xfwm4/custom/&quot;&lt;Primary&gt;&lt;Super&gt;Left&quot; -n -t string -s tile_top_left_key 2&gt;/dev/null || \
+    xfconf-query -c xfce4-keyboard-shortcuts -p /xfwm4/custom/&quot;&lt;Primary&gt;&lt;Super&gt;Left&quot; -t string -s tile_top_left_key
+
+xfconf-query -c xfce4-keyboard-shortcuts -p /xfwm4/custom/&quot;&lt;Primary&gt;&lt;Super&gt;Right&quot; -n -t string -s tile_top_right_key 2&gt;/dev/null || \
+    xfconf-query -c xfce4-keyboard-shortcuts -p /xfwm4/custom/&quot;&lt;Primary&gt;&lt;Super&gt;Right&quot; -t string -s tile_top_right_key
+
+xfconf-query -c xfce4-keyboard-shortcuts -p /xfwm4/custom/&quot;&lt;Primary&gt;&lt;Super&gt;Down&quot; -n -t string -s tile_bottom_left_key 2&gt;/dev/null || \
+    xfconf-query -c xfce4-keyboard-shortcuts -p /xfwm4/custom/&quot;&lt;Primary&gt;&lt;Super&gt;Down&quot; -t string -s tile_bottom_left_key
+
+xfconf-query -c xfce4-keyboard-shortcuts -p /xfwm4/custom/&quot;&lt;Primary&gt;&lt;Super&gt;Up&quot; -n -t string -s tile_bottom_right_key 2&gt;/dev/null || \
+    xfconf-query -c xfce4-keyboard-shortcuts -p /xfwm4/custom/&quot;&lt;Primary&gt;&lt;Super&gt;Up&quot; -t string -s tile_bottom_right_key
+
+echo &quot;&quot;
+echo &quot;Pronto! Efeitos aplicados:&quot;
+echo &quot;  - Tiling por arrasto (bordas da tela)&quot;
+echo &quot;  - Super + &lt;-/-&gt;        : tile left/right (via xdotool - sobrepoe qualquer app)&quot;
+echo &quot;  - Super + cima/baixo   : tile top/bottom&quot;
+echo &quot;  - Super + Ctrl + setas : tile nos cantos&quot;
+echo &quot;&quot;
+echo &quot;Diferente do XFWM padrao, Super+Left/Right usa xdotool diretamente,&quot;
+echo &quot;entao funciona mesmo no Firefox, terminal, etc.&quot;
+echo &quot;Scripts instalados em: $BINDIR/xfce-tile-{left,right}.sh&quot;
+</textarea>
+    <div>
+      <button class="copy-btn" onclick="copySource()" id="copy-btn">📋 Copiar código</button>
+      <button class="copy-btn" onclick="downloadSource()" id="dl-btn">💾 Download .sh</button>
+      <a href="setup-xfce-tiling.desktop" class="download-btn" download>▶️ Abrir no Terminal (.desktop)</a>
+    </div>
+  </div>
+</div>
+
+<script>
+function copySource() {
+  var textarea = document.getElementById('source-code');
+  textarea.select();
+  textarea.setSelectionRange(0, 999999);
+  document.execCommand('copy');
+  var btn = document.getElementById('copy-btn');
+  btn.textContent = '✅ Copiado!';
+  btn.classList.add('copied');
+  setTimeout(function() {
+    btn.textContent = '📋 Copiar código';
+    btn.classList.remove('copied');
+  }, 2000);
+}
+
+function downloadSource() {
+  var content = document.getElementById('source-code').value;
+  var blob = new Blob([content], {type: 'application/x-shellscript'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'setup-xfce-tiling.sh';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  var btn = document.getElementById('dl-btn');
+  btn.textContent = '✅ Baixado!';
+  setTimeout(function() {
+    btn.textContent = '💾 Download .sh';
+  }, 2000);
+}
+</script>
+</body>
+</html>

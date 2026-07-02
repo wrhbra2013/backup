@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>appimage2rpm.sh — Script Details</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, monospace; background: #f5f5f5; color: #1a1a1a; line-height: 1.6; }
+.container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+h1 { font-size: 1.8rem; margin-bottom: 8px; }
+h2 { font-size: 1.3rem; margin: 24px 0 12px; color: #2563eb; border-bottom: 2px solid #e5e7eb; padding-bottom: 6px; }
+h3 { font-size: 1rem; margin: 16px 0 8px; color: #374151; }
+.subtitle { color: #6b7280; margin-bottom: 20px; font-size: 0.95rem; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+.header-bar { background: #1e293b; color: #fff; padding: 16px 0; margin-bottom: 24px; }
+.header-bar .container { display: flex; justify-content: space-between; align-items: center; }
+.header-bar h1 { margin: 0; font-size: 1.3rem; }
+.header-bar h1 a { color: #fff; }
+.header-bar h1 a:hover { text-decoration: none; }
+.header-bar .nav a { color: #93c5fd; margin-left: 16px; font-size: 0.9rem; }
+.search-box { width: 100%; padding: 10px 14px; border: 2px solid #d1d5db; border-radius: 8px; font-size: 0.95rem; margin-bottom: 20px; outline: none; transition: border-color 0.2s; }
+.search-box:focus { border-color: #2563eb; }
+table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+th, td { padding: 10px 14px; text-align: left; font-size: 0.9rem; }
+th { background: #f8fafc; font-weight: 600; color: #374151; border-bottom: 2px solid #e5e7eb; }
+td { border-bottom: 1px solid #f0f0f0; }
+tr:hover td { background: #f8fafc; }
+.badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; margin: 1px 2px; }
+.badge-pkg { background: #dcfce7; color: #166534; }
+.badge-cmd { background: #dbeafe; color: #1e40af; }
+.badge-func { background: #fef3c7; color: #92400e; }
+.badge-dir { background: #e5e7eb; color: #374151; }
+.tag { display: inline-block; padding: 2px 6px; border-radius: 3px; font-size: 0.7rem; font-weight: 600; background: #e5e7eb; color: #374151; margin: 1px; }
+.tag-category { background: #ede9fe; color: #5b21b6; }
+.cmd-count { font-size: 0.8rem; color: #6b7280; }
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 24px; }
+.stat-card { background: #fff; border-radius: 8px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); text-align: center; }
+.stat-card .num { font-size: 1.8rem; font-weight: 700; color: #2563eb; }
+.stat-card .label { font-size: 0.8rem; color: #6b7280; margin-top: 4px; }
+.script-page { max-width: 960px; margin: 0 auto; }
+.meta-table { width: 100%; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 20px; }
+.meta-table td { padding: 8px 14px; border-bottom: 1px solid #f0f0f0; }
+.meta-table td:first-child { font-weight: 600; color: #374151; width: 140px; background: #f8fafc; }
+.cmd-group { margin-bottom: 16px; }
+.cmd-group-title { font-size: 0.85rem; font-weight: 600; color: #5b21b6; margin-bottom: 6px; }
+.cmd-list { display: flex; flex-wrap: wrap; gap: 4px; }
+.source-box { margin: 12px 0; }
+.source-box textarea { width: 100%; padding: 12px; border: 2px solid #d1d5db; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 0.8rem; line-height: 1.4; background: #1e293b; color: #e5e7eb; resize: vertical; outline: none; }
+.source-box textarea:focus { border-color: #2563eb; }
+.copy-btn { display: inline-block; padding: 8px 16px; background: #2563eb; color: #fff; border: none; border-radius: 6px; font-size: 0.85rem; cursor: pointer; margin: 8px 4px 4px 0; transition: background 0.2s; }
+.copy-btn:hover { background: #1d4ed8; }
+.copy-btn.copied { background: #16a34a; }
+.download-btn { display: inline-block; padding: 8px 16px; background: #374151; color: #fff; border: none; border-radius: 6px; font-size: 0.85rem; cursor: pointer; margin: 8px 4px 4px 0; transition: background 0.2s; text-decoration: none; }
+.download-btn:hover { background: #1f2937; text-decoration: none; }
+.func-list { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+.func-item { background: #fef3c7; color: #92400e; padding: 3px 10px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 0.8rem; }
+.var-list { display: flex; flex-wrap: wrap; gap: 6px; }
+.var-item { background: #f0fdf4; color: #166534; padding: 3px 10px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 0.78rem; }
+.var-item code { font-size: 0.78rem; }
+.back-link { display: inline-block; margin-bottom: 16px; color: #2563eb; font-size: 0.9rem; }
+.back-link:before { content: "← "; }
+.stat-line { font-size: 0.8rem; color: #6b7280; margin-bottom: 12px; }
+@media (max-width: 600px) { .container { padding: 12px; } th, td { padding: 6px 8px; font-size: 0.8rem; } }
+</style>
+</head>
+<body>
+<div class="header-bar">
+  <div class="container">
+    <h1><a href="../index.html">📜 Backup Scripts</a></h1>
+    <div class="nav">
+      <a href="../index.html">Dashboard</a>
+    </div>
+  </div>
+</div>
+<div class="container script-page">
+  <a href="../index.html" class="back-link">Voltar ao Dashboard</a>
+
+  <h1>appimage2rpm.sh</h1>
+  <p class="subtitle">Derive name + version from filename if not provided</p>
+
+  <div class="meta-table"><table><tr><td colspan='2'>Derive name + version from filename if not provided</td></tr></table></div>
+  <div class="meta-table"><table><tr><td>Arquivo</td><td><code>system_scripts/appimage2rpm.sh</code></td></tr><tr><td>Shebang</td><td><code>#!/bin/bash</code></td></tr><tr><td>Tamanho</td><td>8.6 KB · 302 linhas</td></tr></table></div>
+  <h2>Funções</h2><div class='func-list'><span class="func-item">usage() <span style="opacity:0.5">linha 4</span></span></div>
+  <h2>Variáveis de Configuração</h2><div class='var-list'><span class="var-item"><code>OUTDIR</code> = <code>.</code></span><span class="var-item"><code>APPIMAGE</code> = <code>$1</code></span><span class="var-item"><code>BASENAME</code> = <code>$(basename &quot;$APPIMAGE&quot;)</code></span><span class="var-item"><code>BASENAME_NOEXT</code> = <code>${BASENAME%.AppImage}</code></span><span class="var-item"><code>IFS</code> = <code>-&#x27; read -ra PARTS &lt;&lt;&lt; &quot;$BASENAME_NOEXT</code></span><span class="var-item"><code>CANDIDATE_VER</code> = <code>${PARTS[-2]}-${PARTS[-1]}</code></span><span class="var-item"><code>PACKAGE_VER</code> = <code>${PACKAGE_VER//-/_}</code></span><span class="var-item"><code>WORKDIR</code> = <code>$(mktemp -d)</code></span><span class="var-item"><code>APPNAME</code> = <code>$PACKAGE_NAME</code></span><span class="var-item"><code>WRAPPER_SCRIPT</code> = <code>AppRun</code></span><span class="var-item"><code>WRAPPER_DIR</code> = <code>$(dirname &quot;$WRAPPER_SCRIPT&quot;)</code></span><span class="var-item"><code>BIN_DIR</code> = <code>opt/$APPNAME</code></span></div>
+  <h2>Comandos Utilizados</h2><div class="cmd-group"><div class="cmd-group-title">Package Manager</div><div class="cmd-list"><span class="badge badge-cmd">dnf</span><span class="badge badge-cmd">rpm</span></div></div><div class="cmd-group"><div class="cmd-group-title">Text Processing</div><div class="cmd-list"><span class="badge badge-cmd">grep</span></div></div><div class="cmd-group"><div class="cmd-group-title">File Operations</div><div class="cmd-list"><span class="badge badge-cmd">cp</span><span class="badge badge-cmd">ln</span><span class="badge badge-cmd">mkdir</span><span class="badge badge-cmd">mv</span><span class="badge badge-cmd">rm</span></div></div><div class="cmd-group"><div class="cmd-group-title">Archive</div><div class="cmd-list"><span class="badge badge-cmd">tar</span></div></div>
+  
+
+  <h2>Código Fonte</h2>
+  <div class="source-box">
+    <textarea id="source-code" rows="20" readonly spellcheck="false">#!/bin/bash
+set -euo pipefail
+
+usage() {
+  cat &lt;&lt;EOF
+Usage: $0 &lt;AppImage&gt; [options]
+
+Convert an AppImage to an RPM package for Oracle Linux / RHEL 9.
+
+Options:
+  -o &lt;dir&gt;    Output directory for the RPM (default: current dir)
+  -n &lt;name&gt;   Package name (default: derived from AppImage filename)
+  -v &lt;ver&gt;    Package version (default: derived from AppImage filename)
+  -h          Show this help
+
+Example:
+  $0 foo-1.2.3-x86_64.AppImage
+EOF
+  exit 1
+}
+
+OUTDIR=&quot;.&quot;
+PACKAGE_NAME=&quot;&quot;
+PACKAGE_VER=&quot;&quot;
+
+while getopts &quot;o:n:v:h&quot; opt; do
+  case &quot;$opt&quot; in
+    o) OUTDIR=&quot;$OPTARG&quot; ;;
+    n) PACKAGE_NAME=&quot;$OPTARG&quot; ;;
+    v) PACKAGE_VER=&quot;$OPTARG&quot; ;;
+    h) usage ;;
+    *) usage ;;
+  esac
+done
+
+shift $((OPTIND-1))
+[ $# -lt 1 ] &amp;&amp; usage
+
+APPIMAGE=&quot;$1&quot;
+[ ! -f &quot;$APPIMAGE&quot; ] &amp;&amp; echo &quot;Error: file not found: $APPIMAGE&quot; &amp;&amp; exit 1
+[ ! -x &quot;$APPIMAGE&quot; ] &amp;&amp; echo &quot;Error: file not executable: $APPIMAGE&quot; &amp;&amp; exit 1
+
+BASENAME=$(basename &quot;$APPIMAGE&quot;)
+BASENAME_NOEXT=&quot;${BASENAME%.AppImage}&quot;
+
+# Derive name + version from filename if not provided
+if [ -z &quot;$PACKAGE_NAME&quot; ] || [ -z &quot;$PACKAGE_VER&quot; ]; then
+  IFS=&#x27;-&#x27; read -ra PARTS &lt;&lt;&lt; &quot;$BASENAME_NOEXT&quot;
+  if [ ${#PARTS[@]} -ge 3 ]; then
+    CANDIDATE_VER=&quot;${PARTS[-2]}-${PARTS[-1]}&quot;
+    CANDIDATE_VER=&quot;${CANDIDATE_VER#v}&quot;
+    CANDIDATE_NAME=&quot;&quot;
+    for ((i=0; i&lt;${#PARTS[@]}-2; i++)); do
+      [ -n &quot;$CANDIDATE_NAME&quot; ] &amp;&amp; CANDIDATE_NAME+=&quot;-&quot;
+      CANDIDATE_NAME+=&quot;${PARTS[$i]}&quot;
+    done
+    if [ -z &quot;$PACKAGE_NAME&quot; ]; then PACKAGE_NAME=&quot;$CANDIDATE_NAME&quot;; fi
+    if [ -z &quot;$PACKAGE_VER&quot; ]; then PACKAGE_VER=&quot;$CANDIDATE_VER&quot;; fi
+  else
+    [ -z &quot;$PACKAGE_NAME&quot; ] &amp;&amp; PACKAGE_NAME=&quot;$BASENAME_NOEXT&quot;
+    [ -z &quot;$PACKAGE_VER&quot; ] &amp;&amp; PACKAGE_VER=&quot;1.0.0&quot;
+  fi
+fi
+
+# Sanitize version for RPM (no hyphens)
+PACKAGE_VER=&quot;${PACKAGE_VER//-/_}&quot;
+
+WORKDIR=$(mktemp -d)
+trap &quot;rm -rf &#x27;$WORKDIR&#x27;&quot; EXIT
+
+echo &quot;=== Extracting AppImage ===&quot;
+cd &quot;$WORKDIR&quot;
+&quot;$APPIMAGE&quot; --appimage-extract &gt;/dev/null 2&gt;&amp;1
+cd squashfs-root
+
+echo &quot;=== Analyzing structure ===&quot;
+
+APPNAME=&quot;$PACKAGE_NAME&quot;
+WRAPPER_SCRIPT=&quot;&quot;
+
+# Find the main binary / wrapper
+if [ -f &quot;AppRun&quot; ]; then
+  WRAPPER_SCRIPT=&quot;AppRun&quot;
+elif [ -f &quot;apprun&quot; ]; then
+  WRAPPER_SCRIPT=&quot;apprun&quot;
+else
+  WRAPPER_SCRIPT=$(find . -maxdepth 2 -type f -name &quot;*.sh&quot; -o -name &quot;*-wrapper&quot; -o -name &quot;wrapper&quot; | head -1)
+  WRAPPER_SCRIPT=&quot;${WRAPPER_SCRIPT#./}&quot;
+fi
+
+[ -z &quot;$WRAPPER_SCRIPT&quot; ] &amp;&amp; echo &quot;Error: no AppRun/wrapper found&quot; &amp;&amp; exit 1
+
+# Determine the main binary directory
+BIN_DIR=&quot;&quot;
+WRAPPER_DIR=$(dirname &quot;$WRAPPER_SCRIPT&quot;)
+if [ &quot;$WRAPPER_DIR&quot; = &quot;.&quot; ]; then
+  # Check if usr/bin/ or opt/ has the real binary
+  if [ -d &quot;opt/$APPNAME&quot; ]; then
+    BIN_DIR=&quot;opt/$APPNAME&quot;
+  elif [ -d &quot;usr/lib/$APPNAME&quot; ]; then
+    BIN_DIR=&quot;usr/lib/$APPNAME&quot;
+  elif [ -d &quot;usr/lib64/$APPNAME&quot; ]; then
+    BIN_DIR=&quot;usr/lib64/$APPNAME&quot;
+  else
+    BIN_DIR=&quot;opt/$APPNAME&quot;
+  fi
+else
+  BIN_DIR=&quot;$WRAPPER_DIR&quot;
+fi
+BIN_DIR=&quot;${BIN_DIR#./}&quot;
+
+# Make sure we&#x27;re using the subdirectory, not &quot;.&quot;
+if [ &quot;$BIN_DIR&quot; = &quot;.&quot; ]; then
+  mkdir -p &quot;opt/$APPNAME&quot;
+  find . -maxdepth 1 -type f | while read f; do
+    [ &quot;$(basename &quot;$f&quot;)&quot; != &quot;.DirIcon&quot; ] &amp;&amp; mv &quot;$f&quot; &quot;opt/$APPNAME/&quot;
+  done
+  cp -a usr &quot;opt/$APPNAME/&quot; 2&gt;/dev/null || true
+  BIN_DIR=&quot;opt/$APPNAME&quot;
+fi
+
+echo &quot;  Binary dir: $BIN_DIR&quot;
+echo &quot;  Wrapper: $WRAPPER_SCRIPT&quot;
+
+# Desktop file
+DESKTOP_FILE=$(find . -maxdepth 2 -name &quot;*.desktop&quot; | head -1)
+[ -z &quot;$DESKTOP_FILE&quot; ] &amp;&amp; echo &quot;Error: no .desktop file found&quot; &amp;&amp; exit 1
+DESKTOP_FILE=&quot;${DESKTOP_FILE#./}&quot;
+echo &quot;  Desktop file: $DESKTOP_FILE&quot;
+
+# Icon
+ICON_FILE=&quot;&quot;
+for icon in &quot;${APPNAME}.png&quot; &quot;${APPNAME}.svg&quot; &quot;icon.png&quot; &quot;icon.svg&quot;; do
+  [ -f &quot;$icon&quot; ] &amp;&amp; ICON_FILE=&quot;$icon&quot; &amp;&amp; break
+done
+# Try to find it from the desktop file
+if [ -z &quot;$ICON_FILE&quot; ]; then
+  ICON_NAME=$(grep -i &#x27;^Icon=&#x27; &quot;$DESKTOP_FILE&quot; | head -1 | cut -d= -f2)
+  [ -n &quot;$ICON_NAME&quot; ] &amp;&amp; for ext in png svg; do
+    found=$(find . -name &quot;${ICON_NAME}.${ext}&quot; -maxdepth 2 | head -1)
+    [ -n &quot;$found&quot; ] &amp;&amp; ICON_FILE=&quot;${found#./}&quot; &amp;&amp; break
+  done
+fi
+# Last resort: find any png
+[ -z &quot;$ICON_FILE&quot; ] &amp;&amp; ICON_FILE=$(find . -maxdepth 2 -name &quot;*.png&quot; | head -1)
+[ -z &quot;$ICON_FILE&quot; ] &amp;&amp; ICON_FILE=$(find usr/share/icons -name &quot;*.png&quot; | head -1)
+ICON_FILE=&quot;${ICON_FILE#./}&quot;
+echo &quot;  Icon: $ICON_FILE&quot;
+
+# Determine License from desktop file
+LICENSE=$(grep -i &#x27;^X-AppImage-License=&#x27; &quot;$DESKTOP_FILE&quot; 2&gt;/dev/null | cut -d= -f2) || true
+[ -z &quot;$LICENSE&quot; ] &amp;&amp; LICENSE=&quot;Proprietary&quot;
+
+# Determine Summary from desktop file
+SUMMARY=$(grep -i &#x27;^Comment=&#x27; &quot;$DESKTOP_FILE&quot; 2&gt;/dev/null | head -1 | cut -d= -f2) || true
+[ -z &quot;$SUMMARY&quot; ] &amp;&amp; SUMMARY=&quot;$APPNAME&quot;
+SUMMARY=&quot;${SUMMARY:0:80}&quot;
+
+# Determine URL
+URL=$(grep -i &#x27;^URL=&#x27; &quot;$DESKTOP_FILE&quot; 2&gt;/dev/null | head -1 | cut -d= -f2) || true
+[ -z &quot;$URL&quot; ] &amp;&amp; URL=&quot;https://$APPNAME.org&quot;
+
+# Check for Libraries
+HAS_LIBS=&quot;false&quot;
+if ls &quot;$BIN_DIR&quot;/*.so* &gt;/dev/null 2&gt;&amp;1; then
+  HAS_LIBS=&quot;true&quot;
+fi
+
+# Check for locales
+HAS_LOCALES=&quot;false&quot;
+[ -d &quot;$BIN_DIR/locales&quot; ] &amp;&amp; HAS_LOCALES=&quot;true&quot;
+
+# Detect wrapper name for the symlink
+WRAPPER_IN_BIN=$(basename &quot;$WRAPPER_SCRIPT&quot;)
+# But what&#x27;s the actual executable inside BIN_DIR?
+LAUNCHER_IN_BIN=$(find &quot;$BIN_DIR&quot; -maxdepth 1 -type f -executable ! -name &quot;*.so*&quot; ! -name &quot;*.pak&quot; ! -name &quot;*.dat&quot; ! -name &quot;*.json&quot; | head -1)
+LAUNCHER_NAME=$(basename &quot;$LAUNCHER_IN_BIN&quot; 2&gt;/dev/null || echo &quot;$APPNAME&quot;)
+
+# Do we need to fix the desktop Exec line?
+DESKTOP_EXEC=$(grep &#x27;^Exec=&#x27; &quot;$DESKTOP_FILE&quot; 2&gt;/dev/null | head -1 | cut -d= -f2 | cut -d&#x27; &#x27; -f1)
+DESKTOP_EXEC=$(basename &quot;$DESKTOP_EXEC&quot; 2&gt;/dev/null || echo &quot;$WRAPPER_IN_BIN&quot;)
+
+# Post-install ldconfig needed only if there are .so files
+POST_LDCONFIG=&quot;&quot;
+[ &quot;$HAS_LIBS&quot; = &quot;true&quot; ] &amp;&amp; POST_LDCONFIG=&#x27;/sbin/ldconfig 2&gt;/dev/null || :&#x27;
+
+echo
+echo &quot;=== Creating spec file ===&quot;
+
+SPECFILE=&quot;$WORKDIR/$APPNAME.spec&quot;
+mkdir -p &quot;$HOME/rpmbuild/SPECS&quot; &quot;$HOME/rpmbuild/SOURCES&quot;
+
+cat &gt; &quot;$SPECFILE&quot; &lt;&lt; SPECEOF
+%define app_prefix /opt/${APPNAME}
+%define debug_package %{nil}
+
+Name:           ${APPNAME}
+Version:        ${PACKAGE_VER}
+Release:        1%{?dist}
+Summary:        ${SUMMARY}
+
+License:        ${LICENSE}
+URL:            ${URL}
+Source0:        ${APPNAME}-${PACKAGE_VER}.tar.gz
+
+BuildArch:      x86_64
+BuildRequires:  desktop-file-utils
+
+Requires:       fontconfig, freetype, glib2
+Requires:       libX11, libXcomposite, libXcursor, libXdamage
+Requires:       libXext, libXfixes, libXi, libXrandr
+Requires:       libXrender, libXtst, libXScrnSaver
+Requires:       libdrm, libxcb, nss, nspr
+Requires:       alsa-lib, cups-libs
+Requires:       atk, at-spi2-atk, at-spi2-core
+Requires:       pango, cairo, gtk3, gdk-pixbuf2
+Requires:       libgbm, libxkbcommon, mesa-libEGL
+Requires:       bzip2-libs, systemd-libs
+
+%description
+${SUMMARY}
+
+%prep
+%setup -q
+
+%build
+
+%install
+rm -rf %{buildroot}
+
+install -d %{buildroot}%{app_prefix}
+cp -a ${BIN_DIR}/* %{buildroot}%{app_prefix}/
+
+install -d %{buildroot}%{_datadir}/applications
+desktop-file-install --dir=%{buildroot}%{_datadir}/applications \
+  --set-key=Exec --set-value=&quot;%{app_prefix}/${LAUNCHER_NAME} %%U&quot; \
+  --set-key=Icon --set-value=${APPNAME} \
+  ${DESKTOP_FILE}
+
+install -d %{buildroot}%{_bindir}
+ln -sf %{app_prefix}/${LAUNCHER_NAME} %{buildroot}%{_bindir}/${APPNAME}
+
+install -d %{buildroot}%{_datadir}/icons/hicolor
+
+if [ -f &quot;${ICON_FILE}&quot; ]; then
+  for size in 16 22 24 32 48 64 128 256; do
+    sizedir=%{buildroot}%{_datadir}/icons/hicolor/\${size}x\${size}/apps
+    install -d &quot;\$sizedir&quot;
+    install -m644 ${ICON_FILE} &quot;\$sizedir/${APPNAME}.png&quot;
+  done
+  install -d %{buildroot}%{_datadir}/icons/hicolor/scalable/apps
+  install -m644 ${ICON_FILE} %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/${APPNAME}.png
+fi
+
+%files
+%defattr(-,root,root,-)
+%{app_prefix}/
+%{_bindir}/${APPNAME}
+%{_datadir}/applications/${APPNAME}.desktop
+%{_datadir}/icons/hicolor/*/apps/${APPNAME}.png
+
+%post
+${POST_LDCONFIG}
+gtk-update-icon-cache %{_datadir}/icons/hicolor 2&gt;/dev/null || :
+
+%postun
+${POST_LDCONFIG}
+gtk-update-icon-cache %{_datadir}/icons/hicolor 2&gt;/dev/null || :
+
+%changelog
+* $(date &quot;+%a %b %d %Y&quot;) - ${APPNAME} ${PACKAGE_VER}-1
+- Initial RPM build from AppImage
+SPECEOF
+
+echo &quot;=== Creating source tarball ===&quot;
+
+cd &quot;$WORKDIR&quot;
+# Remove the squashfs-root symlink
+rm -f squashfs-root/.DirIcon 2&gt;/dev/null || true
+mv squashfs-root &quot;${APPNAME}-${PACKAGE_VER}&quot;
+tar czf &quot;$HOME/rpmbuild/SOURCES/${APPNAME}-${PACKAGE_VER}.tar.gz&quot; &quot;${APPNAME}-${PACKAGE_VER}&quot;
+
+echo &quot;=== Building RPM ===&quot;
+cp &quot;$SPECFILE&quot; &quot;$HOME/rpmbuild/SPECS/&quot;
+rpmbuild -bb &quot;$HOME/rpmbuild/SPECS/${APPNAME}.spec&quot;
+
+echo
+echo &quot;=== Done ===&quot;
+RPMFILE=&quot;$HOME/rpmbuild/RPMS/x86_64/${APPNAME}-${PACKAGE_VER}-1.el9.x86_64.rpm&quot;
+if [ -f &quot;$RPMFILE&quot; ]; then
+  mkdir -p &quot;$OUTDIR&quot;
+  cp &quot;$RPMFILE&quot; &quot;$OUTDIR/&quot;
+  echo &quot;RPM created: $OUTDIR/$(basename $RPMFILE)&quot;
+  ls -lh &quot;$OUTDIR/$(basename $RPMFILE)&quot;
+else
+  echo &quot;RPM build failed.&quot;
+  exit 1
+fi
+
+echo
+echo &quot;Install with: sudo dnf install $OUTDIR/$(basename $RPMFILE)&quot;
+</textarea>
+    <div>
+      <button class="copy-btn" onclick="copySource()" id="copy-btn">📋 Copiar código</button>
+      <button class="copy-btn" onclick="downloadSource()" id="dl-btn">💾 Download .sh</button>
+      <a href="appimage2rpm.desktop" class="download-btn" download>▶️ Abrir no Terminal (.desktop)</a>
+    </div>
+  </div>
+</div>
+
+<script>
+function copySource() {
+  var textarea = document.getElementById('source-code');
+  textarea.select();
+  textarea.setSelectionRange(0, 999999);
+  document.execCommand('copy');
+  var btn = document.getElementById('copy-btn');
+  btn.textContent = '✅ Copiado!';
+  btn.classList.add('copied');
+  setTimeout(function() {
+    btn.textContent = '📋 Copiar código';
+    btn.classList.remove('copied');
+  }, 2000);
+}
+
+function downloadSource() {
+  var content = document.getElementById('source-code').value;
+  var blob = new Blob([content], {type: 'application/x-shellscript'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'appimage2rpm.sh';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  var btn = document.getElementById('dl-btn');
+  btn.textContent = '✅ Baixado!';
+  setTimeout(function() {
+    btn.textContent = '💾 Download .sh';
+  }, 2000);
+}
+</script>
+</body>
+</html>

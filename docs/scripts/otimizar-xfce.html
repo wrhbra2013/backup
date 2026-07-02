@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>otimizar-xfce.sh — Script Details</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, monospace; background: #f5f5f5; color: #1a1a1a; line-height: 1.6; }
+.container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+h1 { font-size: 1.8rem; margin-bottom: 8px; }
+h2 { font-size: 1.3rem; margin: 24px 0 12px; color: #2563eb; border-bottom: 2px solid #e5e7eb; padding-bottom: 6px; }
+h3 { font-size: 1rem; margin: 16px 0 8px; color: #374151; }
+.subtitle { color: #6b7280; margin-bottom: 20px; font-size: 0.95rem; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+.header-bar { background: #1e293b; color: #fff; padding: 16px 0; margin-bottom: 24px; }
+.header-bar .container { display: flex; justify-content: space-between; align-items: center; }
+.header-bar h1 { margin: 0; font-size: 1.3rem; }
+.header-bar h1 a { color: #fff; }
+.header-bar h1 a:hover { text-decoration: none; }
+.header-bar .nav a { color: #93c5fd; margin-left: 16px; font-size: 0.9rem; }
+.search-box { width: 100%; padding: 10px 14px; border: 2px solid #d1d5db; border-radius: 8px; font-size: 0.95rem; margin-bottom: 20px; outline: none; transition: border-color 0.2s; }
+.search-box:focus { border-color: #2563eb; }
+table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+th, td { padding: 10px 14px; text-align: left; font-size: 0.9rem; }
+th { background: #f8fafc; font-weight: 600; color: #374151; border-bottom: 2px solid #e5e7eb; }
+td { border-bottom: 1px solid #f0f0f0; }
+tr:hover td { background: #f8fafc; }
+.badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; margin: 1px 2px; }
+.badge-pkg { background: #dcfce7; color: #166534; }
+.badge-cmd { background: #dbeafe; color: #1e40af; }
+.badge-func { background: #fef3c7; color: #92400e; }
+.badge-dir { background: #e5e7eb; color: #374151; }
+.tag { display: inline-block; padding: 2px 6px; border-radius: 3px; font-size: 0.7rem; font-weight: 600; background: #e5e7eb; color: #374151; margin: 1px; }
+.tag-category { background: #ede9fe; color: #5b21b6; }
+.cmd-count { font-size: 0.8rem; color: #6b7280; }
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 24px; }
+.stat-card { background: #fff; border-radius: 8px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); text-align: center; }
+.stat-card .num { font-size: 1.8rem; font-weight: 700; color: #2563eb; }
+.stat-card .label { font-size: 0.8rem; color: #6b7280; margin-top: 4px; }
+.script-page { max-width: 960px; margin: 0 auto; }
+.meta-table { width: 100%; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 20px; }
+.meta-table td { padding: 8px 14px; border-bottom: 1px solid #f0f0f0; }
+.meta-table td:first-child { font-weight: 600; color: #374151; width: 140px; background: #f8fafc; }
+.cmd-group { margin-bottom: 16px; }
+.cmd-group-title { font-size: 0.85rem; font-weight: 600; color: #5b21b6; margin-bottom: 6px; }
+.cmd-list { display: flex; flex-wrap: wrap; gap: 4px; }
+.source-box { margin: 12px 0; }
+.source-box textarea { width: 100%; padding: 12px; border: 2px solid #d1d5db; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 0.8rem; line-height: 1.4; background: #1e293b; color: #e5e7eb; resize: vertical; outline: none; }
+.source-box textarea:focus { border-color: #2563eb; }
+.copy-btn { display: inline-block; padding: 8px 16px; background: #2563eb; color: #fff; border: none; border-radius: 6px; font-size: 0.85rem; cursor: pointer; margin: 8px 4px 4px 0; transition: background 0.2s; }
+.copy-btn:hover { background: #1d4ed8; }
+.copy-btn.copied { background: #16a34a; }
+.download-btn { display: inline-block; padding: 8px 16px; background: #374151; color: #fff; border: none; border-radius: 6px; font-size: 0.85rem; cursor: pointer; margin: 8px 4px 4px 0; transition: background 0.2s; text-decoration: none; }
+.download-btn:hover { background: #1f2937; text-decoration: none; }
+.func-list { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+.func-item { background: #fef3c7; color: #92400e; padding: 3px 10px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 0.8rem; }
+.var-list { display: flex; flex-wrap: wrap; gap: 6px; }
+.var-item { background: #f0fdf4; color: #166534; padding: 3px 10px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 0.78rem; }
+.var-item code { font-size: 0.78rem; }
+.back-link { display: inline-block; margin-bottom: 16px; color: #2563eb; font-size: 0.9rem; }
+.back-link:before { content: "← "; }
+.stat-line { font-size: 0.8rem; color: #6b7280; margin-bottom: 12px; }
+@media (max-width: 600px) { .container { padding: 12px; } th, td { padding: 6px 8px; font-size: 0.8rem; } }
+</style>
+</head>
+<body>
+<div class="header-bar">
+  <div class="container">
+    <h1><a href="../index.html">📜 Backup Scripts</a></h1>
+    <div class="nav">
+      <a href="../index.html">Dashboard</a>
+    </div>
+  </div>
+</div>
+<div class="container script-page">
+  <a href="../index.html" class="back-link">Voltar ao Dashboard</a>
+
+  <h1>otimizar-xfce.sh</h1>
+  <p class="subtitle">otimizar-xfce.sh — Otimiza XFCE + sistema completo (Oracle Linux 9)</p>
+
+  <div class="meta-table"><table><tr><td colspan='2'>otimizar-xfce.sh — Otimiza XFCE + sistema completo (Oracle Linux 9)</td></tr><tr><td colspan='2'>Uso: ./otimizar-xfce.sh                    # diagnostico</td></tr><tr><td colspan='2'>sudo ./otimizar-xfce.sh --apply       # aplicar otimizacoes</td></tr><tr><td colspan='2'>sudo ./otimizar-xfce.sh --apply --yes # auto-instalar pacotes sem perguntar</td></tr><tr><td colspan='2'>Sem argumentos: diagnostico completo + sugestoes</td></tr><tr><td colspan='2'>--apply: aplica todas as otimizacoes com seguranca e rollback</td></tr><tr><td colspan='2'>&nbsp;</td></tr></table></div>
+  <div class="meta-table"><table><tr><td>Arquivo</td><td><code>system_scripts/otimizar-xfce.sh</code></td></tr><tr><td>Shebang</td><td><code>#!/bin/bash</code></td></tr><tr><td>Tamanho</td><td>33.5 KB · 727 linhas</td></tr><tr><td>Uso</td><td><code>Uso: ./otimizar-xfce.sh                    # diagnostico</code></td></tr></table></div>
+  <h2>Funções</h2><div class='func-list'><span class="func-item">info() <span style="opacity:0.5">linha 14</span></span><span class="func-item">ok() <span style="opacity:0.5">linha 15</span></span><span class="func-item">warn() <span style="opacity:0.5">linha 16</span></span><span class="func-item">err() <span style="opacity:0.5">linha 17</span></span><span class="func-item">title() <span style="opacity:0.5">linha 18</span></span><span class="func-item">log_cmd() <span style="opacity:0.5">linha 32</span></span><span class="func-item">log_op() <span style="opacity:0.5">linha 33</span></span><span class="func-item">check_pkg() <span style="opacity:0.5">linha 41</span></span><span class="func-item">install_pkgs() <span style="opacity:0.5">linha 47</span></span><span class="func-item">_install_fallback() <span style="opacity:0.5">linha 70</span></span><span class="func-item">system_ld_path() <span style="opacity:0.5">linha 666</span></span></div>
+  <h2>Variáveis de Configuração</h2><div class='var-list'><span class="var-item"><code>APPLY</code> = <code>false; YES=false</code></span><span class="var-item"><code>LOGDIR</code> = <code>$HOME/.local/share/xfce-optimize</code></span><span class="var-item"><code>UNDO_LOG</code> = <code>$LOGDIR/undo-$(date +%Y%m%d-%H%M%S).log</code></span><span class="var-item"><code>OPERATIONS_LOG</code> = <code>$LOGDIR/operations-$(date +%Y%m%d-%H%M%S).log</code></span><span class="var-item"><code>REQUIRED_PKGS</code> = <code>()</code></span><span class="var-item"><code>PKG_INSTALLED</code> = <code>0</code></span></div>
+  <h2>Comandos Utilizados</h2><div class="cmd-group"><div class="cmd-group-title">Package Manager</div><div class="cmd-list"><span class="badge badge-cmd">dnf</span><span class="badge badge-cmd">rpm</span></div></div><div class="cmd-group"><div class="cmd-group-title">System Service</div><div class="cmd-list"><span class="badge badge-cmd">systemctl</span></div></div><div class="cmd-group"><div class="cmd-group-title">System Logs</div><div class="cmd-list"><span class="badge badge-cmd">journalctl</span></div></div><div class="cmd-group"><div class="cmd-group-title">Filesystem</div><div class="cmd-list"><span class="badge badge-cmd">mount</span></div></div><div class="cmd-group"><div class="cmd-group-title">Download</div><div class="cmd-list"><span class="badge badge-cmd">wget</span></div></div><div class="cmd-group"><div class="cmd-group-title">Text Processing</div><div class="cmd-list"><span class="badge badge-cmd">awk</span><span class="badge badge-cmd">grep</span><span class="badge badge-cmd">sed</span></div></div><div class="cmd-group"><div class="cmd-group-title">File Operations</div><div class="cmd-list"><span class="badge badge-cmd">mkdir</span><span class="badge badge-cmd">mv</span><span class="badge badge-cmd">rm</span><span class="badge badge-cmd">tee</span></div></div><div class="cmd-group"><div class="cmd-group-title">XFCE</div><div class="cmd-list"><span class="badge badge-cmd">xfconf-query</span></div></div><div class="cmd-group"><div class="cmd-group-title">Kernel</div><div class="cmd-list"><span class="badge badge-cmd">sysctl</span></div></div>
+  
+
+  <h2>Código Fonte</h2>
+  <div class="source-box">
+    <textarea id="source-code" rows="20" readonly spellcheck="false">#!/bin/bash
+#
+# otimizar-xfce.sh — Otimiza XFCE + sistema completo (Oracle Linux 9)
+# Uso: ./otimizar-xfce.sh                    # diagnostico
+#       sudo ./otimizar-xfce.sh --apply       # aplicar otimizacoes
+#       sudo ./otimizar-xfce.sh --apply --yes # auto-instalar pacotes sem perguntar
+#
+# Sem argumentos: diagnostico completo + sugestoes
+# --apply: aplica todas as otimizacoes com seguranca e rollback
+
+set -euo pipefail
+
+R=&#x27;\033[0;31m&#x27;; G=&#x27;\033[0;32m&#x27;; Y=&#x27;\033[1;33m&#x27;; C=&#x27;\033[0;36m&#x27;; B=&#x27;\033[1m&#x27;; N=&#x27;\033[0m&#x27;
+info()  { echo -e &quot; ${C}*${N} $1&quot;; }
+ok()    { echo -e &quot; ${G}*${N} $1&quot;; }
+warn()  { echo -e &quot; ${Y}*${N} $1&quot;; }
+err()   { echo -e &quot; ${R}*${N} $1&quot;; }
+title() { echo -e &quot;\n${B}--- $1 ---${N}&quot;; }
+
+APPLY=false; YES=false
+for arg in &quot;$@&quot;; do
+    [[ &quot;$arg&quot; == &quot;--apply&quot; ]] &amp;&amp; APPLY=true
+    [[ &quot;$arg&quot; == &quot;--yes&quot; ]]   &amp;&amp; YES=true
+done
+
+LOGDIR=&quot;$HOME/.local/share/xfce-optimize&quot;
+mkdir -p &quot;$LOGDIR&quot;
+UNDO_LOG=&quot;$LOGDIR/undo-$(date +%Y%m%d-%H%M%S).log&quot;
+OPERATIONS_LOG=&quot;$LOGDIR/operations-$(date +%Y%m%d-%H%M%S).log&quot;
+echo &quot;# Log de restauracao $(date)&quot; &gt; &quot;$UNDO_LOG&quot;
+echo &quot;# Operacoes aplicadas $(date)&quot; &gt; &quot;$OPERATIONS_LOG&quot;
+log_cmd(){ echo &quot;$*&quot; &gt;&gt; &quot;$UNDO_LOG&quot;; }
+log_op(){ echo &quot;[$(date &#x27;+%H:%M:%S&#x27;)] $*&quot; &gt;&gt; &quot;$OPERATIONS_LOG&quot;; }
+
+# ─────────────────────────────────────────────────────────────
+# AUTO-INSTALL: baixa pacotes faltantes via dnf (ou wget)
+# ─────────────────────────────────────────────────────────────
+REQUIRED_PKGS=()
+PKG_INSTALLED=0
+
+check_pkg() {
+    rpm -q &quot;$1&quot; &amp;&gt;/dev/null &amp;&amp; return 0
+    REQUIRED_PKGS+=(&quot;$1&quot;)
+    return 1
+}
+
+install_pkgs() {
+    [[ ${#REQUIRED_PKGS[@]} -eq 0 ]] &amp;&amp; return
+    if ! command -v dnf &amp;&gt;/dev/null; then
+        err &quot;dnf nao encontrado. Instale manualmente: ${REQUIRED_PKGS[*]}&quot;
+        return
+    fi
+    if [[ &quot;$YES&quot; == false ]]; then
+        echo &quot;&quot;
+        warn &quot;Pacotes necessarios nao instalados: ${REQUIRED_PKGS[*]}&quot;
+        read -rp &quot;  Deseja instalar via dnf? [s/N] &quot; resp
+        [[ &quot;$resp&quot; =~ ^[Ss]$ ]] || { info &quot;Pulei instalacao.&quot;; return; }
+    fi
+    for pkg in &quot;${REQUIRED_PKGS[@]}&quot;; do
+        info &quot;Instalando $pkg...&quot;
+        dnf install -y &quot;$pkg&quot; 2&gt;/dev/null || {
+            warn &quot;Falha ao instalar $pkg via dnf. Tentando via wget...&quot;
+            _install_fallback &quot;$pkg&quot;
+        }
+    done
+    PKG_INSTALLED=1
+}
+
+# Fallback: baixa RPM manualmente (caso dnf esteja corrompido)
+_install_fallback() {
+    local pkg=&quot;$1&quot; url
+    case &quot;$pkg&quot; in
+        lm_sensors)     url=&quot;https://dl.fedoraproject.org/pub/epel/9/Everything/x86_64/Packages/l/lm_sensors-3.6.0-17.el9.x86_64.rpm&quot; ;;
+        preload)        warn &quot;preload nao disponivel no OL9. Pule.&quot;; return ;;
+        *)              warn &quot;Nao sei baixar $pkg manualmente.&quot;; return ;;
+    esac
+    local tmpdir=$(mktemp -d)
+    wget -q &quot;$url&quot; -P &quot;$tmpdir&quot; &amp;&amp; dnf install -y &quot;$tmpdir&quot;/*.rpm 2&gt;/dev/null || \
+        warn &quot;Falha ao instalar $pkg manualmente.&quot;
+    rm -rf &quot;$tmpdir&quot;
+}
+
+# ─────────────────────────────────────────────────────────────
+# DETECCAO XFCE
+# ─────────────────────────────────────────────────────────────
+if [[ &quot;${XDG_CURRENT_DESKTOP:-}&quot; != &quot;XFCE&quot; ]] &amp;&amp; [[ &quot;${XDG_SESSION_DESKTOP:-}&quot; != &quot;XFCE&quot; ]]; then
+    warn &quot;XFCE nao detectado (atual: ${XDG_CURRENT_DESKTOP:-desconhecido})&quot;
+fi
+
+# ============================================================
+# DIAGNOSTICO COMPLETO
+# ============================================================
+echo &quot;&quot;
+echo &quot;============================================================&quot;
+echo &quot;  DIAGNOSTICO XFCE + SISTEMA&quot;
+echo &quot;============================================================&quot;
+echo &quot;  Data: $(date &#x27;+%Y-%m-%d %H:%M&#x27;)&quot;
+echo &quot;  Host: $(hostname)&quot;
+echo &quot;  Desktop: ${XDG_CURRENT_DESKTOP:-N/A}&quot;
+echo &quot;&quot;
+
+SYS_BOOT=$(uptime -s 2&gt;/dev/null | cut -d&#x27; &#x27; -f1)
+INFO_LOG=&quot;$LOGDIR/diagnostico-$(date +%Y%m%d-%H%M%S).log&quot;
+
+title &quot;SISTEMA OPERACIONAL&quot;
+cat /etc/oracle-release 2&gt;/dev/null || cat /etc/os-release 2&gt;/dev/null | head -4
+echo &quot;  Kernel: $(uname -r)&quot;
+echo &quot;  Uptime: $(uptime -p | sed &#x27;s/up //&#x27;)&quot;
+echo &quot;  Boot:   $SYS_BOOT&quot;
+
+title &quot;HARDWARE&quot;
+echo &quot;  CPU: $(lscpu | grep &#x27;Model name&#x27; | cut -d: -f2 | xargs)&quot;
+echo &quot;  Cores: $(nproc)&quot;
+echo &quot;  RAM total: $(free -h | awk &#x27;/Mem:/{print $2}&#x27;)&quot;
+echo &quot;  RAM usada: $(free -h | awk &#x27;/Mem:/{print $3}&#x27;)&quot;
+echo &quot;  RAM disp.: $(free -h | awk &#x27;/Mem:/{print $7}&#x27;)&quot;
+echo &quot;  Swap total: $(free -h | awk &#x27;/Swap:/{print $2}&#x27;)&quot;
+echo &quot;  Swap usado: $(free -h | awk &#x27;/Swap:/{print $3}&#x27;)&quot;
+echo &quot;  Disco: $(df -h / | awk &#x27;NR==2{print $4&quot; livres de &quot;$2&quot; (&quot;$5&quot; usado)&quot;}&#x27;)&quot;
+
+title &quot;BOOT TIME (systemd-analyze)&quot;
+systemd-analyze 2&gt;/dev/null | sed &#x27;s/^/  /&#x27;
+echo &quot;  Top 5 servicos mais lentos:&quot;
+systemd-analyze blame 2&gt;/dev/null | head -5 | sed &#x27;s/^/    /&#x27;
+KDUMP_TIME=$(systemd-analyze blame 2&gt;/dev/null | grep kdump | head -1)
+[[ -n &quot;$KDUMP_TIME&quot; ]] &amp;&amp; warn &quot;  kdump.service: $KDUMP_TIME (maior vilao do boot!)&quot;
+
+title &quot;TRANSPARENT HUGE PAGES (THP)&quot;
+THP=$(cat /sys/kernel/mm/transparent_hugepage/enabled 2&gt;/dev/null | grep -oP &#x27;\[\K[^\]]+&#x27;)
+echo &quot;  THP: $THP&quot;
+if [[ &quot;$THP&quot; == &quot;always&quot; ]]; then
+    warn &quot;  THP=&#x27;always&#x27; fragmenta memoria em sistemas com &lt;4GB RAM&quot;
+    echo &quot;    Recomendado: madvise (echo madvise &gt; /sys/kernel/mm/transparent_hugepage/enabled)&quot;
+fi
+
+title &quot;ZRAM&quot;
+if command -v zramctl &amp;&gt;/dev/null; then
+    zramctl 2&gt;/dev/null | tail -n+2 | while read line; do
+        echo &quot;  $line&quot;
+    done
+    ZRAM_ALGO=$(zramctl 2&gt;/dev/null | awk &#x27;NR==2{print $2}&#x27;)
+    echo &quot;  Algoritmo: ${ZRAM_ALGO:-n/a}&quot;
+    [[ -n &quot;$ZRAM_ALGO&quot; &amp;&amp; &quot;$ZRAM_ALGO&quot; != &quot;zstd&quot; ]] &amp;&amp; \
+        warn &quot;  Algoritmo &#x27;$ZRAM_ALGO&#x27; — trocar para &#x27;zstd&#x27; comprime ~15% melhor&quot;
+else
+    echo &quot;  zramctl nao encontrado&quot;
+fi
+
+title &quot;MOUNT OPTIONS (/)&quot;
+MOUNT_OPTS=$(findmnt -no OPTIONS / 2&gt;/dev/null)
+echo &quot;  Opcoes: $MOUNT_OPTS&quot;
+if [[ &quot;$MOUNT_OPTS&quot; != *noatime* ]]; then
+    warn &quot;  &#x27;noatime&#x27; nao ativo — adicionar economiza escritas em HDD&quot;
+fi
+
+title &quot;XFCE - COMPOSITOR&quot;
+if command -v xfconf-query &amp;&gt;/dev/null; then
+    COMPOSITOR=$(xfconf-query -c xfwm4 -p /general/use_compositing 2&gt;/dev/null || echo &quot;n/a&quot;)
+    echo &quot;  Compositor: $([ &quot;$COMPOSITOR&quot; == &quot;true&quot; ] &amp;&amp; echo &#x27;ativado&#x27; || echo &#x27;desativado&#x27;)&quot;
+    if [[ &quot;$COMPOSITOR&quot; == &quot;true&quot; ]]; then
+        SHOW_CORE=$(xfconf-query -c xfwm4 -p /general/show_dock_shadows 2&gt;/dev/null || echo &quot;n/a&quot;)
+        echo &quot;  Shadows: ${SHOW_CORE:-n/a}&quot;
+        CYCLE_RAISE=$(xfconf-query -c xfwm4 -p /general/raise_on_click 2&gt;/dev/null || echo &quot;n/a&quot;)
+        echo &quot;  Raise on click: ${CYCLE_RAISE:-n/a}&quot;
+    fi
+else
+    warn &quot;xfconf-query nao encontrado&quot;
+fi
+
+title &quot;XFCE - GERENCIADOR DE JANELAS&quot;
+if command -v xfconf-query &amp;&gt;/dev/null; then
+    TILE=$(xfconf-query -c xfwm4 -p /general/tile_on_move 2&gt;/dev/null || echo &quot;n/a&quot;)
+    echo &quot;  Tiling on move: ${TILE}&quot;
+    WORKSPACES=$(xfconf-query -c xfwm4 -p /general/workspace_count 2&gt;/dev/null || echo &quot;4&quot;)
+    echo &quot;  Workspaces: ${WORKSPACES}&quot;
+fi
+
+title &quot;XFCE - PAINEL&quot;
+if command -v xfconf-query &amp;&gt;/dev/null; then
+    for i in $(xfconf-query -c xfce4-panel -l 2&gt;/dev/null | grep -oP &#x27;/plugins/plugin-\d+&#x27; | sort -u); do
+        NAME=$(xfconf-query -c xfce4-panel -p &quot;$i&quot; 2&gt;/dev/null || true)
+        [[ -n &quot;$NAME&quot; ]] &amp;&amp; echo &quot;  $i: $NAME&quot;
+    done 2&gt;/dev/null | head -15
+fi
+
+title &quot;APPS DE INICIO AUTOMATICO&quot;
+STARTUP_DIR=&quot;$HOME/.config/autostart&quot;
+if [[ -d &quot;$STARTUP_DIR&quot; ]]; then
+    for f in &quot;$STARTUP_DIR&quot;/*.desktop; do
+        [[ -f &quot;$f&quot; ]] || continue
+        NAME=$(grep -m1 &#x27;^Name=&#x27; &quot;$f&quot; 2&gt;/dev/null | cut -d= -f2)
+        echo &quot;  ${NAME:-$(basename &quot;$f&quot; .desktop)}&quot;
+    done
+else
+    echo &quot;  Nenhum&quot;
+fi
+
+title &quot;MEMORIA E SWAP&quot;
+echo &quot;  RAM: $(free -h | awk &#x27;/Mem:/{printf &quot;%s total, %s usada, %s disponivel&quot;, $2, $3, $7}&#x27;)&quot;
+SWAPPINESS=$(cat /proc/sys/vm/swappiness 2&gt;/dev/null || echo &quot;n/a&quot;)
+echo &quot;  Swappiness: ${SWAPPINESS}&quot;
+echo &quot;  Swap: $(swapon --show 2&gt;/dev/null | wc -l) dispositivo(s)&quot;
+[[ -n &quot;$SWAPPINESS&quot; &amp;&amp; &quot;$SWAPPINESS&quot; -gt 60 ]] &amp;&amp; \
+    warn &quot;  Swappiness=${SWAPPINESS} alto para HDD — recomendado: 10&quot;
+
+title &quot;TOP 8 PROCESSOS POR RAM&quot;
+ps aux --sort=-%mem 2&gt;/dev/null | awk &#x27;NR&lt;=8{printf &quot;  %-6s %-5s %-5s %s\n&quot;, $1, $2, $4&quot;%&quot;, $11}&#x27;
+
+title &quot;SERVICOS ATIVOS RELEVANTES&quot;
+for s in kdump.service xfce4-screensaver power-profiles-daemon accounts-daemon \
+         cups bluetooth avahi-daemon firewalld smartd ModemManager \
+         postgresql mongod redis NetworkManager-wait-online; do
+    enabled=$(systemctl is-enabled &quot;$s&quot; 2&gt;/dev/null || echo &quot;n/a&quot;)
+    active=$(systemctl is-active &quot;$s&quot; 2&gt;/dev/null || echo &quot;n/a&quot;)
+    [[ &quot;$enabled&quot; == &quot;enabled&quot; ]] &amp;&amp; warn &quot;  $s: enabled=$enabled active=$active&quot; || \
+        echo &quot;  $s: enabled=$enabled active=$active&quot;
+done
+
+title &quot;TEMPERATURA DA CPU&quot;
+if command -v sensors &amp;&gt;/dev/null; then
+    sensors 2&gt;/dev/null | grep -E &#x27;^Core|^Package|temp[0-9]&#x27; | head -5 | sed &#x27;s/^/  /&#x27;
+else
+    echo &quot;  lm-sensors nao instalado&quot;
+    check_pkg lm_sensors
+fi
+
+title &quot;ERROS NO LOG (BOOT ATUAL)&quot;
+ERR_COUNT=$(journalctl -p 3 -b --no-pager 2&gt;/dev/null | wc -l || echo &quot;0&quot;)
+echo &quot;  Total de erros: ${ERR_COUNT}&quot;
+(( ERR_COUNT &gt; 0 )) &amp;&amp; \
+    journalctl -p 3 -b --no-pager 2&gt;/dev/null | awk -F&#x27;: &#x27; &#x27;{print $2}&#x27; | sort | uniq -c | sort -rn | head -5 | sed &#x27;s/^/  /&#x27;
+
+title &quot;OOM (OUT OF MEMORY)&quot;
+OOM_COUNT=$(journalctl -b -t oom-kill --no-pager 2&gt;/dev/null | wc -l || echo &quot;0&quot;)
+echo &quot;  OOM kills: ${OOM_COUNT}&quot;
+(( OOM_COUNT &gt; 0 )) &amp;&amp; err &quot;VISAO: eventos OOM detectados!&quot; || ok &quot;Sem OOM&quot;
+
+title &quot;CRASHES XFCE&quot;
+for proc in xfwm4 xfdesktop xfce4-panel; do
+    n=$(journalctl -b &quot;_COMM=$proc&quot; --no-pager 2&gt;/dev/null | grep -ci &quot;crash\|segfault\|abort\|signal&quot; || echo &quot;0&quot;)
+    echo &quot;  $proc: ${n} eventos&quot;
+done
+
+title &quot;PRESSURE STALL INFORMATION (PSI)&quot;
+for metric in cpu memory io; do
+    [[ -f &quot;/proc/pressure/$metric&quot; ]] &amp;&amp; \
+        awk &quot;{printf \&quot;  %s: %s\n\&quot;, \&quot;$metric\&quot;, \$0}&quot; &quot;/proc/pressure/$metric&quot; 2&gt;/dev/null || \
+        echo &quot;  $metric: n/a (kernel sem CONFIG_PSI)&quot;
+done
+
+# ============================================================
+# Salvar diagnostico em log
+# ============================================================
+{
+    echo &quot;=== DIAGNOSTICO $(date) ===&quot;
+    echo &quot;Host: $(hostname)&quot;
+    echo &quot;Kernel: $(uname -r)&quot;
+    echo &quot;RAM: $(free -h | awk &#x27;/Mem:/{print $2&quot; total, &quot;$3&quot; used, &quot;$7&quot; avail&quot;}&#x27;)&quot;
+    echo &quot;DISK: $(df -h / | awk &#x27;NR==2{print $4&quot; free of &quot;$2}&#x27;)&quot;
+    echo &quot;SWAPPINESS: $(cat /proc/sys/vm/swappiness 2&gt;/dev/null || echo n/a)&quot;
+    echo &quot;THP: $(cat /sys/kernel/mm/transparent_hugepage/enabled 2&gt;/dev/null | grep -oP &#x27;\[\K[^\]]+&#x27;)&quot;
+    echo &quot;Boot time: $(systemd-analyze 2&gt;/dev/null | head -1)&quot;
+    echo &quot;CPU: $(lscpu | grep &#x27;Model name&#x27; | cut -d: -f2 | xargs)&quot;
+} &gt; &quot;$INFO_LOG&quot;
+
+# ============================================================
+# PROPOSTA DE MELHORIAS
+# ============================================================
+echo &quot;&quot;
+echo &quot;============================================================&quot;
+echo &quot;  PROPOSTA DE MELHORIAS&quot;
+echo &quot;============================================================&quot;
+echo &quot;&quot;
+
+RAM_TOTAL=$(free -m | awk &#x27;/Mem:/{print int($2)}&#x27;)
+RAM_LIVRE=$(free -m | awk &#x27;/Mem:/{print int($7)}&#x27;)
+
+# 1. RAM
+echo &quot; ${B}1. MEMORIA RAM${N}&quot;
+PERC=$((RAM_LIVRE * 100 / RAM_TOTAL))
+(( RAM_TOTAL &lt; 3072 )) &amp;&amp; \
+    warn &quot;RAM total (${RAM_TOTAL}MB) abaixo de 3GB. Upgrade para 8GB DDR3L recomendado.&quot; || \
+    (( RAM_TOTAL &lt; 6144 )) &amp;&amp; \
+    warn &quot;RAM total (${RAM_TOTAL}MB) abaixo de 6GB.&quot; || \
+    ok &quot;RAM total (${RAM_TOTAL}MB) OK&quot;
+(( PERC &lt; 15 )) &amp;&amp; err &quot;RAM livre: ${PERC}% (${RAM_LIVRE}MB) — CRITICO&quot; || \
+    (( PERC &lt; 25 )) &amp;&amp; warn &quot;RAM livre: ${PERC}% (${RAM_LIVRE}MB)&quot; || \
+    ok &quot;RAM livre: ${PERC}% (${RAM_LIVRE}MB) - OK&quot;
+
+# 2. Swap + swappiness
+title &quot;2. SWAP + SWAPPINESS&quot;
+SWAP_SIZE=$(free -m | awk &#x27;/Swap:/{print int($2)}&#x27;)
+SWAP_USED=$(free -m | awk &#x27;/Swap:/{print int($3)}&#x27;)
+(( SWAP_SIZE == 0 )) &amp;&amp; warn &quot;Sem swap configurada!&quot; || \
+    (( SWAP_USED &gt; SWAP_SIZE * 80 / 100 )) &amp;&amp; warn &quot;Swap ${SWAP_USED}/${SWAP_SIZE}MB (&gt;80%!)&quot;
+(( SWAPPINESS &gt; 60 )) &amp;&amp; \
+    warn &quot;Swappiness=${SWAPPINESS} alto demais para HDD. sysctl vm.swappiness=10&quot;
+
+# 3. Compositor
+title &quot;3. COMPOSITOR XFCE&quot;
+if [[ &quot;${COMPOSITOR:-false}&quot; == &quot;true&quot; ]]; then
+    (( RAM_TOTAL &lt; 4000 )) &amp;&amp; \
+        warn &quot;Compositor ativo — desative (xfconf-query ... use_compositing false)&quot; || \
+        info &quot;Compositor ativo (RAM suficiente)&quot;
+else
+    ok &quot;Compositor desativado&quot;
+fi
+
+# 4. Servicos (inclui kdump como prioridade)
+title &quot;4. SERVICOS (PRIORIDADE: KDUMP)&quot;
+if systemctl is-enabled kdump.service 2&gt;/dev/null | grep -q &quot;^enabled$&quot;; then
+    kdump_time=$(systemd-analyze blame 2&gt;/dev/null | grep kdump | awk &#x27;{print $1}&#x27;)
+    err &quot;kdump.service ativo — adiciona ~${kdump_time:-60s} ao boot!&quot;
+    echo &quot;    systemctl mask kdump.service  # economia de ~${kdump_time:-60s}&quot;
+fi
+
+title &quot;   Servicos nao essenciais&quot;
+for s_desc in &quot;cups:impressao&quot; &quot;bluetooth:Bluetooth&quot; &quot;avahi-daemon:descoberta&quot; \
+              &quot;ModemManager:modem&quot; &quot;mcelog:MCA&quot; &quot;accounts-daemon:contas&quot; \
+              &quot;power-profiles-daemon:energia&quot; &quot;postgresql:banco&quot; &quot;mongod:banco&quot; \
+              &quot;redis:caching&quot; &quot;NetworkManager-wait-online:espera rede&quot;; do
+    svc=&quot;${s_desc%%:*}&quot;; desc=&quot;${s_desc#*:}&quot;
+    systemctl is-enabled &quot;$svc&quot; 2&gt;/dev/null | grep -q &quot;enabled&quot; &amp;&amp; \
+        warn &quot;$svc: ativo ($desc)&quot; &amp;&amp; echo &quot;    systemctl disable --now $svc&quot;
+done
+
+# 5. Startup apps + screensaver
+title &quot;5. APPS DE INICIO&quot;
+if [[ -d &quot;$STARTUP_DIR&quot; ]]; then
+    for f in &quot;$STARTUP_DIR&quot;/*.desktop; do
+        [[ -f &quot;$f&quot; ]] || continue
+        NAME=$(grep -m1 &#x27;^Name=&#x27; &quot;$f&quot; 2&gt;/dev/null || basename &quot;$f&quot; .desktop)
+        warn &quot;${NAME} inicia automaticamente&quot;
+    done
+fi
+command -v xfce4-screensaver &amp;&gt;/dev/null &amp;&amp; \
+    warn &quot;xfce4-screensaver ativo (~30-50MB RAM)&quot;
+
+# 6. THP
+title &quot;6. TRANSPARENT HUGE PAGES&quot;
+THP_CUR=$(cat /sys/kernel/mm/transparent_hugepage/enabled 2&gt;/dev/null | grep -oP &#x27;\[\K[^\]]+&#x27;)
+[[ &quot;$THP_CUR&quot; == &quot;always&quot; ]] &amp;&amp; \
+    warn &quot;THP=&#x27;always&#x27; — trocar para &#x27;madvise&#x27; reduz fragmentacao de RAM&quot; &amp;&amp; \
+    echo &quot;    echo madvise | tee /sys/kernel/mm/transparent_hugepage/enabled&quot;
+
+# 7. ZRAM
+title &quot;7. ZRAM (COMPRESSAO)&quot;
+if command -v zramctl &amp;&gt;/dev/null; then
+    ZRAM_ALGO=$(zramctl 2&gt;/dev/null | awk &#x27;NR==2{print $2}&#x27;)
+    [[ -n &quot;$ZRAM_ALGO&quot; &amp;&amp; &quot;$ZRAM_ALGO&quot; != &quot;zstd&quot; ]] &amp;&amp; \
+        warn &quot;ZRAM algoritmo=&#x27;$ZRAM_ALGO&#x27; — trocar para &#x27;zstd&#x27;&quot; &amp;&amp; \
+        echo &quot;    echo zstd | tee /sys/block/zram0/comp_algorithm&quot;
+fi
+
+# 8. noatime
+title &quot;8. MOUNT OPTIONS&quot;
+MOUNT_OPTS=$(findmnt -no OPTIONS / 2&gt;/dev/null)
+[[ &quot;$MOUNT_OPTS&quot; != *noatime* ]] &amp;&amp; \
+    warn &quot;Falta &#x27;noatime&#x27; em / — adicionar em /etc/fstab reduz escrita em HDD&quot;
+
+# 9. I/O scheduler
+title &quot;9. I/O SCHEDULER&quot;
+DISK_TYPE=&quot;SSD&quot;
+if [[ -f /sys/block/sda/queue/rotational ]] &amp;&amp; [[ &quot;$(cat /sys/block/sda/queue/rotational)&quot; == &quot;1&quot; ]]; then
+    DISK_TYPE=&quot;HDD&quot;
+    SCHED=$(cat /sys/block/sda/queue/scheduler 2&gt;/dev/null | grep -oP &#x27;\[\K[^\]]+&#x27;)
+    echo &quot;  Disco: HDD 5400rpm (ST500LT012)&quot;
+    echo &quot;  Scheduler: ${SCHED}&quot;
+    [[ &quot;$SCHED&quot; != &quot;bfq&quot; ]] &amp;&amp; warn &quot;Trocar para BFQ: echo bfq &gt; /sys/block/sda/queue/scheduler&quot;
+fi
+
+# 10. Erros
+title &quot;10. SYSLOG&quot;
+(( ERR_COUNT &gt; 50 )) &amp;&amp; warn &quot;${ERR_COUNT} erros no boot&quot;
+(( OOM_COUNT &gt; 0 )) &amp;&amp; err &quot;${OOM_COUNT} eventos OOM!&quot;
+
+# 11. Boot time
+title &quot;11. ANALISE DE BOOT&quot;
+echo &quot;  Boot total: $(systemd-analyze 2&gt;/dev/null | grep -oP &#x27;^Startup finished in .*&#x27; || echo &#x27;n/a&#x27;)&quot;
+echo &quot;  Para grafico: systemd-analyze plot &gt; boot.svg&quot;
+
+# 12. Hardware
+title &quot;12. RECOMENDACOES DE HARDWARE&quot;
+(( RAM_TOTAL &lt; 4096 )) &amp;&amp; echo &quot;  - Upgrade RAM: 8GB DDR3L SODIMM (~R\$80-120)&quot;
+[[ &quot;$DISK_TYPE&quot; == &quot;HDD&quot; ]] &amp;&amp; echo &quot;  - Upgrade SSD: SATA III 240GB (~R\$120-200) — maior ganho possivel&quot;
+
+# ============================================================
+# APLICAR OTIMIZACOES (--apply)
+# ============================================================
+if [[ &quot;$APPLY&quot; == false ]]; then
+    echo &quot;&quot;
+    echo &quot;============================================================&quot;
+    echo &quot;  Para APLICAR as otimizacoes: sudo $0 --apply [--yes]&quot;
+    echo &quot;============================================================&quot;
+    echo &quot;&quot;
+    echo &quot;  Log: $INFO_LOG&quot;
+    # Instalar pacotes mesmo sem --apply se --yes
+    [[ &quot;$YES&quot; == true ]] &amp;&amp; install_pkgs
+    exit 0
+fi
+
+# ── MODO APPLY ──
+echo &quot;&quot;
+echo &quot;============================================================&quot;
+echo &quot;  APLICANDO OTIMIZACOES&quot;
+echo &quot;============================================================&quot;
+echo &quot;&quot;
+
+if [[ $EUID -ne 0 ]]; then
+    err &quot;Modo --apply requer root (sudo).&quot;
+    exit 1
+fi
+
+# Instalar pacotes necessarios antes das alteracoes
+install_pkgs
+
+# ─────────────────────────────────────────────────────────────
+# 1. Swappiness
+# ─────────────────────────────────────────────────────────────
+title &quot;1. Swappiness&quot;
+CURRENT_SWAP=$(cat /proc/sys/vm/swappiness 2&gt;/dev/null || echo &quot;70&quot;)
+if (( CURRENT_SWAP &gt; 10 )); then
+    sysctl -w vm.swappiness=10
+    echo &quot;vm.swappiness=10&quot; &gt; /etc/sysctl.d/90-swappiness.conf
+    log_cmd &quot;sysctl -w vm.swappiness=$CURRENT_SWAP; rm -f /etc/sysctl.d/90-swappiness.conf&quot;
+    ok &quot;swappiness $CURRENT_SWAP -&gt; 10&quot;
+    log_op &quot;swappiness: $CURRENT_SWAP -&gt; 10&quot;
+else
+    ok &quot;swappiness ja em $CURRENT_SWAP&quot;
+fi
+
+# ─────────────────────────────────────────────────────────────
+# 2. kdump.service (MAIOR VILAO DO BOOT)
+# ─────────────────────────────────────────────────────────────
+title &quot;2. kdump.service&quot;
+if systemctl is-enabled kdump.service 2&gt;/dev/null | grep -q &quot;^enabled$&quot;; then
+    KDUMP_ACTIVE=$(systemctl is-active kdump.service 2&gt;/dev/null || echo &quot;unknown&quot;)
+    systemctl mask kdump.service 2&gt;/dev/null || true
+    log_cmd &quot;systemctl unmask kdump.service; systemctl enable kdump.service&quot;
+    ok &quot;kdump.service mascarado (economia de ~60s no boot!)&quot;
+    log_op &quot;kdump.service mascarado&quot;
+    if [[ &quot;$KDUMP_ACTIVE&quot; == &quot;active&quot; ]]; then
+        warn &quot;kdump ainda rodando nesta sessao. Efetivo no proximo boot.&quot;
+    fi
+else
+    ok &quot;kdump.service ja desativado&quot;
+fi
+
+# ─────────────────────────────────────────────────────────────
+# 3. THP: always -&gt; madvise
+# ─────────────────────────────────────────────────────────────
+title &quot;3. Transparent Huge Pages&quot;
+THP_CUR=$(cat /sys/kernel/mm/transparent_hugepage/enabled 2&gt;/dev/null | grep -oP &#x27;\[\K[^\]]+&#x27;)
+if [[ &quot;$THP_CUR&quot; == &quot;always&quot; ]]; then
+    echo madvise | tee /sys/kernel/mm/transparent_hugepage/enabled &gt;/dev/null 2&gt;/dev/null || true
+    log_cmd &quot;echo always &gt; /sys/kernel/mm/transparent_hugepage/enabled&quot;
+    ok &quot;THP: always -&gt; madvise (menos fragmentacao de RAM)&quot;
+    log_op &quot;THP: always -&gt; madvise&quot;
+    # Persistir via tuned ou udev
+    if ! grep -q &quot;transparent_hugepage&quot; /etc/tuned/active_profile 2&gt;/dev/null; then
+        cat &gt; /etc/udev/rules.d/99-thp-madvise.rules &lt;&lt; &#x27;RULE&#x27;
+ACTION==&quot;add&quot;, SUBSYSTEM==&quot;cpu&quot;, ATTR{online}==&quot;1&quot;, RUN+=&quot;/bin/sh -c &#x27;echo madvise &gt; /sys/kernel/mm/transparent_hugepage/enabled&#x27;&quot;
+RULE
+        ok &quot;Regra udev criada para persistir THP=madvise&quot;
+        log_op &quot;Regra udev 99-thp-madvise.rules criada&quot;
+        log_cmd &quot;rm -f /etc/udev/rules.d/99-thp-madvise.rules&quot;
+    fi
+else
+    ok &quot;THP ja em madvise&quot;
+fi
+
+# ─────────────────────────────────────────────────────────────
+# 4. ZRAM: algoritmo zstd
+# ─────────────────────────────────────────────────────────────
+title &quot;4. ZRAM (algoritmo zstd)&quot;
+if command -v zramctl &amp;&gt;/dev/null; then
+    ZRAM_ALGO=$(zramctl 2&gt;/dev/null | awk &#x27;NR==2{print $2}&#x27;)
+    ZRAM_DEV=$(zramctl 2&gt;/dev/null | awk &#x27;NR==2{print $1}&#x27;)
+    if [[ -n &quot;$ZRAM_ALGO&quot; &amp;&amp; &quot;$ZRAM_ALGO&quot; != &quot;zstd&quot; &amp;&amp; -n &quot;$ZRAM_DEV&quot; ]]; then
+        # Troca algoritmo: precisa desativar, trocar, reativar
+        swapoff &quot;$ZRAM_DEV&quot; 2&gt;/dev/null || true
+        echo zstd &gt; /sys/block/zram0/comp_algorithm 2&gt;/dev/null || warn &quot;zstd nao suportado pelo hardware&quot;
+        swapon &quot;$ZRAM_DEV&quot; 2&gt;/dev/null || true
+        log_cmd &quot;swapoff $ZRAM_DEV; echo $ZRAM_ALGO &gt; /sys/block/zram0/comp_algorithm; swapon $ZRAM_DEV&quot;
+        ok &quot;ZRAM: $ZRAM_ALGO -&gt; zstd (compressao ~15% melhor)&quot;
+        log_op &quot;ZRAM algoritmo: $ZRAM_ALGO -&gt; zstd&quot;
+    else
+        ok &quot;ZRAM ja em zstd ou indisponivel&quot;
+    fi
+fi
+
+# ─────────────────────────────────────────────────────────────
+# 5. Compositor XFCE desativado (se RAM &lt; 4GB)
+# ─────────────────────────────────────────────────────────────
+title &quot;5. Compositor XFCE&quot;
+if (( RAM_TOTAL &lt; 4000 )); then
+    COMP_OLD=$(xfconf-query -c xfwm4 -p /general/use_compositing 2&gt;/dev/null || echo &quot;false&quot;)
+    if [[ &quot;$COMP_OLD&quot; == &quot;true&quot; ]]; then
+        xfconf-query -c xfwm4 -p /general/use_compositing -s false
+        log_cmd &quot;xfconf-query -c xfwm4 -p /general/use_compositing -s true&quot;
+        ok &quot;Compositor XFCE desativado (~80MB RAM liberada)&quot;
+        log_op &quot;Compositor XFCE desativado&quot;
+    else
+        ok &quot;Compositor ja desativado&quot;
+    fi
+else
+    ok &quot;RAM &gt;= 4GB, compositor mantido&quot;
+fi
+
+# ─────────────────────────────────────────────────────────────
+# 6. Servicos nao essenciais (inclui kdump ja feito)
+# ─────────────────────────────────────────────────────────────
+title &quot;6. Servicos nao essenciais&quot;
+SERVICES_DISABLE=(
+    &quot;cups:impressao&quot;
+    &quot;avahi-daemon:descoberta de rede&quot;
+    &quot;ModemManager:modem&quot;
+    &quot;mcelog:MCA&quot;
+    &quot;accounts-daemon:contas&quot;
+    &quot;NetworkManager-wait-online:espera rede&quot;
+    &quot;postgresql:banco&quot;
+    &quot;mongod:banco&quot;
+    &quot;redis:caching&quot;
+)
+for s_desc in &quot;${SERVICES_DISABLE[@]}&quot;; do
+    svc=&quot;${s_desc%%:*}&quot;; desc=&quot;${s_desc#*:}&quot;
+    if systemctl is-enabled &quot;$svc&quot; 2&gt;/dev/null | grep -q &quot;^enabled$&quot;; then
+        if [[ &quot;$svc&quot; == &quot;NetworkManager-wait-online&quot; ]]; then
+            systemctl mask &quot;$svc&quot; 2&gt;/dev/null || true
+            log_cmd &quot;systemctl unmask $svc&quot;
+        else
+            systemctl disable --now &quot;$svc&quot; 2&gt;/dev/null || true
+            log_cmd &quot;systemctl enable --now $svc&quot;
+        fi
+        ok &quot;$svc desativado ($desc)&quot;
+        log_op &quot;$svc desativado ($desc)&quot;
+    else
+        info &quot;$svc ja desativado&quot;
+    fi
+done
+
+# ─────────────────────────────────────────────────────────────
+# 7. Apps de inicio
+# ─────────────────────────────────────────────────────────────
+title &quot;7. Apps de inicio automatico&quot;
+if [[ -d &quot;$STARTUP_DIR&quot; ]]; then
+    mkdir -p &quot;$STARTUP_DIR/disabled&quot;
+    for f in &quot;$STARTUP_DIR&quot;/*.desktop; do
+        [[ -f &quot;$f&quot; ]] || continue
+        NAME=$(grep -m1 &#x27;^Name=&#x27; &quot;$f&quot; 2&gt;/dev/null || basename &quot;$f&quot; .desktop)
+        mv &quot;$f&quot; &quot;$STARTUP_DIR/disabled/&quot;
+        log_cmd &quot;mv \&quot;$STARTUP_DIR/disabled/$(basename &quot;$f&quot;)\&quot; \&quot;$STARTUP_DIR/\&quot;&quot;
+        ok &quot;${NAME} movido para disabled/&quot;
+        log_op &quot;${NAME} movido para disabled/&quot;
+    done
+fi
+
+# ─────────────────────────────────────────────────────────────
+# 8. xfce4-screensaver
+# ─────────────────────────────────────────────────────────────
+title &quot;8. xfce4-screensaver&quot;
+if command -v xfce4-screensaver &amp;&gt;/dev/null; then
+    if xfconf-query -c xfce4-screensaver -p /saver/enabled -s false &amp;&gt;/dev/null; then
+        log_cmd &quot;xfconf-query -c xfce4-screensaver -p /saver/enabled -s true&quot;
+        ok &quot;xfce4-screensaver desativado&quot;
+        log_op &quot;xfce4-screensaver desativado&quot;
+    elif xfconf-query -c xfce4-screensaver -l 2&gt;/dev/null | grep -q &quot;/saver/enabled&quot;; then
+        info &quot;xfce4-screensaver ja desativado&quot;
+    else
+        xfconf-query -c xfce4-screensaver -n -p /saver/enabled -t bool -s false 2&gt;/dev/null || true
+        log_cmd &quot;xfconf-query -c xfce4-screensaver -p /saver/enabled -s true&quot;
+        ok &quot;xfce4-screensaver desativado (propriedade criada)&quot;
+        log_op &quot;xfce4-screensaver desativado&quot;
+    fi
+fi
+
+# ─────────────────────────────────────────────────────────────
+# 9. Reduzir workspaces
+# ─────────────────────────────────────────────────────────────
+title &quot;9. Workspaces&quot;
+WS_OLD=$(xfconf-query -c xfwm4 -p /general/workspace_count 2&gt;/dev/null || echo &quot;4&quot;)
+if (( WS_OLD &gt; 4 )); then
+    xfconf-query -c xfwm4 -p /general/workspace_count -s 4
+    log_cmd &quot;xfconf-query -c xfwm4 -p /general/workspace_count -s $WS_OLD&quot;
+    ok &quot;Workspaces: $WS_OLD -&gt; 4&quot;
+    log_op &quot;Workspaces: $WS_OLD -&gt; 4&quot;
+fi
+
+# ─────────────────────────────────────────────────────────────
+# 10. VFS cache pressure
+# ─────────────────────────────────────────────────────────────
+title &quot;10. Cache de disco (vfs_cache_pressure)&quot;
+CACHE_OLD=$(cat /proc/sys/vm/vfs_cache_pressure 2&gt;/dev/null || echo &quot;100&quot;)
+if (( CACHE_OLD &gt; 50 )); then
+    sysctl -w vm.vfs_cache_pressure=50
+    echo &quot;vm.vfs_cache_pressure=50&quot; &gt; /etc/sysctl.d/90-cache-pressure.conf
+    log_cmd &quot;sysctl -w vm.vfs_cache_pressure=$CACHE_OLD; rm -f /etc/sysctl.d/90-cache-pressure.conf&quot;
+    ok &quot;vfs_cache_pressure $CACHE_OLD -&gt; 50&quot;
+    log_op &quot;vfs_cache_pressure: $CACHE_OLD -&gt; 50&quot;
+else
+    info &quot;vfs_cache_pressure ja em $CACHE_OLD&quot;
+fi
+
+# ─────────────────────────────────────────────────────────────
+# 11. Dirty page writeback (ajustado para HDD)
+# ─────────────────────────────────────────────────────────────
+title &quot;11. Dirty page writeback&quot;
+DR_OLD=$(cat /proc/sys/vm/dirty_ratio 2&gt;/dev/null || echo &quot;20&quot;)
+if (( DR_OLD &gt; 10 )); then
+    sysctl -w vm.dirty_ratio=10
+    echo &quot;vm.dirty_ratio=10&quot; &gt; /etc/sysctl.d/90-dirty.conf
+    log_cmd &quot;sysctl -w vm.dirty_ratio=$DR_OLD&quot;
+fi
+DBR_OLD=$(cat /proc/sys/vm/dirty_background_ratio 2&gt;/dev/null || echo &quot;10&quot;)
+if (( DBR_OLD &gt; 3 )); then
+    sysctl -w vm.dirty_background_ratio=3
+    echo &quot;vm.dirty_background_ratio=3&quot; &gt;&gt; /etc/sysctl.d/90-dirty.conf
+    log_cmd &quot;sysctl -w vm.dirty_background_ratio=$DBR_OLD&quot;
+    ok &quot;Dirty writeback: $DR_OLD-&gt;10, bg $DBR_OLD-&gt;3&quot;
+    log_op &quot;Dirty writeback: ratio $DR_OLD-&gt;10, bg $DBR_OLD-&gt;3&quot;
+fi
+
+# ─────────────────────────────────────────────────────────────
+# 12. CPU governor (ja em performance, mas assegura)
+# ─────────────────────────────────────────────────────────────
+title &quot;12. CPU governor&quot;
+if [[ -d /sys/devices/system/cpu/cpu0/cpufreq ]]; then
+    GOV=$(cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor 2&gt;/dev/null || echo &quot;&quot;)
+    if [[ &quot;$GOV&quot; != &quot;performance&quot; &amp;&amp; &quot;$GOV&quot; != &quot;schedutil&quot; ]]; then
+        echo performance | tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor &gt;/dev/null 2&gt;/dev/null || true
+        log_cmd &quot;echo $GOV | tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor&quot;
+        ok &quot;CPU governor: $GOV -&gt; performance&quot;
+        log_op &quot;CPU governor: $GOV -&gt; performance&quot;
+    else
+        ok &quot;CPU governor ja em $GOV&quot;
+    fi
+fi
+
+# ─────────────────────────────────────────────────────────────
+# 13. Ionice: Xorg com prioridade de I/O
+# ─────────────────────────────────────────────────────────────
+title &quot;13. Ionice (prioridade I/O)&quot;
+XORG_PID=$(pidof Xorg 2&gt;/dev/null || pidof X 2&gt;/dev/null || echo &quot;&quot;)
+if [[ -n &quot;$XORG_PID&quot; ]]; then
+    ionice -c 1 -n 0 -p &quot;$XORG_PID&quot; 2&gt;/dev/null &amp;&amp; \
+        ok &quot;Xorg (PID $XORG_PID) com ionice REALTIME&quot; &amp;&amp; \
+        log_op &quot;Xorg (PID $XORG_PID) ionice REALTIME&quot; || \
+        warn &quot;Nao foi possivel alterar ionice do Xorg&quot;
+fi
+
+# ─────────────────────────────────────────────────────────────
+# 14. Limpar cache DNF
+# ─────────────────────────────────────────────────────────────
+title &quot;14. Cache DNF&quot;
+command -v dnf &amp;&gt;/dev/null &amp;&amp; dnf clean all 2&gt;/dev/null &amp;&amp; ok &quot;Cache DNF limpo&quot; &amp;&amp; log_op &quot;Cache DNF limpo&quot; || true
+
+# ─────────────────────────────────────────────────────────────
+# 15. Protecao LD_LIBRARY_PATH
+# ─────────────────────────────────────────────────────────────
+title &quot;15. Protecao LD_LIBRARY_PATH&quot;
+BASHRC=&quot;${HOME}/.bashrc&quot;
+if [[ -f &quot;$BASHRC&quot; ]] &amp;&amp; ! grep -q &quot;system_ld_path&quot; &quot;$BASHRC&quot; 2&gt;/dev/null; then
+    cat &gt;&gt; &quot;$BASHRC&quot; &lt;&lt; &#x27;FIX&#x27;
+
+# Fix: limpa LD_LIBRARY_PATH de AppImage para comandos do sistema
+system_ld_path() {
+    local cmd=&quot;$1&quot;; shift
+    LD_LIBRARY_PATH=&quot;$(echo &quot;$LD_LIBRARY_PATH&quot; | tr &#x27;:&#x27; &#x27;\n&#x27; | grep -v &#x27;\.mount_&#x27; | tr &#x27;\n&#x27; &#x27;:&#x27;)&quot; command &quot;$cmd&quot; &quot;$@&quot;
+}
+alias dnf=&#x27;system_ld_path dnf&#x27;
+alias sed=&#x27;system_ld_path sed&#x27;
+alias systemctl=&#x27;system_ld_path systemctl&#x27;
+FIX
+    ok &quot;Alias de seguranca adicionados ao ~/.bashrc&quot;
+    log_op &quot;Aliad system_ld_path adicionados ao ~/.bashrc&quot;
+    warn &quot;Recarregue: source ~/.bashrc&quot;
+else
+    ok &quot;Alias ja existentes&quot;
+fi
+
+# ─────────────────────────────────────────────────────────────
+# 16. Sugerir noatime (manual, edita fstab)
+# ─────────────────────────────────────────────────────────────
+title &quot;16. noatime (montagem)&quot;
+CUR_OPTS=$(findmnt -no OPTIONS / 2&gt;/dev/null)
+if [[ &quot;$CUR_OPTS&quot; != *noatime* ]]; then
+    warn &quot;&#x27;noatime&#x27; nao ativo em /.&quot;
+    echo &quot;    Edite /etc/fstab: substitua &#x27;defaults&#x27; por &#x27;defaults,noatime&#x27; na linha do /&quot;
+    echo &quot;    Depois: mount -o remount /&quot;
+    echo &quot;    OU agora: mount -o remount,noatime /&quot;
+    log_cmd &quot;sed -i &#x27;s/noatime//g&#x27; /etc/fstab # remove noatime (restaura)&quot;
+fi
+
+# ═════════════════════════════════════════════════════════════
+echo &quot;&quot;
+echo &quot;============================================================&quot;
+echo &quot;  RESUMO DAS OTIMIZACOES APLICADAS&quot;
+echo &quot;============================================================&quot;
+echo &quot;&quot;
+echo &quot;  Aplicado automaticamente:&quot;
+echo &quot;    - kdump.service mascarado (economia ~60s no boot!)&quot;
+echo &quot;    - swappiness: 70 -&gt; 10&quot;
+echo &quot;    - THP: always -&gt; madvise (menos fragmentacao RAM)&quot;
+echo &quot;    - ZRAM: lzo-rle -&gt; zstd (compressao melhor)&quot;
+echo &quot;    - Compositor XFCE desativado (se RAM &lt; 4GB)&quot;
+echo &quot;    - Servicos nao essenciais desativados&quot;
+echo &quot;    - Apps de inicio movidos para disabled/&quot;
+echo &quot;    - xfce4-screensaver desativado&quot;
+echo &quot;    - Workspaces reduzidos (se &gt; 4)&quot;
+echo &quot;    - vfs_cache_pressure: 100 -&gt; 50&quot;
+echo &quot;    - dirty_ratio: 20% -&gt; 10%, bg 10% -&gt; 3%&quot;
+echo &quot;    - CPU governor mantido/ajustado&quot;
+echo &quot;    - Xorg com ionice REALTIME&quot;
+echo &quot;    - Cache DNF limpo&quot;
+echo &quot;    - Protecao LD_LIBRARY_PATH ~/.bashrc&quot;
+echo &quot;&quot;
+echo &quot;  Log de operacoes: $OPERATIONS_LOG&quot;
+echo &quot;  Log de restauracao: $UNDO_LOG&quot;
+echo &quot;  Para restaurar TUDO: bash $UNDO_LOG&quot;
+echo &quot;&quot;
+echo &quot;  RECOMENDACOES PENDENTES (manual):&quot;
+echo &quot;    - Adicionar &#x27;noatime&#x27; em /etc/fstab (mount -o remount,noatime /)&quot;
+echo &quot;    - Upgrade RAM para 8GB DDR3L&quot;
+echo &quot;    - Upgrade HDD -&gt; SSD SATA III (maior impacto)&quot;
+echo &quot;    - sudo systemd-analyze plot &gt; boot.svg (ver grafico de boot)&quot;
+echo &quot;============================================================&quot;
+</textarea>
+    <div>
+      <button class="copy-btn" onclick="copySource()" id="copy-btn">📋 Copiar código</button>
+      <button class="copy-btn" onclick="downloadSource()" id="dl-btn">💾 Download .sh</button>
+      <a href="otimizar-xfce.desktop" class="download-btn" download>▶️ Abrir no Terminal (.desktop)</a>
+    </div>
+  </div>
+</div>
+
+<script>
+function copySource() {
+  var textarea = document.getElementById('source-code');
+  textarea.select();
+  textarea.setSelectionRange(0, 999999);
+  document.execCommand('copy');
+  var btn = document.getElementById('copy-btn');
+  btn.textContent = '✅ Copiado!';
+  btn.classList.add('copied');
+  setTimeout(function() {
+    btn.textContent = '📋 Copiar código';
+    btn.classList.remove('copied');
+  }, 2000);
+}
+
+function downloadSource() {
+  var content = document.getElementById('source-code').value;
+  var blob = new Blob([content], {type: 'application/x-shellscript'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'otimizar-xfce.sh';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  var btn = document.getElementById('dl-btn');
+  btn.textContent = '✅ Baixado!';
+  setTimeout(function() {
+    btn.textContent = '💾 Download .sh';
+  }, 2000);
+}
+</script>
+</body>
+</html>

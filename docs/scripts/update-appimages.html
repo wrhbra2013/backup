@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>update-appimages.sh — Script Details</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, monospace; background: #f5f5f5; color: #1a1a1a; line-height: 1.6; }
+.container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+h1 { font-size: 1.8rem; margin-bottom: 8px; }
+h2 { font-size: 1.3rem; margin: 24px 0 12px; color: #2563eb; border-bottom: 2px solid #e5e7eb; padding-bottom: 6px; }
+h3 { font-size: 1rem; margin: 16px 0 8px; color: #374151; }
+.subtitle { color: #6b7280; margin-bottom: 20px; font-size: 0.95rem; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+.header-bar { background: #1e293b; color: #fff; padding: 16px 0; margin-bottom: 24px; }
+.header-bar .container { display: flex; justify-content: space-between; align-items: center; }
+.header-bar h1 { margin: 0; font-size: 1.3rem; }
+.header-bar h1 a { color: #fff; }
+.header-bar h1 a:hover { text-decoration: none; }
+.header-bar .nav a { color: #93c5fd; margin-left: 16px; font-size: 0.9rem; }
+.search-box { width: 100%; padding: 10px 14px; border: 2px solid #d1d5db; border-radius: 8px; font-size: 0.95rem; margin-bottom: 20px; outline: none; transition: border-color 0.2s; }
+.search-box:focus { border-color: #2563eb; }
+table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+th, td { padding: 10px 14px; text-align: left; font-size: 0.9rem; }
+th { background: #f8fafc; font-weight: 600; color: #374151; border-bottom: 2px solid #e5e7eb; }
+td { border-bottom: 1px solid #f0f0f0; }
+tr:hover td { background: #f8fafc; }
+.badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; margin: 1px 2px; }
+.badge-pkg { background: #dcfce7; color: #166534; }
+.badge-cmd { background: #dbeafe; color: #1e40af; }
+.badge-func { background: #fef3c7; color: #92400e; }
+.badge-dir { background: #e5e7eb; color: #374151; }
+.tag { display: inline-block; padding: 2px 6px; border-radius: 3px; font-size: 0.7rem; font-weight: 600; background: #e5e7eb; color: #374151; margin: 1px; }
+.tag-category { background: #ede9fe; color: #5b21b6; }
+.cmd-count { font-size: 0.8rem; color: #6b7280; }
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 24px; }
+.stat-card { background: #fff; border-radius: 8px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); text-align: center; }
+.stat-card .num { font-size: 1.8rem; font-weight: 700; color: #2563eb; }
+.stat-card .label { font-size: 0.8rem; color: #6b7280; margin-top: 4px; }
+.script-page { max-width: 960px; margin: 0 auto; }
+.meta-table { width: 100%; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 20px; }
+.meta-table td { padding: 8px 14px; border-bottom: 1px solid #f0f0f0; }
+.meta-table td:first-child { font-weight: 600; color: #374151; width: 140px; background: #f8fafc; }
+.cmd-group { margin-bottom: 16px; }
+.cmd-group-title { font-size: 0.85rem; font-weight: 600; color: #5b21b6; margin-bottom: 6px; }
+.cmd-list { display: flex; flex-wrap: wrap; gap: 4px; }
+.source-box { margin: 12px 0; }
+.source-box textarea { width: 100%; padding: 12px; border: 2px solid #d1d5db; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 0.8rem; line-height: 1.4; background: #1e293b; color: #e5e7eb; resize: vertical; outline: none; }
+.source-box textarea:focus { border-color: #2563eb; }
+.copy-btn { display: inline-block; padding: 8px 16px; background: #2563eb; color: #fff; border: none; border-radius: 6px; font-size: 0.85rem; cursor: pointer; margin: 8px 4px 4px 0; transition: background 0.2s; }
+.copy-btn:hover { background: #1d4ed8; }
+.copy-btn.copied { background: #16a34a; }
+.download-btn { display: inline-block; padding: 8px 16px; background: #374151; color: #fff; border: none; border-radius: 6px; font-size: 0.85rem; cursor: pointer; margin: 8px 4px 4px 0; transition: background 0.2s; text-decoration: none; }
+.download-btn:hover { background: #1f2937; text-decoration: none; }
+.func-list { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+.func-item { background: #fef3c7; color: #92400e; padding: 3px 10px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 0.8rem; }
+.var-list { display: flex; flex-wrap: wrap; gap: 6px; }
+.var-item { background: #f0fdf4; color: #166534; padding: 3px 10px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 0.78rem; }
+.var-item code { font-size: 0.78rem; }
+.back-link { display: inline-block; margin-bottom: 16px; color: #2563eb; font-size: 0.9rem; }
+.back-link:before { content: "← "; }
+.stat-line { font-size: 0.8rem; color: #6b7280; margin-bottom: 12px; }
+@media (max-width: 600px) { .container { padding: 12px; } th, td { padding: 6px 8px; font-size: 0.8rem; } }
+</style>
+</head>
+<body>
+<div class="header-bar">
+  <div class="container">
+    <h1><a href="../index.html">📜 Backup Scripts</a></h1>
+    <div class="nav">
+      <a href="../index.html">Dashboard</a>
+    </div>
+  </div>
+</div>
+<div class="container script-page">
+  <a href="../index.html" class="back-link">Voltar ao Dashboard</a>
+
+  <h1>update-appimages.sh</h1>
+  <p class="subtitle">Apps data: repo|filter|filename|label|desktop|icon|mime|icon_url</p>
+
+  <div class="meta-table"><table><tr><td colspan='2'>Apps data: repo|filter|filename|label|desktop|icon|mime|icon_url</td></tr></table></div>
+  <div class="meta-table"><table><tr><td>Arquivo</td><td><code>update-appimages.sh</code></td></tr><tr><td>Shebang</td><td><code>#!/usr/bin/env bash</code></td></tr><tr><td>Tamanho</td><td>15.2 KB · 469 linhas</td></tr></table></div>
+  <h2>Funções</h2><div class='func-list'><span class="func-item">log() <span style="opacity:0.5">linha 26</span></span><span class="func-item">fetch_release() <span style="opacity:0.5">linha 35</span></span><span class="func-item">fetch_release_html() <span style="opacity:0.5">linha 63</span></span><span class="func-item">download_app() <span style="opacity:0.5">linha 99</span></span><span class="func-item">install_desktop() <span style="opacity:0.5">linha 126</span></span><span class="func-item">download_icon() <span style="opacity:0.5">linha 142</span></span><span class="func-item">download_icon_from_repo() <span style="opacity:0.5">linha 157</span></span><span class="func-item">install_icon() <span style="opacity:0.5">linha 200</span></span><span class="func-item">try_download() <span style="opacity:0.5">linha 244</span></span><span class="func-item">list_installed() <span style="opacity:0.5">linha 257</span></span><span class="func-item">uninstall_app() <span style="opacity:0.5">linha 286</span></span><span class="func-item">uninstall_menu() <span style="opacity:0.5">linha 322</span></span><span class="func-item">show_menu() <span style="opacity:0.5">linha 368</span></span><span class="func-item">update_all() <span style="opacity:0.5">linha 396</span></span></div>
+  <h2>Variáveis de Configuração</h2><div class='var-list'><span class="var-item"><code>LOGFILE</code> = <code>$HOME/.cache/update-appimages.log</code></span><span class="var-item"><code>DESKTOP_DIR</code> = <code>$HOME/.local/share/applications</code></span><span class="var-item"><code>MODE</code> = <code>update</code></span><span class="var-item"><code>APP_DIR</code> = <code>${1:-$HOME/Applications}</code></span><span class="var-item"><code>APPS_DATA</code> = <code>(</code></span><span class="var-item"><code>GH_API_IPS</code> = <code>(&quot;140.82.112.5&quot; &quot;140.82.113.5&quot; &quot;140.82.114.5&quot; &quot;140.82.116...</code></span><span class="var-item"><code>VERSION</code> = <code>$(echo &quot;$json&quot; | python3 -c &quot;import json,sys; print(json....</code></span><span class="var-item"><code>URL</code> = <code>$(echo &quot;$json&quot; | python3 -c</code></span></div>
+  <h2>Comandos Utilizados</h2><div class="cmd-group"><div class="cmd-group-title">Download</div><div class="cmd-list"><span class="badge badge-cmd">curl</span></div></div><div class="cmd-group"><div class="cmd-group-title">Text Processing</div><div class="cmd-list"><span class="badge badge-cmd">awk</span><span class="badge badge-cmd">grep</span><span class="badge badge-cmd">sed</span></div></div><div class="cmd-group"><div class="cmd-group-title">File Operations</div><div class="cmd-list"><span class="badge badge-cmd">cp</span><span class="badge badge-cmd">mkdir</span><span class="badge badge-cmd">mv</span><span class="badge badge-cmd">rm</span><span class="badge badge-cmd">tee</span></div></div><div class="cmd-group"><div class="cmd-group-title">Permissions</div><div class="cmd-list"><span class="badge badge-cmd">chmod</span></div></div><div class="cmd-group"><div class="cmd-group-title">Python</div><div class="cmd-list"><span class="badge badge-cmd">python3</span></div></div>
+  
+
+  <h2>Código Fonte</h2>
+  <div class="source-box">
+    <textarea id="source-code" rows="20" readonly spellcheck="false">#!/usr/bin/env bash
+set -uo pipefail
+
+LOGFILE=&quot;$HOME/.cache/update-appimages.log&quot;
+DESKTOP_DIR=&quot;$HOME/.local/share/applications&quot;
+
+MODE=&quot;update&quot;
+case &quot;${1:-}&quot; in
+    --menu) MODE=&quot;menu&quot;; shift ;;
+    --status) MODE=&quot;status&quot;; shift ;;
+    --uninstall) MODE=&quot;uninstall&quot;; UNINSTALL_APP=&quot;${2:-}&quot;; shift 2 ;;
+esac
+
+APP_DIR=&quot;${1:-$HOME/Applications}&quot;
+mkdir -p &quot;$APP_DIR&quot; &quot;$(dirname &quot;$LOGFILE&quot;)&quot; &quot;$DESKTOP_DIR&quot;
+
+# Apps data: repo|filter|filename|label|desktop|icon|mime|icon_url
+APPS_DATA=(
+    &quot;srevinsaju/Brave-AppImage|x86_64.AppImage|brave.AppImage|Brave Browser|brave-browser.desktop|brave-browser|x-scheme-handler/http;x-scheme-handler/https;text/html|&quot;
+    &quot;VSCodium/vscodium|glibc2.30-x86_64.AppImage|VSCodium.AppImage|VSCodium|codium-appimage.desktop|vscodium|text/plain;text/x-python;text/x-c;text/html;application/json|https://raw.githubusercontent.com/VSCodium/vscodium/master/icons/stable/codium_clt.svg&quot;
+    &quot;ungoogled-software/ungoogled-chromium-portablelinux|x86_64.AppImage|ungoogled-chromium.AppImage|Chromium|ungoogled-chromium-appimage.desktop|chromium|x-scheme-handler/http;x-scheme-handler/https;text/html|&quot;
+    &quot;anomalyco/opencode|opencode-desktop-linux-x86_64.AppImage|opencode-desktop-linux-x86_64.AppImage|OpenCode|opencode-appimage.desktop|opencode|text/plain|https://raw.githubusercontent.com/anomalyco/opencode/dev/packages/desktop/icons/prod/icon.png&quot;
+)
+
+[[ &quot;$MODE&quot; != &quot;update&quot; ]] &amp;&amp; exec &gt; &gt;(tee -a &quot;$LOGFILE&quot;)
+log() { echo &quot;[$(date &#x27;+%Y-%m-%d %H:%M:%S&#x27;)] $*&quot;; }
+
+# IPs conhecidos do GitHub API (DNS local resolve para IP invalido)
+GH_API_IPS=(&quot;140.82.112.5&quot; &quot;140.82.113.5&quot; &quot;140.82.114.5&quot; &quot;140.82.116.5&quot;)
+GH_RESOLVE=&quot;&quot;
+for ip in &quot;${GH_API_IPS[@]}&quot;; do
+    GH_RESOLVE+=&quot; --resolve api.github.com:443:$ip&quot;
+done
+
+fetch_release() {
+    local repo=&quot;$1&quot; filter=&quot;$2&quot;
+    local json
+
+    # Tentar API com --resolve (contorna DNS invalido)
+    json=$(curl -sL $GH_RESOLVE --connect-timeout 10 --max-time 20 \
+        &quot;https://api.github.com/repos/$repo/releases/latest&quot; 2&gt;&amp;1) || {
+        # Fallback: scraping da pagina HTML (funciona para alguns repos)
+        fetch_release_html &quot;$repo&quot; &quot;$filter&quot; &amp;&amp; return 0
+        fetch_err=&quot;API e fallback HTML falharam&quot;
+        return 1
+    }
+
+    VERSION=$(echo &quot;$json&quot; | python3 -c &quot;import json,sys; print(json.load(sys.stdin).get(&#x27;tag_name&#x27;,&#x27;&#x27;))&quot; 2&gt;/dev/null) || VERSION=&quot;&quot;
+    URL=$(echo &quot;$json&quot; | python3 -c &quot;
+import json,sys
+for a in json.load(sys.stdin).get(&#x27;assets&#x27;, []):
+    if &#x27;$filter&#x27; in a[&#x27;name&#x27;] and &#x27;zsync&#x27; not in a[&#x27;name&#x27;]:
+        print(a[&#x27;browser_download_url&#x27;])
+        break
+&quot; 2&gt;/dev/null) || URL=&quot;&quot;
+
+    if [[ -z &quot;$URL&quot; ]]; then
+        fetch_err=&quot;nenhum asset encontrado para: $filter&quot;
+        return 1
+    fi
+}
+
+fetch_release_html() {
+    local repo=&quot;$1&quot; filter=&quot;$2&quot;
+
+    local page_url
+    page_url=$(curl -sL --connect-timeout 10 --max-time 20 \
+        -o /dev/null -w &#x27;%{url_effective}&#x27; \
+        &quot;https://github.com/$repo/releases/latest&quot;) || return 1
+
+    VERSION=$(echo &quot;$page_url&quot; | sed &#x27;s|.*/tag/||&#x27;)
+    [[ -z &quot;$VERSION&quot; ]] &amp;&amp; return 1
+
+    local html
+    html=$(curl -sL --connect-timeout 10 --max-time 20 &quot;$page_url&quot;) || return 1
+
+    local path
+    path=$(echo &quot;$html&quot; | python3 -c &quot;
+import sys, re
+html = sys.stdin.read()
+repo = &#x27;$repo&#x27;
+f = &#x27;$filter&#x27;
+for m in re.finditer(r&#x27;href=\&quot;([^\&quot;]+?)\&quot;&#x27;, html):
+    u = m.group(1)
+    if repo in u and &#x27;/releases/download/&#x27; in u and f in u and &#x27;zsync&#x27; not in u:
+        print(u)
+        break
+&quot; 2&gt;/dev/null) || return 1
+
+    [[ -z &quot;$path&quot; ]] &amp;&amp; return 1
+
+    if [[ &quot;$path&quot; == https://* ]]; then
+        URL=&quot;$path&quot;
+    else
+        URL=&quot;https://github.com$path&quot;
+    fi
+}
+
+download_app() {
+    local url=&quot;$1&quot; output=&quot;$2&quot;
+    local start elapsed bytes total_size
+
+    # Mostrar tamanho do arquivo antes de baixar
+    total_size=$(curl -sI --connect-timeout 10 --max-time 15 &quot;$url&quot; 2&gt;/dev/null \
+        | grep -i &#x27;^content-length:&#x27; | awk &#x27;{print $2}&#x27; | tr -d &#x27;\r &#x27;)
+    if [[ -n &quot;$total_size&quot; ]]; then
+        echo &quot;  Tamanho: $(numfmt --to=iec &quot;$total_size&quot;)&quot;
+    fi
+
+    start=$(date +%s%N)
+    curl -L --connect-timeout 10 --progress-bar \
+        -o &quot;$output.part&quot; &quot;$url&quot; || return 1
+    elapsed=$(( ($(date +%s%N) - start) / 1000000 )) # ms
+
+    chmod +x &quot;$output.part&quot;
+    mv &quot;$output.part&quot; &quot;$output&quot;
+
+    bytes=$(stat -c%s &quot;$output&quot; 2&gt;/dev/null)
+    if [[ &quot;$elapsed&quot; -gt 0 &amp;&amp; -n &quot;$bytes&quot; &amp;&amp; &quot;$bytes&quot; -gt 0 ]]; then
+        local speed=$(( bytes * 1000 / elapsed ))
+        DOWNLOAD_SPEED=&quot;$(numfmt --to=iec &quot;$speed&quot;)/s&quot;
+        DOWNLOAD_SIZE=&quot;$bytes&quot;
+    fi
+}
+
+install_desktop() {
+    local name=&quot;$1&quot; exec=&quot;$2&quot; file=&quot;$3&quot; icon=&quot;$4&quot; mime=&quot;$5&quot;
+    cat &gt; &quot;$DESKTOP_DIR/$file&quot; &lt;&lt;-EOF
+[Desktop Entry]
+Type=Application
+Name=$name
+Exec=$exec %F
+Icon=$icon
+Terminal=false
+Categories=Development;Network;WebBrowser;
+MimeType=$mime
+StartupNotify=true
+EOF
+    chmod 644 &quot;$DESKTOP_DIR/$file&quot;
+}
+
+download_icon() {
+    local url=&quot;$1&quot; icon_name=&quot;$2&quot;
+    [[ -z &quot;$url&quot; || -z &quot;$icon_name&quot; ]] &amp;&amp; return 1
+
+    local ext
+    ext=$(basename &quot;$url&quot; | sed &#x27;s/.*\.//&#x27;)
+    [[ -z &quot;$ext&quot; || &quot;$ext&quot; == &quot;$(basename &quot;$url&quot;)&quot; ]] &amp;&amp; ext=&quot;png&quot;
+
+    mkdir -p &quot;$HOME/.local/share/icons&quot;
+    local output=&quot;$HOME/.local/share/icons/${icon_name}.${ext}&quot;
+    curl -sL --connect-timeout 10 --max-time 20 &quot;$url&quot; -o &quot;$output&quot; 2&gt;/dev/null &amp;&amp; [[ -s &quot;$output&quot; ]] &amp;&amp; return 0
+    rm -f &quot;$output&quot;
+    return 1
+}
+
+download_icon_from_repo() {
+    local repo=&quot;$1&quot; icon_name=&quot;$2&quot;
+    [[ -z &quot;$repo&quot; ]] &amp;&amp; return 1
+
+    local base=&quot;https://raw.githubusercontent.com/$repo&quot;
+    local paths=(
+        &quot;main/.DirIcon&quot;
+        &quot;main/icon.png&quot;
+        &quot;main/icon.svg&quot;
+        &quot;main/logo.png&quot;
+        &quot;main/logo.svg&quot;
+        &quot;main/assets/icon.png&quot;
+        &quot;main/assets/icon.svg&quot;
+        &quot;main/src/resources/linux/${icon_name}.png&quot;
+        &quot;main/chrome/app/theme/${icon_name}/linux/product_logo_256.png&quot;
+        &quot;master/.DirIcon&quot;
+        &quot;master/icon.png&quot;
+        &quot;master/icon.svg&quot;
+        &quot;master/logo.png&quot;
+        &quot;master/logo.svg&quot;
+        &quot;master/assets/icon.png&quot;
+        &quot;master/assets/icon.svg&quot;
+        &quot;master/src/resources/linux/${icon_name}.png&quot;
+        &quot;master/chrome/app/theme/${icon_name}/linux/product_logo_256.png&quot;
+        &quot;dev/.DirIcon&quot;
+        &quot;dev/icon.png&quot;
+        &quot;dev/icon.svg&quot;
+    )
+
+    for path in &quot;${paths[@]}&quot;; do
+        local url=&quot;$base/$path&quot;
+        local http_code
+        http_code=$(curl -sI --connect-timeout 5 --max-time 10 &quot;$url&quot; 2&gt;/dev/null | head -1 | awk &#x27;{print $2}&#x27;)
+        if [[ &quot;$http_code&quot; == &quot;200&quot; || &quot;$http_code&quot; == &quot;302&quot; ]]; then
+            local ext=&quot;${path##*.}&quot;
+            mkdir -p &quot;$HOME/.local/share/icons&quot;
+            curl -sL --connect-timeout 10 --max-time 20 &quot;$url&quot; -o &quot;$HOME/.local/share/icons/${icon_name}.${ext}&quot; 2&gt;/dev/null &amp;&amp; return 0
+        fi
+    done
+
+    return 1
+}
+
+install_icon() {
+    local appimage=&quot;$1&quot; icon_name=&quot;$2&quot; repo=&quot;${3:-}&quot; icon_url=&quot;${4:-}&quot;
+    [[ -n &quot;$icon_name&quot; ]] || return 1
+
+    local existing
+    existing=$(find &quot;$HOME/.local/share/icons&quot; -maxdepth 1 -name &quot;${icon_name}.*&quot; 2&gt;/dev/null | head -1)
+    [[ -n &quot;$existing&quot; ]] &amp;&amp; return 0
+
+    if [[ -f &quot;$appimage&quot; ]]; then
+        local tmpdir icon_src
+        tmpdir=$(mktemp -d)
+        (cd &quot;$tmpdir&quot; &amp;&amp; &quot;$appimage&quot; --appimage-extract) &gt;/dev/null 2&gt;&amp;1 || {
+            rm -rf &quot;$tmpdir&quot;
+            try_download &quot;$icon_url&quot; &quot;$icon_name&quot; &quot;$repo&quot; &amp;&amp; return 0
+            return 1
+        }
+
+        local root=&quot;$tmpdir/squashfs-root&quot;
+
+        if [[ -f &quot;$root/.DirIcon&quot; ]]; then
+            icon_src=&quot;$root/.DirIcon&quot;
+        else
+            icon_src=$(find &quot;$root&quot; -name &quot;${icon_name}.png&quot; -o -name &quot;${icon_name}.svg&quot; 2&gt;/dev/null | head -1)
+        fi
+
+        if [[ -z &quot;$icon_src&quot; ]]; then
+            icon_src=$(find &quot;$root&quot; -name &quot;*.png&quot; 2&gt;/dev/null | head -1)
+        fi
+
+        if [[ -n &quot;$icon_src&quot; ]]; then
+            local ext=&quot;${icon_src##*.}&quot;
+            mkdir -p &quot;$HOME/.local/share/icons&quot;
+            cp &quot;$icon_src&quot; &quot;$HOME/.local/share/icons/${icon_name}.${ext}&quot;
+            rm -rf &quot;$tmpdir&quot;
+            return 0
+        fi
+
+        rm -rf &quot;$tmpdir&quot;
+    fi
+
+    try_download &quot;$icon_url&quot; &quot;$icon_name&quot; &quot;$repo&quot; &amp;&amp; return 0
+    return 1
+}
+
+try_download() {
+    local icon_url=&quot;$1&quot; icon_name=&quot;$2&quot; repo=&quot;$3&quot;
+    if [[ -n &quot;$icon_url&quot; ]]; then
+        download_icon &quot;$icon_url&quot; &quot;$icon_name&quot; &amp;&amp; return 0
+    fi
+    if [[ -n &quot;$repo&quot; ]]; then
+        download_icon_from_repo &quot;$repo&quot; &quot;$icon_name&quot; &amp;&amp; return 0
+    fi
+    return 1
+}
+
+# ── Status / List ──────────────────────────────
+
+list_installed() {
+    echo &quot;&quot;
+    echo &quot;═══ Apps Instalados ═══&quot;
+    echo &quot;&quot;
+    local found=0
+    local outdated=0
+    for entry in &quot;${APPS_DATA[@]}&quot;; do
+        IFS=&#x27;|&#x27; read -r repo filter filename label desktop icon mime &lt;&lt;&lt; &quot;$entry&quot;
+        local output=&quot;$APP_DIR/$filename&quot;
+        local vfile=&quot;$output.version&quot;
+        if [[ -f &quot;$output&quot; ]]; then
+            found=1
+            local version=&quot;&quot;
+            [[ -f &quot;$vfile&quot; ]] &amp;&amp; version=$(cat &quot;$vfile&quot;)
+            echo &quot;  $label&quot;
+            echo &quot;    Arquivo: $filename ($(numfmt --to=iec &quot;$(stat -c%s &quot;$output&quot; 2&gt;/dev/null)&quot; 2&gt;/dev/null || echo &quot;?&quot;))&quot;
+            if [[ -n &quot;$version&quot; ]]; then
+                echo &quot;    Versao: $version&quot;
+            else
+                echo &quot;    Versao: desconhecida&quot;
+            fi
+        fi
+    done
+    [[ &quot;$found&quot; -eq 0 ]] &amp;&amp; echo &quot;  Nenhum AppImage instalado em $APP_DIR&quot;
+    echo &quot;&quot;
+}
+
+# ── Uninstall ──────────────────────────────────
+
+uninstall_app() {
+    local target_label=&quot;$1&quot;
+    for entry in &quot;${APPS_DATA[@]}&quot;; do
+        IFS=&#x27;|&#x27; read -r repo filter filename label desktop icon mime &lt;&lt;&lt; &quot;$entry&quot;
+        if [[ &quot;$label&quot; == &quot;$target_label&quot; ]]; then
+            local output=&quot;$APP_DIR/$filename&quot;
+            local vfile=&quot;$output.version&quot;
+            local removed=0
+
+            if [[ -f &quot;$output&quot; ]]; then
+                rm -f &quot;$output&quot; &amp;&amp; echo &quot;  Removido: $output&quot; &amp;&amp; removed=1
+            fi
+            if [[ -f &quot;$vfile&quot; ]]; then
+                rm -f &quot;$vfile&quot; &amp;&amp; echo &quot;  Removido: $vfile&quot;
+            fi
+            if [[ -f &quot;$DESKTOP_DIR/$desktop&quot; ]]; then
+                rm -f &quot;$DESKTOP_DIR/$desktop&quot; &amp;&amp; echo &quot;  Removido: $DESKTOP_DIR/$desktop&quot;
+            fi
+
+            local icon_file
+            icon_file=$(find &quot;$HOME/.local/share/icons&quot; -maxdepth 1 -name &quot;${icon}.*&quot; 2&gt;/dev/null | head -1)
+            if [[ -n &quot;$icon_file&quot; ]]; then
+                rm -f &quot;$icon_file&quot; &amp;&amp; echo &quot;  Removido: $icon_file&quot;
+            fi
+
+            if [[ &quot;$removed&quot; -eq 0 ]]; then
+                echo &quot;  &#x27;$label&#x27; nao esta instalado.&quot;
+            else
+                echo &quot;  &#x27;$label&#x27; desinstalado com sucesso.&quot;
+            fi
+            return 0
+        fi
+    done
+    echo &quot;  App &#x27;$target_label&#x27; nao encontrado.&quot;
+}
+
+uninstall_menu() {
+    local installed=()
+    local labels=()
+    for entry in &quot;${APPS_DATA[@]}&quot;; do
+        IFS=&#x27;|&#x27; read -r repo filter filename label desktop icon mime &lt;&lt;&lt; &quot;$entry&quot;
+        if [[ -f &quot;$APP_DIR/$filename&quot; ]]; then
+            installed+=(&quot;$entry&quot;)
+            labels+=(&quot;$label&quot;)
+        fi
+    done
+
+    if [[ ${#installed[@]} -eq 0 ]]; then
+        echo &quot;&quot;
+        echo &quot;Nenhum app instalado para desinstalar.&quot;
+        return
+    fi
+
+    echo &quot;&quot;
+    echo &quot;═══ Desinstalar App ═══&quot;
+    echo &quot;&quot;
+    for i in &quot;${!labels[@]}&quot;; do
+        echo &quot;  $((i+1))) ${labels[$i]}&quot;
+    done
+    echo &quot;  q) Cancelar&quot;
+    echo &quot;&quot;
+    read -rp &quot;Escolha um app para desinstalar: &quot; choice
+
+    [[ &quot;$choice&quot; == &quot;q&quot; ]] &amp;&amp; return
+
+    if [[ &quot;$choice&quot; =~ ^[0-9]+$ ]] &amp;&amp; [[ &quot;$choice&quot; -ge 1 ]] &amp;&amp; [[ &quot;$choice&quot; -le ${#labels[@]} ]]; then
+        local idx=$((choice-1))
+        local label=&quot;${labels[$idx]}&quot;
+        echo &quot;&quot;
+        read -rp &quot;Tem certeza que deseja desinstalar &#x27;$label&#x27;? (s/N): &quot; confirm
+        if [[ &quot;$confirm&quot; == &quot;s&quot; || &quot;$confirm&quot; == &quot;S&quot; ]]; then
+            uninstall_app &quot;$label&quot;
+        else
+            echo &quot;Cancelado.&quot;
+        fi
+    else
+        echo &quot;Opcao invalida.&quot;
+    fi
+}
+
+# ── Menu ───────────────────────────────────────
+
+show_menu() {
+    while true; do
+        echo &quot;&quot;
+        echo &quot;╔══════════════════════════════════════╗&quot;
+        echo &quot;║      Gerenciador de AppImages        ║&quot;
+        echo &quot;╚══════════════════════════════════════╝&quot;
+        echo &quot;&quot;
+        echo &quot;1) Atualizar todos os apps&quot;
+        echo &quot;2) Listar apps instalados e status&quot;
+        echo &quot;3) Desinstalar um app&quot;
+        echo &quot;4) Sair&quot;
+        echo &quot;&quot;
+        read -rp &quot;Escolha uma opcao: &quot; choice
+
+        case &quot;$choice&quot; in
+            1) update_all ;;
+            2) list_installed ;;
+            3) uninstall_menu ;;
+            4) echo &quot;&quot;; exit 0 ;;
+            *) echo &quot;Opcao invalida.&quot; ;;
+        esac
+        echo &quot;&quot;
+        read -rp &quot;Pressione Enter para continuar...&quot;
+    done
+}
+
+# ── Main ───────────────────────────────────────
+
+update_all() {
+    echo &quot;&quot;
+    echo &quot;Atualizador de AppImages — $(date &#x27;+%Y-%m-%d %H:%M:%S&#x27;)&quot;
+    echo &quot;Diretorio: $APP_DIR&quot;
+    echo &quot;&quot;
+
+    local FAIL=0
+
+    for entry in &quot;${APPS_DATA[@]}&quot;; do
+        IFS=&#x27;|&#x27; read -r repo filter filename label desktop icon mime icon_url &lt;&lt;&lt; &quot;$entry&quot;
+        echo &quot;--- $label ---&quot;
+
+        printf &quot;  Release... &quot;
+        VERSION=&quot;&quot; URL=&quot;&quot; fetch_err=&quot;&quot;
+        if fetch_release &quot;$repo&quot; &quot;$filter&quot;; then
+            echo &quot;$VERSION&quot;
+        else
+            echo &quot;FALHOU ($fetch_err)&quot;
+            FAIL=1
+            continue
+        fi
+
+        local output=&quot;$APP_DIR/$filename&quot;
+        local vfile=&quot;$output.version&quot;
+
+        if [[ -f &quot;$vfile&quot; ]] &amp;&amp; [[ &quot;$(cat &quot;$vfile&quot;)&quot; == &quot;$VERSION&quot; ]] &amp;&amp; [[ -f &quot;$output&quot; ]]; then
+            echo &quot;  Ja atualizado ($VERSION)&quot;
+        else
+            echo &quot;  Baixando... &quot;
+            if download_app &quot;$URL&quot; &quot;$output&quot;; then
+                echo &quot;  OK ($(numfmt --to=iec &quot;$DOWNLOAD_SIZE&quot;) em ${DOWNLOAD_SPEED:-?})&quot;
+                echo &quot;$VERSION&quot; &gt; &quot;$vfile&quot;
+            else
+                echo &quot;  FALHOU&quot;
+                FAIL=1
+                continue
+            fi
+        fi
+
+        install_desktop &quot;$label&quot; &quot;$output&quot; &quot;$desktop&quot; &quot;$icon&quot; &quot;$mime&quot;
+        echo &quot;  .desktop criado&quot;
+        if [[ -f &quot;$output&quot; ]]; then
+            install_icon &quot;$output&quot; &quot;$icon&quot; &quot;$repo&quot; &quot;$icon_url&quot; &amp;&amp; echo &quot;  Icone instalado&quot; || echo &quot;  Icone nao instalado&quot;
+        fi
+
+        if command -v xdg-settings &amp;&gt;/dev/null; then
+            case &quot;$label&quot; in
+                &quot;Brave Browser&quot;|&quot;Chromium&quot;)
+                    xdg-settings set default-web-browser &quot;$(basename &quot;$desktop&quot; .desktop)&quot; 2&gt;/dev/null || true
+                    ;;
+            esac
+        fi
+
+        echo &quot;&quot;
+    done
+
+    command -v update-desktop-database &amp;&gt;/dev/null &amp;&amp; update-desktop-database &quot;$DESKTOP_DIR&quot; 2&gt;/dev/null || true
+    command -v gtk-update-icon-cache &amp;&gt;/dev/null &amp;&amp; gtk-update-icon-cache &quot;$HOME/.local/share/icons&quot; 2&gt;/dev/null || true
+
+    echo &quot;---&quot;
+    echo &quot;Status: $([ &quot;$FAIL&quot; -eq 0 ] &amp;&amp; echo &quot;Sucesso&quot; || echo &quot;Falha em algum item&quot;)&quot;
+    echo &quot;Log: $LOGFILE&quot;
+    return &quot;$FAIL&quot;
+}
+
+# ── Entrypoint ─────────────────────────────────
+
+case &quot;$MODE&quot; in
+    menu) show_menu ;;
+    status) list_installed ;;
+    uninstall) uninstall_app &quot;$UNINSTALL_APP&quot; ;;
+    update) update_all ;;
+esac
+</textarea>
+    <div>
+      <button class="copy-btn" onclick="copySource()" id="copy-btn">📋 Copiar código</button>
+      <button class="copy-btn" onclick="downloadSource()" id="dl-btn">💾 Download .sh</button>
+      <a href="update-appimages.desktop" class="download-btn" download>▶️ Abrir no Terminal (.desktop)</a>
+    </div>
+  </div>
+</div>
+
+<script>
+function copySource() {
+  var textarea = document.getElementById('source-code');
+  textarea.select();
+  textarea.setSelectionRange(0, 999999);
+  document.execCommand('copy');
+  var btn = document.getElementById('copy-btn');
+  btn.textContent = '✅ Copiado!';
+  btn.classList.add('copied');
+  setTimeout(function() {
+    btn.textContent = '📋 Copiar código';
+    btn.classList.remove('copied');
+  }, 2000);
+}
+
+function downloadSource() {
+  var content = document.getElementById('source-code').value;
+  var blob = new Blob([content], {type: 'application/x-shellscript'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'update-appimages.sh';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  var btn = document.getElementById('dl-btn');
+  btn.textContent = '✅ Baixado!';
+  setTimeout(function() {
+    btn.textContent = '💾 Download .sh';
+  }, 2000);
+}
+</script>
+</body>
+</html>

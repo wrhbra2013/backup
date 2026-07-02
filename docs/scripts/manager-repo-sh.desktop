@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=manager_repo_sh
+Comment=manager_repo_sh
+Exec=x-terminal-emulator -e bash -c '/home/wander/Public/backup/system_scripts/manager_repo_sh; echo ""; echo "=== Script finalizado. Pressione Enter para fechar ==="; read'
+Terminal=true
+Icon=terminal
+Categories=Development;System;

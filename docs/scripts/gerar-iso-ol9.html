@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>gerar_iso_ol9.sh — Script Details</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, monospace; background: #f5f5f5; color: #1a1a1a; line-height: 1.6; }
+.container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+h1 { font-size: 1.8rem; margin-bottom: 8px; }
+h2 { font-size: 1.3rem; margin: 24px 0 12px; color: #2563eb; border-bottom: 2px solid #e5e7eb; padding-bottom: 6px; }
+h3 { font-size: 1rem; margin: 16px 0 8px; color: #374151; }
+.subtitle { color: #6b7280; margin-bottom: 20px; font-size: 0.95rem; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+.header-bar { background: #1e293b; color: #fff; padding: 16px 0; margin-bottom: 24px; }
+.header-bar .container { display: flex; justify-content: space-between; align-items: center; }
+.header-bar h1 { margin: 0; font-size: 1.3rem; }
+.header-bar h1 a { color: #fff; }
+.header-bar h1 a:hover { text-decoration: none; }
+.header-bar .nav a { color: #93c5fd; margin-left: 16px; font-size: 0.9rem; }
+.search-box { width: 100%; padding: 10px 14px; border: 2px solid #d1d5db; border-radius: 8px; font-size: 0.95rem; margin-bottom: 20px; outline: none; transition: border-color 0.2s; }
+.search-box:focus { border-color: #2563eb; }
+table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+th, td { padding: 10px 14px; text-align: left; font-size: 0.9rem; }
+th { background: #f8fafc; font-weight: 600; color: #374151; border-bottom: 2px solid #e5e7eb; }
+td { border-bottom: 1px solid #f0f0f0; }
+tr:hover td { background: #f8fafc; }
+.badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; margin: 1px 2px; }
+.badge-pkg { background: #dcfce7; color: #166534; }
+.badge-cmd { background: #dbeafe; color: #1e40af; }
+.badge-func { background: #fef3c7; color: #92400e; }
+.badge-dir { background: #e5e7eb; color: #374151; }
+.tag { display: inline-block; padding: 2px 6px; border-radius: 3px; font-size: 0.7rem; font-weight: 600; background: #e5e7eb; color: #374151; margin: 1px; }
+.tag-category { background: #ede9fe; color: #5b21b6; }
+.cmd-count { font-size: 0.8rem; color: #6b7280; }
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 24px; }
+.stat-card { background: #fff; border-radius: 8px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); text-align: center; }
+.stat-card .num { font-size: 1.8rem; font-weight: 700; color: #2563eb; }
+.stat-card .label { font-size: 0.8rem; color: #6b7280; margin-top: 4px; }
+.script-page { max-width: 960px; margin: 0 auto; }
+.meta-table { width: 100%; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 20px; }
+.meta-table td { padding: 8px 14px; border-bottom: 1px solid #f0f0f0; }
+.meta-table td:first-child { font-weight: 600; color: #374151; width: 140px; background: #f8fafc; }
+.cmd-group { margin-bottom: 16px; }
+.cmd-group-title { font-size: 0.85rem; font-weight: 600; color: #5b21b6; margin-bottom: 6px; }
+.cmd-list { display: flex; flex-wrap: wrap; gap: 4px; }
+.source-box { margin: 12px 0; }
+.source-box textarea { width: 100%; padding: 12px; border: 2px solid #d1d5db; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 0.8rem; line-height: 1.4; background: #1e293b; color: #e5e7eb; resize: vertical; outline: none; }
+.source-box textarea:focus { border-color: #2563eb; }
+.copy-btn { display: inline-block; padding: 8px 16px; background: #2563eb; color: #fff; border: none; border-radius: 6px; font-size: 0.85rem; cursor: pointer; margin: 8px 4px 4px 0; transition: background 0.2s; }
+.copy-btn:hover { background: #1d4ed8; }
+.copy-btn.copied { background: #16a34a; }
+.download-btn { display: inline-block; padding: 8px 16px; background: #374151; color: #fff; border: none; border-radius: 6px; font-size: 0.85rem; cursor: pointer; margin: 8px 4px 4px 0; transition: background 0.2s; text-decoration: none; }
+.download-btn:hover { background: #1f2937; text-decoration: none; }
+.func-list { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+.func-item { background: #fef3c7; color: #92400e; padding: 3px 10px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 0.8rem; }
+.var-list { display: flex; flex-wrap: wrap; gap: 6px; }
+.var-item { background: #f0fdf4; color: #166534; padding: 3px 10px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 0.78rem; }
+.var-item code { font-size: 0.78rem; }
+.back-link { display: inline-block; margin-bottom: 16px; color: #2563eb; font-size: 0.9rem; }
+.back-link:before { content: "← "; }
+.stat-line { font-size: 0.8rem; color: #6b7280; margin-bottom: 12px; }
+@media (max-width: 600px) { .container { padding: 12px; } th, td { padding: 6px 8px; font-size: 0.8rem; } }
+</style>
+</head>
+<body>
+<div class="header-bar">
+  <div class="container">
+    <h1><a href="../index.html">📜 Backup Scripts</a></h1>
+    <div class="nav">
+      <a href="../index.html">Dashboard</a>
+    </div>
+  </div>
+</div>
+<div class="container script-page">
+  <a href="../index.html" class="back-link">Voltar ao Dashboard</a>
+
+  <h1>gerar_iso_ol9.sh</h1>
+  <p class="subtitle">----------------------------------------------------</p>
+
+  <div class="meta-table"><table><tr><td colspan='2'>----------------------------------------------------</td></tr><tr><td colspan='2'>SCRIPT DE CRIAÇÃO DE ISO HÍBRIDA OL 9.6: CLONE COM SQUASHFS E REPOSITÓRIOS</td></tr><tr><td colspan='2'>OBJETIVO: Criar uma ISO Live/Restore a partir do sistema atual (SquashFS)</td></tr><tr><td colspan='2'>incluindo pacotes e repositórios extras em um Tarball de Dados.</td></tr><tr><td colspan='2'>----------------------------------------------------</td></tr><tr><td colspan='2'>&nbsp;</td></tr><tr><td colspan='2'>Define a cor verde para mensagens de sucesso e informativo</td></tr></table></div>
+  <div class="meta-table"><table><tr><td>Arquivo</td><td><code>system_scripts/gerar_iso_ol9.sh</code></td></tr><tr><td>Shebang</td><td><code></code></td></tr><tr><td>Tamanho</td><td>13.3 KB · 359 linhas</td></tr></table></div>
+  <h2>Funções</h2><div class='func-list'><span class="func-item">check_dependencies() <span style="opacity:0.5">linha 52</span></span><span class="func-item">prepare_environment() <span style="opacity:0.5">linha 95</span></span><span class="func-item">create_squashfs() <span style="opacity:0.5">linha 114</span></span><span class="func-item">create_data_tarball() <span style="opacity:0.5">linha 133</span></span><span class="func-item">configure_boot() <span style="opacity:0.5">linha 200</span></span><span class="func-item">create_setup_script() <span style="opacity:0.5">linha 255</span></span><span class="func-item">generate_iso() <span style="opacity:0.5">linha 314</span></span></div>
+  <h2>Variáveis de Configuração</h2><div class='var-list'><span class="var-item"><code>GREEN</code> = <code>\033[0;32m</code></span><span class="var-item"><code>RED</code> = <code>\033[0;31m</code></span><span class="var-item"><code>NC</code> = <code>\033[0m</code></span><span class="var-item"><code>ISO_WORK_DIR</code> = <code>/tmp/custom_ol_iso</code></span><span class="var-item"><code>LIVE_ROOT_DIR</code> = <code>${ISO_WORK_DIR}/LiveOS</code></span><span class="var-item"><code>DATA_ROOT_DIR</code> = <code>${ISO_WORK_DIR}/install_data</code></span><span class="var-item"><code>VOLUME_ID</code> = <code>OL9_CUSTOM_LIVE</code></span><span class="var-item"><code>SQUASHFS_FILE</code> = <code>squashfs.img</code></span><span class="var-item"><code>DATA_TARBALL</code> = <code>ol_data.tar.gz</code></span><span class="var-item"><code>CUSTOM_RPM_SOURCE</code> = <code>software_rpm</code></span><span class="var-item"><code>CUSTOM_FILES_SOURCE</code> = <code>favoritos</code></span><span class="var-item"><code>CUSTOM_RPM_DEST</code> = <code>/opt/custom_data/software_rpm</code></span><span class="var-item"><code>CUSTOM_FILES_DEST</code> = <code>/opt/custom_data/files</code></span><span class="var-item"><code>ISOHYBRID_MBR_FILE</code> = <code>/usr/share/syslinux/isohdpfx.bin</code></span><span class="var-item"><code>GRUB_EFI_BOOTLOADER</code> = <code>/boot/efi/EFI/ol/grubx64.efi</code></span><span class="var-item"><code>DATE_TAG</code> = <code>$(date +%Y%m%d_%H%M)</code></span><span class="var-item"><code>OUTPUT_ISO_NAME</code> = <code>Oracle_Linux_9.6_Custom_Live_${DATE_TAG}.iso</code></span><span class="var-item"><code>EXCLUDES</code> = <code>(</code></span></div>
+  <h2>Comandos Utilizados</h2><div class="cmd-group"><div class="cmd-group-title">Package Manager</div><div class="cmd-list"><span class="badge badge-cmd">dnf</span><span class="badge badge-cmd">rpm</span><span class="badge badge-cmd">yum</span></div></div><div class="cmd-group"><div class="cmd-group-title">Filesystem</div><div class="cmd-list"><span class="badge badge-cmd">mount</span><span class="badge badge-cmd">umount</span></div></div><div class="cmd-group"><div class="cmd-group-title">File Operations</div><div class="cmd-list"><span class="badge badge-cmd">cp</span><span class="badge badge-cmd">mkdir</span><span class="badge badge-cmd">rm</span></div></div><div class="cmd-group"><div class="cmd-group-title">Permissions</div><div class="cmd-list"><span class="badge badge-cmd">chmod</span></div></div><div class="cmd-group"><div class="cmd-group-title">ISO Tool</div><div class="cmd-list"><span class="badge badge-cmd">mksquashfs</span><span class="badge badge-cmd">xorriso</span></div></div><div class="cmd-group"><div class="cmd-group-title">Initramfs</div><div class="cmd-list"><span class="badge badge-cmd">dracut</span></div></div><div class="cmd-group"><div class="cmd-group-title">Archive</div><div class="cmd-list"><span class="badge badge-cmd">tar</span></div></div>
+  <h2>Pacotes / Dependências</h2><div class='cmd-list'><span class="badge badge-pkg">dracut-live</span></div>
+
+  <h2>Código Fonte</h2>
+  <div class="source-box">
+    <textarea id="source-code" rows="20" readonly spellcheck="false"> #!/bin/bash
+# ----------------------------------------------------
+# SCRIPT DE CRIAÇÃO DE ISO HÍBRIDA OL 9.6: CLONE COM SQUASHFS E REPOSITÓRIOS
+# OBJETIVO: Criar uma ISO Live/Restore a partir do sistema atual (SquashFS)
+#            incluindo pacotes e repositórios extras em um Tarball de Dados.
+# ----------------------------------------------------
+
+# Define a cor verde para mensagens de sucesso e informativo
+GREEN=&#x27;\033[0;32m&#x27;
+RED=&#x27;\033[0;31m&#x27;
+NC=&#x27;\033[0m&#x27; # No Color
+
+# ====================================================
+# 1. CONFIGURAÇÃO GLOBAL (AJUSTE AQUI)
+# ====================================================
+ISO_WORK_DIR=&quot;/tmp/custom_ol_iso&quot;
+LIVE_ROOT_DIR=&quot;${ISO_WORK_DIR}/LiveOS&quot;
+DATA_ROOT_DIR=&quot;${ISO_WORK_DIR}/install_data&quot;
+VOLUME_ID=&quot;OL9_CUSTOM_LIVE&quot;
+
+# --- Nomes de Arquivos ---
+SQUASHFS_FILE=&quot;squashfs.img&quot;
+DATA_TARBALL=&quot;ol_data.tar.gz&quot;
+
+# --- Caminhos de Origem/Destino ---
+CUSTOM_RPM_SOURCE=&quot;software_rpm&quot; 
+CUSTOM_FILES_SOURCE=&quot;favoritos&quot; 
+CUSTOM_RPM_DEST=&quot;/opt/custom_data/software_rpm&quot;
+CUSTOM_FILES_DEST=&quot;/opt/custom_data/files&quot;
+
+# --- Caminhos de Ferramentas e Boot ---
+ISOHYBRID_MBR_FILE=&quot;/usr/share/syslinux/isohdpfx.bin&quot;
+GRUB_EFI_BOOTLOADER=&quot;/boot/efi/EFI/ol/grubx64.efi&quot;
+
+# --- Saída Final ---
+DATE_TAG=$(date +%Y%m%d_%H%M)
+OUTPUT_ISO_NAME=&quot;Oracle_Linux_9.6_Custom_Live_${DATE_TAG}.iso&quot;
+
+# Lista de diretórios/arquivos a excluir do backup do sistema raiz (SquashFS)
+# O &#x27;*&#x27; é crucial para excluir todos os subdiretórios de /home
+EXCLUDES=(
+    /proc/* /sys/* /dev/* /run/* /proc/kcore /proc/iomem
+    /mnt/* /tmp/* /media/* /lost+found
+    /boot/* /var/cache/*
+    /home/* # &lt;--- INCLUSÃO DA EXCLUSÃO DA PASTA /HOME
+    ${ISO_WORK_DIR}/* )
+
+# ====================================================
+# 2. FUNÇÕES DE VERIFICAÇÃO E LIMPEZA (CORRIGIDO AQUI)
+# ====================================================
+
+check_dependencies() {
+    echo -e &quot;${GREEN}Verificando dependências essenciais: xorriso, mksquashfs, dracut...${NC}&quot;
+    local dependencies=&quot;xorriso mksquashfs dracut tar cp date ls bash grub2-install&quot;
+    local missing=0
+
+    for dep in $dependencies; do
+        if ! command -v $dep &amp;&gt; /dev/null; then
+            echo -e &quot;${RED}ERRO: Dependência &#x27;$dep&#x27; não encontrada. Instale-a via DNF.${NC}&quot;
+            missing=1
+        fi
+    done
+
+    # === NOVO CHECK E INSTALAÇÃO DE MÓDULO LIVE DO DRACUT ===
+    echo -e &quot;\n${GREEN}Verificando módulo &#x27;live&#x27; do dracut (pacote dracut-live)...${NC}&quot;
+    if ! dnf list installed dracut-live &amp;&gt; /dev/null; then
+        echo -e &quot;${RED}PACOTE AUSENTE: &#x27;dracut-live&#x27; é necessário para o boot Live. (Causa do erro anterior).${NC}&quot;
+        echo -e &quot;Tentando instalar &#x27;dracut-live&#x27; via DNF...&quot;
+        # Tenta instalar o pacote. &#x27;sudo&#x27; é necessário, assumindo que o usuário tem permissão.
+        sudo dnf install -y dracut-live
+        
+        if [ $? -ne 0 ]; then
+            echo -e &quot;${RED}ERRO FATAL: Falha ao instalar &#x27;dracut-live&#x27;. Verifique os repositórios ou permissões sudo.${NC}&quot;
+            missing=1
+        else
+            echo -e &quot;${GREEN}Pacote &#x27;dracut-live&#x27; instalado com sucesso.${NC}&quot;
+        fi
+    else
+        echo -e &quot;${GREEN}Pacote &#x27;dracut-live&#x27; já instalado. OK.${NC}&quot;
+    fi
+    # =========================================================
+    
+    if [ ! -f &quot;$ISOHYBRID_MBR_FILE&quot; ]; then
+        echo -e &quot;${RED}ERRO: Arquivo MBR (${ISOHYBRID_MBR_FILE}) não encontrado. Instale &#x27;syslinux-nonboot&#x27;.${NC}&quot;
+        missing=1
+    fi
+    
+    if [ $missing -ne 0 ]; then
+        echo -e &quot;\n${RED}Existem dependências ausentes ou falha na instalação. Por favor, corrija o problema e execute novamente.${NC}&quot;
+        exit 1
+    fi
+    echo -e &quot;\n${GREEN}Todas as dependências (incluindo &#x27;dracut-live&#x27;) OK.${NC}&quot;
+}
+
+prepare_environment() {
+    echo -e &quot;\n--- 1/6. PREPARAÇÃO E LIMPEZA DE AMBIENTE ---&quot;
+    if [ -d &quot;${ISO_WORK_DIR}&quot; ]; then
+        echo &quot;Limpando diretório de trabalho antigo: ${ISO_WORK_DIR}&quot;
+        rm -rf &quot;${ISO_WORK_DIR}&quot;
+    fi
+    echo &quot;Criando nova estrutura de trabalho básica...&quot;
+    mkdir -p &quot;${LIVE_ROOT_DIR}&quot;
+    mkdir -p &quot;${DATA_ROOT_DIR}&quot;
+    mkdir -p &quot;${ISO_WORK_DIR}/boot/grub&quot;
+    mkdir -p &quot;${ISO_WORK_DIR}/EFI/BOOT&quot;
+    mkdir -p &quot;${ISO_WORK_DIR}/etc&quot;
+    echo -e &quot;${GREEN}Estrutura de diretórios criada com sucesso.${NC}&quot;
+}
+
+# ====================================================
+# 3. FASE DE CLONAGEM (SQUASHFS)
+# ====================================================
+
+create_squashfs() {
+    echo -e &quot;\n--- 2/6. CLONAGEM DO SISTEMA EM SQUASHFS ---&quot;
+    echo &quot;Iniciando compactação do sistema raiz (/) em ${SQUASHFS_FILE}...&quot;
+    echo &quot;Usando compressão XZ e excluindo diretórios virtuais, caches e A PASTA HOME.&quot;
+
+    # Comando corrigido: o argumento de exclusão (-e) é posicional
+    mksquashfs / &quot;${LIVE_ROOT_DIR}/${SQUASHFS_FILE}&quot; -comp xz -e &quot;${EXCLUDES[@]}&quot;
+
+    if [ $? -ne 0 ]; then
+        echo -e &quot;${RED}ERRO: Falha ao criar a imagem SquashFS. Verifique os logs do mksquashfs.${NC}&quot;
+        exit 1
+    fi
+    echo -e &quot;${GREEN}Imagem SquashFS (${SQUASHFS_FILE}) criada com sucesso.${NC}&quot;
+}
+
+# ====================================================
+# 4. FASE DE DADOS E REPOSITÓRIOS
+# ====================================================
+
+create_data_tarball() {
+    echo -e &quot;\n--- 3/6. CONFIGURAÇÃO DE REPOSITÓRIOS E TARBALL DE DADOS ---&quot;
+
+    # 4.1. Criar Arquivo de Repositório (OL 9.x)
+    local REPO_FILE=&quot;${ISO_WORK_DIR}/etc/ol_custom_repos.repo&quot;
+    echo &quot;-&gt; Criando arquivo de repositório &#x27;$REPO_FILE&#x27; com URLs do OL/EL 9.&quot;
+    
+    cat &lt;&lt; EOF_REPO &gt; &quot;$REPO_FILE&quot;
+# Repositórios para o Ambiente Live/Instalação (Oracle Linux 9.x)
+[ol_custom_rpms]
+name=Custom RPMs (Local)
+baseurl=file://${CUSTOM_RPM_DEST}
+enabled=1
+gpgcheck=0
+
+[ol_appstream]
+name=Oracle Linux 9 AppStream
+baseurl=https://yum.oracle.com/repo/OracleLinux/OL9/appstream/x86_64/
+enabled=1
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-oracle
+
+[epel]
+name=Extra Packages for Enterprise Linux 9 - \$basearch
+baseurl=https://download.fedoraproject.org/pub/epel/9/Everything/\$basearch
+enabled=1
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-9
+
+[rpmfusion-free]
+name=RPM Fusion for EL 9 - Free - \$basearch
+baseurl=http://download1.rpmfusion.org/free/el/9/Everything/\$basearch/os/
+enabled=1
+gpgcheck=0
+EOF_REPO
+
+    # Copiar o arquivo de repositório e chaves GPG (assumindo que existam no host)
+    mkdir -p &quot;${DATA_ROOT_DIR}/etc/yum.repos.d&quot;
+    cp &quot;$REPO_FILE&quot; &quot;${DATA_ROOT_DIR}/etc/yum.repos.d/ol_custom_repos.repo&quot;
+    
+    # 4.2. Preparar Conteúdo
+    echo &quot;-&gt; Copiando pacotes RPMs de &#x27;$CUSTOM_RPM_SOURCE&#x27; para inclusão...&quot;
+    mkdir -p &quot;${DATA_ROOT_DIR}${CUSTOM_RPM_DEST}&quot;
+    if [ -d &quot;$CUSTOM_RPM_SOURCE&quot; ]; then
+        cp -rv &quot;$CUSTOM_RPM_SOURCE&quot;/* &quot;${DATA_ROOT_DIR}${CUSTOM_RPM_DEST}/&quot;
+    else
+        echo &quot;    AVISO: Diretório de RPMs (${CUSTOM_RPM_SOURCE}) não encontrado.&quot;
+    fi
+
+    echo &quot;-&gt; Copiando arquivos de pós-instalação de &#x27;$CUSTOM_FILES_SOURCE&#x27;...&quot;
+    mkdir -p &quot;${DATA_ROOT_DIR}${CUSTOM_FILES_DEST}&quot;
+    if [ -d &quot;$CUSTOM_FILES_SOURCE&quot; ]; then
+        cp -rv &quot;$CUSTOM_FILES_SOURCE&quot;/* &quot;${DATA_ROOT_DIR}${CUSTOM_FILES_DEST}/&quot;
+    else
+        echo &quot;    AVISO: Diretório de arquivos extras (${CUSTOM_FILES_SOURCE}) não encontrado.&quot;
+    fi
+
+    # 4.3. Criar o Tarball de Dados
+    echo &quot;-&gt; Criando tarball de dados ${DATA_TARBALL} na raiz da ISO.&quot;
+    tar -czvf &quot;${ISO_WORK_DIR}/${DATA_TARBALL}&quot; -C &quot;${DATA_ROOT_DIR}&quot; .
+    echo -e &quot;${GREEN}Tarball de dados criado com sucesso: ${ISO_WORK_DIR}/${DATA_TARBALL}${NC}&quot;
+}
+
+# ====================================================
+# 5. FASE DE BOOT E DRACUT
+# ====================================================
+
+configure_boot() {
+    echo -e &quot;\n--- 4/6. CONFIGURAÇÃO DE BOOT (Kernel, Initramfs e GRUB) ---&quot;
+    CURRENT_KERNEL_VERSION=$(uname -r)
+    KERNEL=&quot;/boot/vmlinuz-${CURRENT_KERNEL_VERSION}&quot;
+
+    # 5.1. Copiar Kernel e Initramfs (do sistema atual)
+    echo &quot;-&gt; Kernel do sistema (v. ${CURRENT_KERNEL_VERSION}) será usado para o boot Live.&quot;
+    if [ ! -f &quot;$KERNEL&quot; ]; then
+        echo -e &quot;${RED}ERRO: Kernel (${KERNEL}) não encontrado. Abortando.${NC}&quot;
+        exit 1
+    fi
+    cp &quot;$KERNEL&quot; &quot;${ISO_WORK_DIR}/boot/vmlinuz&quot;
+
+    # 5.2. Gerar Initramfs Customizado com Suporte a Live/SquashFS
+    CUSTOM_INITRAMFS=&quot;${ISO_WORK_DIR}/boot/initrd.img&quot;
+    echo &quot;-&gt; Gerando novo Initramfs customizado com módulo &#x27;live&#x27; via dracut...&quot;
+    
+    # Esta linha agora deve funcionar, pois &#x27;dracut-live&#x27; foi verificado/instalado.
+    dracut --force --no-host-only --add &quot;live&quot; &quot;$CUSTOM_INITRAMFS&quot; &quot;$CURRENT_KERNEL_VERSION&quot;
+
+    if [ $? -ne 0 ]; then
+        echo -e &quot;${RED}ERRO: Falha ao gerar o initramfs com dracut. O boot Live falhará.${NC}&quot;
+        exit 1
+    fi
+    echo -e &quot;${GREEN}Initramfs com suporte Live gerado com sucesso.${NC}&quot;
+
+    # 5.3. Configuração do GRUB e Bootloader EFI
+    echo &quot;-&gt; Copiando bootloader EFI e configurando GRUB...&quot;
+    if [ -f &quot;$GRUB_EFI_BOOTLOADER&quot; ]; then
+        cp &quot;$GRUB_EFI_BOOTLOADER&quot; &quot;${ISO_WORK_DIR}/EFI/BOOT/grubx64.efi&quot;
+    else
+        echo &quot;    AVISO: Bootloader EFI (${GRUB_EFI_BOOTLOADER}) não encontrado. Boot UEFI pode falhar.&quot;
+    fi
+
+    # Criar o Arquivo de Configuração do GRUB
+    local BOOT_DIR=&quot;${ISO_WORK_DIR}/boot&quot;
+    cat &lt;&lt; EOF_GRUB_LIVE &gt; &quot;$BOOT_DIR/grub/grub.cfg&quot;
+set default=&quot;0&quot;
+set timeout=10
+
+menuentry &quot;Oracle Linux 9.6 Live &amp; Restore (Live) [Volume ID: ${VOLUME_ID}]&quot; {
+    linux /boot/vmlinuz rd.live.image root=live:LABEL=${VOLUME_ID} rootfstype=auto ro quiet splash
+    initrd /boot/initrd.img
+}
+EOF_GRUB_LIVE
+
+    # Usar o mesmo grub.cfg para o boot UEFI
+    cp &quot;$BOOT_DIR/grub/grub.cfg&quot; &quot;${ISO_WORK_DIR}/EFI/BOOT/grub.cfg&quot;
+    echo -e &quot;${GREEN}Configuração de boot GRUB finalizada.${NC}&quot;
+}
+
+# ====================================================
+# 6. FASE DE SCRIPT DE SETUP
+# ====================================================
+
+create_setup_script() {
+    echo -e &quot;\n--- 5/6. CRIAÇÃO DO SCRIPT DE CONFIGURAÇÃO (initial_setup.sh) ---&quot;
+    local SETUP_SCRIPT_PATH=&quot;${ISO_WORK_DIR}/initial_setup.sh&quot;
+
+    # O script assume que o DATA_TARBALL está na raiz da ISO montada.
+    cat &lt;&lt; EOF_SETUP &gt; &quot;$SETUP_SCRIPT_PATH&quot;
+#!/bin/bash
+# Script de Configuração Inicial (Execute DENTRO DO AMBIENTE LIVE)
+
+DATA_TARBALL_PATH=&quot;/${DATA_TARBALL}&quot;
+
+echo &quot;--- INÍCIO DO SCRIPT DE CONFIGURAÇÃO CUSTOMIZADO ---&quot;
+
+if [ ! -f &quot;\$DATA_TARBALL_PATH&quot; ]; then
+    echo &quot;ERRO: O arquivo de dados (\$DATA_TARBALL_PATH) não foi encontrado na raiz da ISO.&quot;
+    echo &quot;PASSO 1 FALHOU: Certifique-se de que a ISO foi montada corretamente.&quot;
+    exit 1
+fi
+
+# 1. Extrair Dados (RPMs, Scripts, Repositórios)
+echo &quot;PASSO 2: Extraindo dados extras para /tmp/live_data...&quot;
+mkdir -p /tmp/live_data
+tar -xzvpf &quot;\$DATA_TARBALL_PATH&quot; -C /tmp/live_data
+
+# 2. Copiar Arquivo de Repositório e Linkar Repositório Local
+echo &quot;PASSO 3: Copiando repositórios e montando o diretório de dados local...&quot;
+cp -rv /tmp/live_data/etc/yum.repos.d/* /etc/yum.repos.d/
+mkdir -p /opt/custom_data
+# Monta o diretório de dados extraídos no caminho que o repositório local espera
+mount --bind /tmp/live_data/install_data/opt/custom_data /opt/custom_data
+
+# 3. Instalação de Pacotes Customizados
+echo &quot;PASSO 4: Instalando pacotes RPMs customizados via DNF...&quot;
+# Instala pacotes do repositório customizado, re-habilitando repositórios oficiais importantes
+dnf clean all
+dnf install -y /opt/custom_data/software_rpm/*.rpm --disablerepo=\* --enablerepo=ol_custom_rpms,ol_appstream,epel,rpmfusion-free
+
+# 4. Executar Scripts de Pós-Instalação
+echo &quot;PASSO 5: Executando scripts de pós-instalação...&quot;
+SCRIPTS_DIR=&quot;/opt/custom_data/files/scripts&quot;
+if [ -d &quot;\$SCRIPTS_DIR&quot; ]; then
+    find &quot;\$SCRIPTS_DIR&quot; -type f -executable -print -exec {} \;
+fi
+
+# 5. Limpar e Finalizar
+echo &quot;PASSO 6: Limpando montagens temporárias...&quot;
+umount /opt/custom_data
+rm -rf /tmp/live_data
+echo &quot;Configuração inicial concluída. O ambiente Live está pronto.&quot;
+EOF_SETUP
+
+    chmod +x &quot;$SETUP_SCRIPT_PATH&quot;
+    echo -e &quot;${GREEN}Script de setup &#x27;$SETUP_SCRIPT_PATH&#x27; criado e pronto para uso no Live CD.${NC}&quot;
+}
+
+# ====================================================
+# 7. FASE DE GERAÇÃO DA ISO
+# ====================================================
+
+generate_iso() {
+    echo -e &quot;\n--- 6/6. GERAÇÃO DA IMAGEM ISO HÍBRIDA ---&quot;
+    echo &quot;Iniciando xorriso para criar a ISO híbrida (UEFI + MBR/BIOS)...&quot;
+
+    xorriso -as mkisofs \
+        -iso-level 3 \
+        -full-iso9660-filenames \
+        -volid &quot;$VOLUME_ID&quot; \
+        \
+        -eltorito-boot boot/grub/grub.cfg \
+        -no-emul-boot \
+        -boot-load-size 4 \
+        \
+        -eltorito-alt-boot \
+        -e EFI/BOOT/grubx64.efi \
+        -no-emul-boot \
+        -boot-load-size 4 \
+        \
+        -isohybrid-mbr &quot;$ISOHYBRID_MBR_FILE&quot; \
+        -o &quot;$OUTPUT_ISO_NAME&quot; \
+        &quot;$ISO_WORK_DIR&quot;
+
+    if [ $? -ne 0 ]; then
+        echo -e &quot;${RED}ERRO: Falha ao gerar a imagem ISO. Verifique os logs do xorriso.${NC}&quot;
+        exit 1
+    fi
+
+    echo -e &quot;\n====================================================&quot;
+    echo -e &quot;${GREEN}SUCESSO! A imagem ISO híbrida Live está pronta:${NC}&quot;
+    echo -e &quot;--&gt; $(pwd)/${OUTPUT_ISO_NAME}&quot;
+    echo -e &quot;ID do Volume (Label): ${VOLUME_ID}&quot;
+    echo -e &quot;====================================================\n&quot;
+}
+
+# ====================================================
+# FLUXO PRINCIPAL DE EXECUÇÃO
+# ====================================================
+
+check_dependencies
+prepare_environment
+create_squashfs
+create_data_tarball
+configure_boot
+create_setup_script
+generate_iso
+</textarea>
+    <div>
+      <button class="copy-btn" onclick="copySource()" id="copy-btn">📋 Copiar código</button>
+      <button class="copy-btn" onclick="downloadSource()" id="dl-btn">💾 Download .sh</button>
+      <a href="gerar-iso-ol9.desktop" class="download-btn" download>▶️ Abrir no Terminal (.desktop)</a>
+    </div>
+  </div>
+</div>
+
+<script>
+function copySource() {
+  var textarea = document.getElementById('source-code');
+  textarea.select();
+  textarea.setSelectionRange(0, 999999);
+  document.execCommand('copy');
+  var btn = document.getElementById('copy-btn');
+  btn.textContent = '✅ Copiado!';
+  btn.classList.add('copied');
+  setTimeout(function() {
+    btn.textContent = '📋 Copiar código';
+    btn.classList.remove('copied');
+  }, 2000);
+}
+
+function downloadSource() {
+  var content = document.getElementById('source-code').value;
+  var blob = new Blob([content], {type: 'application/x-shellscript'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'gerar_iso_ol9.sh';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  var btn = document.getElementById('dl-btn');
+  btn.textContent = '✅ Baixado!';
+  setTimeout(function() {
+    btn.textContent = '💾 Download .sh';
+  }, 2000);
+}
+</script>
+</body>
+</html>

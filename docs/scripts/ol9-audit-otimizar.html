@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ol9-audit-otimizar.sh — Script Details</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, monospace; background: #f5f5f5; color: #1a1a1a; line-height: 1.6; }
+.container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+h1 { font-size: 1.8rem; margin-bottom: 8px; }
+h2 { font-size: 1.3rem; margin: 24px 0 12px; color: #2563eb; border-bottom: 2px solid #e5e7eb; padding-bottom: 6px; }
+h3 { font-size: 1rem; margin: 16px 0 8px; color: #374151; }
+.subtitle { color: #6b7280; margin-bottom: 20px; font-size: 0.95rem; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+.header-bar { background: #1e293b; color: #fff; padding: 16px 0; margin-bottom: 24px; }
+.header-bar .container { display: flex; justify-content: space-between; align-items: center; }
+.header-bar h1 { margin: 0; font-size: 1.3rem; }
+.header-bar h1 a { color: #fff; }
+.header-bar h1 a:hover { text-decoration: none; }
+.header-bar .nav a { color: #93c5fd; margin-left: 16px; font-size: 0.9rem; }
+.search-box { width: 100%; padding: 10px 14px; border: 2px solid #d1d5db; border-radius: 8px; font-size: 0.95rem; margin-bottom: 20px; outline: none; transition: border-color 0.2s; }
+.search-box:focus { border-color: #2563eb; }
+table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+th, td { padding: 10px 14px; text-align: left; font-size: 0.9rem; }
+th { background: #f8fafc; font-weight: 600; color: #374151; border-bottom: 2px solid #e5e7eb; }
+td { border-bottom: 1px solid #f0f0f0; }
+tr:hover td { background: #f8fafc; }
+.badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; margin: 1px 2px; }
+.badge-pkg { background: #dcfce7; color: #166534; }
+.badge-cmd { background: #dbeafe; color: #1e40af; }
+.badge-func { background: #fef3c7; color: #92400e; }
+.badge-dir { background: #e5e7eb; color: #374151; }
+.tag { display: inline-block; padding: 2px 6px; border-radius: 3px; font-size: 0.7rem; font-weight: 600; background: #e5e7eb; color: #374151; margin: 1px; }
+.tag-category { background: #ede9fe; color: #5b21b6; }
+.cmd-count { font-size: 0.8rem; color: #6b7280; }
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 24px; }
+.stat-card { background: #fff; border-radius: 8px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); text-align: center; }
+.stat-card .num { font-size: 1.8rem; font-weight: 700; color: #2563eb; }
+.stat-card .label { font-size: 0.8rem; color: #6b7280; margin-top: 4px; }
+.script-page { max-width: 960px; margin: 0 auto; }
+.meta-table { width: 100%; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 20px; }
+.meta-table td { padding: 8px 14px; border-bottom: 1px solid #f0f0f0; }
+.meta-table td:first-child { font-weight: 600; color: #374151; width: 140px; background: #f8fafc; }
+.cmd-group { margin-bottom: 16px; }
+.cmd-group-title { font-size: 0.85rem; font-weight: 600; color: #5b21b6; margin-bottom: 6px; }
+.cmd-list { display: flex; flex-wrap: wrap; gap: 4px; }
+.source-box { margin: 12px 0; }
+.source-box textarea { width: 100%; padding: 12px; border: 2px solid #d1d5db; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 0.8rem; line-height: 1.4; background: #1e293b; color: #e5e7eb; resize: vertical; outline: none; }
+.source-box textarea:focus { border-color: #2563eb; }
+.copy-btn { display: inline-block; padding: 8px 16px; background: #2563eb; color: #fff; border: none; border-radius: 6px; font-size: 0.85rem; cursor: pointer; margin: 8px 4px 4px 0; transition: background 0.2s; }
+.copy-btn:hover { background: #1d4ed8; }
+.copy-btn.copied { background: #16a34a; }
+.download-btn { display: inline-block; padding: 8px 16px; background: #374151; color: #fff; border: none; border-radius: 6px; font-size: 0.85rem; cursor: pointer; margin: 8px 4px 4px 0; transition: background 0.2s; text-decoration: none; }
+.download-btn:hover { background: #1f2937; text-decoration: none; }
+.func-list { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+.func-item { background: #fef3c7; color: #92400e; padding: 3px 10px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 0.8rem; }
+.var-list { display: flex; flex-wrap: wrap; gap: 6px; }
+.var-item { background: #f0fdf4; color: #166534; padding: 3px 10px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 0.78rem; }
+.var-item code { font-size: 0.78rem; }
+.back-link { display: inline-block; margin-bottom: 16px; color: #2563eb; font-size: 0.9rem; }
+.back-link:before { content: "← "; }
+.stat-line { font-size: 0.8rem; color: #6b7280; margin-bottom: 12px; }
+@media (max-width: 600px) { .container { padding: 12px; } th, td { padding: 6px 8px; font-size: 0.8rem; } }
+</style>
+</head>
+<body>
+<div class="header-bar">
+  <div class="container">
+    <h1><a href="../index.html">📜 Backup Scripts</a></h1>
+    <div class="nav">
+      <a href="../index.html">Dashboard</a>
+    </div>
+  </div>
+</div>
+<div class="container script-page">
+  <a href="../index.html" class="back-link">Voltar ao Dashboard</a>
+
+  <h1>ol9-audit-otimizar.sh</h1>
+  <p class="subtitle">Auditoria + Otimizacao Oracle Linux 9 + XFCE4</p>
+
+  <div class="meta-table"><table><tr><td colspan='2'>Auditoria + Otimizacao Oracle Linux 9 + XFCE4</td></tr><tr><td colspan='2'>Hardware: Celeron N2808 / 2.8GB RAM / HDD 5400rpm</td></tr><tr><td colspan='2'>Uso: sudo ./ol9-audit-otimizar.sh [--apply]</td></tr><tr><td colspan='2'>Sem --apply: apenas diagnostico</td></tr><tr><td colspan='2'>Com  --apply: aplica as otimizacoes</td></tr><tr><td colspan='2'>&nbsp;</td></tr></table></div>
+  <div class="meta-table"><table><tr><td>Arquivo</td><td><code>system_scripts/ol9-audit-otimizar.sh</code></td></tr><tr><td>Shebang</td><td><code>#!/bin/bash</code></td></tr><tr><td>Tamanho</td><td>14.1 KB · 341 linhas</td></tr><tr><td>Uso</td><td><code>Uso: sudo ./ol9-audit-otimizar.sh [--apply]</code></td></tr></table></div>
+  <h2>Funções</h2><div class='func-list'><span class="func-item">info() <span style="opacity:0.5">linha 13</span></span><span class="func-item">ok() <span style="opacity:0.5">linha 14</span></span><span class="func-item">warn() <span style="opacity:0.5">linha 15</span></span><span class="func-item">err() <span style="opacity:0.5">linha 16</span></span><span class="func-item">title() <span style="opacity:0.5">linha 17</span></span><span class="func-item">system_sed() <span style="opacity:0.5">linha 270</span></span><span class="func-item">system_dnf() <span style="opacity:0.5">linha 271</span></span><span class="func-item">systemctl() <span style="opacity:0.5">linha 272</span></span></div>
+  <h2>Variáveis de Configuração</h2><div class='var-list'><span class="var-item"><code>APPLY</code> = <code>false</code></span><span class="var-item"><code>ERROS_DISCO</code> = <code>$(smartctl -H /dev/sda 2&gt;/dev/null | grep -c &quot;PASSED&quot; || ...</code></span></div>
+  <h2>Comandos Utilizados</h2><div class="cmd-group"><div class="cmd-group-title">Package Manager</div><div class="cmd-list"><span class="badge badge-cmd">dnf</span></div></div><div class="cmd-group"><div class="cmd-group-title">System Service</div><div class="cmd-list"><span class="badge badge-cmd">systemctl</span></div></div><div class="cmd-group"><div class="cmd-group-title">System Logs</div><div class="cmd-list"><span class="badge badge-cmd">journalctl</span></div></div><div class="cmd-group"><div class="cmd-group-title">Filesystem</div><div class="cmd-list"><span class="badge badge-cmd">umount</span></div></div><div class="cmd-group"><div class="cmd-group-title">Text Processing</div><div class="cmd-list"><span class="badge badge-cmd">awk</span><span class="badge badge-cmd">grep</span><span class="badge badge-cmd">sed</span></div></div><div class="cmd-group"><div class="cmd-group-title">File Operations</div><div class="cmd-list"><span class="badge badge-cmd">mkdir</span><span class="badge badge-cmd">tee</span></div></div><div class="cmd-group"><div class="cmd-group-title">Bootloader</div><div class="cmd-list"><span class="badge badge-cmd">grub2-mkconfig</span></div></div><div class="cmd-group"><div class="cmd-group-title">Disk</div><div class="cmd-list"><span class="badge badge-cmd">lsblk</span></div></div><div class="cmd-group"><div class="cmd-group-title">Kernel</div><div class="cmd-list"><span class="badge badge-cmd">modprobe</span><span class="badge badge-cmd">sysctl</span><span class="badge badge-cmd">udevadm</span></div></div>
+  
+
+  <h2>Código Fonte</h2>
+  <div class="source-box">
+    <textarea id="source-code" rows="20" readonly spellcheck="false">#!/bin/bash
+#
+# Auditoria + Otimizacao Oracle Linux 9 + XFCE4
+# Hardware: Celeron N2808 / 2.8GB RAM / HDD 5400rpm
+# Uso: sudo ./ol9-audit-otimizar.sh [--apply]
+#
+# Sem --apply: apenas diagnostico
+# Com  --apply: aplica as otimizacoes
+
+set -euo pipefail
+
+R=&#x27;\033[0;31m&#x27;; G=&#x27;\033[0;32m&#x27;; Y=&#x27;\033[1;33m&#x27;; C=&#x27;\033[0;36m&#x27;; B=&#x27;\033[1m&#x27;; N=&#x27;\033[0m&#x27;
+info()  { echo -e &quot; ${C}*${N} $1&quot;; }
+ok()    { echo -e &quot; ${G}*${N} $1&quot;; }
+warn()  { echo -e &quot; ${Y}*${N} $1&quot;; }
+err()   { echo -e &quot; ${R}*${N} $1&quot;; }
+title() { echo -e &quot;\n${B}--- $1 ---${N}&quot;; }
+
+[[ $EUID -ne 0 ]] &amp;&amp; { err &quot;Execute como root (sudo).&quot;; exit 1; }
+
+APPLY=false
+[[ &quot;${1:-}&quot; == &quot;--apply&quot; ]] &amp;&amp; APPLY=true
+
+# ============================================================
+# RELATORIO DE AUDITORIA
+# ============================================================
+echo &quot;&quot;
+echo &quot;============================================================&quot;
+echo &quot;  AUDITORIA DE SISTEMA - Oracle Linux 9&quot;
+echo &quot;============================================================&quot;
+echo &quot;  Data: $(date &#x27;+%Y-%m-%d %H:%M&#x27;)&quot;
+echo &quot;  Host: $(hostname)&quot;
+echo &quot;&quot;
+
+title &quot;SISTEMA OPERACIONAL&quot;
+cat /etc/oracle-release 2&gt;/dev/null
+uname -r
+echo &quot;Uptime: $(uptime -p | sed &#x27;s/up //&#x27;)&quot;
+
+title &quot;HARDWARE&quot;
+echo &quot;CPU: $(lscpu | grep &#x27;Model name&#x27; | cut -d: -f2 | xargs)&quot;
+echo &quot;Cores: $(nproc) (sem HyperThreading)&quot;
+echo &quot;RAM total: $(free -h | awk &#x27;/Mem:/{print $2}&#x27;)&quot;
+echo &quot;RAM usada: $(free -h | awk &#x27;/Mem:/{print $3}&#x27;)&quot;
+echo &quot;RAM disponivel: $(free -h | awk &#x27;/Mem:/{print $7}&#x27;)&quot;
+echo &quot;Disco: $(lsblk -d -o MODEL /dev/sda 2&gt;/dev/null | tail -1) - HDD 5400rpm&quot;
+ERROS_DISCO=$(smartctl -H /dev/sda 2&gt;/dev/null | grep -c &quot;PASSED&quot; || echo &quot;0&quot;)
+echo &quot;SMART: $(smartctl -H /dev/sda 2&gt;/dev/null | grep &#x27;health&#x27; || echo &#x27;nao disponivel&#x27;)&quot;
+
+title &quot;MEMORIA SWAP&quot;
+swapon --show --raw 2&gt;/dev/null | awk &#x27;NR&gt;1{printf &quot;  %s %s (usado: %s)\n&quot;, $1, $2, $4}&#x27;
+echo &quot;Swappiness: $(cat /proc/sys/vm/swappiness)&quot;
+echo &quot;ZRAM alg: $(cat /sys/block/zram0/comp_algorithm 2&gt;/dev/null | grep -oP &#x27;\[\K[^\]]+&#x27;)&quot;
+
+title &quot;I/O SCHEDULER&quot;
+echo &quot;sda: $(cat /sys/block/sda/queue/scheduler 2&gt;/dev/null | grep -oP &#x27;\[\K[^\]]+&#x27;)&quot;
+
+title &quot;TOP 5 PROCESSOS POR RAM&quot;
+ps aux --sort=-%mem 2&gt;/dev/null | awk &#x27;NR&lt;=5{printf &quot;  %-6s %-5s %-5s %s\n&quot;, $1, $2, $4&quot;%&quot;, $11}&#x27;
+
+title &quot;SERVICOS ATIVOS RELEVANTES&quot;
+for s in postgresql bluetooth avahi-daemon firewalld cups smartd mcelog ModemManager; do
+    status=$(systemctl is-enabled &quot;$s&quot; 2&gt;/dev/null || echo &quot;n/a&quot;)
+    active=$(systemctl is-active &quot;$s&quot; 2&gt;/dev/null || echo &quot;n/a&quot;)
+    echo &quot;  $s: enabled=$status active=$active&quot;
+done
+
+title &quot;ERROS NO LOG (ULTIMAS 24h)&quot;
+journalctl -p 3 -b --since &quot;24 hours ago&quot; --no-pager 2&gt;/dev/null | grep -c &quot;.&quot; 2&gt;/dev/null || true
+echo &quot;  Total de erros no boot atual: $(journalctl -p 3 -b --no-pager 2&gt;/dev/null | wc -l)&quot;
+
+echo &quot;&quot;
+journalctl -p 3 -b --no-pager 2&gt;/dev/null | awk -F&#x27;: &#x27; &#x27;{print $2}&#x27; | sort | uniq -c | sort -rn | head -8
+echo &quot;&quot;
+
+title &quot;PROBLEMA CRITICO: LD_LIBRARY_PATH poluido pelo VS Code AppImage&quot;
+echo &quot;  Afeta: dnf, systemctl, sed, e outros binarios do sistema&quot;
+echo &quot;  Sintoma: &#x27;libselinux.so.1: no version information available&#x27;&quot;
+echo &quot;  Sintoma: &#x27;liblzma.so.5: version XZ_5.2 not found&#x27; (quebra dnf)&quot;
+echo &quot;&quot;
+
+title &quot;RESUMO DA AUDITORIA&quot;
+echo &quot;  Hardware: Celeron N2808 + 2.8GB RAM + HDD 5400rpm&quot;
+echo &quot;  RAM: CRITICA - apenas 640MB disponivel com uso normal&quot;
+echo &quot;  Disco: LENTO - HDD 5400rpm sem SSD&quot;
+echo &quot;  I/O scheduler: mq-deadline (ruim para HDD, melhor usar BFQ)&quot;
+echo &quot;  Swappiness: 70 (agressivo, causa I/O desnecessario)&quot;
+echo &quot;  Swap sda3 (3.9GB): NAO UTILIZADA (prioridade -3)&quot;
+echo &quot;  PostgreSQL: rodando sem necessidade aparente (desktop)&quot;
+echo &quot;  Bluetooth: ativo com erros de frame&quot;
+echo &quot;  AppImage: contaminando LD_LIBRARY_PATH e quebrando ferramentas&quot;
+
+if [[ &quot;$APPLY&quot; == false ]]; then
+    echo &quot;&quot;
+    echo &quot;============================================================&quot;
+    echo &quot;  Para APLICAR as otimizacoes, execute com --apply&quot;
+    echo &quot;    sudo $0 --apply&quot;
+    echo &quot;============================================================&quot;
+    exit 0
+fi
+
+# ============================================================
+# APLICAR OTIMIZACOES
+# ============================================================
+echo &quot;&quot;
+echo &quot;============================================================&quot;
+echo &quot;  APLICANDO OTIMIZACOES&quot;
+echo &quot;============================================================&quot;
+echo &quot;&quot;
+
+# --- 1. Swappiness: reduz para 10 (menos swapping em RAM escassa) ---
+title &quot;1. Ajustando swappiness para 10&quot;
+sysctl -w vm.swappiness=10
+echo &quot;vm.swappiness=10&quot; &gt; /etc/sysctl.d/90-swappiness.conf
+ok &quot;swappiness=10 (era 70)&quot;
+
+# --- 2. I/O scheduler: BFQ para HDD ---
+title &quot;2. Trocando I/O scheduler para BFQ&quot;
+echo mq-deadline &gt; /sys/block/sda/queue/scheduler 2&gt;/dev/null || true
+cat &gt; /etc/udev/rules.d/60-io-scheduler.rules &lt;&lt; &#x27;RULE&#x27;
+ACTION==&quot;add|change&quot;, KERNEL==&quot;sd*&quot;, ATTR{queue/rotational}==&quot;1&quot;, ATTR{queue/scheduler}=&quot;bfq&quot;
+RULE
+# Aplica ja no boot atual via grub
+if ! grep -q &quot;elevator=bfq&quot; /etc/default/grub 2&gt;/dev/null; then
+    sed -i &#x27;s/GRUB_CMDLINE_LINUX=&quot;/GRUB_CMDLINE_LINUX=&quot;elevator=bfq /&#x27; /etc/default/grub
+    grub2-mkconfig -o /boot/grub2/grub.cfg 2&gt;/dev/null || true
+fi
+# Tenta aplicar agora
+echo bfq &gt; /sys/block/sda/queue/scheduler 2&gt;/dev/null || true
+SCHED=$(cat /sys/block/sda/queue/scheduler 2&gt;/dev/null | grep -oP &#x27;\[\K[^\]]+&#x27;)
+ok &quot;scheduler BFQ aplicado (atual: $SCHED)&quot;
+
+# --- 3. Reduzir crashkernel (reserva 448MB para kdump, desnecessario em desktop) ---
+title &quot;3. Reduzindo crashkernel para recuperar RAM&quot;
+CURRENT_CRASH=$(grep -oP &#x27;crashkernel=\S+&#x27; /proc/cmdline 2&gt;/dev/null || echo &quot;n/a&quot;)
+if echo &quot;$CURRENT_CRASH&quot; | grep -q &quot;448M&quot;; then
+    sed -i &#x27;s/crashkernel=1G-64G:448M,64G-:512M/crashkernel=128M/g&#x27; /etc/default/grub
+    grub2-mkconfig -o /boot/grub2/grub.cfg 2&gt;/dev/null || true
+    ok &quot;crashkernel reduzido de 448M -&gt; 128M (libera 320MB)&quot;
+    warn &quot;Reinicie o sistema para aplicar: sudo reboot&quot;
+    # Tenta liberar ja (se kexec for suportado)
+    if command -v kexec &amp;&gt;/dev/null; then
+        warn &quot;Use &#x27;sudo kexec -l /boot/vmlinuz-\$(uname -r) --initrd=/boot/initramfs-\$(uname -r).img --reuse-cmdline &amp;&amp; sudo kexec -e&#x27; para reboot rapido&quot;
+    fi
+else
+    ok &quot;crashkernel ja ajustado ($CURRENT_CRASH)&quot;
+fi
+
+# --- 4. VFS cache pressure: menos agressivo com pouca RAM ---
+title &quot;4. Ajustando cache pressure&quot;
+sysctl -w vm.vfs_cache_pressure=50
+echo &quot;vm.vfs_cache_pressure=50&quot; &gt; /etc/sysctl.d/90-cache-pressure.conf
+ok &quot;vfs_cache_pressure=50 (era 100)&quot;
+
+# --- 4. Limpar swap sda3 e recriar como filesystem (recupera 3.9GB) ---
+title &quot;5. Recuperando particao swap sda3 (3.9GB nao utilizada)&quot;
+if swapon --show | grep -q &quot;/dev/sda3&quot;; then
+    swapoff /dev/sda3 2&gt;/dev/null || true
+fi
+# Verifica se realmente nao esta em uso
+USED_SDA3=$(swapon --show --raw 2&gt;/dev/null | awk &#x27;/sda3/{print $4}&#x27;)
+if [[ &quot;$USED_SDA3&quot; == &quot;0&quot; ]] || [[ -z &quot;$USED_SDA3&quot; ]]; then
+    warn &quot;Particao /dev/sda3: swap desativada. Para converte-la em ext4:&quot;
+    echo &quot;    umount /dev/sda3 2&gt;/dev/null; swapoff /dev/sda3 2&gt;/dev/null&quot;
+    echo &quot;    mke2fs -t ext4 /dev/sda3&quot;
+    echo &quot;    e ajuste o /etc/fstab&quot;
+    echo &quot;  (Nao executado automaticamente - risco de perda de dados)&quot;
+    # Remove do fstab para nao montar no boot
+    sed -i &#x27;/sda3/d&#x27; /etc/fstab 2&gt;/dev/null || true
+    ok &quot;sda3 removida do fstab (swap desativada)&quot;
+else
+    ok &quot;sda3 mantida como swap (esta em uso)&quot;
+fi
+
+# --- 6. Desativar servicos desnecessarios ---
+title &quot;6. Desativando servicos nao essenciais (bluetooth mantido)&quot;
+
+if systemctl is-enabled postgresql &amp;&gt;/dev/null; then
+    systemctl stop postgresql 2&gt;/dev/null || true
+    systemctl disable postgresql 2&gt;/dev/null || true
+    ok &quot;postgresql desativado&quot;
+fi
+
+if systemctl is-enabled bluetooth &amp;&gt;/dev/null; then
+    systemctl enable bluetooth 2&gt;/dev/null || true
+    systemctl start bluetooth 2&gt;/dev/null || true
+    ok &quot;bluetooth mantido ativo na inicializacao&quot;
+fi
+
+# Corrige erro de frame do bluetooth (btusb)
+title &quot;6b. Corrigindo erro de frame do bluetooth&quot;
+if lsmod | grep -q btusb 2&gt;/dev/null; then
+    rmmod btusb 2&gt;/dev/null || true
+    sleep 1
+    modprobe btusb 2&gt;/dev/null || true
+    ok &quot;btusb recarregado (corrige frame reassembly failed)&quot;
+fi
+# Desativa USB autosuspend para o adaptador bluetooth
+for dev in /sys/bus/usb/devices/*/power/control; do
+    if [[ -f &quot;$dev&quot; ]]; then
+        echo on &gt; &quot;$dev&quot; 2&gt;/dev/null || true
+    fi
+done
+ok &quot;USB autosuspend desativado para dispositivos Bluetooth&quot;
+# Cria regra udev para persistir a correcao
+cat &gt; /etc/udev/rules.d/81-bluetooth-fix.rules &lt;&lt; &#x27;RULE&#x27;
+# Corrige erro de frame do bluetooth - desativa autosuspend
+ACTION==&quot;add&quot;, SUBSYSTEM==&quot;usb&quot;, ATTR{idVendor}==&quot;*&quot;, ATTR{idProduct}==&quot;*&quot;, ATTR{power/control}=&quot;on&quot;
+RULE
+udevadm control --reload-rules 2&gt;/dev/null || true
+ok &quot;Regra udev criada para evitar autosuspend do Bluetooth&quot;
+
+if systemctl is-enabled avahi-daemon &amp;&gt;/dev/null; then
+    systemctl stop avahi-daemon 2&gt;/dev/null || true
+    systemctl disable avahi-daemon 2&gt;/dev/null || true
+    ok &quot;avahi-daemon desativado&quot;
+fi
+
+if systemctl is-enabled mcelog &amp;&gt;/dev/null; then
+    systemctl stop mcelog 2&gt;/dev/null || true
+    systemctl disable mcelog 2&gt;/dev/null || true
+    ok &quot;mcelog desativado (CPU sem suporte a MCA extendido)&quot;
+fi
+
+# firewalld: manter se precisar de firewall, mas pode trocar por nftables mais leve
+if systemctl is-enabled firewalld &amp;&gt;/dev/null; then
+    warn &quot;firewalld ativo (mantido - firewall de rede)&quot;
+    # Apenas sugestao
+fi
+
+# --- 7. Configurar ZRAM para melhor compressao ---
+title &quot;7. Otimizando ZRAM&quot;
+ALG_ATUAL=$(cat /sys/block/zram0/comp_algorithm 2&gt;/dev/null | grep -oP &#x27;\[\K[^\]]+&#x27;)
+if [[ &quot;$ALG_ATUAL&quot; != &quot;zstd&quot; ]]; then
+    warn &quot;ZRAM atual: $ALG_ATUAL. zstd tem melhor compressao mas usa mais CPU.&quot;
+    echo &quot;  Para trocar: echo zstd | sudo tee /sys/block/zram0/comp_algorithm&quot;
+    echo &quot;  (Requer desativar zram primeiro. Nao aplicado automaticamente)&quot;
+fi
+# Ajusta max_comp_streams = numero de CPUs
+echo &quot;$(nproc)&quot; &gt; /sys/block/zram0/max_comp_streams 2&gt;/dev/null || true
+ok &quot;max_comp_streams = $(nproc)&quot;
+
+# --- 8. Limitar politicas de energia para evitar throttling ---
+title &quot;8. Ajustando governor da CPU para desktop responsivo&quot;
+GOV=$(cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor 2&gt;/dev/null || echo &quot;n/a&quot;)
+if [[ &quot;$GOV&quot; != &quot;performance&quot; ]] &amp;&amp; [[ &quot;$GOV&quot; != &quot;schedutil&quot; ]]; then
+    echo performance | tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor 2&gt;/dev/null || true
+    ok &quot;CPU governor ajustado para &#x27;performance&#x27; (via sysfs - temporario)&quot;
+    warn &quot;Para persistir: instale &#x27;tuned&#x27; com profile &#x27;throughput-performance&#x27; ou &#x27;latency-performance&#x27;&quot;
+else
+    ok &quot;CPU governor: $GOV (ok)&quot;
+fi
+
+# --- 9. Limitar dirty pages para evitar travamentos com HDD lento ---
+title &quot;9. Ajustando dirty page writeback&quot;
+sysctl -w vm.dirty_ratio=10
+sysctl -w vm.dirty_background_ratio=3
+echo &quot;vm.dirty_ratio=10&quot; &gt; /etc/sysctl.d/90-dirty.conf
+echo &quot;vm.dirty_background_ratio=3&quot; &gt;&gt; /etc/sysctl.d/90-dirty.conf
+ok &quot;dirty_ratio=10, dirty_background_ratio=3 (era 20/10)&quot;
+
+# --- 10. Fix LD_LIBRARY_PATH pollution do VS Code AppImage ---
+title &quot;10. Corrigindo contaminacao do LD_LIBRARY_PATH&quot;
+BASHRC=&quot;${HOME}/.bashrc&quot;
+if [[ -f &quot;$BASHRC&quot; ]]; then
+    if ! grep -q &quot;system_ld_path&quot; &quot;$BASHRC&quot; 2&gt;/dev/null; then
+        cat &gt;&gt; &quot;$BASHRC&quot; &lt;&lt; &#x27;FIX&#x27;
+
+# Fix: limpa LD_LIBRARY_PATH de caminhos AppImage (VS Code) para comandos do sistema
+system_sed() { LD_LIBRARY_PATH=&quot;$(echo &quot;$LD_LIBRARY_PATH&quot; | tr &#x27;:&#x27; &#x27;\n&#x27; | grep -v &#x27;\.mount_&#x27; | tr &#x27;\n&#x27; &#x27;:&#x27;)&quot; command sed &quot;$@&quot;; }
+system_dnf() { LD_LIBRARY_PATH=&quot;$(echo &quot;$LD_LIBRARY_PATH&quot; | tr &#x27;:&#x27; &#x27;\n&#x27; | grep -v &#x27;\.mount_&#x27; | tr &#x27;\n&#x27; &#x27;:&#x27;)&quot; command dnf &quot;$@&quot;; }
+systemctl() { LD_LIBRARY_PATH=&quot;$(echo &quot;$LD_LIBRARY_PATH&quot; | tr &#x27;:&#x27; &#x27;\n&#x27; | grep -v &#x27;\.mount_&#x27; | tr &#x27;\n&#x27; &#x27;:&#x27;)&quot; command systemctl &quot;$@&quot;; }
+alias dnf=&#x27;system_dnf&#x27;
+alias systemctl=&#x27;systemctl&#x27;
+alias sed=&#x27;system_sed&#x27;
+FIX
+        ok &quot;Alias de seguranca adicionados ao ~/.bashrc&quot;
+        warn &quot;Recarregue: source ~/.bashrc&quot;
+    else
+        ok &quot;Alias ja existentes no ~/.bashrc&quot;
+    fi
+fi
+
+# --- 11. Cache DNF otimizado ---
+title &quot;11. Otimizando metadados DNF&quot;
+if command -v dnf &amp;&gt;/dev/null; then
+    # Limita cache para nao encher o HDD
+    mkdir -p /etc/dnf
+    if ! grep -q &quot;keepcache&quot; /etc/dnf/dnf.conf 2&gt;/dev/null; then
+        echo &quot;keepcache=0&quot; &gt;&gt; /etc/dnf/dnf.conf
+        ok &quot;DNF keepcache=0 (nao acumula pacotes baixados)&quot;
+    fi
+    dnf clean all 2&gt;/dev/null || true
+    ok &quot;Cache DNF limpo&quot;
+fi
+
+# --- 12. Sugestao de SSD (a maior otimizacao possivel) ---
+title &quot;12. RECOMENDACAO DE HARDWARE&quot;
+echo &quot;&quot;
+echo &quot;  A otimizacao de software mais impactful seria um SSD:&quot;
+echo &quot;    - Um SSD SATA III de 240GB/480GB custa ~R\$120-200&quot;
+echo &quot;    - Boot em segundos vs minutos&quot;
+echo &quot;    - LibreOffice abre em 3s vs 15s+ em HDD&quot;
+echo &quot;    - swap via SSD e viavel, reduzindo necessidade de RAM&quot;
+echo &quot;&quot;
+echo &quot;  2a recomendacao: upgrade de RAM para 8GB (DDR3L-1333 SODIMM)&quot;
+echo &quot;    - SODIMM DDR3L compativel com Bay Trail&quot;
+echo &quot;    - 8GB custa ~R\$80-120 usado&quot;
+echo &quot;    - Permite rodar Firefox + VSCode + LibreOffice simultaneamente&quot;
+echo &quot;&quot;
+
+# ============================================================
+echo &quot;============================================================&quot;
+echo &quot;  RESUMO DAS OTIMIZACOES APLICADAS&quot;
+echo &quot;============================================================&quot;
+echo &quot;&quot;
+echo &quot;  Aplicado:&quot;
+echo &quot;    - crashkernel: 448M -&gt; 128M (+320 MB livres, reinicio necessario)&quot;
+echo &quot;    - swappiness 70 -&gt; 10 (menos swap no HDD)&quot;
+echo &quot;    - I/O scheduler: mq-deadline -&gt; BFQ (melhor para HDD)&quot;
+echo &quot;    - vfs_cache_pressure: 100 -&gt; 50&quot;
+echo &quot;    - dirty_ratio: 20% -&gt; 10% (evita travamentos)&quot;
+echo &quot;    - sda3 swap removida do fstab (recupera 3.9GB)&quot;
+echo &quot;    - PostgreSQL desativado&quot;
+echo &quot;    - Bluetooth mantido ativo e erro de frame corrigido (btusb reload + udev)&quot;
+echo &quot;    - Avahi desativado&quot;
+echo &quot;    - Aliases no ~/.bashrc (protecao contra AppImage)&quot;
+echo &quot;    - CPU governor: performance (sessao atual)&quot;
+echo &quot;&quot;
+echo &quot;  Manual (risco de perda de dados):&quot;
+echo &quot;    - Formatar sda3 como ext4 e montar como /tmp ou /var/cache&quot;
+echo &quot;&quot;
+echo &quot;  Hardware (recomendado):&quot;
+echo &quot;    - Trocar HDD por SSD SATA III (maior ganho possivel)&quot;
+echo &quot;    - Upgrade RAM para 8GB DDR3L&quot;
+echo &quot;&quot;
+echo &quot;  Scripts uteis neste diretorio:&quot;
+echo &quot;    - setup-xfce-tiling.sh (tiling XFCE)&quot;
+echo &quot;    - ol9-full-setup.sh (repos + codecs + apps)&quot;
+echo &quot;============================================================&quot;
+</textarea>
+    <div>
+      <button class="copy-btn" onclick="copySource()" id="copy-btn">📋 Copiar código</button>
+      <button class="copy-btn" onclick="downloadSource()" id="dl-btn">💾 Download .sh</button>
+      <a href="ol9-audit-otimizar.desktop" class="download-btn" download>▶️ Abrir no Terminal (.desktop)</a>
+    </div>
+  </div>
+</div>
+
+<script>
+function copySource() {
+  var textarea = document.getElementById('source-code');
+  textarea.select();
+  textarea.setSelectionRange(0, 999999);
+  document.execCommand('copy');
+  var btn = document.getElementById('copy-btn');
+  btn.textContent = '✅ Copiado!';
+  btn.classList.add('copied');
+  setTimeout(function() {
+    btn.textContent = '📋 Copiar código';
+    btn.classList.remove('copied');
+  }, 2000);
+}
+
+function downloadSource() {
+  var content = document.getElementById('source-code').value;
+  var blob = new Blob([content], {type: 'application/x-shellscript'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'ol9-audit-otimizar.sh';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  var btn = document.getElementById('dl-btn');
+  btn.textContent = '✅ Baixado!';
+  setTimeout(function() {
+    btn.textContent = '💾 Download .sh';
+  }, 2000);
+}
+</script>
+</body>
+</html>

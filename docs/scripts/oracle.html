@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>oracle.sh — Script Details</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, monospace; background: #f5f5f5; color: #1a1a1a; line-height: 1.6; }
+.container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+h1 { font-size: 1.8rem; margin-bottom: 8px; }
+h2 { font-size: 1.3rem; margin: 24px 0 12px; color: #2563eb; border-bottom: 2px solid #e5e7eb; padding-bottom: 6px; }
+h3 { font-size: 1rem; margin: 16px 0 8px; color: #374151; }
+.subtitle { color: #6b7280; margin-bottom: 20px; font-size: 0.95rem; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+.header-bar { background: #1e293b; color: #fff; padding: 16px 0; margin-bottom: 24px; }
+.header-bar .container { display: flex; justify-content: space-between; align-items: center; }
+.header-bar h1 { margin: 0; font-size: 1.3rem; }
+.header-bar h1 a { color: #fff; }
+.header-bar h1 a:hover { text-decoration: none; }
+.header-bar .nav a { color: #93c5fd; margin-left: 16px; font-size: 0.9rem; }
+.search-box { width: 100%; padding: 10px 14px; border: 2px solid #d1d5db; border-radius: 8px; font-size: 0.95rem; margin-bottom: 20px; outline: none; transition: border-color 0.2s; }
+.search-box:focus { border-color: #2563eb; }
+table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+th, td { padding: 10px 14px; text-align: left; font-size: 0.9rem; }
+th { background: #f8fafc; font-weight: 600; color: #374151; border-bottom: 2px solid #e5e7eb; }
+td { border-bottom: 1px solid #f0f0f0; }
+tr:hover td { background: #f8fafc; }
+.badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; margin: 1px 2px; }
+.badge-pkg { background: #dcfce7; color: #166534; }
+.badge-cmd { background: #dbeafe; color: #1e40af; }
+.badge-func { background: #fef3c7; color: #92400e; }
+.badge-dir { background: #e5e7eb; color: #374151; }
+.tag { display: inline-block; padding: 2px 6px; border-radius: 3px; font-size: 0.7rem; font-weight: 600; background: #e5e7eb; color: #374151; margin: 1px; }
+.tag-category { background: #ede9fe; color: #5b21b6; }
+.cmd-count { font-size: 0.8rem; color: #6b7280; }
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 24px; }
+.stat-card { background: #fff; border-radius: 8px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); text-align: center; }
+.stat-card .num { font-size: 1.8rem; font-weight: 700; color: #2563eb; }
+.stat-card .label { font-size: 0.8rem; color: #6b7280; margin-top: 4px; }
+.script-page { max-width: 960px; margin: 0 auto; }
+.meta-table { width: 100%; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 20px; }
+.meta-table td { padding: 8px 14px; border-bottom: 1px solid #f0f0f0; }
+.meta-table td:first-child { font-weight: 600; color: #374151; width: 140px; background: #f8fafc; }
+.cmd-group { margin-bottom: 16px; }
+.cmd-group-title { font-size: 0.85rem; font-weight: 600; color: #5b21b6; margin-bottom: 6px; }
+.cmd-list { display: flex; flex-wrap: wrap; gap: 4px; }
+.source-box { margin: 12px 0; }
+.source-box textarea { width: 100%; padding: 12px; border: 2px solid #d1d5db; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 0.8rem; line-height: 1.4; background: #1e293b; color: #e5e7eb; resize: vertical; outline: none; }
+.source-box textarea:focus { border-color: #2563eb; }
+.copy-btn { display: inline-block; padding: 8px 16px; background: #2563eb; color: #fff; border: none; border-radius: 6px; font-size: 0.85rem; cursor: pointer; margin: 8px 4px 4px 0; transition: background 0.2s; }
+.copy-btn:hover { background: #1d4ed8; }
+.copy-btn.copied { background: #16a34a; }
+.download-btn { display: inline-block; padding: 8px 16px; background: #374151; color: #fff; border: none; border-radius: 6px; font-size: 0.85rem; cursor: pointer; margin: 8px 4px 4px 0; transition: background 0.2s; text-decoration: none; }
+.download-btn:hover { background: #1f2937; text-decoration: none; }
+.func-list { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+.func-item { background: #fef3c7; color: #92400e; padding: 3px 10px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 0.8rem; }
+.var-list { display: flex; flex-wrap: wrap; gap: 6px; }
+.var-item { background: #f0fdf4; color: #166534; padding: 3px 10px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 0.78rem; }
+.var-item code { font-size: 0.78rem; }
+.back-link { display: inline-block; margin-bottom: 16px; color: #2563eb; font-size: 0.9rem; }
+.back-link:before { content: "← "; }
+.stat-line { font-size: 0.8rem; color: #6b7280; margin-bottom: 12px; }
+@media (max-width: 600px) { .container { padding: 12px; } th, td { padding: 6px 8px; font-size: 0.8rem; } }
+</style>
+</head>
+<body>
+<div class="header-bar">
+  <div class="container">
+    <h1><a href="../index.html">📜 Backup Scripts</a></h1>
+    <div class="nav">
+      <a href="../index.html">Dashboard</a>
+    </div>
+  </div>
+</div>
+<div class="container script-page">
+  <a href="../index.html" class="back-link">Voltar ao Dashboard</a>
+
+  <h1>oracle.sh</h1>
+  <p class="subtitle">==============================================================================</p>
+
+  <div class="meta-table"><table><tr><td colspan='2'>==============================================================================</td></tr><tr><td colspan='2'>Gerador de ISO Híbrida (UEFI + MBR) - Oracle Linux 9.5 XFCE</td></tr><tr><td colspan='2'>Foco: Download via Internet + Sincronização via Rsync</td></tr><tr><td colspan='2'>==============================================================================</td></tr><tr><td colspan='2'>&nbsp;</td></tr></table></div>
+  <div class="meta-table"><table><tr><td>Arquivo</td><td><code>oracle.sh</code></td></tr><tr><td>Shebang</td><td><code></code></td></tr><tr><td>Tamanho</td><td>3.9 KB · 131 linhas</td></tr></table></div>
+  <h2>Funções</h2><div class='func-list'><span class="func-item">limpar_tudo() <span style="opacity:0.5">linha 22</span></span></div>
+  <h2>Variáveis de Configuração</h2><div class='var-list'><span class="var-item"><code>SCRIPT_DIR</code> = <code>$(cd &quot;$(dirname &quot;${BASH_SOURCE}&quot;)&quot; &amp;&amp; pwd)</code></span><span class="var-item"><code>BUILD_ROOT</code> = <code>$SCRIPT_DIR/build_oracle_95</code></span><span class="var-item"><code>OUT_DIR</code> = <code>$BUILD_ROOT/output_iso</code></span><span class="var-item"><code>KS_FILE</code> = <code>$BUILD_ROOT/ks_custom.cfg</code></span><span class="var-item"><code>LOG_FILE</code> = <code>$BUILD_ROOT/build.log</code></span><span class="var-item"><code>ISO_NAME</code> = <code>OL95-XFCE-Hybrid.iso</code></span><span class="var-item"><code>SOFTWARE_SRC</code> = <code>$SCRIPT_DIR/software_rpm</code></span><span class="var-item"><code>FAVORITOS_SRC</code> = <code>$SCRIPT_DIR/favoritos</code></span><span class="var-item"><code>FREE_GB</code> = <code>$(df -BG &quot;$SCRIPT_DIR&quot; | awk &#x27;NR==2 {print $4}&#x27; | sed &#x27;s/...</code></span></div>
+  <h2>Comandos Utilizados</h2><div class="cmd-group"><div class="cmd-group-title">Package Manager</div><div class="cmd-list"><span class="badge badge-cmd">dnf</span><span class="badge badge-cmd">rpm</span><span class="badge badge-cmd">yum</span></div></div><div class="cmd-group"><div class="cmd-group-title">Filesystem</div><div class="cmd-list"><span class="badge badge-cmd">mount</span><span class="badge badge-cmd">umount</span></div></div><div class="cmd-group"><div class="cmd-group-title">Text Processing</div><div class="cmd-list"><span class="badge badge-cmd">awk</span><span class="badge badge-cmd">grep</span><span class="badge badge-cmd">sed</span></div></div><div class="cmd-group"><div class="cmd-group-title">Sync/Backup</div><div class="cmd-list"><span class="badge badge-cmd">rsync</span></div></div><div class="cmd-group"><div class="cmd-group-title">File Operations</div><div class="cmd-list"><span class="badge badge-cmd">mkdir</span><span class="badge badge-cmd">rm</span></div></div><div class="cmd-group"><div class="cmd-group-title">ISO Tool</div><div class="cmd-list"><span class="badge badge-cmd">xorriso</span></div></div>
+  <h2>Pacotes / Dependências</h2><div class='cmd-list'><span class="badge badge-pkg">EPEL-release</span><span class="badge badge-pkg">lorax</span><span class="badge badge-pkg">syslinux</span><span class="badge badge-pkg">xorriso</span></div>
+
+  <h2>Código Fonte</h2>
+  <div class="source-box">
+    <textarea id="source-code" rows="20" readonly spellcheck="false"> #!/bin/bash
+# ==============================================================================
+# Gerador de ISO Híbrida (UEFI + MBR) - Oracle Linux 9.5 XFCE
+# Foco: Download via Internet + Sincronização via Rsync
+# ==============================================================================
+
+set -e
+
+# 1. Configuração de Caminhos e Variáveis
+SCRIPT_DIR=&quot;$(cd &quot;$(dirname &quot;${BASH_SOURCE}&quot;)&quot; &amp;&amp; pwd)&quot;
+BUILD_ROOT=&quot;$SCRIPT_DIR/build_oracle_95&quot;
+OUT_DIR=&quot;$BUILD_ROOT/output_iso&quot;
+KS_FILE=&quot;$BUILD_ROOT/ks_custom.cfg&quot;
+LOG_FILE=&quot;$BUILD_ROOT/build.log&quot;
+ISO_NAME=&quot;OL95-XFCE-Hybrid.iso&quot;
+
+# Pastas de Origem (ao lado do script)
+SOFTWARE_SRC=&quot;$SCRIPT_DIR/software_rpm&quot;
+FAVORITOS_SRC=&quot;$SCRIPT_DIR/favoritos&quot;
+
+# Limpeza e Segurança
+limpar_tudo() {
+    echo &quot;### [LIMPEZA] Desmontando e limpando temporários...&quot;
+    sync
+    grep &quot;$BUILD_ROOT&quot; /proc/mounts | cut -d&#x27; &#x27; -f2 | xargs -r umount -l 2&gt;/dev/null || true
+    rm -rf &quot;$BUILD_ROOT/lmc-work-*&quot; &quot;/var/tmp/lmc-*&quot; 2&gt;/dev/null || true
+}
+
+trap limpar_tudo EXIT
+
+if [[ $EUID -ne 0 ]]; then echo &quot;ERRO: Execute como ROOT.&quot;; exit 1; fi
+
+# 2. Verificação de Espaço e Dependências do Host
+FREE_GB=$(df -BG &quot;$SCRIPT_DIR&quot; | awk &#x27;NR==2 {print $4}&#x27; | sed &#x27;s/G//&#x27;)
+if [ &quot;$FREE_GB&quot; -lt 15 ]; then
+    echo &quot;ERRO: Espaço insuficiente ($FREE_GB GB). Mínimo 15GB.&quot;
+    exit 1
+fi
+
+echo &quot;### [1/6] Baixando e instalando ferramentas de build via DNF...&quot;
+dnf install -y EPEL-release &gt;&gt; &quot;$LOG_FILE&quot; 2&gt;&amp;1
+dnf install -y lorax livemedia-creator xorriso rsync syslinux \
+    grub2-efi-x64 shim-x64 grub2-pc-bin grub2-tools &gt;&gt; &quot;$LOG_FILE&quot; 2&gt;&amp;1
+
+# Preparar estrutura de build usando rsync para garantir integridade
+mkdir -p &quot;$BUILD_ROOT/content/software_rpm&quot; &quot;$BUILD_ROOT/content/favoritos&quot; &quot;$OUT_DIR&quot;
+
+if [ -d &quot;$SOFTWARE_SRC&quot; ]; then
+    rsync -av --progress &quot;$SOFTWARE_SRC/&quot; &quot;$BUILD_ROOT/content/software_rpm/&quot;
+fi
+if [ -d &quot;$FAVORITOS_SRC&quot; ]; then
+    rsync -av --progress &quot;$FAVORITOS_SRC/&quot; &quot;$BUILD_ROOT/content/favoritos/&quot;
+fi
+
+# 3. Gerar Kickstart (Configurado para baixar pacotes da Web)
+echo &quot;### [2/6] Gerando Kickstart...&quot;
+cat &lt;&lt;EOFKS &gt; &quot;$KS_FILE&quot;
+text
+keyboard --vckeymap=br --layout=br
+lang pt_BR.UTF-8
+timezone America/Sao_Paulo
+zerombr
+clearpart --all --initlabel
+autopart --type=plain
+reboot
+
+# Repositórios remotos (Download via Internet durante o build)
+url --url=https://yum.oracle.com
+repo --name=&quot;AppStream&quot; --baseurl=https://yum.oracle.com
+repo --name=&quot;EPEL&quot; --baseurl=https://dl.fedoraproject.org
+
+%packages
+@xfce
+chromium
+rsync
+kernel
+grub2-efi-x64
+grub2-pc
+shim-x64
+syslinux
+%end
+
+%post
+# Montar a mídia para acessar os arquivos injetados pelo rsync no passo final
+mkdir -p /mnt/media
+mount /dev/sr0 /mnt/media || mount /dev/cdrom /mnt/media
+
+if [ -d /mnt/media/software_rpm ]; then
+    dnf install -y /mnt/media/software_rpm/*.rpm || true
+fi
+
+if [ -d /mnt/media/favoritos ]; then
+    mkdir -p /etc/skel/favoritos
+    rsync -av /mnt/media/favoritos/ /etc/skel/favoritos/
+fi
+umount /mnt/media || true
+%end
+EOFKS
+
+# 4. Build da ISO
+echo &quot;### [3/6] Iniciando Build da ISO Híbrida (via rede)...&quot;
+rm -f &quot;$OUT_DIR/$ISO_NAME&quot;
+
+livemedia-creator \
+    --make-iso \
+    --ks=&quot;$KS_FILE&quot; \
+    --no-virt \
+    --resultdir=&quot;$OUT_DIR&quot; \
+    --project=&quot;OL9-Hybrid&quot; \
+    --releasever=9.5 \
+    --iso-name=&quot;$ISO_NAME&quot; \
+    --fs-label=&quot;OL9_XFCE_HYB&quot; \
+    --image-type-option=&quot;hybrid=true&quot;
+
+# 5. Pós-Processamento Hybrid (Compatibilidade UEFI/MBR)
+echo &quot;### [4/6] Aplicando isohybrid...&quot;
+isohybrid --uefi &quot;$OUT_DIR/$ISO_NAME&quot; || true
+
+# 6. Injeção de Arquivos Extras via Rsync na estrutura final
+echo &quot;### [5/6] Injetando pacotes locais e favoritos na ISO...&quot;
+# Nota: Para injetar após o build, usamos ferramentas de manipulação de ISO ou 
+# garantimos que o lmc inclua o diretório. Como o lmc isola o build, 
+# o rsync aqui prepara o diretório de saída.
+rsync -av &quot;$BUILD_ROOT/content/&quot; &quot;$OUT_DIR/&quot;
+
+cd &quot;$OUT_DIR&quot;
+sha256sum &quot;$ISO_NAME&quot; &gt; hash_iso.txt
+
+echo &quot;### [6/6] SUCESSO! ISO gerada em: $OUT_DIR/$ISO_NAME&quot;
+
+</textarea>
+    <div>
+      <button class="copy-btn" onclick="copySource()" id="copy-btn">📋 Copiar código</button>
+      <button class="copy-btn" onclick="downloadSource()" id="dl-btn">💾 Download .sh</button>
+      <a href="oracle.desktop" class="download-btn" download>▶️ Abrir no Terminal (.desktop)</a>
+    </div>
+  </div>
+</div>
+
+<script>
+function copySource() {
+  var textarea = document.getElementById('source-code');
+  textarea.select();
+  textarea.setSelectionRange(0, 999999);
+  document.execCommand('copy');
+  var btn = document.getElementById('copy-btn');
+  btn.textContent = '✅ Copiado!';
+  btn.classList.add('copied');
+  setTimeout(function() {
+    btn.textContent = '📋 Copiar código';
+    btn.classList.remove('copied');
+  }, 2000);
+}
+
+function downloadSource() {
+  var content = document.getElementById('source-code').value;
+  var blob = new Blob([content], {type: 'application/x-shellscript'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'oracle.sh';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  var btn = document.getElementById('dl-btn');
+  btn.textContent = '✅ Baixado!';
+  setTimeout(function() {
+    btn.textContent = '💾 Download .sh';
+  }, 2000);
+}
+</script>
+</body>
+</html>

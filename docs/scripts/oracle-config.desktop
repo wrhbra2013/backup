@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=oracle_config.sh
+Comment=Nome do script: config_ol9.sh
+Exec=x-terminal-emulator -e bash -c '/home/wander/Public/backup/system_scripts/oracle_config.sh; echo ""; echo "=== Script finalizado. Pressione Enter para fechar ==="; read'
+Terminal=true
+Icon=terminal
+Categories=Development;System;

@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=git-sync.sh
+Comment=Script para Git: commit, pull, push e listar commits
+Exec=x-terminal-emulator -e bash -c '/home/wander/Public/backup/git-sync.sh; echo ""; echo "=== Script finalizado. Pressione Enter para fechar ==="; read'
+Terminal=true
+Icon=terminal
+Categories=Development;System;

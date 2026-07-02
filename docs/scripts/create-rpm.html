@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>create_rpm.sh — Script Details</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, monospace; background: #f5f5f5; color: #1a1a1a; line-height: 1.6; }
+.container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+h1 { font-size: 1.8rem; margin-bottom: 8px; }
+h2 { font-size: 1.3rem; margin: 24px 0 12px; color: #2563eb; border-bottom: 2px solid #e5e7eb; padding-bottom: 6px; }
+h3 { font-size: 1rem; margin: 16px 0 8px; color: #374151; }
+.subtitle { color: #6b7280; margin-bottom: 20px; font-size: 0.95rem; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+.header-bar { background: #1e293b; color: #fff; padding: 16px 0; margin-bottom: 24px; }
+.header-bar .container { display: flex; justify-content: space-between; align-items: center; }
+.header-bar h1 { margin: 0; font-size: 1.3rem; }
+.header-bar h1 a { color: #fff; }
+.header-bar h1 a:hover { text-decoration: none; }
+.header-bar .nav a { color: #93c5fd; margin-left: 16px; font-size: 0.9rem; }
+.search-box { width: 100%; padding: 10px 14px; border: 2px solid #d1d5db; border-radius: 8px; font-size: 0.95rem; margin-bottom: 20px; outline: none; transition: border-color 0.2s; }
+.search-box:focus { border-color: #2563eb; }
+table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+th, td { padding: 10px 14px; text-align: left; font-size: 0.9rem; }
+th { background: #f8fafc; font-weight: 600; color: #374151; border-bottom: 2px solid #e5e7eb; }
+td { border-bottom: 1px solid #f0f0f0; }
+tr:hover td { background: #f8fafc; }
+.badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; margin: 1px 2px; }
+.badge-pkg { background: #dcfce7; color: #166534; }
+.badge-cmd { background: #dbeafe; color: #1e40af; }
+.badge-func { background: #fef3c7; color: #92400e; }
+.badge-dir { background: #e5e7eb; color: #374151; }
+.tag { display: inline-block; padding: 2px 6px; border-radius: 3px; font-size: 0.7rem; font-weight: 600; background: #e5e7eb; color: #374151; margin: 1px; }
+.tag-category { background: #ede9fe; color: #5b21b6; }
+.cmd-count { font-size: 0.8rem; color: #6b7280; }
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 24px; }
+.stat-card { background: #fff; border-radius: 8px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); text-align: center; }
+.stat-card .num { font-size: 1.8rem; font-weight: 700; color: #2563eb; }
+.stat-card .label { font-size: 0.8rem; color: #6b7280; margin-top: 4px; }
+.script-page { max-width: 960px; margin: 0 auto; }
+.meta-table { width: 100%; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 20px; }
+.meta-table td { padding: 8px 14px; border-bottom: 1px solid #f0f0f0; }
+.meta-table td:first-child { font-weight: 600; color: #374151; width: 140px; background: #f8fafc; }
+.cmd-group { margin-bottom: 16px; }
+.cmd-group-title { font-size: 0.85rem; font-weight: 600; color: #5b21b6; margin-bottom: 6px; }
+.cmd-list { display: flex; flex-wrap: wrap; gap: 4px; }
+.source-box { margin: 12px 0; }
+.source-box textarea { width: 100%; padding: 12px; border: 2px solid #d1d5db; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 0.8rem; line-height: 1.4; background: #1e293b; color: #e5e7eb; resize: vertical; outline: none; }
+.source-box textarea:focus { border-color: #2563eb; }
+.copy-btn { display: inline-block; padding: 8px 16px; background: #2563eb; color: #fff; border: none; border-radius: 6px; font-size: 0.85rem; cursor: pointer; margin: 8px 4px 4px 0; transition: background 0.2s; }
+.copy-btn:hover { background: #1d4ed8; }
+.copy-btn.copied { background: #16a34a; }
+.download-btn { display: inline-block; padding: 8px 16px; background: #374151; color: #fff; border: none; border-radius: 6px; font-size: 0.85rem; cursor: pointer; margin: 8px 4px 4px 0; transition: background 0.2s; text-decoration: none; }
+.download-btn:hover { background: #1f2937; text-decoration: none; }
+.func-list { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+.func-item { background: #fef3c7; color: #92400e; padding: 3px 10px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 0.8rem; }
+.var-list { display: flex; flex-wrap: wrap; gap: 6px; }
+.var-item { background: #f0fdf4; color: #166534; padding: 3px 10px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 0.78rem; }
+.var-item code { font-size: 0.78rem; }
+.back-link { display: inline-block; margin-bottom: 16px; color: #2563eb; font-size: 0.9rem; }
+.back-link:before { content: "← "; }
+.stat-line { font-size: 0.8rem; color: #6b7280; margin-bottom: 12px; }
+@media (max-width: 600px) { .container { padding: 12px; } th, td { padding: 6px 8px; font-size: 0.8rem; } }
+</style>
+</head>
+<body>
+<div class="header-bar">
+  <div class="container">
+    <h1><a href="../index.html">📜 Backup Scripts</a></h1>
+    <div class="nav">
+      <a href="../index.html">Dashboard</a>
+    </div>
+  </div>
+</div>
+<div class="container script-page">
+  <a href="../index.html" class="back-link">Voltar ao Dashboard</a>
+
+  <h1>create_rpm.sh</h1>
+  <p class="subtitle">==============================================================================</p>
+
+  <div class="meta-table"><table><tr><td colspan='2'>==============================================================================</td></tr><tr><td colspan='2'>Criador Automático de RPM a partir de arquivos .tar.gz</td></tr><tr><td colspan='2'>==============================================================================</td></tr><tr><td colspan='2'>&nbsp;</td></tr></table></div>
+  <div class="meta-table"><table><tr><td>Arquivo</td><td><code>create_rpm.sh</code></td></tr><tr><td>Shebang</td><td><code>#!/bin/bash</code></td></tr><tr><td>Tamanho</td><td>10.0 KB · 351 linhas</td></tr></table></div>
+  <h2>Funções</h2><div class='func-list'><span class="func-item">print_usage() <span style="opacity:0.5">linha 10</span></span><span class="func-item">check_deps() <span style="opacity:0.5">linha 32</span></span><span class="func-item">setup_rpmbuild() <span style="opacity:0.5">linha 50</span></span><span class="func-item">parse_name_version() <span style="opacity:0.5">linha 57</span></span><span class="func-item">create_spec() <span style="opacity:0.5">linha 73</span></span><span class="func-item">build_rpm() <span style="opacity:0.5">linha 137</span></span><span class="func-item">show_progress() <span style="opacity:0.5">linha 151</span></span><span class="func-item">cleanup() <span style="opacity:0.5">linha 164</span></span></div>
+  <h2>Variáveis de Configuração</h2><div class='var-list'><span class="var-item"><code>SCRIPT_VERSION</code> = <code>1.0</code></span><span class="var-item"><code>MISSING</code> = <code>()</code></span><span class="var-item"><code>RPMBUILD_DIR</code> = <code>$HOME/rpmbuild</code></span><span class="var-item"><code>PKG_NAME</code> = <code>${BASH_REMATCH[1]}</code></span><span class="var-item"><code>PKG_VERSION</code> = <code>${BASH_REMATCH[2]}</code></span><span class="var-item"><code>TEMP_DIR</code> = <code>$(mktemp -d)</code></span><span class="var-item"><code>SOURCE_DIR</code> = <code>$(ls -1 &quot;$TEMP_DIR&quot; | head -1)</code></span><span class="var-item"><code>SOURCE_PATH</code> = <code>$TEMP_DIR/$SOURCE_DIR</code></span><span class="var-item"><code>HAS_BUILD</code> = <code>true</code></span></div>
+  <h2>Comandos Utilizados</h2><div class="cmd-group"><div class="cmd-group-title">Package Manager</div><div class="cmd-list"><span class="badge badge-cmd">dnf</span><span class="badge badge-cmd">rpm</span><span class="badge badge-cmd">yum</span></div></div><div class="cmd-group"><div class="cmd-group-title">Text Processing</div><div class="cmd-list"><span class="badge badge-cmd">grep</span></div></div><div class="cmd-group"><div class="cmd-group-title">File Operations</div><div class="cmd-list"><span class="badge badge-cmd">cp</span><span class="badge badge-cmd">mkdir</span><span class="badge badge-cmd">rm</span></div></div><div class="cmd-group"><div class="cmd-group-title">Archive</div><div class="cmd-list"><span class="badge badge-cmd">gzip</span><span class="badge badge-cmd">tar</span></div></div>
+  <h2>Pacotes / Dependências</h2><div class='cmd-list'><span class="badge badge-pkg">rpm-build</span></div>
+
+  <h2>Código Fonte</h2>
+  <div class="source-box">
+    <textarea id="source-code" rows="20" readonly spellcheck="false">#!/bin/bash
+# ==============================================================================
+# Criador Automático de RPM a partir de arquivos .tar.gz
+# ==============================================================================
+
+set -e
+
+SCRIPT_VERSION=&quot;1.0&quot;
+
+print_usage() {
+    cat &lt;&lt;EOF
+Uso: $0 [OPÇÕES] arquivo.tar.gz
+
+OPÇÕES:
+    -n, --name         Nome do pacote (padrão: nome do arquivo sem extensão)
+    -v, --version      Versão do pacote (padrão: extraída do nome ou 1.0)
+    -r, --release      Release do pacote (padrão: 1)
+    -d, --description  Descrição do pacote
+    -l, --license      Licença (padrão: MIT)
+    -p, --prefix       Prefixo de instalação (padrão: /usr/local)
+    -m, --maintainer   Mantenedor do pacote
+    --no-install       Apenas criar RPM, não instalar
+    -h, --help         Mostrar esta ajuda
+
+EXEMPLOS:
+    $0 programa-1.0.0.tar.gz
+    $0 -n meuprog -v 2.0 -d &quot;Meu Programa&quot; programa.tar.gz
+EOF
+    exit 0
+}
+
+check_deps() {
+    MISSING=()
+    for cmd in rpmbuild tar gzip; do
+        if ! command -v $cmd &amp;&gt; /dev/null; then
+            MISSING+=($cmd)
+        fi
+    done
+
+    if [ ${#MISSING[@]} -gt 0 ]; then
+        echo &quot;Instalando dependências...&quot;
+        if command -v dnf &amp;&gt; /dev/null; then
+            sudo dnf install -y &quot;${MISSING[@]}&quot; rpm-build
+        elif command -v yum &amp;&gt; /dev/null; then
+            sudo yum install -y &quot;${MISSING[@]}&quot; rpm-build
+        fi
+    fi
+}
+
+setup_rpmbuild() {
+    RPMBUILD_DIR=&quot;$HOME/rpmbuild&quot;
+    for dir in BUILD BUILDROOT RPMS SOURCES SPECS SRPMS; do
+        mkdir -p &quot;$RPMBUILD_DIR/$dir&quot;
+    done
+}
+
+parse_name_version() {
+    local archive=&quot;$1&quot;
+    local basename=$(basename &quot;$archive&quot; .tar.gz)
+    
+    if [[ &quot;$basename&quot; =~ ^(.+)-([0-9]+\.[0-9]+\.[0-9]+)$ ]]; then
+        PKG_NAME=&quot;${BASH_REMATCH[1]}&quot;
+        PKG_VERSION=&quot;${BASH_REMATCH[2]}&quot;
+    elif [[ &quot;$basename&quot; =~ ^(.+)-([0-9]+\.[0-9]+)$ ]]; then
+        PKG_NAME=&quot;${BASH_REMATCH[1]}&quot;
+        PKG_VERSION=&quot;${BASH_REMATCH[2]}&quot;
+    else
+        PKG_NAME=&quot;$basename&quot;
+        PKG_VERSION=&quot;1.0&quot;
+    fi
+}
+
+create_spec() {
+    local archive=&quot;$1&quot;
+    local archive_name=$(basename &quot;$archive&quot;)
+    
+    # Extrair temporariamente para descobrir o nome do diretório
+    TEMP_DIR=$(mktemp -d)
+    tar -xzf &quot;$archive&quot; -C &quot;$TEMP_DIR&quot;
+    SOURCE_DIR=$(ls -1 &quot;$TEMP_DIR&quot; | head -1)
+    SOURCE_PATH=&quot;$TEMP_DIR/$SOURCE_DIR&quot;
+    
+    # Verificar se é binário pré-compilado ou código fonte
+    if [ -f &quot;$SOURCE_PATH/configure&quot; ] || [ -f &quot;$SOURCE_PATH/Makefile&quot; ]; then
+        HAS_BUILD=true
+    else
+        HAS_BUILD=false
+    fi
+    rm -rf &quot;$TEMP_DIR&quot;
+    
+    if [ &quot;$HAS_BUILD&quot; = true ]; then
+        BUILD_SECTION=&quot;
+%build
+if [ -f configure ]; then
+    ./configure --prefix=${PKG_PREFIX}
+elif [ -f Makefile ]; then
+    make
+fi
+make %{?_smp_mflags}
+
+%install
+make install DESTDIR=%{buildroot}&quot;
+    else
+        BUILD_SECTION=&quot;
+%install
+mkdir -p %{buildroot}${PKG_PREFIX}
+cp -r . %{buildroot}${PKG_PREFIX}/&quot;
+    fi
+    
+    cat &gt; &quot;$SPEC_FILE&quot; &lt;&lt;EOF
+Name:           ${PKG_NAME}
+Version:        ${PKG_VERSION}
+Release:        ${PKG_RELEASE}%{?dist}
+Summary:        ${PKG_DESCRIPTION}
+License:        ${PKG_LICENSE}
+Packager:      ${PKG_MAINTAINER}
+Source0:        %{name}-%{version}.tar.gz
+Prefix:         ${PKG_PREFIX}
+
+%description
+${PKG_DESCRIPTION}
+
+%prep
+%setup -q -n ${SOURCE_DIR}
+${BUILD_SECTION}
+
+%files
+%defattr(-,root,root,-)
+${PKG_PREFIX}/*
+
+%changelog
+* $(date &#x27;+%a %b %d %Y&#x27;) ${PKG_MAINTAINER} - ${PKG_VERSION}-${PKG_RELEASE}
+- Pacote RPM criado automaticamente
+EOF
+}
+
+build_rpm() {
+    local archive=&quot;$1&quot;
+    local archive_name=$(basename &quot;$archive&quot;)
+    
+    cp &quot;$archive&quot; &quot;$SOURCES_DIR/&quot;
+    
+    echo &quot;=== Criando RPM...&quot;
+    
+    # Obter tamanho do arquivo fonte para estimativa
+    ARCHIVE_SIZE=$(stat -c%s &quot;$archive&quot; 2&gt;/dev/null || stat -f%z &quot;$archive&quot; 2&gt;/dev/null)
+    ARCHIVE_SIZE_KB=$((ARCHIVE_SIZE / 1024))
+    ESTIMATED_RPM_SIZE=$((ARCHIVE_SIZE_KB * 2))
+    
+    # Função para mostrar barra de progresso
+    show_progress() {
+        local percent=$1
+        local width=40
+        local filled=$((width * percent / 100))
+        local empty=$((width - filled))
+        
+        printf &quot;\r[&quot;
+        printf &quot;%${filled}s&quot; | tr &#x27; &#x27; &#x27;█&#x27;
+        printf &quot;%${empty}s&quot; | tr &#x27; &#x27; &#x27;░&#x27;
+        printf &quot;] %3d%%&quot; &quot;$percent&quot;
+    }
+    
+    # Função de cleanup
+    cleanup() {
+        kill $MONITOR_PID 2&gt;/dev/null
+        rm -f &quot;$LOG_FILE&quot;
+    }
+    trap cleanup EXIT
+    
+    LOG_FILE=&quot;/tmp/rpmbuild_$$.log&quot;
+    mkfifo &quot;$LOG_FILE&quot; 2&gt;/dev/null
+    
+    # Monitor de progresso com estimativa baseada no tempo e tamanho
+    (
+        PHASES=(&quot;Preparando fontes&quot; &quot;Compilando código&quot; &quot;Instalando arquivos&quot; &quot;Gerando pacote RPM&quot; &quot;Verificando integridade&quot;)
+        PHASE=0
+        START_TIME=$(date +%s)
+        LAST_PHASE=0
+        
+        while kill -0 $$ 2&gt;/dev/null; do
+            CURRENT_TIME=$(date +%s)
+            ELAPSED=$((CURRENT_TIME - START_TIME))
+            
+            # Detectar fase pelo log
+            if grep -q &quot;Executing(%prep)&quot; &quot;$LOG_FILE&quot; 2&gt;/dev/null; then
+                PHASE=0
+            fi
+            if grep -q &quot;Executing(%build)&quot; &quot;$LOG_FILE&quot; 2&gt;/dev/null; then
+                PHASE=1
+            fi
+            if grep -q &quot;Executing(%install)&quot; &quot;$LOG_FILE&quot; 2&gt;/dev/null; then
+                PHASE=2
+            fi
+            if grep -q &quot;Creating.*rpm&quot; &quot;$LOG_FILE&quot; 2&gt;/dev/null || grep -q &quot;Building target packages&quot; &quot;$LOG_FILE&quot; 2&gt;/dev/null; then
+                PHASE=3
+            fi
+            if grep -q &quot;Wrote:&quot; &quot;$LOG_FILE&quot; 2&gt;/dev/null; then
+                PHASE=4
+            fi
+            
+            # Calcular progresso
+            BASE=$((PHASE * 20))
+            
+            # Adicionar progresso baseado no tempo gasto na fase
+            if [ $PHASE -eq $LAST_PHASE ] &amp;&amp; [ $ELAPSED -gt 0 ]; then
+                TIME_BONUS=$(( (ELAPSED % 10) * 2 ))
+            else
+                TIME_BONUS=0
+            fi
+            
+            PROGRESS=$((BASE + TIME_BONUS))
+            [ $PROGRESS -gt 98 ] &amp;&amp; PROGRESS=98
+            [ $PROGRESS -lt 0 ] &amp;&amp; PROGRESS=0
+            
+            LAST_PHASE=$PHASE
+            
+            # Mostrar tamanho estimado
+            ESTIMATED_CURRENT=$((ESTIMATED_RPM_SIZE * PROGRESS / 100))
+            
+            printf &quot;\r&quot;
+            show_progress $PROGRESS
+            printf &quot; %-25s | Est: ~%d KB&quot; &quot;${PHASES[$PHASE]}&quot; &quot;$ESTIMATED_CURRENT&quot;
+            
+            sleep 0.2
+        done
+    ) &amp;
+    MONITOR_PID=$!
+    
+    # Executar rpmbuild
+    rpmbuild -ba &quot;$SPEC_FILE&quot; &gt; &quot;$LOG_FILE&quot; 2&gt;&amp;1
+    RPM_EXIT=$?
+    
+    kill $MONITOR_PID 2&gt;/dev/null
+    wait $MONITOR_PID 2&gt;/dev/null
+    
+    printf &quot;\r&quot;
+    show_progress 100
+    printf &quot; Concluido!\n&quot;
+    
+    rm -f &quot;$LOG_FILE&quot;
+    
+    if [ $RPM_EXIT -ne 0 ]; then
+        echo &quot;ERRO: Falha ao criar RPM (código: $RPM_EXIT)&quot;
+        echo &quot;Verifique os logs em $HOME/rpmbuild/&quot;
+        cat &quot;$HOME/rpmbuild/SPECS/${PKG_NAME}.log&quot; 2&gt;/dev/null || true
+        exit 1
+    fi
+    
+    local rpm_file=$(find &quot;$RPMS_DIR&quot; -name &quot;*.rpm&quot; -type f 2&gt;/dev/null | head -1)
+    
+    if [ -n &quot;$rpm_file&quot; ]; then
+        RPM_SIZE=$(du -h &quot;$rpm_file&quot; | cut -f1)
+        RPM_SIZE_BYTES=$(stat -c%s &quot;$rpm_file&quot; 2&gt;/dev/null || stat -f%z &quot;$rpm_file&quot; 2&gt;/dev/null)
+        RPM_SIZE_KB=$((RPM_SIZE_BYTES / 1024))
+        
+        echo &quot;&quot;
+        echo &quot;╔═══════════════════════════════════════════════════╗&quot;
+        echo &quot;║          RPM CRIADO COM SUCESSO!                 ║&quot;
+        echo &quot;╠═══════════════════════════════════════════════════╣&quot;
+        printf &quot;║  Arquivo: %-40s║\n&quot; &quot;$rpm_file&quot;
+        printf &quot;║  Tamanho: %-41s║\n&quot; &quot;$RPM_SIZE ($RPM_SIZE_KB KB)&quot;
+        echo &quot;╚═══════════════════════════════════════════════════╝&quot;
+        echo &quot;&quot;
+        
+        if [ &quot;$INSTALL_RPM&quot; = true ]; then
+            echo &quot;Instalando RPM...&quot;
+            if sudo rpm -ivh &quot;$rpm_file&quot; 2&gt;/dev/null; then
+                echo &quot;RPM instalado com sucesso!&quot;
+            else
+                echo &quot;Tentando atualização...&quot;
+                sudo rpm -Uvh &quot;$rpm_file&quot;
+            fi
+        fi
+    else
+        echo &quot;ERRO: RPM não encontrado após build&quot;
+        exit 1
+    fi
+}
+
+# ============================================
+# MAIN
+# ============================================
+
+PKG_NAME=&quot;&quot;
+PKG_VERSION=&quot;&quot;
+PKG_RELEASE=&quot;1&quot;
+PKG_DESCRIPTION=&quot;Pacote criado automaticamente&quot;
+PKG_LICENSE=&quot;MIT&quot;
+PKG_PREFIX=&quot;/usr/local&quot;
+PKG_MAINTAINER=&quot;$USER&quot;
+INSTALL_RPM=true
+
+if [ $# -eq 0 ]; then
+    print_usage
+fi
+
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        -n|--name) PKG_NAME=&quot;$2&quot;; shift 2 ;;
+        -v|--version) PKG_VERSION=&quot;$2&quot;; shift 2 ;;
+        -r|--release) PKG_RELEASE=&quot;$2&quot;; shift 2 ;;
+        -d|--description) PKG_DESCRIPTION=&quot;$2&quot;; shift 2 ;;
+        -l|--license) PKG_LICENSE=&quot;$2&quot;; shift 2 ;;
+        -p|--prefix) PKG_PREFIX=&quot;$2&quot;; shift 2 ;;
+        -m|--maintainer) PKG_MAINTAINER=&quot;$2&quot;; shift 2 ;;
+        --no-install) INSTALL_RPM=false; shift ;;
+        -h|--help) print_usage ;;
+        -*) echo &quot;Opção desconhecida: $1&quot;; exit 1 ;;
+        *) ARCHIVE=&quot;$1&quot;; shift ;;
+    esac
+done
+
+if [ -z &quot;$ARCHIVE&quot; ]; then
+    echo &quot;ERRO: Arquivo .tar.gz não especificado&quot;
+    exit 1
+fi
+
+if [ ! -f &quot;$ARCHIVE&quot; ]; then
+    echo &quot;ERRO: Arquivo não encontrado: $ARCHIVE&quot;
+    exit 1
+fi
+
+if [[ ! &quot;$ARCHIVE&quot; =~ \.tar\.gz$ ]]; then
+    echo &quot;ERRO: Arquivo deve ter extensão .tar.gz&quot;
+    exit 1
+fi
+
+echo &quot;=== Criador de RPM v${SCRIPT_VERSION} ===&quot;
+echo &quot;Arquivo: $ARCHIVE&quot;
+
+check_deps
+setup_rpmbuild
+parse_name_version &quot;$ARCHIVE&quot;
+
+[ -z &quot;$PKG_NAME&quot; ] &amp;&amp; PKG_NAME=&quot;$parse_result_name&quot;
+[ -z &quot;$PKG_VERSION&quot; ] &amp;&amp; PKG_VERSION=&quot;$parse_result_version&quot;
+
+RPMBUILD_DIR=&quot;$HOME/rpmbuild&quot;
+SOURCES_DIR=&quot;$RPMBUILD_DIR/SOURCES&quot;
+SPECS_DIR=&quot;$RPMBUILD_DIR/SPECS&quot;
+RPMS_DIR=&quot;$RPMBUILD_DIR/RPMS/x86_64&quot;
+SPEC_FILE=&quot;$SPECS_DIR/${PKG_NAME}.spec&quot;
+
+echo &quot;Nome: $PKG_NAME&quot;
+echo &quot;Versão: $PKG_VERSION&quot;
+echo &quot;Release: $PKG_RELEASE&quot;
+echo &quot;&quot;
+
+create_spec &quot;$ARCHIVE&quot;
+build_rpm &quot;$ARCHIVE&quot;
+</textarea>
+    <div>
+      <button class="copy-btn" onclick="copySource()" id="copy-btn">📋 Copiar código</button>
+      <button class="copy-btn" onclick="downloadSource()" id="dl-btn">💾 Download .sh</button>
+      <a href="create-rpm.desktop" class="download-btn" download>▶️ Abrir no Terminal (.desktop)</a>
+    </div>
+  </div>
+</div>
+
+<script>
+function copySource() {
+  var textarea = document.getElementById('source-code');
+  textarea.select();
+  textarea.setSelectionRange(0, 999999);
+  document.execCommand('copy');
+  var btn = document.getElementById('copy-btn');
+  btn.textContent = '✅ Copiado!';
+  btn.classList.add('copied');
+  setTimeout(function() {
+    btn.textContent = '📋 Copiar código';
+    btn.classList.remove('copied');
+  }, 2000);
+}
+
+function downloadSource() {
+  var content = document.getElementById('source-code').value;
+  var blob = new Blob([content], {type: 'application/x-shellscript'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'create_rpm.sh';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  var btn = document.getElementById('dl-btn');
+  btn.textContent = '✅ Baixado!';
+  setTimeout(function() {
+    btn.textContent = '💾 Download .sh';
+  }, 2000);
+}
+</script>
+</body>
+</html>

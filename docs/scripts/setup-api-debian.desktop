@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=setup-api-debian.sh
+Comment=setup-api-debian.sh
+Exec=x-terminal-emulator -e bash -c '/home/wander/Public/backup/vm_scripts/setup-api-debian.sh; echo ""; echo "=== Script finalizado. Pressione Enter para fechar ==="; read'
+Terminal=true
+Icon=terminal
+Categories=Development;System;

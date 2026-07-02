@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=otimizar-xfce.sh
+Comment=otimizar-xfce.sh — Otimiza XFCE + sistema completo (Oracle Linux 9)
+Exec=x-terminal-emulator -e bash -c '/home/wander/Public/backup/system_scripts/otimizar-xfce.sh; echo ""; echo "=== Script finalizado. Pressione Enter para fechar ==="; read'
+Terminal=true
+Icon=terminal
+Categories=Development;System;

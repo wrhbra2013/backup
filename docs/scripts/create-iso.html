@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>create_iso.sh — Script Details</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, monospace; background: #f5f5f5; color: #1a1a1a; line-height: 1.6; }
+.container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+h1 { font-size: 1.8rem; margin-bottom: 8px; }
+h2 { font-size: 1.3rem; margin: 24px 0 12px; color: #2563eb; border-bottom: 2px solid #e5e7eb; padding-bottom: 6px; }
+h3 { font-size: 1rem; margin: 16px 0 8px; color: #374151; }
+.subtitle { color: #6b7280; margin-bottom: 20px; font-size: 0.95rem; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+.header-bar { background: #1e293b; color: #fff; padding: 16px 0; margin-bottom: 24px; }
+.header-bar .container { display: flex; justify-content: space-between; align-items: center; }
+.header-bar h1 { margin: 0; font-size: 1.3rem; }
+.header-bar h1 a { color: #fff; }
+.header-bar h1 a:hover { text-decoration: none; }
+.header-bar .nav a { color: #93c5fd; margin-left: 16px; font-size: 0.9rem; }
+.search-box { width: 100%; padding: 10px 14px; border: 2px solid #d1d5db; border-radius: 8px; font-size: 0.95rem; margin-bottom: 20px; outline: none; transition: border-color 0.2s; }
+.search-box:focus { border-color: #2563eb; }
+table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+th, td { padding: 10px 14px; text-align: left; font-size: 0.9rem; }
+th { background: #f8fafc; font-weight: 600; color: #374151; border-bottom: 2px solid #e5e7eb; }
+td { border-bottom: 1px solid #f0f0f0; }
+tr:hover td { background: #f8fafc; }
+.badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; margin: 1px 2px; }
+.badge-pkg { background: #dcfce7; color: #166534; }
+.badge-cmd { background: #dbeafe; color: #1e40af; }
+.badge-func { background: #fef3c7; color: #92400e; }
+.badge-dir { background: #e5e7eb; color: #374151; }
+.tag { display: inline-block; padding: 2px 6px; border-radius: 3px; font-size: 0.7rem; font-weight: 600; background: #e5e7eb; color: #374151; margin: 1px; }
+.tag-category { background: #ede9fe; color: #5b21b6; }
+.cmd-count { font-size: 0.8rem; color: #6b7280; }
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 24px; }
+.stat-card { background: #fff; border-radius: 8px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); text-align: center; }
+.stat-card .num { font-size: 1.8rem; font-weight: 700; color: #2563eb; }
+.stat-card .label { font-size: 0.8rem; color: #6b7280; margin-top: 4px; }
+.script-page { max-width: 960px; margin: 0 auto; }
+.meta-table { width: 100%; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 20px; }
+.meta-table td { padding: 8px 14px; border-bottom: 1px solid #f0f0f0; }
+.meta-table td:first-child { font-weight: 600; color: #374151; width: 140px; background: #f8fafc; }
+.cmd-group { margin-bottom: 16px; }
+.cmd-group-title { font-size: 0.85rem; font-weight: 600; color: #5b21b6; margin-bottom: 6px; }
+.cmd-list { display: flex; flex-wrap: wrap; gap: 4px; }
+.source-box { margin: 12px 0; }
+.source-box textarea { width: 100%; padding: 12px; border: 2px solid #d1d5db; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 0.8rem; line-height: 1.4; background: #1e293b; color: #e5e7eb; resize: vertical; outline: none; }
+.source-box textarea:focus { border-color: #2563eb; }
+.copy-btn { display: inline-block; padding: 8px 16px; background: #2563eb; color: #fff; border: none; border-radius: 6px; font-size: 0.85rem; cursor: pointer; margin: 8px 4px 4px 0; transition: background 0.2s; }
+.copy-btn:hover { background: #1d4ed8; }
+.copy-btn.copied { background: #16a34a; }
+.download-btn { display: inline-block; padding: 8px 16px; background: #374151; color: #fff; border: none; border-radius: 6px; font-size: 0.85rem; cursor: pointer; margin: 8px 4px 4px 0; transition: background 0.2s; text-decoration: none; }
+.download-btn:hover { background: #1f2937; text-decoration: none; }
+.func-list { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+.func-item { background: #fef3c7; color: #92400e; padding: 3px 10px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 0.8rem; }
+.var-list { display: flex; flex-wrap: wrap; gap: 6px; }
+.var-item { background: #f0fdf4; color: #166534; padding: 3px 10px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 0.78rem; }
+.var-item code { font-size: 0.78rem; }
+.back-link { display: inline-block; margin-bottom: 16px; color: #2563eb; font-size: 0.9rem; }
+.back-link:before { content: "← "; }
+.stat-line { font-size: 0.8rem; color: #6b7280; margin-bottom: 12px; }
+@media (max-width: 600px) { .container { padding: 12px; } th, td { padding: 6px 8px; font-size: 0.8rem; } }
+</style>
+</head>
+<body>
+<div class="header-bar">
+  <div class="container">
+    <h1><a href="../index.html">📜 Backup Scripts</a></h1>
+    <div class="nav">
+      <a href="../index.html">Dashboard</a>
+    </div>
+  </div>
+</div>
+<div class="container script-page">
+  <a href="../index.html" class="back-link">Voltar ao Dashboard</a>
+
+  <h1>create_iso.sh</h1>
+  <p class="subtitle">==============================================================================</p>
+
+  <div class="meta-table"><table><tr><td colspan='2'>==============================================================================</td></tr><tr><td colspan='2'>CONFIGURAÇÕES DA ISO E DIRETÓRIOS</td></tr><tr><td colspan='2'>==============================================================================</td></tr></table></div>
+  <div class="meta-table"><table><tr><td>Arquivo</td><td><code>system_scripts/create_iso.sh</code></td></tr><tr><td>Shebang</td><td><code></code></td></tr><tr><td>Tamanho</td><td>13.5 KB · 364 linhas</td></tr></table></div>
+  <h2>Funções</h2><div class='func-list'><span class="func-item">log_step() <span style="opacity:0.5">linha 43</span></span><span class="func-item">log_info() <span style="opacity:0.5">linha 44</span></span><span class="func-item">log_done() <span style="opacity:0.5">linha 45</span></span><span class="func-item">log_error() <span style="opacity:0.5">linha 46</span></span><span class="func-item">log_warn() <span style="opacity:0.5">linha 47</span></span><span class="func-item">download_required_rpms() <span style="opacity:0.5">linha 54</span></span><span class="func-item">setup() <span style="opacity:0.5">linha 75</span></span><span class="func-item">cleanup() <span style="opacity:0.5">linha 110</span></span><span class="func-item">generate_kickstart() <span style="opacity:0.5">linha 120</span></span><span class="func-item">log_info() <span style="opacity:0.5">linha 155</span></span><span class="func-item">log_info() <span style="opacity:0.5">linha 169</span></span><span class="func-item">mount_and_extract_iso() <span style="opacity:0.5">linha 211</span></span><span class="func-item">create_offline_repo() <span style="opacity:0.5">linha 226</span></span><span class="func-item">add_custom_files() <span style="opacity:0.5">linha 263</span></span><span class="func-item">configure_bootloaders() <span style="opacity:0.5">linha 279</span></span><span class="func-item">generate_iso() <span style="opacity:0.5">linha 314</span></span><span class="func-item">finalize() <span style="opacity:0.5">linha 334</span></span></div>
+  <h2>Variáveis de Configuração</h2><div class='var-list'><span class="var-item"><code>SCRIPT_DIR</code> = <code>$(cd &quot;$(dirname &quot;${BASH_SOURCE[0]}&quot;)&quot; &amp;&gt;/dev/null &amp;&amp; pwd)</code></span><span class="var-item"><code>MAX_ISO_SIZE_BYTES</code> = <code>$(( 5 * 1024 * 1024 * 1024 ))</code></span><span class="var-item"><code>MAX_ISO_SIZE_HUMAN</code> = <code>5 GiB</code></span><span class="var-item"><code>SAFETY_MARGIN</code> = <code>$(( 150 * 1024 * 1024 ))</code></span><span class="var-item"><code>DATA</code> = <code>$(date +%Y-%m-%d)</code></span><span class="var-item"><code>ISO_BASE</code> = <code>OracleLinux-R9-U4-x86_64-dvd.iso</code></span><span class="var-item"><code>OUTPUT_ISO</code> = <code>OracleLinux-9.6-GUI-Offline-5G-${DATA}.iso</code></span><span class="var-item"><code>SOFTWARE_DIR</code> = <code>software_rpm</code></span><span class="var-item"><code>FAVORITOS_DIR</code> = <code>favoritos</code></span><span class="var-item"><code>REQUIRED_RPMS_DIR</code> = <code>required_rpms</code></span><span class="var-item"><code>KS_FILE</code> = <code>ks.cfg</code></span><span class="var-item"><code>COMPRESSED_REPO_NAME</code> = <code>repo.tar.xz</code></span><span class="var-item"><code>MOUNT_DIR</code> = <code>$(mktemp -d -t ol9-mnt-XXXXXXXXXX)</code></span><span class="var-item"><code>EXTRACT_DIR</code> = <code>$(mktemp -d -t ol9-extract-XXXXXXXXXX)</code></span><span class="var-item"><code>TEMP_REPO_DIR</code> = <code>$(mktemp -d -t ol9-repo-XXXXXXXXXX)</code></span><span class="var-item"><code>EFI_DIR</code> = <code>$EXTRACT_DIR/EFI/BOOT</code></span><span class="var-item"><code>ISOLINUX_DIR</code> = <code>$EXTRACT_DIR/isolinux</code></span><span class="var-item"><code>REQUIRED_PACKAGES</code> = <code>(&quot;rsync&quot; &quot;createrepo_c&quot; &quot;xorriso&quot; &quot;xz&quot; &quot;syslinux&quot; &quot;dnf-ut...</code></span><span class="var-item"><code>INTERNAL_ISOHDPFX_BIN</code> = <code>$ISOLINUX_DIR/isohdpfx.bin</code></span><span class="var-item"><code>STEP</code> = <code>0</code></span><span class="var-item"><code>TOTAL_STEPS</code> = <code>9</code></span></div>
+  <h2>Comandos Utilizados</h2><div class="cmd-group"><div class="cmd-group-title">Package Manager</div><div class="cmd-list"><span class="badge badge-cmd">dnf</span><span class="badge badge-cmd">rpm</span></div></div><div class="cmd-group"><div class="cmd-group-title">Filesystem</div><div class="cmd-list"><span class="badge badge-cmd">mount</span><span class="badge badge-cmd">umount</span></div></div><div class="cmd-group"><div class="cmd-group-title">Text Processing</div><div class="cmd-list"><span class="badge badge-cmd">awk</span></div></div><div class="cmd-group"><div class="cmd-group-title">Sync/Backup</div><div class="cmd-list"><span class="badge badge-cmd">rsync</span></div></div><div class="cmd-group"><div class="cmd-group-title">File Operations</div><div class="cmd-list"><span class="badge badge-cmd">cp</span><span class="badge badge-cmd">mkdir</span><span class="badge badge-cmd">rm</span></div></div><div class="cmd-group"><div class="cmd-group-title">Permissions</div><div class="cmd-list"><span class="badge badge-cmd">chown</span></div></div><div class="cmd-group"><div class="cmd-group-title">ISO Tool</div><div class="cmd-list"><span class="badge badge-cmd">xorriso</span></div></div><div class="cmd-group"><div class="cmd-group-title">Repository</div><div class="cmd-list"><span class="badge badge-cmd">createrepo_c</span></div></div><div class="cmd-group"><div class="cmd-group-title">Archive</div><div class="cmd-list"><span class="badge badge-cmd">tar</span></div></div>
+  <h2>Pacotes / Dependências</h2><div class='cmd-list'><span class="badge badge-pkg">oraclelinux-release-epl</span></div>
+
+  <h2>Código Fonte</h2>
+  <div class="source-box">
+    <textarea id="source-code" rows="20" readonly spellcheck="false"> #!/bin/bash
+set -e
+
+# ==============================================================================
+# CONFIGURAÇÕES DA ISO E DIRETÓRIOS
+# ==============================================================================
+SCRIPT_DIR=&quot;$(cd &quot;$(dirname &quot;${BASH_SOURCE[0]}&quot;)&quot; &amp;&gt;/dev/null &amp;&amp; pwd)&quot;
+cd &quot;$SCRIPT_DIR&quot;
+
+# Definindo o limite de tamanho da ISO em bytes (5 GiB)
+MAX_ISO_SIZE_BYTES=$(( 5 * 1024 * 1024 * 1024 ))
+MAX_ISO_SIZE_HUMAN=&quot;5 GiB&quot;
+SAFETY_MARGIN=$(( 150 * 1024 * 1024 )) # Margem de segurança de 150 MB
+
+DATA=$(date +%Y-%m-%d)
+ISO_BASE=&quot;OracleLinux-R9-U4-x86_64-dvd.iso&quot;
+OUTPUT_ISO=&quot;OracleLinux-9.6-GUI-Offline-5G-${DATA}.iso&quot;
+SOFTWARE_DIR=&quot;software_rpm&quot;
+FAVORITOS_DIR=&quot;favoritos&quot;
+REQUIRED_RPMS_DIR=&quot;required_rpms&quot; # Pacotes de EPEL/RPM Fusion para inclusão offline
+KS_FILE=&quot;ks.cfg&quot;
+COMPRESSED_REPO_NAME=&quot;repo.tar.xz&quot;
+
+# Diretórios temporários
+MOUNT_DIR=$(mktemp -d -t ol9-mnt-XXXXXXXXXX)
+EXTRACT_DIR=$(mktemp -d -t ol9-extract-XXXXXXXXXX)
+TEMP_REPO_DIR=$(mktemp -d -t ol9-repo-XXXXXXXXXX)
+EFI_DIR=&quot;$EXTRACT_DIR/EFI/BOOT&quot;
+ISOLINUX_DIR=&quot;$EXTRACT_DIR/isolinux&quot;
+
+# Dependências necessárias no HOST (Adicionado &#x27;syslinux&#x27; e &#x27;dnf-utils&#x27; para MBR/downloads)
+REQUIRED_PACKAGES=(&quot;rsync&quot; &quot;createrepo_c&quot; &quot;xorriso&quot; &quot;xz&quot; &quot;syslinux&quot; &quot;dnf-utils&quot;)
+
+# Caminho interno do binário MBR após a cópia ou fallback
+INTERNAL_ISOHDPFX_BIN=&quot;$ISOLINUX_DIR/isohdpfx.bin&quot; 
+
+# ==============================================================================
+# FUNÇÕES DE LOG (Mantidas)
+# ==============================================================================
+STEP=0
+TOTAL_STEPS=9 # Aumentamos para 9
+
+log_step() { STEP=$((STEP+1)); echo -e &quot;\n[\e[1;34m${STEP}/${TOTAL_STEPS}\e[0m] 🚀 $1&quot;; }
+log_info() { echo -e &quot;    ➜ $1&quot;; }
+log_done() { echo -e &quot;    ✅ $1&quot;; }
+log_error() { echo -e &quot;    ❌ \e[1;31mERRO: $1\e[0m&quot; &gt;&amp;2; exit 1; }
+log_warn() { echo -e &quot;    ⚠️ \e[1;33mAVISO: $1\e[0m&quot;; }
+
+# ==============================================================================
+# FUNÇÕES PRINCIPAIS DO PROCESSO
+# ==============================================================================
+
+# Novo passo: Baixar RPMs de dependências para o repositório
+download_required_rpms() {
+    log_step &quot;Baixando RPMs de repositórios externos para inclusão offline...&quot;
+    
+    mkdir -p &quot;$REQUIRED_RPMS_DIR&quot;
+
+    # Pacotes necessários para configurar repositórios no %post
+    # Usamos dnf download --resolve para garantir que dependências essenciais sejam baixadas
+    
+    # Adicionando EPEL release (URL estável)
+    log_info &quot;Baixando EPEL release e dependências...&quot;
+    sudo dnf download -y --resolve --destdir=&quot;$REQUIRED_RPMS_DIR&quot; &quot;https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm&quot; || log_warn &quot;Falha ao baixar EPEL. O Kickstart continuará tentando baixar online.&quot;
+
+    # Adicionando RPM Fusion (URLs estáveis)
+    log_info &quot;Baixando RPM Fusion release (Free e Nonfree) e dependências...&quot;
+    sudo dnf download -y --resolve --destdir=&quot;$REQUIRED_RPMS_DIR&quot; \
+        &quot;https://mirrors.rpmfusion.org/free/el/rpmfusion-free-release-9.noarch.rpm&quot; \
+        &quot;https://mirrors.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-9.noarch.rpm&quot; || log_warn &quot;Falha ao baixar RPM Fusion. O Kickstart continuará tentando baixar online.&quot;
+        
+    log_done &quot;Downloads de dependências de repositório concluídos em $REQUIRED_RPMS_DIR.&quot;
+}
+
+setup() {
+    log_step &quot;Preparando ambiente e verificando dependências...&quot;
+    
+    if [ ! -f &quot;$ISO_BASE&quot; ]; then
+        log_error &quot;Arquivo de ISO base não encontrado: $ISO_BASE.&quot;
+    fi
+
+    log_info &quot;Verificando e instalando dependências: ${REQUIRED_PACKAGES[*]}...&quot;
+    local missing=()
+    for pkg in &quot;${REQUIRED_PACKAGES[@]}&quot;; do
+        if ! rpm -q &quot;$pkg&quot; &amp;&gt;/dev/null; then
+            missing+=(&quot;$pkg&quot;)
+        fi
+    done
+
+    if [ ${#missing[@]} -gt 0 ]; then
+        log_info &quot;Instalando dependências faltantes: ${missing[*]}&quot;
+        sudo dnf install -y &quot;${missing[@]}&quot; || log_error &quot;Falha crítica na instalação de dependências.&quot;
+    fi
+    
+    # 2. Copia o binário MBR para o diretório de extração, usando fallback do host
+    if [ ! -f &quot;$INTERNAL_ISOHDPFX_BIN&quot; ]; then
+        log_warn &quot;Binário MBR (isohdpfx.bin) não encontrado no diretório de extração local. Tentando copiar do host...&quot;
+        if [ -f &quot;/usr/share/syslinux/isohdpfx.bin&quot; ]; then
+            mkdir -p &quot;$ISOLINUX_DIR&quot;
+            cp &quot;/usr/share/syslinux/isohdpfx.bin&quot; &quot;$INTERNAL_ISOHDPFX_BIN&quot;
+            log_info &quot;Binário MBR copiado do HOST para $INTERNAL_ISOHDPFX_BIN (Fallback OK).&quot;
+        else
+            log_error &quot;O binário MBR isohdpfx.bin não foi encontrado na ISO base. Instale o pacote &#x27;syslinux&#x27; ou verifique o caminho da ISO.&quot;
+        fi
+    fi
+
+    log_done &quot;Ambiente e dependências OK.&quot;
+}
+
+cleanup() {
+    log_info &quot;Limpando arquivos temporários...&quot;
+    if mountpoint -q &quot;$MOUNT_DIR&quot; &amp;&gt;/dev/null; then
+        sudo umount &quot;$MOUNT_DIR&quot;
+    fi
+    rm -rf &quot;$MOUNT_DIR&quot; &quot;$TEMP_REPO_DIR&quot; &quot;$EXTRACT_DIR&quot; &quot;$KS_FILE&quot;
+    log_done &quot;Limpeza concluída.&quot;
+}
+
+# 1. GERAÇÃO DO KICKSTART: Configurado para iniciar em modo gráfico (GUI)
+generate_kickstart() {
+    log_step &quot;Gerando arquivo Kickstart customizado (Instalação GUI)...&quot;
+    cat &gt; &quot;$KS_FILE&quot; &lt;&lt;EOF
+#version=RHEL9
+install
+cdrom
+lang pt_BR.UTF-8
+keyboard br-abnt2
+timezone America/Sao_Paulo --isUtc
+rootpw --plaintext oracle
+user --name=customuser --password=oracle --plaintext --groups=wheel
+firewall --enabled
+selinux --enforcing
+network --bootproto=dhcp --device=link --activate
+bootloader --location=all
+autopart --type=lvm
+reboot
+
+# Inicia o instalador em modo gráfico (GUI)
+# text 
+graphical
+
+# Repositório local (descompactado)
+repo --name=&quot;local-repo&quot; --baseurl=file:///mnt/repo --gpgcheck=0 --enabled=1
+
+%packages
+@core
+# Adicione um ambiente de desktop básico para um sistema mais usável pós-instalação
+@server-product-environment
+%end
+
+# =================================================================
+# FASE PRE: Descompacta o repositório
+# =================================================================
+%pre
+log_info() { echo -e &quot;-&gt; \$1&quot;; }
+log_info &quot;Iniciando descompactação do repositório...&quot;
+REPO_ARCHIVE=&quot;/mnt/install/$COMPRESSED_REPO_NAME&quot;
+REPO_TARGET=&quot;/mnt/repo&quot;
+mkdir -p \$REPO_TARGET
+# Usamos &#x27;tar -xJf&#x27; para descompactar o arquivo .tar.xz
+tar -xJf \$REPO_ARCHIVE -C \$REPO_TARGET
+log_info &quot;Repositório descompactado em \$REPO_TARGET.&quot;
+%end
+
+# =================================================================
+# FASE POST: Configura repos e copia arquivos
+# =================================================================
+%post --log=/root/post-install.log
+log_info() { echo -e &quot;-&gt; \$1&quot;; }
+log_info &quot;Iniciando scripts de pós-instalação...&quot;
+
+# Os RPMs do EPEL/RPM Fusion já estão no repositório local (/mnt/repo)
+
+# 1. Configura Repositórios Externos (Offline)
+log_info &quot;Configurando repositórios EPEL e RPM Fusion (Offline)...&quot;
+# Busca e instala os pacotes de release do EPEL/RPM Fusion diretamente do repositório local
+# O &#x27;dnf install&#x27; deve ser capaz de encontrá-los no /mnt/repo
+dnf install -y \
+    /mnt/repo/epel-release-latest-9.noarch.rpm \
+    /mnt/repo/rpmfusion-free-release-9.noarch.rpm \
+    /mnt/repo/rpmfusion-nonfree-release-9.noarch.rpm || log_warn &quot;Falha ao instalar pacotes de release do repositório local. Tentando dnf install -y (online).&quot;
+
+# Instala oraclelinux-release-epl (se necessário)
+dnf install -y oraclelinux-release-epl &gt; /dev/null 2&gt;&amp;1
+log_info &quot;Repositórios EPEL e RPM Fusion configurados (parcialmente ou totalmente offline).&quot;
+
+# 2. Copia Arquivos Customizados (Favoritos e Software)
+CUSTOM_USER=&quot;customuser&quot;
+HOME_DIR=&quot;/home/\$CUSTOM_USER&quot;
+log_info &quot;Copiando arquivos customizados para \$HOME_DIR...&quot;
+# Arquivos customizados estão na raiz da ISO (agora /mnt/install)
+for dir_name in &quot;favoritos&quot; &quot;software_rpm&quot;; do
+    if [ -d &quot;/mnt/install/\$dir_name&quot; ]; then
+        mkdir -p &quot;\$HOME_DIR/\$dir_name&quot;
+        cp -r /mnt/install/\$dir_name/* &quot;\$HOME_DIR/\$dir_name/&quot; || true
+        chown -R \$CUSTOM_USER:\$CUSTOM_USER &quot;\$HOME_DIR/\$dir_name&quot;
+        log_info &quot;Arquivos de \$dir_name copiados.&quot;
+    fi
+done
+
+# 3. Limpeza
+rm -f /root/anaconda-ks.cfg
+log_info &quot;Pós-instalação concluída.&quot;
+
+%end
+EOF
+    log_done &quot;Kickstart criado em $KS_FILE. (Início da instalação: GUI)&quot;
+}
+
+# 2. MONTAGEM E EXTRAÇÃO
+mount_and_extract_iso() {
+    log_step &quot;Montando e extraindo ISO base...&quot;
+    sudo mount -o loop &quot;$ISO_BASE&quot; &quot;$MOUNT_DIR&quot; || log_error &quot;Falha ao montar ISO base.&quot;
+
+    log_info &quot;Copiando arquivos essenciais da ISO (excluindo pacotes)...&quot;
+    rsync -a --exclude=&quot;Packages&quot; &quot;$MOUNT_DIR&quot;/ &quot;$EXTRACT_DIR&quot;/
+
+    log_info &quot;Copiando pacotes da ISO para o repositório temporário...&quot;
+    rsync -a &quot;$MOUNT_DIR/BaseOS/Packages/&quot; &quot;$TEMP_REPO_DIR/&quot;
+
+    log_done &quot;Arquivos base copiados.&quot;
+    sudo umount &quot;$MOUNT_DIR&quot; # Desmonta a ISO base imediatamente após copiar
+}
+
+# 3. CRIAÇÃO E COMPACTAÇÃO DO REPOSITÓRIO OFFLINE
+create_offline_repo() {
+    log_step &quot;Criando e compactando repositório offline (Limite: ${MAX_ISO_SIZE_HUMAN})...&quot;
+    
+    # 1. Adicionar pacotes customizados e de repositórios (software_rpm + required_rpms)
+    for dir in &quot;$SOFTWARE_DIR&quot; &quot;$REQUIRED_RPMS_DIR&quot;; do
+        if [ -d &quot;$dir&quot; ] &amp;&amp; [ &quot;$(ls -A $dir)&quot; ]; then
+            log_info &quot;Adicionando pacotes de $dir ao repositório...&quot;
+            cp &quot;$dir&quot;/*.rpm &quot;$TEMP_REPO_DIR/&quot; || log_warn &quot;Não foi possível copiar RPMs de $dir.&quot;
+        fi
+    done
+
+    # 2. Gerar metadados
+    log_info &quot;Gerando metadados do repositório temporário...&quot;
+    createrepo_c &quot;$TEMP_REPO_DIR&quot;
+
+    # 3. Compactar
+    log_info &quot;Compactando repositório para ${COMPRESSED_REPO_NAME} (usando xz)...&quot;
+    tar -cJpf &quot;$EXTRACT_DIR/$COMPRESSED_REPO_NAME&quot; -C &quot;$(dirname &quot;$TEMP_REPO_DIR&quot;)&quot; &quot;$(basename &quot;$TEMP_REPO_DIR&quot;)&quot;
+    
+    rm -rf &quot;$TEMP_REPO_DIR&quot;
+
+    # 4. Checagem de limite (Mantida)
+    COMPRESSED_REPO_SIZE=$(du -sb &quot;$EXTRACT_DIR/$COMPRESSED_REPO_NAME&quot; | awk &#x27;{print $1}&#x27;)
+    log_info &quot;Tamanho do repositório compactado: $(numfmt --to=iec --format=&quot;%.1f&quot; &quot;$COMPRESSED_REPO_SIZE&quot;)&quot;
+    
+    CURRENT_ISO_CONTENT_SIZE=$(sudo du -sb &quot;$EXTRACT_DIR&quot; | awk &#x27;{print $1}&#x27;)
+    
+    if [ &quot;$CURRENT_ISO_CONTENT_SIZE&quot; -gt &quot;$(( MAX_ISO_SIZE_BYTES - SAFETY_MARGIN ))&quot; ]; then
+        log_error &quot;O conteúdo da ISO excede o limite de ${MAX_ISO_SIZE_HUMAN}.&quot;
+    else
+        log_info &quot;Tamanho total do conteúdo (~$(numfmt --to=iec --format=&quot;%.1f&quot; &quot;$CURRENT_ISO_CONTENT_SIZE&quot;)) está dentro do limite.&quot;
+    fi
+    
+    log_done &quot;Repositório compactado e verificado.&quot;
+}
+
+# 4. ADIÇÃO DE ARQUIVOS CUSTOMIZADOS (Mantido)
+add_custom_files() {
+    log_step &quot;Adicionando arquivos personalizados...&quot;
+    
+    for dir_name in &quot;$FAVORITOS_DIR&quot; &quot;$SOFTWARE_DIR&quot;; do
+        if [ -d &quot;$dir_name&quot; ] &amp;&amp; [ &quot;$(ls -A $dir_name)&quot; ]; then
+            mkdir -p &quot;$EXTRACT_DIR/$dir_name&quot;
+            cp -r &quot;$dir_name&quot;/* &quot;$EXTRACT_DIR/$dir_name/&quot;
+            log_done &quot;Arquivos de $dir_name adicionados.&quot;
+        fi
+    done
+    
+    # O kickstart é copiado aqui para a raiz da extração
+    cp &quot;$KS_FILE&quot; &quot;$EXTRACT_DIR/&quot;
+}
+
+# 5. CONFIGURAÇÃO DE BOOT (Inclui &#x27;inst.ks&#x27;)
+configure_bootloaders() {
+    log_step &quot;Configurando arquivos de boot GRUB2 e ISOLINUX...&quot;
+    
+    # Arquivos de configuração de boot (apontando para o Kickstart na raiz)
+    
+    # Parâmetros de boot: inst.stage2=hd:LABEL=OL9 inst.ks=cdrom:/ks.cfg
+    BOOT_PARAMS=&quot;inst.stage2=hd:LABEL=OL9 inst.ks=cdrom:/ks.cfg&quot;
+    
+    # BIOS grub.cfg
+    mkdir -p &quot;$EXTRACT_DIR/boot/grub&quot;
+    cat &gt; &quot;$EXTRACT_DIR/boot/grub/grub.cfg&quot; &lt;&lt;EOF
+set timeout=5
+set default=0
+
+menuentry &quot;Instalar Oracle Linux 9.6 Compacto (GUI)&quot; {
+    linux /images/pxeboot/vmlinuz $BOOT_PARAMS
+    initrd /images/pxeboot/initrd.img
+}
+EOF
+
+    # UEFI grub.cfg
+    cat &gt; &quot;$EFI_DIR/grub.cfg&quot; &lt;&lt;EOF
+set timeout=5
+set default=0
+
+menuentry &quot;Instalar Oracle Linux 9.6 Compacto (GUI)&quot; {
+    linux /images/pxeboot/vmlinuz $BOOT_PARAMS
+    initrd /images/pxeboot/initrd.img
+}
+EOF
+
+    log_done &quot;Configuração de boot finalizada.&quot;
+}
+
+# 6. GERAÇÃO FINAL DA IMAGEM ISO (HYBRID)
+generate_iso() {
+    log_step &quot;Gerando ISO híbrida...&quot;
+    
+    # Agora confiamos que $INTERNAL_ISOHDPFX_BIN foi criado pelo setup (fallback)
+    xorriso -as mkisofs \
+        -o &quot;$OUTPUT_ISO&quot; \
+        -volid OL9 \
+        -isohybrid-mbr &quot;$INTERNAL_ISOHDPFX_BIN&quot; \
+        -c isolinux/boot.cat \
+        -b isolinux/isolinux.bin \
+        -no-emul-boot \
+        -boot-load-size 4 \
+        -boot-info-table \
+        -eltorito-alt-boot \
+        -e EFI/BOOT/BOOTX64.EFI \
+        -no-emul-boot \
+        &quot;$EXTRACT_DIR&quot; || log_error &quot;Falha ao gerar a ISO. O binário MBR pode estar faltando.&quot;
+    log_done &quot;ISO criada com sucesso: $OUTPUT_ISO&quot;
+}
+
+finalize() {
+    log_step &quot;Processo concluído.&quot;
+    ISO_SIZE=$(du -h &quot;$OUTPUT_ISO&quot; | awk &#x27;{print $1}&#x27;)
+    
+    FINAL_SIZE_BYTES=$(du -s &quot;$OUTPUT_ISO&quot; | awk &#x27;{print $1 * 1024}&#x27;)
+
+    if [ &quot;$FINAL_SIZE_BYTES&quot; -gt &quot;$MAX_ISO_SIZE_BYTES&quot; ]; then
+        log_warn &quot;A ISO final ($ISO_SIZE) EXCEDEU o limite de ${MAX_ISO_SIZE_HUMAN}. Reduza o conteúdo de $SOFTWARE_DIR e $REQUIRED_RPMS_DIR.&quot;
+    fi
+
+    log_done &quot;ISO personalizada pronta: $OUTPUT_ISO&quot;
+    log_done &quot;Tamanho da imagem: $ISO_SIZE&quot;
+}
+
+# ==============================================================================
+# FLUXO PRINCIPAL
+# ==============================================================================
+trap cleanup EXIT
+
+# Novo passo de download antes do setup para garantir que os RPMs de repo estejam prontos
+download_required_rpms 
+
+setup
+generate_kickstart
+mount_and_extract_iso
+create_offline_repo   # Inclui RPMs da ISO + software + releases de repo
+add_custom_files      # Adiciona favoritos e software_rpm para cópia pós-instalação
+configure_bootloaders # Configura GRUB para iniciar a GUI do Anaconda
+generate_iso
+finalize
+</textarea>
+    <div>
+      <button class="copy-btn" onclick="copySource()" id="copy-btn">📋 Copiar código</button>
+      <button class="copy-btn" onclick="downloadSource()" id="dl-btn">💾 Download .sh</button>
+      <a href="create-iso.desktop" class="download-btn" download>▶️ Abrir no Terminal (.desktop)</a>
+    </div>
+  </div>
+</div>
+
+<script>
+function copySource() {
+  var textarea = document.getElementById('source-code');
+  textarea.select();
+  textarea.setSelectionRange(0, 999999);
+  document.execCommand('copy');
+  var btn = document.getElementById('copy-btn');
+  btn.textContent = '✅ Copiado!';
+  btn.classList.add('copied');
+  setTimeout(function() {
+    btn.textContent = '📋 Copiar código';
+    btn.classList.remove('copied');
+  }, 2000);
+}
+
+function downloadSource() {
+  var content = document.getElementById('source-code').value;
+  var blob = new Blob([content], {type: 'application/x-shellscript'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'create_iso.sh';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  var btn = document.getElementById('dl-btn');
+  btn.textContent = '✅ Baixado!';
+  setTimeout(function() {
+    btn.textContent = '💾 Download .sh';
+  }, 2000);
+}
+</script>
+</body>
+</html>

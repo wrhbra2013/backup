@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>xrandr-config.sh — Script Details</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, monospace; background: #f5f5f5; color: #1a1a1a; line-height: 1.6; }
+.container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+h1 { font-size: 1.8rem; margin-bottom: 8px; }
+h2 { font-size: 1.3rem; margin: 24px 0 12px; color: #2563eb; border-bottom: 2px solid #e5e7eb; padding-bottom: 6px; }
+h3 { font-size: 1rem; margin: 16px 0 8px; color: #374151; }
+.subtitle { color: #6b7280; margin-bottom: 20px; font-size: 0.95rem; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+.header-bar { background: #1e293b; color: #fff; padding: 16px 0; margin-bottom: 24px; }
+.header-bar .container { display: flex; justify-content: space-between; align-items: center; }
+.header-bar h1 { margin: 0; font-size: 1.3rem; }
+.header-bar h1 a { color: #fff; }
+.header-bar h1 a:hover { text-decoration: none; }
+.header-bar .nav a { color: #93c5fd; margin-left: 16px; font-size: 0.9rem; }
+.search-box { width: 100%; padding: 10px 14px; border: 2px solid #d1d5db; border-radius: 8px; font-size: 0.95rem; margin-bottom: 20px; outline: none; transition: border-color 0.2s; }
+.search-box:focus { border-color: #2563eb; }
+table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+th, td { padding: 10px 14px; text-align: left; font-size: 0.9rem; }
+th { background: #f8fafc; font-weight: 600; color: #374151; border-bottom: 2px solid #e5e7eb; }
+td { border-bottom: 1px solid #f0f0f0; }
+tr:hover td { background: #f8fafc; }
+.badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; margin: 1px 2px; }
+.badge-pkg { background: #dcfce7; color: #166534; }
+.badge-cmd { background: #dbeafe; color: #1e40af; }
+.badge-func { background: #fef3c7; color: #92400e; }
+.badge-dir { background: #e5e7eb; color: #374151; }
+.tag { display: inline-block; padding: 2px 6px; border-radius: 3px; font-size: 0.7rem; font-weight: 600; background: #e5e7eb; color: #374151; margin: 1px; }
+.tag-category { background: #ede9fe; color: #5b21b6; }
+.cmd-count { font-size: 0.8rem; color: #6b7280; }
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 24px; }
+.stat-card { background: #fff; border-radius: 8px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); text-align: center; }
+.stat-card .num { font-size: 1.8rem; font-weight: 700; color: #2563eb; }
+.stat-card .label { font-size: 0.8rem; color: #6b7280; margin-top: 4px; }
+.script-page { max-width: 960px; margin: 0 auto; }
+.meta-table { width: 100%; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 20px; }
+.meta-table td { padding: 8px 14px; border-bottom: 1px solid #f0f0f0; }
+.meta-table td:first-child { font-weight: 600; color: #374151; width: 140px; background: #f8fafc; }
+.cmd-group { margin-bottom: 16px; }
+.cmd-group-title { font-size: 0.85rem; font-weight: 600; color: #5b21b6; margin-bottom: 6px; }
+.cmd-list { display: flex; flex-wrap: wrap; gap: 4px; }
+.source-box { margin: 12px 0; }
+.source-box textarea { width: 100%; padding: 12px; border: 2px solid #d1d5db; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 0.8rem; line-height: 1.4; background: #1e293b; color: #e5e7eb; resize: vertical; outline: none; }
+.source-box textarea:focus { border-color: #2563eb; }
+.copy-btn { display: inline-block; padding: 8px 16px; background: #2563eb; color: #fff; border: none; border-radius: 6px; font-size: 0.85rem; cursor: pointer; margin: 8px 4px 4px 0; transition: background 0.2s; }
+.copy-btn:hover { background: #1d4ed8; }
+.copy-btn.copied { background: #16a34a; }
+.download-btn { display: inline-block; padding: 8px 16px; background: #374151; color: #fff; border: none; border-radius: 6px; font-size: 0.85rem; cursor: pointer; margin: 8px 4px 4px 0; transition: background 0.2s; text-decoration: none; }
+.download-btn:hover { background: #1f2937; text-decoration: none; }
+.func-list { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+.func-item { background: #fef3c7; color: #92400e; padding: 3px 10px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 0.8rem; }
+.var-list { display: flex; flex-wrap: wrap; gap: 6px; }
+.var-item { background: #f0fdf4; color: #166534; padding: 3px 10px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 0.78rem; }
+.var-item code { font-size: 0.78rem; }
+.back-link { display: inline-block; margin-bottom: 16px; color: #2563eb; font-size: 0.9rem; }
+.back-link:before { content: "← "; }
+.stat-line { font-size: 0.8rem; color: #6b7280; margin-bottom: 12px; }
+@media (max-width: 600px) { .container { padding: 12px; } th, td { padding: 6px 8px; font-size: 0.8rem; } }
+</style>
+</head>
+<body>
+<div class="header-bar">
+  <div class="container">
+    <h1><a href="../index.html">📜 Backup Scripts</a></h1>
+    <div class="nav">
+      <a href="../index.html">Dashboard</a>
+    </div>
+  </div>
+</div>
+<div class="container script-page">
+  <a href="../index.html" class="back-link">Voltar ao Dashboard</a>
+
+  <h1>xrandr-config.sh</h1>
+  <p class="subtitle">xrandr-config.sh</p>
+
+  
+  <div class="meta-table"><table><tr><td>Arquivo</td><td><code>system_scripts/xrandr-config.sh</code></td></tr><tr><td>Shebang</td><td><code>#!/usr/bin/env bash</code></td></tr><tr><td>Tamanho</td><td>10.8 KB · 369 linhas</td></tr></table></div>
+  <h2>Funções</h2><div class='func-list'><span class="func-item">log() <span style="opacity:0.5">linha 7</span></span><span class="func-item">get_outputs() <span style="opacity:0.5">linha 12</span></span><span class="func-item">get_modes() <span style="opacity:0.5">linha 16</span></span><span class="func-item">list_outputs() <span style="opacity:0.5">linha 21</span></span><span class="func-item">list_modes() <span style="opacity:0.5">linha 37</span></span><span class="func-item">mirror() <span style="opacity:0.5">linha 49</span></span><span class="func-item">extend() <span style="opacity:0.5">linha 56</span></span><span class="func-item">single() <span style="opacity:0.5">linha 63</span></span><span class="func-item">turn_off() <span style="opacity:0.5">linha 77</span></span><span class="func-item">preset_save() <span style="opacity:0.5">linha 84</span></span><span class="func-item">preset_load() <span style="opacity:0.5">linha 103</span></span><span class="func-item">preset_list() <span style="opacity:0.5">linha 128</span></span><span class="func-item">preset_save_current() <span style="opacity:0.5">linha 138</span></span><span class="func-item">preset_load_menu() <span style="opacity:0.5">linha 147</span></span><span class="func-item">quick_hdmi_full() <span style="opacity:0.5">linha 176</span></span><span class="func-item">quick_hdmi_1360() <span style="opacity:0.5">linha 187</span></span><span class="func-item">error() <span style="opacity:0.5">linha 198</span></span><span class="func-item">menu_principal() <span style="opacity:0.5">linha 202</span></span><span class="func-item">escolher_output() <span style="opacity:0.5">linha 246</span></span><span class="func-item">escolher_modo() <span style="opacity:0.5">linha 262</span></span><span class="func-item">menu_mirror() <span style="opacity:0.5">linha 282</span></span><span class="func-item">menu_extend() <span style="opacity:0.5">linha 302</span></span><span class="func-item">menu_single() <span style="opacity:0.5">linha 331</span></span><span class="func-item">menu_off() <span style="opacity:0.5">linha 344</span></span><span class="func-item">auto_detect() <span style="opacity:0.5">linha 356</span></span></div>
+  <h2>Variáveis de Configuração</h2><div class='var-list'><span class="var-item"><code>LOG_FILE</code> = <code>$HOME/.local/share/xrandr-config.log</code></span><span class="var-item"><code>PRESETS_DIR</code> = <code>$HOME/.local/share/xrandr-presets</code></span></div>
+  <h2>Comandos Utilizados</h2><div class="cmd-group"><div class="cmd-group-title">Package Manager</div><div class="cmd-list"><span class="badge badge-cmd">dnf</span></div></div><div class="cmd-group"><div class="cmd-group-title">Text Processing</div><div class="cmd-list"><span class="badge badge-cmd">awk</span><span class="badge badge-cmd">grep</span><span class="badge badge-cmd">sed</span></div></div><div class="cmd-group"><div class="cmd-group-title">Display</div><div class="cmd-list"><span class="badge badge-cmd">xrandr</span></div></div><div class="cmd-group"><div class="cmd-group-title">File Operations</div><div class="cmd-list"><span class="badge badge-cmd">mkdir</span><span class="badge badge-cmd">tee</span></div></div>
+  
+
+  <h2>Código Fonte</h2>
+  <div class="source-box">
+    <textarea id="source-code" rows="20" readonly spellcheck="false">#!/usr/bin/env bash
+
+LOG_FILE=&quot;$HOME/.local/share/xrandr-config.log&quot;
+PRESETS_DIR=&quot;$HOME/.local/share/xrandr-presets&quot;
+mkdir -p &quot;$(dirname &quot;$LOG_FILE&quot;)&quot; &quot;$PRESETS_DIR&quot;
+
+log() {
+    local msg=&quot;[$(date &#x27;+%Y-%m-%d %H:%M:%S&#x27;)] $*&quot;
+    echo &quot;$msg&quot; | tee -a &quot;$LOG_FILE&quot;
+}
+
+get_outputs() {
+    xrandr --query 2&gt;/dev/null | awk &#x27;/ connected/ {print $1}&#x27;
+}
+
+get_modes() {
+    local output=&quot;$1&quot;
+    xrandr --query 2&gt;/dev/null | sed -n &quot;/^$output/,/^[^ ]/p&quot; | grep -E &#x27;^\s+[0-9]+x[0-9]+&#x27; | awk &#x27;{print $1}&#x27; | sort -u
+}
+
+list_outputs() {
+    echo
+    echo &quot;=== DISPLAYS DETECTADOS ===&quot;
+    xrandr --query 2&gt;/dev/null | while read -r line; do
+        if echo &quot;$line&quot; | grep -q &quot; connected&quot;; then
+            local out=$(echo &quot;$line&quot; | awk &#x27;{print $1}&#x27;)
+            local res=$(echo &quot;$line&quot; | awk &#x27;{print $3}&#x27;)
+            printf &quot;  \e[1;32m%s\e[0m  %s\n&quot; &quot;$out&quot; &quot;$res&quot;
+        elif echo &quot;$line&quot; | grep -q &quot; disconnected&quot;; then
+            local out=$(echo &quot;$line&quot; | awk &#x27;{print $1}&#x27;)
+            printf &quot;  \e[1;31m%s\e[0m  desconectado\n&quot; &quot;$out&quot;
+        fi
+    done
+    echo
+}
+
+list_modes() {
+    local output=&quot;$1&quot;
+    echo
+    echo &quot;=== RESOLUCOES DISPONIVEIS: $output ===&quot;
+    local i=1
+    while IFS= read -r mode; do
+        printf &quot;  %2d) %s\n&quot; &quot;$i&quot; &quot;$mode&quot;
+        i=$((i + 1))
+    done &lt; &lt;(get_modes &quot;$output&quot;)
+    echo
+}
+
+mirror() {
+    local primary=&quot;$1&quot; secondary=&quot;$2&quot; mode=&quot;$3&quot;
+    log &quot;MIRROR: $secondary -&gt; $primary @ $mode&quot;
+    xrandr --output &quot;$secondary&quot; --same-as &quot;$primary&quot; --mode &quot;$mode&quot;
+    log &quot;OK: mirror $primary &lt;- $secondary ($mode)&quot;
+}
+
+extend() {
+    local primary=&quot;$1&quot; secondary=&quot;$2&quot; dir=&quot;$3&quot; mode=&quot;$4&quot;
+    log &quot;EXTEND: $secondary $dir de $primary @ $mode&quot;
+    xrandr --output &quot;$secondary&quot; --mode &quot;$mode&quot; &quot;--$dir-of&quot; &quot;$primary&quot;
+    log &quot;OK: extend $secondary $dir de $primary ($mode)&quot;
+}
+
+single() {
+    local output=&quot;$1&quot; mode=&quot;$2&quot;
+    log &quot;SINGLE: apenas $output @ $mode&quot;
+    local others=()
+    for o in $(get_outputs); do
+        [ &quot;$o&quot; != &quot;$output&quot; ] &amp;&amp; others+=(&quot;$o&quot;)
+    done
+    xrandr --output &quot;$output&quot; --mode &quot;$mode&quot;
+    for o in &quot;${others[@]}&quot;; do
+        xrandr --output &quot;$o&quot; --off
+    done
+    log &quot;OK: single $output ($mode), demais desligados&quot;
+}
+
+turn_off() {
+    local output=&quot;$1&quot;
+    log &quot;OFF: $output&quot;
+    xrandr --output &quot;$output&quot; --off
+    log &quot;OK: $output desligado&quot;
+}
+
+preset_save() {
+    local name=&quot;$1&quot;
+    local file=&quot;$PRESETS_DIR/$name.conf&quot;
+    &gt; &quot;$file&quot;
+    for o in $(get_outputs); do
+        local state line
+        line=$(xrandr --query 2&gt;/dev/null | grep &quot;^$o &quot;)
+        state=$(echo &quot;$line&quot; | awk &#x27;{print $2}&#x27;)
+        if [ &quot;$state&quot; = &quot;connected&quot; ]; then
+            local res=$(echo &quot;$line&quot; | awk &#x27;{print $3}&#x27; | cut -d+ -f1)
+            local pos=$(echo &quot;$line&quot; | awk &#x27;{print $3}&#x27; | grep -o &#x27;+[0-9]++[0-9]&#x27; | tr &#x27;+&#x27; &#x27; &#x27;)
+            local primary=&quot;&quot;
+            echo &quot;$line&quot; | grep -q &quot;primary&quot; &amp;&amp; primary=&quot;--primary&quot;
+            echo &quot;$o $res $primary&quot; &gt;&gt; &quot;$file&quot;
+        fi
+    done
+    log &quot;PRESET SALVO: $name&quot;
+}
+
+preset_load() {
+    local name=&quot;$1&quot;
+    local file=&quot;$PRESETS_DIR/$name.conf&quot;
+    [ ! -f &quot;$file&quot; ] &amp;&amp; { error &quot;Preset &#x27;$name&#x27; nao encontrado&quot;; return 1; }
+
+    for o in $(get_outputs); do
+        xrandr --output &quot;$o&quot; --off 2&gt;/dev/null
+    done
+
+    while read -r output res primary; do
+        [ -z &quot;$output&quot; ] &amp;&amp; continue
+        xrandr --output &quot;$output&quot; --mode &quot;$res&quot; $primary 2&gt;/dev/null
+    done &lt; &quot;$file&quot;
+
+    # re-apply mirror/positions
+    local first_out=&quot;&quot; first_res=&quot;&quot;
+    while read -r output res primary; do
+        [ -z &quot;$first_out&quot; ] &amp;&amp; { first_out=&quot;$output&quot;; first_res=&quot;$res&quot;; continue; }
+        xrandr --output &quot;$output&quot; --same-as &quot;$first_out&quot; --mode &quot;$res&quot; 2&gt;/dev/null
+    done &lt; &quot;$file&quot;
+
+    log &quot;PRESET CARREGADO: $name&quot;
+    xrandr --query 2&gt;/dev/null | grep &quot; connected&quot; | tee -a &quot;$LOG_FILE&quot;
+}
+
+preset_list() {
+    shopt -s nullglob
+    local files=(&quot;$PRESETS_DIR&quot;/*.conf)
+    shopt -u nullglob
+    [ ${#files[@]} -eq 0 ] &amp;&amp; return
+    for f in &quot;${files[@]}&quot;; do
+        basename &quot;$f&quot; .conf
+    done
+}
+
+preset_save_current() {
+    local name
+    read -rp &quot;Nome do preset: &quot; name
+    [ -z &quot;$name&quot; ] &amp;&amp; { error &quot;Nome invalido&quot;; return; }
+    preset_save &quot;$name&quot;
+    echo -e &quot;\e[1;32mPreset &#x27;$name&#x27; salvo!\e[0m&quot;
+    read -rp &quot;Pressione Enter para continuar...&quot;
+}
+
+preset_load_menu() {
+    shopt -s nullglob
+    local files=(&quot;$PRESETS_DIR&quot;/*.conf)
+    shopt -u nullglob
+    if [ ${#files[@]} -eq 0 ]; then
+        error &quot;Nenhum preset salvo&quot;
+        sleep 1
+        return
+    fi
+    echo
+    echo &quot;--- PRESETS DISPONIVEIS ---&quot;
+    local i=1 names=()
+    for f in &quot;${files[@]}&quot;; do
+        local n
+        n=$(basename &quot;$f&quot; .conf)
+        names+=(&quot;$n&quot;)
+        echo &quot;  $i) $n&quot;
+        i=$((i + 1))
+    done
+    read -rp &quot;Escolha o numero: &quot; sel
+    if [[ &quot;$sel&quot; =~ ^[0-9]+$ ]] &amp;&amp; [ &quot;$sel&quot; -ge 1 ] &amp;&amp; [ &quot;$sel&quot; -le ${#names[@]} ]; then
+        preset_load &quot;${names[$((sel - 1))]}&quot;
+        echo -e &quot;\e[1;32mPreset &#x27;${names[$((sel - 1))]}&#x27; carregado!\e[0m&quot;
+    else
+        error &quot;Opcao invalida&quot;
+    fi
+    read -rp &quot;Pressione Enter para continuar...&quot;
+}
+
+quick_hdmi_full() {
+    log &quot;QUICK: HDMI 1920x1080 + eDP mirror&quot;
+    local edp_mode=&quot;1366x768&quot;
+    xrandr --output eDP-1 --off 2&gt;/dev/null
+    xrandr --output HDMI-1 --mode 1920x1080 2&gt;/dev/null
+    xrandr --output eDP-1 --same-as HDMI-1 --mode &quot;$edp_mode&quot; 2&gt;/dev/null
+    log &quot;OK: HDMI 1920x1080 espelhando eDP-1 $edp_mode&quot;
+    xrandr --query | grep &quot; connected&quot;
+    read -rp &quot;Pressione Enter para continuar...&quot;
+}
+
+quick_hdmi_1360() {
+    log &quot;QUICK: HDMI 1360x768 + eDP mirror&quot;
+    local edp_mode=&quot;1366x768&quot;
+    xrandr --output eDP-1 --off 2&gt;/dev/null
+    xrandr --output HDMI-1 --mode 1360x768 2&gt;/dev/null
+    xrandr --output eDP-1 --same-as HDMI-1 --mode &quot;$edp_mode&quot; 2&gt;/dev/null
+    log &quot;OK: HDMI 1360x768 espelhando eDP-1 $edp_mode&quot;
+    xrandr --query | grep &quot; connected&quot;
+    read -rp &quot;Pressione Enter para continuar...&quot;
+}
+
+error() {
+    echo -e &quot;\e[1;31mERRO: $*\e[0m&quot; &gt;&amp;2
+}
+
+menu_principal() {
+    local outputs
+    mapfile -t outputs &lt; &lt;(get_outputs)
+    [ ${#outputs[@]} -eq 0 ] &amp;&amp; { error &quot;Nenhum display detectado&quot;; exit 1; }
+
+    while true; do
+        clear
+        echo &quot;==========================================&quot;
+        echo &quot;       CONFIGURACAO DE VIDEO (XRANDR)     &quot;
+        echo &quot;==========================================&quot;
+        list_outputs
+        echo &quot;ESCOLHA UMA OPCAO:&quot;
+        echo
+        echo &quot;  QUICK CONFIGS:&quot;
+        echo &quot;  hdmi_best) HDMI 1920x1080 + eDP mirror (full HD)&quot;
+        echo &quot;  edp_best)  HDMI 1360x768 + eDP mirror (resolucao interna)&quot;
+        echo &quot;  ---&quot;
+        echo &quot;  1) Espelhar (mirror)&quot;
+        echo &quot;  2) Estender (extend)&quot;
+        echo &quot;  3) Apenas um display (single)&quot;
+        echo &quot;  4) Desligar um display&quot;
+        echo &quot;  5) Auto-detect (--auto)&quot;
+        echo &quot;  6) Carregar preset&quot;
+        echo &quot;  7) Salvar preset atual&quot;
+        echo &quot;  8) Sair&quot;
+        echo
+        read -rp &quot;Opcao: &quot; opt
+
+        case &quot;$opt&quot; in
+            hdmi_best) quick_hdmi_full ;;
+            edp_best)  quick_hdmi_1360 ;;
+            1) menu_mirror &quot;${outputs[@]}&quot; ;;
+            2) menu_extend &quot;${outputs[@]}&quot; ;;
+            3) menu_single &quot;${outputs[@]}&quot; ;;
+            4) menu_off &quot;${outputs[@]}&quot; ;;
+            5) auto_detect &quot;${outputs[@]}&quot; ;;
+            6) preset_load_menu ;;
+            7) preset_save_current ;;
+            8) log &quot;Saindo&quot;; exit 0 ;;
+            *) error &quot;Opcao invalida&quot;; sleep 1 ;;
+        esac
+    done
+}
+
+escolher_output() {
+    local prompt=&quot;$1&quot;; shift
+    local outputs=(&quot;$@&quot;)
+    local i=1
+    for o in &quot;${outputs[@]}&quot;; do
+        echo &quot;  $i) $o&quot;
+        i=$((i + 1))
+    done
+    read -rp &quot;$prompt: &quot; sel
+    if [[ &quot;$sel&quot; =~ ^[0-9]+$ ]] &amp;&amp; [ &quot;$sel&quot; -ge 1 ] &amp;&amp; [ &quot;$sel&quot; -le ${#outputs[@]} ]; then
+        echo &quot;${outputs[$((sel - 1))]}&quot;
+    else
+        return 1
+    fi
+}
+
+escolher_modo() {
+    local output=&quot;$1&quot;
+    local modes=()
+    while IFS= read -r m; do
+        modes+=(&quot;$m&quot;)
+    done &lt; &lt;(get_modes &quot;$output&quot;)
+    [ ${#modes[@]} -eq 0 ] &amp;&amp; { error &quot;Nenhum modo encontrado para $output&quot;; return 1; }
+
+    list_modes &quot;$output&quot;
+    read -rp &quot;Escolha o numero da resolucao (Enter=primeira): &quot; sel
+    if [ -z &quot;$sel&quot; ]; then
+        echo &quot;${modes[0]}&quot;
+    elif [[ &quot;$sel&quot; =~ ^[0-9]+$ ]] &amp;&amp; [ &quot;$sel&quot; -ge 1 ] &amp;&amp; [ &quot;$sel&quot; -le ${#modes[@]} ]; then
+        echo &quot;${modes[$((sel - 1))]}&quot;
+    else
+        error &quot;Selecao invalida&quot;
+        return 1
+    fi
+}
+
+menu_mirror() {
+    local outputs=(&quot;$@&quot;)
+    [ ${#outputs[@]} -lt 2 ] &amp;&amp; { error &quot;Precisa de pelo menos 2 displays para espelhar&quot;; sleep 1; return; }
+    echo
+    echo &quot;--- ESPELHAR ---&quot;
+    echo &quot;Display principal (origem):&quot;
+    local primary
+    primary=$(escolher_output &quot;Numero&quot; &quot;${outputs[@]}&quot;) || return
+    local secundarios=()
+    for o in &quot;${outputs[@]}&quot;; do [ &quot;$o&quot; != &quot;$primary&quot; ] &amp;&amp; secundarios+=(&quot;$o&quot;); done
+    echo &quot;Display para espelhar:&quot;
+    local secondary
+    secondary=$(escolher_output &quot;Numero&quot; &quot;${secundarios[@]}&quot;) || return
+    local mode
+    mode=$(escolher_modo &quot;$primary&quot;) || return
+    mirror &quot;$primary&quot; &quot;$secondary&quot; &quot;$mode&quot;
+    log &quot;MENU: mirror concluido&quot;
+    read -rp &quot;Pressione Enter para continuar...&quot;
+}
+
+menu_extend() {
+    local outputs=(&quot;$@&quot;)
+    [ ${#outputs[@]} -lt 2 ] &amp;&amp; { error &quot;Precisa de pelo menos 2 displays para estender&quot;; sleep 1; return; }
+    echo
+    echo &quot;--- ESTENDER ---&quot;
+    echo &quot;Display principal:&quot;
+    local primary
+    primary=$(escolher_output &quot;Numero&quot; &quot;${outputs[@]}&quot;) || return
+    local secundarios=()
+    for o in &quot;${outputs[@]}&quot;; do [ &quot;$o&quot; != &quot;$primary&quot; ] &amp;&amp; secundarios+=(&quot;$o&quot;); done
+    echo &quot;Display secundario:&quot;
+    local secondary
+    secondary=$(escolher_output &quot;Numero&quot; &quot;${secundarios[@]}&quot;) || return
+    local mode
+    mode=$(escolher_modo &quot;$secondary&quot;) || return
+    echo &quot;Direcao: 1) right-of  2) left-of  3) above  4) below&quot;
+    read -rp &quot;Opcao (1-4): &quot; dir
+    case &quot;$dir&quot; in
+        1) d=&quot;right&quot; ;;
+        2) d=&quot;left&quot; ;;
+        3) d=&quot;above&quot; ;;
+        4) d=&quot;below&quot; ;;
+        *) d=&quot;right&quot; ;;
+    esac
+    extend &quot;$primary&quot; &quot;$secondary&quot; &quot;$d&quot; &quot;$mode&quot;
+    log &quot;MENU: extend concluido&quot;
+    read -rp &quot;Pressione Enter para continuar...&quot;
+}
+
+menu_single() {
+    local outputs=(&quot;$@&quot;)
+    echo
+    echo &quot;--- APENAS UM DISPLAY ---&quot;
+    local target
+    target=$(escolher_output &quot;Numero do display que ficara ativo&quot; &quot;${outputs[@]}&quot;) || return
+    local mode
+    mode=$(escolher_modo &quot;$target&quot;) || return
+    single &quot;$target&quot; &quot;$mode&quot;
+    log &quot;MENU: single concluido&quot;
+    read -rp &quot;Pressione Enter para continuar...&quot;
+}
+
+menu_off() {
+    local outputs=(&quot;$@&quot;)
+    [ ${#outputs[@]} -lt 1 ] &amp;&amp; return
+    echo
+    echo &quot;--- DESLIGAR DISPLAY ---&quot;
+    local target
+    target=$(escolher_output &quot;Numero do display para desligar&quot; &quot;${outputs[@]}&quot;) || return
+    turn_off &quot;$target&quot;
+    log &quot;MENU: desligado&quot;
+    read -rp &quot;Pressione Enter para continuar...&quot;
+}
+
+auto_detect() {
+    log &quot;AUTO: xrandr --auto&quot;
+    xrandr --auto
+    log &quot;OK: auto-detect concluido&quot;
+    read -rp &quot;Pressione Enter para continuar...&quot;
+}
+
+if ! command -v xrandr &amp;&gt;/dev/null; then
+    error &quot;xrandr nao encontrado. Instale com: sudo dnf install xorg-x11-server-utils&quot;
+    exit 1
+fi
+
+menu_principal &quot;$@&quot;
+</textarea>
+    <div>
+      <button class="copy-btn" onclick="copySource()" id="copy-btn">📋 Copiar código</button>
+      <button class="copy-btn" onclick="downloadSource()" id="dl-btn">💾 Download .sh</button>
+      <a href="xrandr-config.desktop" class="download-btn" download>▶️ Abrir no Terminal (.desktop)</a>
+    </div>
+  </div>
+</div>
+
+<script>
+function copySource() {
+  var textarea = document.getElementById('source-code');
+  textarea.select();
+  textarea.setSelectionRange(0, 999999);
+  document.execCommand('copy');
+  var btn = document.getElementById('copy-btn');
+  btn.textContent = '✅ Copiado!';
+  btn.classList.add('copied');
+  setTimeout(function() {
+    btn.textContent = '📋 Copiar código';
+    btn.classList.remove('copied');
+  }, 2000);
+}
+
+function downloadSource() {
+  var content = document.getElementById('source-code').value;
+  var blob = new Blob([content], {type: 'application/x-shellscript'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'xrandr-config.sh';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  var btn = document.getElementById('dl-btn');
+  btn.textContent = '✅ Baixado!';
+  setTimeout(function() {
+    btn.textContent = '💾 Download .sh';
+  }, 2000);
+}
+</script>
+</body>
+</html>

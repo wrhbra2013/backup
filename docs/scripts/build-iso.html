@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>build_iso.sh — Script Details</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, monospace; background: #f5f5f5; color: #1a1a1a; line-height: 1.6; }
+.container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+h1 { font-size: 1.8rem; margin-bottom: 8px; }
+h2 { font-size: 1.3rem; margin: 24px 0 12px; color: #2563eb; border-bottom: 2px solid #e5e7eb; padding-bottom: 6px; }
+h3 { font-size: 1rem; margin: 16px 0 8px; color: #374151; }
+.subtitle { color: #6b7280; margin-bottom: 20px; font-size: 0.95rem; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+.header-bar { background: #1e293b; color: #fff; padding: 16px 0; margin-bottom: 24px; }
+.header-bar .container { display: flex; justify-content: space-between; align-items: center; }
+.header-bar h1 { margin: 0; font-size: 1.3rem; }
+.header-bar h1 a { color: #fff; }
+.header-bar h1 a:hover { text-decoration: none; }
+.header-bar .nav a { color: #93c5fd; margin-left: 16px; font-size: 0.9rem; }
+.search-box { width: 100%; padding: 10px 14px; border: 2px solid #d1d5db; border-radius: 8px; font-size: 0.95rem; margin-bottom: 20px; outline: none; transition: border-color 0.2s; }
+.search-box:focus { border-color: #2563eb; }
+table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+th, td { padding: 10px 14px; text-align: left; font-size: 0.9rem; }
+th { background: #f8fafc; font-weight: 600; color: #374151; border-bottom: 2px solid #e5e7eb; }
+td { border-bottom: 1px solid #f0f0f0; }
+tr:hover td { background: #f8fafc; }
+.badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; margin: 1px 2px; }
+.badge-pkg { background: #dcfce7; color: #166534; }
+.badge-cmd { background: #dbeafe; color: #1e40af; }
+.badge-func { background: #fef3c7; color: #92400e; }
+.badge-dir { background: #e5e7eb; color: #374151; }
+.tag { display: inline-block; padding: 2px 6px; border-radius: 3px; font-size: 0.7rem; font-weight: 600; background: #e5e7eb; color: #374151; margin: 1px; }
+.tag-category { background: #ede9fe; color: #5b21b6; }
+.cmd-count { font-size: 0.8rem; color: #6b7280; }
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 24px; }
+.stat-card { background: #fff; border-radius: 8px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); text-align: center; }
+.stat-card .num { font-size: 1.8rem; font-weight: 700; color: #2563eb; }
+.stat-card .label { font-size: 0.8rem; color: #6b7280; margin-top: 4px; }
+.script-page { max-width: 960px; margin: 0 auto; }
+.meta-table { width: 100%; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 20px; }
+.meta-table td { padding: 8px 14px; border-bottom: 1px solid #f0f0f0; }
+.meta-table td:first-child { font-weight: 600; color: #374151; width: 140px; background: #f8fafc; }
+.cmd-group { margin-bottom: 16px; }
+.cmd-group-title { font-size: 0.85rem; font-weight: 600; color: #5b21b6; margin-bottom: 6px; }
+.cmd-list { display: flex; flex-wrap: wrap; gap: 4px; }
+.source-box { margin: 12px 0; }
+.source-box textarea { width: 100%; padding: 12px; border: 2px solid #d1d5db; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 0.8rem; line-height: 1.4; background: #1e293b; color: #e5e7eb; resize: vertical; outline: none; }
+.source-box textarea:focus { border-color: #2563eb; }
+.copy-btn { display: inline-block; padding: 8px 16px; background: #2563eb; color: #fff; border: none; border-radius: 6px; font-size: 0.85rem; cursor: pointer; margin: 8px 4px 4px 0; transition: background 0.2s; }
+.copy-btn:hover { background: #1d4ed8; }
+.copy-btn.copied { background: #16a34a; }
+.download-btn { display: inline-block; padding: 8px 16px; background: #374151; color: #fff; border: none; border-radius: 6px; font-size: 0.85rem; cursor: pointer; margin: 8px 4px 4px 0; transition: background 0.2s; text-decoration: none; }
+.download-btn:hover { background: #1f2937; text-decoration: none; }
+.func-list { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+.func-item { background: #fef3c7; color: #92400e; padding: 3px 10px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 0.8rem; }
+.var-list { display: flex; flex-wrap: wrap; gap: 6px; }
+.var-item { background: #f0fdf4; color: #166534; padding: 3px 10px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 0.78rem; }
+.var-item code { font-size: 0.78rem; }
+.back-link { display: inline-block; margin-bottom: 16px; color: #2563eb; font-size: 0.9rem; }
+.back-link:before { content: "← "; }
+.stat-line { font-size: 0.8rem; color: #6b7280; margin-bottom: 12px; }
+@media (max-width: 600px) { .container { padding: 12px; } th, td { padding: 6px 8px; font-size: 0.8rem; } }
+</style>
+</head>
+<body>
+<div class="header-bar">
+  <div class="container">
+    <h1><a href="../index.html">📜 Backup Scripts</a></h1>
+    <div class="nav">
+      <a href="../index.html">Dashboard</a>
+    </div>
+  </div>
+</div>
+<div class="container script-page">
+  <a href="../index.html" class="back-link">Voltar ao Dashboard</a>
+
+  <h1>build_iso.sh</h1>
+  <p class="subtitle">==============================</p>
+
+  <div class="meta-table"><table><tr><td colspan='2'>==============================</td></tr><tr><td colspan='2'>CONFIGURAÇÕES</td></tr><tr><td colspan='2'>==============================</td></tr></table></div>
+  <div class="meta-table"><table><tr><td>Arquivo</td><td><code>system_scripts/build_iso.sh</code></td></tr><tr><td>Shebang</td><td><code></code></td></tr><tr><td>Tamanho</td><td>9.5 KB · 300 linhas</td></tr></table></div>
+  <h2>Funções</h2><div class='func-list'><span class="func-item">log_step() <span style="opacity:0.5">linha 32</span></span><span class="func-item">log_info() <span style="opacity:0.5">linha 33</span></span><span class="func-item">log_done() <span style="opacity:0.5">linha 34</span></span><span class="func-item">log_error() <span style="opacity:0.5">linha 35</span></span><span class="func-item">cleanup() <span style="opacity:0.5">linha 40</span></span><span class="func-item">check_dependencies() <span style="opacity:0.5">linha 51</span></span></div>
+  <h2>Variáveis de Configuração</h2><div class='var-list'><span class="var-item"><code>DATA</code> = <code>$(date +%Y-%m-%d)</code></span><span class="var-item"><code>ISO_BASE</code> = <code>OracleLinux-R9-U6-x86_64-dvd.iso</code></span><span class="var-item"><code>OUTPUT_ISO</code> = <code>OracleLinux-9.6-compacta-${DATA}.iso</code></span><span class="var-item"><code>SOFTWARE_DIR</code> = <code>software_rpm</code></span><span class="var-item"><code>FAVORITOS_DIR</code> = <code>favoritos</code></span><span class="var-item"><code>KS_FILE</code> = <code>ks.cfg</code></span><span class="var-item"><code>TEMP_REPO_DIR</code> = <code>compact_repo</code></span><span class="var-item"><code>MOUNT_DIR</code> = <code>mnt</code></span><span class="var-item"><code>EXTRACT_DIR</code> = <code>iso_extract</code></span><span class="var-item"><code>EFI_DIR</code> = <code>$EXTRACT_DIR/EFI/BOOT</code></span><span class="var-item"><code>ORACLE_BASE_URL</code> = <code>https://yum.oracle.com/repo/OracleLinux/OL9/baseos/latest...</code></span><span class="var-item"><code>EPEL_URL</code> = <code>https://dl.fedoraproject.org/pub/epel/epel-release-latest...</code></span><span class="var-item"><code>RPMFUSION_FREE_URL</code> = <code>https://mirrors.rpmfusion.org/free/el/rpmfusion-free-rele...</code></span><span class="var-item"><code>RPMFUSION_NONFREE_URL</code> = <code>https://mirrors.rpmfusion.org/nonfree/el/rpmfusion-nonfre...</code></span><span class="var-item"><code>REQUIRED_PACKAGES</code> = <code>(&quot;rsync&quot; &quot;createrepo_c&quot; &quot;xorriso&quot; &quot;syslinux&quot; &quot;grub2-tools...</code></span><span class="var-item"><code>STEP</code> = <code>0</code></span><span class="var-item"><code>TOTAL_STEPS</code> = <code>7</code></span></div>
+  <h2>Comandos Utilizados</h2><div class="cmd-group"><div class="cmd-group-title">Package Manager</div><div class="cmd-list"><span class="badge badge-cmd">dnf</span><span class="badge badge-cmd">rpm</span><span class="badge badge-cmd">yum</span></div></div><div class="cmd-group"><div class="cmd-group-title">Filesystem</div><div class="cmd-list"><span class="badge badge-cmd">mount</span><span class="badge badge-cmd">umount</span></div></div><div class="cmd-group"><div class="cmd-group-title">Text Processing</div><div class="cmd-list"><span class="badge badge-cmd">awk</span><span class="badge badge-cmd">grep</span><span class="badge badge-cmd">sed</span></div></div><div class="cmd-group"><div class="cmd-group-title">Sync/Backup</div><div class="cmd-list"><span class="badge badge-cmd">rsync</span></div></div><div class="cmd-group"><div class="cmd-group-title">File Operations</div><div class="cmd-list"><span class="badge badge-cmd">cp</span><span class="badge badge-cmd">mkdir</span><span class="badge badge-cmd">rm</span></div></div><div class="cmd-group"><div class="cmd-group-title">Permissions</div><div class="cmd-list"><span class="badge badge-cmd">chown</span></div></div><div class="cmd-group"><div class="cmd-group-title">ISO Tool</div><div class="cmd-list"><span class="badge badge-cmd">xorriso</span></div></div><div class="cmd-group"><div class="cmd-group-title">Repository</div><div class="cmd-list"><span class="badge badge-cmd">createrepo_c</span></div></div>
+  <h2>Pacotes / Dependências</h2><div class='cmd-list'><span class="badge badge-pkg">oraclelinux-release-epl</span></div>
+
+  <h2>Código Fonte</h2>
+  <div class="source-box">
+    <textarea id="source-code" rows="20" readonly spellcheck="false"> #!/bin/bash
+set -e
+
+# ==============================
+# CONFIGURAÇÕES
+# ==============================
+DATA=$(date +%Y-%m-%d)
+ISO_BASE=&quot;OracleLinux-R9-U6-x86_64-dvd.iso&quot;
+OUTPUT_ISO=&quot;OracleLinux-9.6-compacta-${DATA}.iso&quot;
+SOFTWARE_DIR=&quot;software_rpm&quot;
+FAVORITOS_DIR=&quot;favoritos&quot;
+KS_FILE=&quot;ks.cfg&quot;
+TEMP_REPO_DIR=&quot;compact_repo&quot;
+MOUNT_DIR=&quot;mnt&quot;
+EXTRACT_DIR=&quot;iso_extract&quot;
+EFI_DIR=&quot;$EXTRACT_DIR/EFI/BOOT&quot;
+
+# URLs dos repositórios para Oracle Linux 9
+ORACLE_BASE_URL=&quot;https://yum.oracle.com/repo/OracleLinux/OL9/baseos/latest/x86_64/&quot;
+EPEL_URL=&quot;https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm&quot;
+RPMFUSION_FREE_URL=&quot;https://mirrors.rpmfusion.org/free/el/rpmfusion-free-release-9.noarch.rpm&quot;
+RPMFUSION_NONFREE_URL=&quot;https://mirrors.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-9.noarch.rpm&quot;
+
+REQUIRED_PACKAGES=(&quot;rsync&quot; &quot;createrepo_c&quot; &quot;xorriso&quot; &quot;syslinux&quot; &quot;grub2-tools&quot; &quot;grub2-efi-x64&quot; &quot;shim-x64&quot; &quot;mtools&quot; &quot;dnf-plugins-core&quot;)
+
+# ==============================
+# FUNÇÕES DE LOG
+# ==============================
+STEP=0
+TOTAL_STEPS=7
+
+log_step() { STEP=$((STEP+1)); echo -e &quot;\n[\e[1;34m${STEP}/${TOTAL_STEPS}\e[0m] 🚀 $1&quot;; }
+log_info() { echo -e &quot;    ➜ $1&quot;; }
+log_done() { echo -e &quot;    ✅ $1&quot;; }
+log_error() { echo -e &quot;    ❌ \e[1;31mERRO: $1\e[0m&quot; &gt;&amp;2; exit 1; }
+
+# ==============================
+# FUNÇÃO DE LIMPEZA
+# ==============================
+cleanup() {
+    log_info &quot;Limpando arquivos temporários...&quot;
+    mountpoint -q &quot;$MOUNT_DIR&quot; &amp;&gt;/dev/null &amp;&amp; sudo umount &quot;$MOUNT_DIR&quot;
+    rm -rf &quot;$MOUNT_DIR&quot; &quot;$TEMP_REPO_DIR&quot; &quot;$EXTRACT_DIR&quot; &quot;$KS_FILE&quot;
+    log_done &quot;Limpeza concluída.&quot;
+}
+trap cleanup EXIT
+
+# ==============================
+# VERIFICA DEPENDÊNCIAS
+# ==============================
+check_dependencies() {
+    log_step &quot;Verificando dependências...&quot;
+    local missing=()
+    for pkg in &quot;${REQUIRED_PACKAGES[@]}&quot;; do
+        if ! rpm -q &quot;$pkg&quot; &amp;&gt;/dev/null; then
+            missing+=(&quot;$pkg&quot;)
+        fi
+    done
+    if [ ${#missing[@]} -gt 0 ]; then
+        log_info &quot;Instalando: ${missing[*]}&quot;
+        sudo dnf install -y &quot;${missing[@]}&quot; || log_error &quot;Falha na instalação de dependências.&quot;
+    fi
+    log_done &quot;Dependências OK.&quot;
+}
+
+# ==============================
+# INÍCIO DO SCRIPT
+# ==============================
+check_dependencies
+
+# 1️⃣ GERA ARQUIVO KICKSTART
+log_step &quot;Gerando Kickstart...&quot;
+cat &gt; &quot;$KS_FILE&quot; &lt;&lt;&#x27;EOF&#x27;
+#version=RHEL9
+install
+cdrom
+lang pt_BR.UTF-8
+keyboard br-abnt2
+timezone America/Sao_Paulo --isUtc
+rootpw --plaintext oracle
+user --name=user --password=oracle --plaintext --groups=wheel
+firewall --enabled
+selinux --enforcing
+network --bootproto=dhcp --device=link --activate
+bootloader --location=mbr
+autopart --type=lvm
+reboot
+
+# Repositório local com pacotes essenciais
+repo --name=&quot;local-repo&quot; --baseurl=file:///mnt/repo --gpgcheck=0 --enabled=1
+
+%packages
+@^minimal-environment
+@core
+# Pacotes adicionais de repositórios externos
+epel-release
+rpmfusion-free-release
+rpmfusion-nonfree-release
+%end
+
+%post --log=/root/post-install.log
+# Ativação dos repositórios
+dnf install -y oraclelinux-release-epl
+dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
+dnf install -y https://mirrors.rpmfusion.org/free/el/rpmfusion-free-release-9.noarch.rpm https://mirrors.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-9.noarch.rpm
+
+# Copia arquivos favoritos
+mkdir -p /home/user/favoritos
+cp -r /mnt/favoritos/* /home/user/favoritos/ || true
+chown -R user:user /home/user/favoritos
+
+# Copia software RPM
+mkdir -p /home/user/software_rpm
+cp -r /mnt/software_rpm/* /home/user/software_rpm/ || true
+chown -R user:user /home/user/software_rpm
+%end
+EOF
+log_done &quot;Kickstart criado.&quot;
+
+# 2️⃣ MONTA E EXTRAI ISO BASE
+log_step &quot;Montando e extraindo ISO base...&quot;
+mkdir -p &quot;$MOUNT_DIR&quot; &quot;$EXTRACT_DIR&quot;
+sudo mount -o loop &quot;$ISO_BASE&quot; &quot;$MOUNT_DIR&quot; || log_error &quot;Falha ao montar ISO base.&quot;
+rsync -a --exclude=&quot;Packages&quot; &quot;$MOUNT_DIR&quot;/ &quot;$EXTRACT_DIR&quot;/
+log_done &quot;ISO extraída (sem pacotes).&quot;
+sudo umount &quot;$MOUNT_DIR&quot;
+
+# 3️⃣ CRIA REPOSITÓRIO COMPACTO A PARTIR DA ISO BASE
+log_step &quot;Criando repositório de pacotes compacto a partir da ISO base...&quot;
+mkdir -p &quot;$TEMP_REPO_DIR&quot;
+
+log_info &quot;Identificando pacotes essenciais dos grupos @core e @minimal-environment...&quot;
+declare -a ESSENTIAL_PACKAGES
+
+# Monta a ISO base para copiar metadados
+log_info &quot;Montando ISO para copiar metadados...&quot;
+sudo mount -o loop &quot;$ISO_BASE&quot; &quot;$MOUNT_DIR&quot; || log_error &quot;Falha ao montar ISO base.&quot;
+
+# Copia os metadados do repositório da ISO para um diretório temporário
+mkdir -p &quot;$TEMP_REPO_DIR/BaseOS/repodata&quot;
+log_info &quot;Copiando metadados da ISO para diretório temporário...&quot;
+sudo rsync -a &quot;$MOUNT_DIR/BaseOS/repodata/&quot; &quot;$TEMP_REPO_DIR/BaseOS/repodata/&quot; || log_error &quot;Falha ao copiar metadados do repositório.&quot;
+sudo umount &quot;$MOUNT_DIR&quot;
+
+# Garante que os arquivos temporários tenham as permissões corretas
+sudo chown -R $USER:$USER &quot;$TEMP_REPO_DIR&quot;
+
+for GROUP in &quot;core&quot; &quot;minimal-environment&quot;; do
+    log_info &quot;Obtendo pacotes do grupo: $GROUP&quot;
+    
+    # Usa o dnf para ler o grupo do repositório temporário
+    sudo dnf -c /dev/null --repofrompath=temp_repo,&quot;file://$TEMP_REPO_DIR/BaseOS&quot; group info &quot;$GROUP&quot; &amp;&gt; group_info.txt
+
+    # Extrai a lista de pacotes a partir da saída do dnf
+    PACKAGES=$(grep -A 1000 &#x27;Mandatory Packages:&#x27; group_info.txt | sed &#x27;/^Default Packages/q&#x27; | awk &#x27;{print $1}&#x27;)
+    
+    if [ -z &quot;$PACKAGES&quot; ]; then
+        PACKAGES=$(grep -A 1000 &#x27;Mandatory Packages:&#x27; group_info.txt | sed &#x27;1,/^$/d&#x27; | sed &#x27;s/ (.*)//g&#x27; | grep -v &#x27;^\s*$&#x27; | awk &#x27;{print $1}&#x27;)
+    fi
+
+    if [ -n &quot;$PACKAGES&quot; ]; then
+        ESSENTIAL_PACKAGES+=($PACKAGES)
+    fi
+done
+
+if [ ${#ESSENTIAL_PACKAGES[@]} -gt 0 ]; then
+    ESSENTIAL_PACKAGES=($(printf &quot;%s\n&quot; &quot;${ESSENTIAL_PACKAGES[@]}&quot; | sort -u))
+fi
+
+if [ ${#ESSENTIAL_PACKAGES[@]} -eq 0 ]; then
+    log_error &quot;Não foi possível obter a lista de pacotes essenciais da ISO base.&quot;
+fi
+
+log_info &quot;Copiando pacotes da ISO base...&quot;
+sudo mount -o loop &quot;$ISO_BASE&quot; &quot;$MOUNT_DIR&quot;
+for PKG in &quot;${ESSENTIAL_PACKAGES[@]}&quot;; do
+    find &quot;$MOUNT_DIR/BaseOS/Packages&quot; -type f -name &quot;$PKG-*.rpm&quot; -exec cp -t &quot;$TEMP_REPO_DIR&quot; {} + || true
+done
+sudo umount &quot;$MOUNT_DIR&quot;
+log_done &quot;Pacotes essenciais copiados.&quot;
+
+# Adiciona pacotes personalizados, se houver
+if [ -d &quot;$SOFTWARE_DIR&quot; ] &amp;&amp; ls &quot;$SOFTWARE_DIR&quot;/*.rpm &amp;&gt;/dev/null; then
+    log_info &quot;Adicionando pacotes personalizados...&quot;
+    cp &quot;$SOFTWARE_DIR&quot;/*.rpm &quot;$TEMP_REPO_DIR/&quot;
+    log_done &quot;Pacotes personalizados adicionados.&quot;
+else
+    log_info &quot;Nenhum pacote personalizado encontrado.&quot;
+fi
+
+# Move o repositório para o diretório de extração da ISO e gera os metadados
+mkdir -p &quot;$EXTRACT_DIR/repo&quot;
+cp -r &quot;$TEMP_REPO_DIR&quot;/* &quot;$EXTRACT_DIR/repo/&quot;
+createrepo_c &quot;$EXTRACT_DIR/repo&quot;
+log_done &quot;Repositório compacto criado e movido.&quot;
+
+# 4️⃣ ADICIONA FAVORITOS E SOFTWARE RPM
+log_step &quot;Adicionando arquivos favoritos e software RPM...&quot;
+if [ -d &quot;$FAVORITOS_DIR&quot; ] &amp;&amp; [ &quot;$(ls -A $FAVORITOS_DIR)&quot; ]; then
+    mkdir -p &quot;$EXTRACT_DIR/$FAVORITOS_DIR&quot;
+    cp -r &quot;$FAVORITOS_DIR&quot;/* &quot;$EXTRACT_DIR/$FAVORITOS_DIR/&quot;
+    log_done &quot;Favoritos adicionados.&quot;
+else
+    log_info &quot;Nenhum favorito encontrado.&quot;
+fi
+
+if [ -d &quot;$SOFTWARE_DIR&quot; ] &amp;&amp; [ &quot;$(ls -A $SOFTWARE_DIR)&quot; ]; then
+    mkdir -p &quot;$EXTRACT_DIR/$SOFTWARE_DIR&quot;
+    cp -r &quot;$SOFTWARE_DIR&quot;/* &quot;$EXTRACT_DIR/$SOFTWARE_DIR/&quot;
+    log_done &quot;Software RPM adicionado.&quot;
+else
+    log_info &quot;Nenhum software RPM encontrado.&quot;
+fi
+
+# 5️⃣ ADICIONA KICKSTART E CONFIGURA GRUB
+log_step &quot;Configurando GRUB2 para BIOS e UEFI...&quot;
+mkdir -p &quot;$EXTRACT_DIR/boot/grub&quot; &quot;$EFI_DIR&quot;
+
+# grub.cfg para BIOS
+cat &gt; &quot;$EXTRACT_DIR/boot/grub/grub.cfg&quot; &lt;&lt;EOF
+set timeout=5
+set default=0
+
+menuentry &quot;Instalar Oracle Linux 9.6&quot; {
+    linux /images/pxeboot/vmlinuz inst.stage2=hd:LABEL=OL96 inst.ks=cdrom:/ks.cfg
+    initrd /images/pxeboot/initrd.img
+}
+EOF
+
+# grub.cfg para UEFI
+cat &gt; &quot;$EFI_DIR/grub.cfg&quot; &lt;&lt;&#x27;EOF&#x27;
+set timeout=5
+set default=0
+
+menuentry &quot;Instalar Oracle Linux 9.6&quot; {
+    linux /images/pxeboot/vmlinuz inst.stage2=hd:LABEL=OL96 inst.ks=cdrom:/ks.cfg
+    initrd /images/pxeboot/initrd.img
+}
+EOF
+
+# Detecta GRUB EFI e shim
+GRUB_PATHS=(
+    &quot;/usr/lib64/efi/grubx64.efi&quot;
+    &quot;/usr/lib/grub/x86_64-efi/monolithic/grubx64.efi&quot;
+    &quot;/boot/efi/EFI/BOOT/grubx64.efi&quot;
+)
+SHIM_PATHS=(
+    &quot;/usr/lib64/efi/shimx64.efi&quot;
+    &quot;/boot/efi/EFI/BOOT/BOOTX64.EFI&quot;
+)
+
+FOUND_GRUB=&quot;&quot;
+for path in &quot;${GRUB_PATHS[@]}&quot;; do
+    [ -f &quot;$path&quot; ] &amp;&amp; FOUND_GRUB=&quot;$path&quot; &amp;&amp; break
+done
+
+FOUND_SHIM=&quot;&quot;
+for path in &quot;${SHIM_PATHS[@]}&quot;; do
+    [ -f &quot;$path&quot; ] &amp;&amp; FOUND_SHIM=&quot;$path&quot; &amp;&amp; break
+done
+
+if [ -n &quot;$FOUND_SHIM&quot; ]; then
+    log_info &quot;Usando shim como BOOTX64.EFI: $FOUND_SHIM&quot;
+    cp &quot;$FOUND_SHIM&quot; &quot;$EFI_DIR/BOOTX64.EFI&quot;
+    if [ -n &quot;$FOUND_GRUB&quot; ]; then
+        cp &quot;$FOUND_GRUB&quot; &quot;$EFI_DIR/grubx64.efi&quot;
+    else
+        log_error &quot;shim encontrado, mas grubx64.efi ausente.&quot;
+    fi
+elif [ -n &quot;$FOUND_GRUB&quot; ]; then
+    log_info &quot;Usando grubx64.efi diretamente como BOOTX64.EFI: $FOUND_GRUB&quot;
+    cp &quot;$FOUND_GRUB&quot; &quot;$EFI_DIR/BOOTX64.EFI&quot;
+else
+    log_error &quot;Nenhum arquivo EFI encontrado. Instale &#x27;grub2-efi-x64&#x27;.&quot;
+fi
+
+cp &quot;$KS_FILE&quot; &quot;$EXTRACT_DIR/&quot;
+log_done &quot;GRUB2 configurado.&quot;
+
+# 6️⃣ GERA ISO HÍBRIDA
+log_step &quot;Gerando ISO híbrida com suporte BIOS e UEFI...&quot;
+xorriso -as mkisofs \
+    -o &quot;$OUTPUT_ISO&quot; \
+    -volid OL96 \
+    -isohybrid-mbr /usr/share/syslinux/isohdpfx.bin \
+    -c isolinux/boot.cat \
+    -b isolinux/isolinux.bin \
+    -no-emul-boot \
+    -boot-load-size 4 \
+    -boot-info-table \
+    -eltorito-alt-boot \
+    -e EFI/BOOT/BOOTX64.EFI \
+    -no-emul-boot \
+    &quot;$EXTRACT_DIR&quot;
+log_done &quot;ISO criada com sucesso: $OUTPUT_ISO&quot;
+
+# 7️⃣ FINALIZAÇÃO
+log_step &quot;Processo concluído.&quot;
+log_done &quot;ISO personalizada e compacta pronta: $OUTPUT_ISO&quot;
+</textarea>
+    <div>
+      <button class="copy-btn" onclick="copySource()" id="copy-btn">📋 Copiar código</button>
+      <button class="copy-btn" onclick="downloadSource()" id="dl-btn">💾 Download .sh</button>
+      <a href="build-iso.desktop" class="download-btn" download>▶️ Abrir no Terminal (.desktop)</a>
+    </div>
+  </div>
+</div>
+
+<script>
+function copySource() {
+  var textarea = document.getElementById('source-code');
+  textarea.select();
+  textarea.setSelectionRange(0, 999999);
+  document.execCommand('copy');
+  var btn = document.getElementById('copy-btn');
+  btn.textContent = '✅ Copiado!';
+  btn.classList.add('copied');
+  setTimeout(function() {
+    btn.textContent = '📋 Copiar código';
+    btn.classList.remove('copied');
+  }, 2000);
+}
+
+function downloadSource() {
+  var content = document.getElementById('source-code').value;
+  var blob = new Blob([content], {type: 'application/x-shellscript'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'build_iso.sh';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  var btn = document.getElementById('dl-btn');
+  btn.textContent = '✅ Baixado!';
+  setTimeout(function() {
+    btn.textContent = '💾 Download .sh';
+  }, 2000);
+}
+</script>
+</body>
+</html>

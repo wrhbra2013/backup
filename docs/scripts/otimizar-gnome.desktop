@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=otimizar-gnome.sh
+Comment=gnome-manager-full.sh — Oracle Linux 9.7
+Exec=x-terminal-emulator -e bash -c '/home/wander/Public/backup/system_scripts/otimizar-gnome.sh; echo ""; echo "=== Script finalizado. Pressione Enter para fechar ==="; read'
+Terminal=true
+Icon=terminal
+Categories=Development;System;

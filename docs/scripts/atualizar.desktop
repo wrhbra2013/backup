@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=atualizar.sh
+Comment=Script de atualização do repositório Amor Animal Marília
+Exec=x-terminal-emulator -e bash -c '/home/wander/Public/backup/system_scripts/atualizar.sh; echo ""; echo "=== Script finalizado. Pressione Enter para fechar ==="; read'
+Terminal=true
+Icon=terminal
+Categories=Development;System;
