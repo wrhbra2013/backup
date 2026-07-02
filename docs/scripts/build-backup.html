@@ -62,7 +62,17 @@ tr:hover td { background: #f8fafc; }
 .back-link { display: inline-block; margin-bottom: 16px; color: #2563eb; font-size: 0.9rem; }
 .back-link:before { content: "← "; }
 .stat-line { font-size: 0.8rem; color: #6b7280; margin-bottom: 12px; }
-@media (max-width: 600px) { .container { padding: 12px; } th, td { padding: 6px 8px; font-size: 0.8rem; } }
+.layout { display: flex; gap: 24px; align-items: flex-start; }
+.sidebar { width: 260px; flex-shrink: 0; background: #fff; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); overflow: hidden; position: sticky; top: 20px; max-height: calc(100vh - 80px); overflow-y: auto; }
+.sidebar-title { padding: 12px 16px; font-weight: 700; font-size: 0.85rem; color: #1e293b; background: #f8fafc; border-bottom: 1px solid #e5e7eb; text-transform: uppercase; letter-spacing: 0.5px; }
+.sidebar a { display: block; padding: 8px 16px; color: #374151; text-decoration: none; font-size: 0.82rem; border-left: 3px solid transparent; transition: all 0.15s; }
+.sidebar a:hover { background: #f1f5f9; border-left-color: #93c5fd; }
+.sidebar a.active { background: #eff6ff; border-left-color: #2563eb; color: #1e40af; font-weight: 600; }
+.sidebar-group { border-top: 1px solid #f0f0f0; }
+.sidebar-group-label { padding: 6px 16px; font-size: 0.7rem; font-weight: 600; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.3px; }
+.sidebar a .s-badge { float: right; background: #e5e7eb; color: #374151; padding: 0 6px; border-radius: 3px; font-size: 0.65rem; font-weight: 600; line-height: 1.6; }
+.main-content { flex: 1; min-width: 0; }
+@media (max-width: 800px) { .layout { flex-direction: column; } .sidebar { width: 100%; position: static; max-height: none; } }
 </style>
 </head>
 <body>
@@ -74,22 +84,29 @@ tr:hover td { background: #f8fafc; }
     </div>
   </div>
 </div>
-<div class="container script-page">
-  <a href="../index.html" class="back-link">Voltar ao Dashboard</a>
+<div class="container">
+  <div class="layout">
+    <div class="sidebar">
+      <div class="sidebar-title">📂 Navegação</div>
+      <a href="../index.html">📊 Dashboard</a>
+      <div class="sidebar-group"><div class="sidebar-group-label">Raiz</div><a href="build-iso.html">build_iso.sh <span class="s-badge">13</span></a><a href="create-rpm.html">create_rpm.sh <span class="s-badge">9</span></a><a href="debian.html">debian.sh <span class="s-badge">4</span></a><a href="fix-repos-ol9.html">fix-repos-ol9.sh <span class="s-badge">9</span></a><a href="git-sync.html">git-sync.sh <span class="s-badge">1</span></a><a href="oracle.html">oracle.sh <span class="s-badge">12</span></a><a href="update-appimages.html">update-appimages.sh <span class="s-badge">11</span></a></div><div class="sidebar-group"><div class="sidebar-group-label">System Scripts</div><a href="appimage2rpm.html">appimage2rpm.sh <span class="s-badge">9</span></a><a href="atualizar.html">atualizar.sh <span class="s-badge">2</span></a><a href="auto-fix-powerprofiles-selinux.html">auto_fix_powerprofiles_selinux.sh <span class="s-badge">2</span></a><a href="build-backup.html" class="active">build_backup.sh <span class="s-badge">16</span></a><a href="build-iso.html">build_iso.sh <span class="s-badge">15</span></a><a href="create-iso.html">create_iso.sh <span class="s-badge">13</span></a><a href="fix-repos-ol9.html">fix-repos-ol9.sh <span class="s-badge">9</span></a><a href="gerar-iso.html">gerar_iso.sh <span class="s-badge">2</span></a><a href="gerar-iso-ol10.html">gerar_iso_ol10.sh <span class="s-badge">12</span></a><a href="gerar-iso-ol9.html">gerar_iso_ol9.sh <span class="s-badge">13</span></a><a href="manager-repo-sh.html">manager_repo_sh <span class="s-badge">3</span></a><a href="manut.html">manut.sh <span class="s-badge">4</span></a><a href="node.html">node.sh <span class="s-badge">12</span></a><a href="ol9-audit-otimizar.html">ol9-audit-otimizar.sh <span class="s-badge">14</span></a><a href="ol9-full-setup.html">ol9-full-setup.sh <span class="s-badge">12</span></a><a href="oracle-config.html">oracle_config.sh <span class="s-badge">2</span></a><a href="otimizar-gnome.html">otimizar-gnome.sh <span class="s-badge">3</span></a><a href="otimizar-xfce.html">otimizar-xfce.sh <span class="s-badge">15</span></a><a href="remove-old-kernels.html">remove_old_kernels.sh <span class="s-badge">4</span></a><a href="setup-xfce-tiling.html">setup-xfce-tiling.sh <span class="s-badge">7</span></a><a href="setup-zram.html">setup-zram.sh <span class="s-badge">3</span></a><a href="xrandr-config.html">xrandr-config.sh <span class="s-badge">7</span></a></div><div class="sidebar-group"><div class="sidebar-group-label">VM Scripts</div><a href="control.html">control.sh <span class="s-badge">8</span></a><a href="restore-snapshot-disable-ufw.html">restore-snapshot-disable-ufw.sh <span class="s-badge">1</span></a><a href="setup-api-debian.html">setup-api-debian.sh <span class="s-badge">13</span></a></div><div class="sidebar-group"><div class="sidebar-group-label">Bluetooth</div><a href="bt-auto.html">bt-auto.sh <span class="s-badge">1</span></a></div>
+    </div>
+    <div class="main-content script-page">
+      <a href="../index.html" class="back-link">Voltar ao Dashboard</a>
 
-  <h1>build_backup.sh</h1>
-  <p class="subtitle">==============================================================================</p>
+      <h1>build_backup.sh</h1>
+      <p class="subtitle">==============================================================================</p>
 
-  <div class="meta-table"><table><tr><td colspan='2'>==============================================================================</td></tr><tr><td colspan='2'>CONFIGURAÇÕES GERAIS</td></tr><tr><td colspan='2'>==============================================================================</td></tr></table></div>
-  <div class="meta-table"><table><tr><td>Arquivo</td><td><code>system_scripts/build_backup.sh</code></td></tr><tr><td>Shebang</td><td><code></code></td></tr><tr><td>Tamanho</td><td>7.5 KB · 210 linhas</td></tr></table></div>
-  
-  <h2>Variáveis de Configuração</h2><div class='var-list'><span class="var-item"><code>DATA</code> = <code>$(date +%F)</code></span><span class="var-item"><code>ISO_BASE</code> = <code>OracleLinux-R9-U4-x86_64-dvd.iso</code></span><span class="var-item"><code>ISO_NAME</code> = <code>ol9-custom-install-${DATA}.iso</code></span><span class="var-item"><code>WORKDIR</code> = <code>/tmp/custom-iso</code></span><span class="var-item"><code>ROOTFS</code> = <code>$WORKDIR/rootfs</code></span><span class="var-item"><code>RPM_EXTRA</code> = <code>./software_rpm</code></span><span class="var-item"><code>FAVORITOS</code> = <code>./favoritos</code></span><span class="var-item"><code>KICKSTART_FILE</code> = <code>kickstart.cfg</code></span><span class="var-item"><code>MNT_BASE</code> = <code>$WORKDIR/mnt_base</code></span><span class="var-item"><code>KERNEL_FILE</code> = <code>vmlinuz</code></span><span class="var-item"><code>INITRD_FILE</code> = <code>initrd.img</code></span><span class="var-item"><code>REPO_BASE</code> = <code>https://yum.oracle.com/repo/OracleLinux/OL9/baseos/latest...</code></span><span class="var-item"><code>REPO_APPSTREAM</code> = <code>https://yum.oracle.com/repo/OracleLinux/OL9/appstream/lat...</code></span><span class="var-item"><code>REPO_EPEL</code> = <code>https://dl.fedoraproject.org/pub/epel/9/Everything/x86_64/</code></span><span class="var-item"><code>REPO_RPMFUSION_FREE</code> = <code>https://download1.rpmfusion.org/free/el/rpmfusion-free-re...</code></span><span class="var-item"><code>RPMFUSION_RELEASE_PKG</code> = <code>$WORKDIR/rpmfusion-release-pkg.rpm</code></span></div>
-  <h2>Comandos Utilizados</h2><div class="cmd-group"><div class="cmd-group-title">Package Manager</div><div class="cmd-list"><span class="badge badge-cmd">dnf</span><span class="badge badge-cmd">rpm</span><span class="badge badge-cmd">yum</span></div></div><div class="cmd-group"><div class="cmd-group-title">Filesystem</div><div class="cmd-list"><span class="badge badge-cmd">mount</span><span class="badge badge-cmd">umount</span></div></div><div class="cmd-group"><div class="cmd-group-title">Download</div><div class="cmd-list"><span class="badge badge-cmd">curl</span><span class="badge badge-cmd">wget</span></div></div><div class="cmd-group"><div class="cmd-group-title">Sync/Backup</div><div class="cmd-list"><span class="badge badge-cmd">rsync</span></div></div><div class="cmd-group"><div class="cmd-group-title">File Operations</div><div class="cmd-list"><span class="badge badge-cmd">cp</span><span class="badge badge-cmd">mkdir</span><span class="badge badge-cmd">rm</span></div></div><div class="cmd-group"><div class="cmd-group-title">ISO Tool</div><div class="cmd-list"><span class="badge badge-cmd">mksquashfs</span><span class="badge badge-cmd">xorriso</span></div></div><div class="cmd-group"><div class="cmd-group-title">Repository</div><div class="cmd-list"><span class="badge badge-cmd">createrepo_c</span></div></div><div class="cmd-group"><div class="cmd-group-title">Initramfs</div><div class="cmd-list"><span class="badge badge-cmd">dracut</span></div></div><div class="cmd-group"><div class="cmd-group-title">User Management</div><div class="cmd-list"><span class="badge badge-cmd">passwd</span></div></div>
-  <h2>Pacotes / Dependências</h2><div class='cmd-list'><span class="badge badge-pkg">createrepo_c</span><span class="badge badge-pkg">curl</span><span class="badge badge-pkg">isomd5sum</span><span class="badge badge-pkg">rsync</span><span class="badge badge-pkg">squashfs-tools</span><span class="badge badge-pkg">xterm</span></div>
+      <div class="meta-table"><table><tr><td colspan='2'>==============================================================================</td></tr><tr><td colspan='2'>CONFIGURAÇÕES GERAIS</td></tr><tr><td colspan='2'>==============================================================================</td></tr></table></div>
+      <div class="meta-table"><table><tr><td>Arquivo</td><td><code>system_scripts/build_backup.sh</code></td></tr><tr><td>Shebang</td><td><code></code></td></tr><tr><td>Tamanho</td><td>7.5 KB · 210 linhas</td></tr></table></div>
+      
+      <h2>Variáveis de Configuração</h2><div class='var-list'><span class="var-item"><code>DATA</code> = <code>$(date +%F)</code></span><span class="var-item"><code>ISO_BASE</code> = <code>OracleLinux-R9-U4-x86_64-dvd.iso</code></span><span class="var-item"><code>ISO_NAME</code> = <code>ol9-custom-install-${DATA}.iso</code></span><span class="var-item"><code>WORKDIR</code> = <code>/tmp/custom-iso</code></span><span class="var-item"><code>ROOTFS</code> = <code>$WORKDIR/rootfs</code></span><span class="var-item"><code>RPM_EXTRA</code> = <code>./software_rpm</code></span><span class="var-item"><code>FAVORITOS</code> = <code>./favoritos</code></span><span class="var-item"><code>KICKSTART_FILE</code> = <code>kickstart.cfg</code></span><span class="var-item"><code>MNT_BASE</code> = <code>$WORKDIR/mnt_base</code></span><span class="var-item"><code>KERNEL_FILE</code> = <code>vmlinuz</code></span><span class="var-item"><code>INITRD_FILE</code> = <code>initrd.img</code></span><span class="var-item"><code>REPO_BASE</code> = <code>https://yum.oracle.com/repo/OracleLinux/OL9/baseos/latest...</code></span><span class="var-item"><code>REPO_APPSTREAM</code> = <code>https://yum.oracle.com/repo/OracleLinux/OL9/appstream/lat...</code></span><span class="var-item"><code>REPO_EPEL</code> = <code>https://dl.fedoraproject.org/pub/epel/9/Everything/x86_64/</code></span><span class="var-item"><code>REPO_RPMFUSION_FREE</code> = <code>https://download1.rpmfusion.org/free/el/rpmfusion-free-re...</code></span><span class="var-item"><code>RPMFUSION_RELEASE_PKG</code> = <code>$WORKDIR/rpmfusion-release-pkg.rpm</code></span></div>
+      <h2>Comandos Utilizados</h2><div class="cmd-group"><div class="cmd-group-title">Package Manager</div><div class="cmd-list"><span class="badge badge-cmd">dnf</span><span class="badge badge-cmd">rpm</span><span class="badge badge-cmd">yum</span></div></div><div class="cmd-group"><div class="cmd-group-title">Filesystem</div><div class="cmd-list"><span class="badge badge-cmd">mount</span><span class="badge badge-cmd">umount</span></div></div><div class="cmd-group"><div class="cmd-group-title">Download</div><div class="cmd-list"><span class="badge badge-cmd">curl</span><span class="badge badge-cmd">wget</span></div></div><div class="cmd-group"><div class="cmd-group-title">Sync/Backup</div><div class="cmd-list"><span class="badge badge-cmd">rsync</span></div></div><div class="cmd-group"><div class="cmd-group-title">File Operations</div><div class="cmd-list"><span class="badge badge-cmd">cp</span><span class="badge badge-cmd">mkdir</span><span class="badge badge-cmd">rm</span></div></div><div class="cmd-group"><div class="cmd-group-title">ISO Tool</div><div class="cmd-list"><span class="badge badge-cmd">mksquashfs</span><span class="badge badge-cmd">xorriso</span></div></div><div class="cmd-group"><div class="cmd-group-title">Repository</div><div class="cmd-list"><span class="badge badge-cmd">createrepo_c</span></div></div><div class="cmd-group"><div class="cmd-group-title">Initramfs</div><div class="cmd-list"><span class="badge badge-cmd">dracut</span></div></div><div class="cmd-group"><div class="cmd-group-title">User Management</div><div class="cmd-list"><span class="badge badge-cmd">passwd</span></div></div>
+      <h2>Pacotes / Dependências</h2><div class='cmd-list'><span class="badge badge-pkg">createrepo_c</span><span class="badge badge-pkg">curl</span><span class="badge badge-pkg">isomd5sum</span><span class="badge badge-pkg">rsync</span><span class="badge badge-pkg">squashfs-tools</span><span class="badge badge-pkg">xterm</span></div>
 
-  <h2>Código Fonte</h2>
-  <div class="source-box">
-    <textarea id="source-code" rows="20" readonly spellcheck="false"> #!/bin/bash
+      <h2>Código Fonte</h2>
+      <div class="source-box">
+        <textarea id="source-code" rows="20" readonly spellcheck="false"> #!/bin/bash
 
 # ==============================================================================
 # CONFIGURAÇÕES GERAIS
@@ -299,10 +316,12 @@ isohybrid &quot;$ISO_NAME&quot;
 
 echo &quot;✅ ISO híbrida de Instalação/Live criada com sucesso: $ISO_NAME&quot;
 </textarea>
-    <div>
-      <button class="copy-btn" onclick="copySource()" id="copy-btn">📋 Copiar código</button>
-      <button class="copy-btn" onclick="downloadSource()" id="dl-btn">💾 Download .sh</button>
-      <a href="build-backup.desktop" class="download-btn" download>▶️ Abrir no Terminal (.desktop)</a>
+        <div>
+          <button class="copy-btn" onclick="copySource()" id="copy-btn">📋 Copiar código</button>
+          <button class="copy-btn" onclick="downloadSource()" id="dl-btn">💾 Download .sh</button>
+          <a href="build-backup.desktop" class="download-btn" download>▶️ Abrir no Terminal (.desktop)</a>
+        </div>
+      </div>
     </div>
   </div>
 </div>

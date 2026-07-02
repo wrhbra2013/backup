@@ -369,23 +369,43 @@ tr:hover td { background: #f8fafc; }
 .back-link { display: inline-block; margin-bottom: 16px; color: #2563eb; font-size: 0.9rem; }
 .back-link:before { content: "← "; }
 .stat-line { font-size: 0.8rem; color: #6b7280; margin-bottom: 12px; }
-@media (max-width: 600px) { .container { padding: 12px; } th, td { padding: 6px 8px; font-size: 0.8rem; } }
+.layout { display: flex; gap: 24px; align-items: flex-start; }
+.sidebar { width: 260px; flex-shrink: 0; background: #fff; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); overflow: hidden; position: sticky; top: 20px; max-height: calc(100vh - 80px); overflow-y: auto; }
+.sidebar-title { padding: 12px 16px; font-weight: 700; font-size: 0.85rem; color: #1e293b; background: #f8fafc; border-bottom: 1px solid #e5e7eb; text-transform: uppercase; letter-spacing: 0.5px; }
+.sidebar a { display: block; padding: 8px 16px; color: #374151; text-decoration: none; font-size: 0.82rem; border-left: 3px solid transparent; transition: all 0.15s; }
+.sidebar a:hover { background: #f1f5f9; border-left-color: #93c5fd; }
+.sidebar a.active { background: #eff6ff; border-left-color: #2563eb; color: #1e40af; font-weight: 600; }
+.sidebar-group { border-top: 1px solid #f0f0f0; }
+.sidebar-group-label { padding: 6px 16px; font-size: 0.7rem; font-weight: 600; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.3px; }
+.sidebar a .s-badge { float: right; background: #e5e7eb; color: #374151; padding: 0 6px; border-radius: 3px; font-size: 0.65rem; font-weight: 600; line-height: 1.6; }
+.main-content { flex: 1; min-width: 0; }
+@media (max-width: 800px) { .layout { flex-direction: column; } .sidebar { width: 100%; position: static; max-height: none; } }
 """
 
 
-def render_index(scripts):
-    """Render the dashboard index page."""
-    dirs = {}
-    for s in scripts:
-        d = s["dir_name"]
-        if d not in dirs:
-            dirs[d] = []
-        dirs[d].append(s)
-
+def render_index(scripts, dirs):
+    """Render the dashboard index page with sidebar menu."""
     total_scripts = len(scripts)
     total_commands = sum(len([c for cat in s["commands"].values() for c in cat]) for s in scripts)
     total_functions = sum(len(s["functions"]) for s in scripts)
     total_lines = sum(s["line_count"] for s in scripts)
+
+    dir_order = ["root", "system_scripts", "vm_scripts", "bluetooth"]
+    dir_label = {"root": "Raiz", "system_scripts": "System Scripts", "vm_scripts": "VM Scripts", "bluetooth": "Bluetooth"}
+
+    sidebar_html = '<div class="sidebar-title">📂 Navegação</div>'
+    sidebar_html += '<a href="index.html" class="active">📊 Dashboard</a>'
+
+    for d in dir_order:
+        if d not in dirs:
+            continue
+        label = dir_label.get(d, d)
+        sidebar_html += f'<div class="sidebar-group"><div class="sidebar-group-label">{label}</div>'
+        for s in dirs[d]:
+            slug = make_slug(s["filename"])
+            cmd_count = sum(len(cmds) for cmds in s["commands"].values())
+            sidebar_html += f'<a href="scripts/{slug}.html">{escape(s["filename"])} <span class="s-badge">{cmd_count}</span></a>'
+        sidebar_html += '</div>'
 
     rows_html = ""
     for s in scripts:
@@ -411,13 +431,14 @@ def render_index(scripts):
   <td class="cmd-count">{cmd_count} cmd · {func_count} fn · {s["line_count"]} lin</td>
   <td>
     <a href="scripts/{slug}.desktop" download class="tag" title="Download .desktop">🖥️</a>
-    <a href="scripts/{slug}.html" class="tag" title="Download .sh">📄</a>
+    <a href="scripts/{slug}.html" class="tag" title="Abrir página">📄</a>
   </td>
 </tr>"""
 
     categories_html = ""
     for d, sc in sorted(dirs.items()):
-        categories_html += f'<span class="badge badge-dir">{d} ({len(sc)})</span> '
+        label = dir_label.get(d, d)
+        categories_html += f'<span class="badge badge-dir">{label} ({len(sc)})</span> '
 
     html = f"""<!DOCTYPE html>
 <html lang="pt-BR">
@@ -447,14 +468,21 @@ def render_index(scripts):
     <div class="stat-card"><div class="num">{total_lines:,}</div><div class="label">Linhas de código</div></div>
   </div>
 
-  <p class="stat-line">Categorias: {categories_html}</p>
+  <div class="layout">
+    <div class="sidebar">
+      {sidebar_html}
+    </div>
+    <div class="main-content">
+      <p class="stat-line">Categorias: {categories_html}</p>
 
-  <input type="text" class="search-box" id="search" placeholder="Pesquisar scripts, comandos, descrições..." oninput="filterTable()">
+      <input type="text" class="search-box" id="search" placeholder="Pesquisar scripts, comandos, descrições..." oninput="filterTable()">
 
-  <table id="script-table">
-    <thead><tr><th>Script</th><th>Descrição</th><th>Diretório</th><th>Comandos / Pacotes</th><th>Info</th><th>Ações</th></tr></thead>
-    <tbody>{rows_html}</tbody>
-  </table>
+      <table id="script-table">
+        <thead><tr><th>Script</th><th>Descrição</th><th>Diretório</th><th>Comandos / Pacotes</th><th>Info</th><th>Ações</th></tr></thead>
+        <tbody>{rows_html}</tbody>
+      </table>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -473,7 +501,7 @@ function filterTable() {{
     return html
 
 
-def render_script_page(s):
+def render_script_page(s, dirs):
     """Render individual script page."""
     slug = make_slug(s["filename"])
 
@@ -538,6 +566,22 @@ def render_script_page(s):
     # Determine desktop file path relative to scripts dir
     desktop_rel = f"{slug}.desktop"
 
+    dir_label = {"root": "Raiz", "system_scripts": "System Scripts", "vm_scripts": "VM Scripts", "bluetooth": "Bluetooth"}
+    dir_order = ["root", "system_scripts", "vm_scripts", "bluetooth"]
+
+    menu_html = ""
+    for d in dir_order:
+        if d not in dirs:
+            continue
+        label = dir_label.get(d, d)
+        menu_html += f'<div class="sidebar-group"><div class="sidebar-group-label">{label}</div>'
+        for s2 in dirs[d]:
+            slug2 = make_slug(s2["filename"])
+            active = ' class="active"' if s2["filename"] == s["filename"] else ""
+            cmd_count2 = sum(len(cmds) for cmds in s2["commands"].values())
+            menu_html += f'<a href="{slug2}.html"{active}>{escape(s2["filename"])} <span class="s-badge">{cmd_count2}</span></a>'
+        menu_html += '</div>'
+
     html = f"""<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -555,26 +599,35 @@ def render_script_page(s):
     </div>
   </div>
 </div>
-<div class="container script-page">
-  <a href="../index.html" class="back-link">Voltar ao Dashboard</a>
+<div class="container">
+  <div class="layout">
+    <div class="sidebar">
+      <div class="sidebar-title">📂 Navegação</div>
+      <a href="../index.html">📊 Dashboard</a>
+      {menu_html}
+    </div>
+    <div class="main-content script-page">
+      <a href="../index.html" class="back-link">Voltar ao Dashboard</a>
 
-  <h1>{escape(s["filename"])}</h1>
-  <p class="subtitle">{escape(s["description"])}</p>
+      <h1>{escape(s["filename"])}</h1>
+      <p class="subtitle">{escape(s["description"])}</p>
 
-  {desc_html}
-  {meta_html}
-  {funcs_html}
-  {vars_html}
-  {cmds_html}
-  {pkgs_html}
+      {desc_html}
+      {meta_html}
+      {funcs_html}
+      {vars_html}
+      {cmds_html}
+      {pkgs_html}
 
-  <h2>Código Fonte</h2>
-  <div class="source-box">
-    <textarea id="source-code" rows="20" readonly spellcheck="false">{source_escaped}</textarea>
-    <div>
-      <button class="copy-btn" onclick="copySource()" id="copy-btn">📋 Copiar código</button>
-      <button class="copy-btn" onclick="downloadSource()" id="dl-btn">💾 Download .sh</button>
-      <a href="{desktop_rel}" class="download-btn" download>▶️ Abrir no Terminal (.desktop)</a>
+      <h2>Código Fonte</h2>
+      <div class="source-box">
+        <textarea id="source-code" rows="20" readonly spellcheck="false">{source_escaped}</textarea>
+        <div>
+          <button class="copy-btn" onclick="copySource()" id="copy-btn">📋 Copiar código</button>
+          <button class="copy-btn" onclick="downloadSource()" id="dl-btn">💾 Download .sh</button>
+          <a href="{desktop_rel}" class="download-btn" download>▶️ Abrir no Terminal (.desktop)</a>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -637,6 +690,14 @@ def generate():
     scripts = scan_scripts()
     print(f"  Found {len(scripts)} scripts")
 
+    # Build directory map for sidebar menu
+    dirs = {}
+    for s in scripts:
+        d = s["dir_name"]
+        if d not in dirs:
+            dirs[d] = []
+        dirs[d].append(s)
+
     # Clean output directory
     if OUTPUT_DIR.exists():
         shutil.rmtree(OUTPUT_DIR)
@@ -644,13 +705,13 @@ def generate():
 
     # Generate index
     print("Generating index.html...")
-    index_html = render_index(scripts)
+    index_html = render_index(scripts, dirs)
     (OUTPUT_DIR / "index.html").write_text(index_html, encoding="utf-8")
 
     # Generate individual pages
     for s in scripts:
         slug = make_slug(s["filename"])
-        page_html = render_script_page(s)
+        page_html = render_script_page(s, dirs)
         page_path = SCRIPTS_DIR / f"{slug}.html"
         page_path.write_text(page_html, encoding="utf-8")
 
