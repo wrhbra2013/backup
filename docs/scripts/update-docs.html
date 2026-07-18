@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>gerar_iso.sh — Script Details</title>
+<title>update-docs.sh — Script Details</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, monospace; background: #f5f5f5; color: #1a1a1a; line-height: 1.6; }
@@ -89,77 +89,77 @@ tr:hover td { background: #f8fafc; }
     <div class="sidebar">
       <div class="sidebar-title">📂 Navegação</div>
       <a href="../index.html">📊 Dashboard</a>
-      <div class="sidebar-group"><div class="sidebar-group-label">Raiz</div><a href="build-iso.html">build_iso.sh <span class="s-badge">13</span></a><a href="build-iso-completa.html">build_iso_completa.sh <span class="s-badge">24</span></a><a href="build-offline-from-boot.html">build_offline_from_boot.sh <span class="s-badge">26</span></a><a href="build-offline-ol9.html">build_offline_ol9.sh <span class="s-badge">26</span></a><a href="create-rpm.html">create_rpm.sh <span class="s-badge">9</span></a><a href="debian.html">debian.sh <span class="s-badge">4</span></a><a href="fix-repos-ol9.html">fix-repos-ol9.sh <span class="s-badge">9</span></a><a href="git-sync.html">git-sync.sh <span class="s-badge">1</span></a><a href="oracle.html">oracle.sh <span class="s-badge">19</span></a><a href="update-appimages.html">update-appimages.sh <span class="s-badge">11</span></a><a href="update-docs.html">update-docs.sh <span class="s-badge">2</span></a></div><div class="sidebar-group"><div class="sidebar-group-label">System Scripts</div><a href="appimage2rpm.html">appimage2rpm.sh <span class="s-badge">9</span></a><a href="atualizar.html">atualizar.sh <span class="s-badge">2</span></a><a href="auto-fix-powerprofiles-selinux.html">auto_fix_powerprofiles_selinux.sh <span class="s-badge">2</span></a><a href="build-backup.html">build_backup.sh <span class="s-badge">16</span></a><a href="build-iso.html">build_iso.sh <span class="s-badge">15</span></a><a href="create-iso.html">create_iso.sh <span class="s-badge">13</span></a><a href="fix-repos-ol9.html">fix-repos-ol9.sh <span class="s-badge">9</span></a><a href="gerar-iso.html" class="active">gerar_iso.sh <span class="s-badge">2</span></a><a href="gerar-iso-ol10.html">gerar_iso_ol10.sh <span class="s-badge">12</span></a><a href="gerar-iso-ol9.html">gerar_iso_ol9.sh <span class="s-badge">13</span></a><a href="manager-repo-sh.html">manager_repo_sh <span class="s-badge">3</span></a><a href="manut.html">manut.sh <span class="s-badge">4</span></a><a href="node.html">node.sh <span class="s-badge">12</span></a><a href="ol9-audit-otimizar.html">ol9-audit-otimizar.sh <span class="s-badge">14</span></a><a href="ol9-full-setup.html">ol9-full-setup.sh <span class="s-badge">12</span></a><a href="oracle-config.html">oracle_config.sh <span class="s-badge">2</span></a><a href="otimizar-gnome.html">otimizar-gnome.sh <span class="s-badge">3</span></a><a href="otimizar-xfce.html">otimizar-xfce.sh <span class="s-badge">15</span></a><a href="remove-old-kernels.html">remove_old_kernels.sh <span class="s-badge">4</span></a><a href="setup-xfce-tiling.html">setup-xfce-tiling.sh <span class="s-badge">7</span></a><a href="setup-zram.html">setup-zram.sh <span class="s-badge">3</span></a><a href="xrandr-config.html">xrandr-config.sh <span class="s-badge">7</span></a></div><div class="sidebar-group"><div class="sidebar-group-label">VM Scripts</div><a href="control.html">control.sh <span class="s-badge">8</span></a><a href="restore-snapshot-disable-ufw.html">restore-snapshot-disable-ufw.sh <span class="s-badge">1</span></a><a href="setup-api-debian.html">setup-api-debian.sh <span class="s-badge">13</span></a></div><div class="sidebar-group"><div class="sidebar-group-label">Bluetooth</div><a href="bt-auto.html">bt-auto.sh <span class="s-badge">1</span></a><a href="bt-ctl.html">bt-ctl.sh <span class="s-badge">1</span></a></div>
+      <div class="sidebar-group"><div class="sidebar-group-label">Raiz</div><a href="build-iso.html">build_iso.sh <span class="s-badge">13</span></a><a href="build-iso-completa.html">build_iso_completa.sh <span class="s-badge">24</span></a><a href="build-offline-from-boot.html">build_offline_from_boot.sh <span class="s-badge">26</span></a><a href="build-offline-ol9.html">build_offline_ol9.sh <span class="s-badge">26</span></a><a href="create-rpm.html">create_rpm.sh <span class="s-badge">9</span></a><a href="debian.html">debian.sh <span class="s-badge">4</span></a><a href="fix-repos-ol9.html">fix-repos-ol9.sh <span class="s-badge">9</span></a><a href="git-sync.html">git-sync.sh <span class="s-badge">1</span></a><a href="oracle.html">oracle.sh <span class="s-badge">19</span></a><a href="update-appimages.html">update-appimages.sh <span class="s-badge">11</span></a><a href="update-docs.html" class="active">update-docs.sh <span class="s-badge">2</span></a></div><div class="sidebar-group"><div class="sidebar-group-label">System Scripts</div><a href="appimage2rpm.html">appimage2rpm.sh <span class="s-badge">9</span></a><a href="atualizar.html">atualizar.sh <span class="s-badge">2</span></a><a href="auto-fix-powerprofiles-selinux.html">auto_fix_powerprofiles_selinux.sh <span class="s-badge">2</span></a><a href="build-backup.html">build_backup.sh <span class="s-badge">16</span></a><a href="build-iso.html">build_iso.sh <span class="s-badge">15</span></a><a href="create-iso.html">create_iso.sh <span class="s-badge">13</span></a><a href="fix-repos-ol9.html">fix-repos-ol9.sh <span class="s-badge">9</span></a><a href="gerar-iso.html">gerar_iso.sh <span class="s-badge">2</span></a><a href="gerar-iso-ol10.html">gerar_iso_ol10.sh <span class="s-badge">12</span></a><a href="gerar-iso-ol9.html">gerar_iso_ol9.sh <span class="s-badge">13</span></a><a href="manager-repo-sh.html">manager_repo_sh <span class="s-badge">3</span></a><a href="manut.html">manut.sh <span class="s-badge">4</span></a><a href="node.html">node.sh <span class="s-badge">12</span></a><a href="ol9-audit-otimizar.html">ol9-audit-otimizar.sh <span class="s-badge">14</span></a><a href="ol9-full-setup.html">ol9-full-setup.sh <span class="s-badge">12</span></a><a href="oracle-config.html">oracle_config.sh <span class="s-badge">2</span></a><a href="otimizar-gnome.html">otimizar-gnome.sh <span class="s-badge">3</span></a><a href="otimizar-xfce.html">otimizar-xfce.sh <span class="s-badge">15</span></a><a href="remove-old-kernels.html">remove_old_kernels.sh <span class="s-badge">4</span></a><a href="setup-xfce-tiling.html">setup-xfce-tiling.sh <span class="s-badge">7</span></a><a href="setup-zram.html">setup-zram.sh <span class="s-badge">3</span></a><a href="xrandr-config.html">xrandr-config.sh <span class="s-badge">7</span></a></div><div class="sidebar-group"><div class="sidebar-group-label">VM Scripts</div><a href="control.html">control.sh <span class="s-badge">8</span></a><a href="restore-snapshot-disable-ufw.html">restore-snapshot-disable-ufw.sh <span class="s-badge">1</span></a><a href="setup-api-debian.html">setup-api-debian.sh <span class="s-badge">13</span></a></div><div class="sidebar-group"><div class="sidebar-group-label">Bluetooth</div><a href="bt-auto.html">bt-auto.sh <span class="s-badge">1</span></a><a href="bt-ctl.html">bt-ctl.sh <span class="s-badge">1</span></a></div>
     </div>
     <div class="main-content script-page">
       <a href="../index.html" class="back-link">Voltar ao Dashboard</a>
 
-      <h1>gerar_iso.sh</h1>
-      <p class="subtitle">Este script configura repositórios adicionais no Oracle Linux 10 (OL10)</p>
+      <h1>update-docs.sh</h1>
+      <p class="subtitle">update-docs.sh — Regenera a documentacao e opcionalmente faz commit</p>
 
-      <div class="meta-table"><table><tr><td colspan='2'>Este script configura repositórios adicionais no Oracle Linux 10 (OL10)</td></tr><tr><td colspan='2'>&nbsp;</td></tr></table></div>
-      <div class="meta-table"><table><tr><td>Arquivo</td><td><code>system_scripts/gerar_iso.sh</code></td></tr><tr><td>Shebang</td><td><code></code></td></tr><tr><td>Tamanho</td><td>2.1 KB · 50 linhas</td></tr></table></div>
+      <div class="meta-table"><table><tr><td colspan='2'>update-docs.sh — Regenera a documentacao e opcionalmente faz commit</td></tr><tr><td colspan='2'>Uso: ./update-docs.sh [--commit]</td></tr><tr><td colspan='2'>&nbsp;</td></tr></table></div>
+      <div class="meta-table"><table><tr><td>Arquivo</td><td><code>update-docs.sh</code></td></tr><tr><td>Shebang</td><td><code>#!/bin/bash</code></td></tr><tr><td>Tamanho</td><td>1.4 KB · 50 linhas</td></tr><tr><td>Uso</td><td><code>Uso: ./update-docs.sh [--commit]</code></td></tr></table></div>
       
-      
-      <h2>Comandos Utilizados</h2><div class="cmd-group"><div class="cmd-group-title">Package Manager</div><div class="cmd-list"><span class="badge badge-cmd">dnf</span><span class="badge badge-cmd">rpm</span></div></div>
+      <h2>Variáveis de Configuração</h2><div class='var-list'><span class="var-item"><code>SCRIPT_DIR</code> = <code>$(cd &quot;$(dirname &quot;$0&quot;)&quot; &amp;&amp; pwd)</code></span><span class="var-item"><code>SH_COUNT</code> = <code>$(find . -name &quot;*.sh&quot; -not -path &quot;./.git/*&quot; -not -path &quot;....</code></span><span class="var-item"><code>CHANGED</code> = <code>$(git diff --stat docs/ | tail -1)</code></span></div>
+      <h2>Comandos Utilizados</h2><div class="cmd-group"><div class="cmd-group-title">Git</div><div class="cmd-list"><span class="badge badge-cmd">git</span></div></div><div class="cmd-group"><div class="cmd-group-title">Python</div><div class="cmd-list"><span class="badge badge-cmd">python3</span></div></div>
       
 
       <h2>Código Fonte</h2>
       <div class="source-box">
-        <textarea id="source-code" rows="20" readonly spellcheck="false"> #!/bin/bash
+        <textarea id="source-code" rows="20" readonly spellcheck="false">#!/bin/bash
+# update-docs.sh — Regenera a documentacao e opcionalmente faz commit
+# Uso: ./update-docs.sh [--commit]
 
-# Este script configura repositórios adicionais no Oracle Linux 10 (OL10)
+set -euo pipefail
 
-echo &quot;--- 1. Verificando Repositórios Oficiais da Oracle (OL10) ---&quot;
+SCRIPT_DIR=&quot;$(cd &quot;$(dirname &quot;$0&quot;)&quot; &amp;&amp; pwd)&quot;
+cd &quot;$SCRIPT_DIR&quot;
 
-# Os repositórios ol10_baseos_latest, ol10_appstream e ol10_UEKR8
-# são geralmente habilitados por padrão no Oracle Linux.
-# O CodeReady Builder (necessário para dependências do RPM Fusion) precisa ser habilitado:
-echo &quot;Habilitando o repositório CodeReady Builder (ol10_codeready_builder)...&quot;
-sudo dnf config-manager --enable ol10_codeready_builder
+echo &quot;==&gt; Verificando Python...&quot;
+if ! command -v python3 &amp;&gt;/dev/null; then
+  echo &quot;ERRO: python3 nao encontrado&quot;
+  exit 1
+fi
 
-# Atualiza o índice de pacotes
-sudo dnf check-update
+echo &quot;==&gt; Escaneando scripts .sh no repositorio...&quot;
+SH_COUNT=$(find . -name &quot;*.sh&quot; -not -path &quot;./.git/*&quot; -not -path &quot;./docs/*&quot; | wc -l)
+echo &quot;    Encontrados: $SH_COUNT scripts&quot;
 
-echo &quot;&quot;
-echo &quot;--- 2. Adicionando Repositório EPEL (Extra Packages for Enterprise Linux) ---&quot;
+echo &quot;==&gt; Gerando documentacao...&quot;
+python3 generate-docs.py
 
-# Instala o pacote de release do EPEL para a versão 10 do Enterprise Linux (EL10)
-# que é o upstream do Oracle Linux.
-echo &quot;Instalando o pacote epel-release para EL10...&quot;
-sudo dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-10.noarch.rpm
+echo &quot;==&gt; Verificando alteracoes no git...&quot;
+if git diff --quiet docs/ 2&gt;/dev/null; then
+  echo &quot;    Nenhuma alteracao detectada na pasta docs/&quot;
+else
+  CHANGED=$(git diff --stat docs/ | tail -1)
+  echo &quot;    Alteracoes: $CHANGED&quot;
+fi
 
-# Habilita o repositório EPEL mantido pela Oracle, que espelha o EPEL oficial.
-# O pacote acima pode já ter feito isso, mas este comando garante a ativação.
-echo &quot;Garantindo que o repositório EPEL da Oracle esteja habilitado (ol10_developer_EPEL)...&quot;
-sudo dnf config-manager --enable ol10_developer_EPEL
-
-echo &quot;&quot;
-echo &quot;--- 3. Adicionando Repositórios RPM Fusion (Free e Non-free) ---&quot;
-
-# O RPM Fusion usa a versão principal do RHEL (10) para encontrar o RPM correto.
-# A variável $(rpm -E %rhel) resolve para &#x27;10&#x27;.
-echo &quot;Instalando RPM Fusion Free e Non-free para EL10...&quot;
-sudo dnf install -y --nogpgcheck \
-  https://mirrors.rpmfusion.org/free/el/rpmfusion-free-release-$(rpm -E %rhel).noarch.rpm \
-  https://mirrors.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-$(rpm -E %rhel).noarch.rpm
-
-echo &quot;&quot;
-echo &quot;--- 4. Conclusão e Limpeza ---&quot;
-
-# Limpa o cache do DNF e verifica a lista de repositórios ativados.
-echo &quot;Limpando o cache do DNF e listando repositórios habilitados...&quot;
-sudo dnf clean all
-sudo dnf repolist
+if [[ &quot;${1:-}&quot; == &quot;--commit&quot; ]]; then
+  echo &quot;==&gt; Fazendo commit das alteracoes...&quot;
+  git add docs/
+  git commit -m &quot;docs: auto-update — $SH_COUNT scripts documentados&quot; --no-verify
+  echo &quot;==&gt; Commit realizado com sucesso!&quot;
+  echo &quot;    Para enviar ao remote: git push&quot;
+else
+  echo &quot;&quot;
+  echo &quot;==&gt; Pronto! Para commitar as alteracoes, rode:&quot;
+  echo &quot;    ./update-docs.sh --commit&quot;
+fi
 
 echo &quot;&quot;
-echo &quot;Configuração de repositórios concluída no Oracle Linux 10!&quot;
-echo &quot;Execute &#x27;sudo dnf upgrade&#x27; para atualizar o sistema com os novos pacotes.&quot;
+echo &quot;==&gt; Abrindo docs/index.html...&quot;
+if command -v xdg-open &amp;&gt;/dev/null; then
+  xdg-open &quot;$SCRIPT_DIR/docs/index.html&quot; 2&gt;/dev/null &amp;
+elif command -v open &amp;&gt;/dev/null; then
+  open &quot;$SCRIPT_DIR/docs/index.html&quot; 2&gt;/dev/null &amp;
+fi
 </textarea>
         <div>
           <button class="copy-btn" onclick="copySource()" id="copy-btn">📋 Copiar código</button>
           <button class="copy-btn" onclick="downloadSource()" id="dl-btn">💾 Download .sh</button>
-          <a href="gerar-iso.desktop" class="download-btn" download>▶️ Abrir no Terminal (.desktop)</a>
+          <a href="update-docs.desktop" class="download-btn" download>▶️ Abrir no Terminal (.desktop)</a>
         </div>
       </div>
     </div>
@@ -187,7 +187,7 @@ function downloadSource() {
   var url = URL.createObjectURL(blob);
   var a = document.createElement('a');
   a.href = url;
-  a.download = 'gerar_iso.sh';
+  a.download = 'update-docs.sh';
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);

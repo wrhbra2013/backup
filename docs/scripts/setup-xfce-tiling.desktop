@@ -2,7 +2,7 @@
 Type=Application
 Name=setup-xfce-tiling.sh
 Comment=Ativa window tiling no XFCE4 (mouse + teclado)
-Exec=x-terminal-emulator -e bash -c '/home/wander/Public/backup/system_scripts/setup-xfce-tiling.sh; echo ""; echo "=== Script finalizado. Pressione Enter para fechar ==="; read'
+Exec=x-terminal-emulator -e bash -c '/home/runner/work/backup/backup/system_scripts/setup-xfce-tiling.sh; echo ""; echo "=== Script finalizado. Pressione Enter para fechar ==="; read'
 Terminal=true
 Icon=terminal
 Categories=Development;System;

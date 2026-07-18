@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=update-docs.sh
+Comment=update-docs.sh — Regenera a documentacao e opcionalmente faz commit
+Exec=x-terminal-emulator -e bash -c '/home/runner/work/backup/backup/update-docs.sh; echo ""; echo "=== Script finalizado. Pressione Enter para fechar ==="; read'
+Terminal=true
+Icon=terminal
+Categories=Development;System;
