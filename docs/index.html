@@ -73,7 +73,36 @@ tr:hover td { background: #f8fafc; }
 .sidebar a .s-badge { float: right; background: #e5e7eb; color: #374151; padding: 0 6px; border-radius: 3px; font-size: 0.65rem; font-weight: 600; line-height: 1.6; }
 .main-content { flex: 1; min-width: 0; }
 @media (max-width: 800px) { .layout { flex-direction: column; } .sidebar { width: 100%; position: static; max-height: none; } }
+
+.editor-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:200;align-items:center;justify-content:center}
+.editor-overlay.active{display:flex}
+.editor-modal{background:#1e1e2e;border:1px solid #333;border-radius:12px;width:94vw;height:90vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.5)}
+.editor-topbar{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:#15151f;border-bottom:1px solid #333;gap:10px;flex-wrap:wrap}
+.editor-topbar .fname{font-size:0.9rem;color:#e0e0e0;font-weight:600;font-family:'Fira Code',monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:300px}
+.editor-topbar .badge-lang{background:#3b3b5c;color:#a5b4fc;padding:2px 10px;border-radius:4px;font-size:0.72rem;font-weight:600}
+.editor-btns{display:flex;gap:6px;flex-wrap:wrap}
+.editor-btns button{padding:6px 14px;border:none;border-radius:6px;cursor:pointer;font-size:0.8rem;font-weight:600;display:flex;align-items:center;gap:5px;transition:all 0.2s}
+.btn-edit-save{background:#16a34a;color:#fff}.btn-edit-save:hover{background:#15803d}
+.btn-edit-copy{background:#2563eb;color:#fff}.btn-edit-copy:hover{background:#1d4ed8}
+.btn-edit-download{background:#7c3aed;color:#fff}.btn-edit-download:hover{background:#6d28d9}
+.btn-edit-close{background:#374151;color:#d1d5db}.btn-edit-close:hover{background:#4b5563}
+.btn-edit-new{background:#ea580c;color:#fff}.btn-edit-new:hover{background:#c2410c}
+.editor-body{flex:1;overflow:hidden}
+.editor-body .CodeMirror{height:100%;font-size:14px;line-height:1.5}
+.editor-statusbar{padding:6px 16px;background:#15151f;border-top:1px solid #333;font-size:0.75rem;color:#6b7280;display:flex;justify-content:space-between}
+.ferramenta-card{background:#fff;border:1px solid #e5e7eb;border-radius:10px;overflow:hidden;transition:transform 0.2s,box-shadow 0.2s;cursor:pointer;text-decoration:none;color:inherit}
+.ferramenta-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,0.12);text-decoration:none}
+.ferramenta-card .card-icon{height:120px;display:flex;align-items:center;justify-content:center;font-size:3rem;background:linear-gradient(135deg,#1e293b,#334155)}
+.ferramenta-card .card-body{padding:14px}
+.ferramenta-card .card-body h3{font-size:1rem;color:#1e293b;margin-bottom:4px}
+.ferramenta-card .card-body p{font-size:0.82rem;color:#6b7280;line-height:1.4}
+.ferramenta-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin-top:12px}
+.section-divider{border:none;border-top:2px solid #e5e7eb;margin:20px 0 8px}
+.tag-edit{background:#7c3aed;color:#fff;padding:3px 8px;border-radius:4px;font-size:0.7rem;font-weight:600;cursor:pointer;border:none;transition:background 0.2s}
+.tag-edit:hover{background:#6d28d9}
 </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/material-darker.min.css">
 </head>
 <body>
 <div class="header-bar">
@@ -81,6 +110,7 @@ tr:hover td { background: #f8fafc; }
     <h1><a href="index.html">📜 Backup Scripts</a></h1>
     <div class="nav">
       <a href="index.html">Dashboard</a>
+      <a href="../ferramentas/fluxograma.html">Ferramentas</a>
     </div>
   </div>
 </div>
@@ -97,10 +127,29 @@ tr:hover td { background: #f8fafc; }
 
   <div class="layout">
     <div class="sidebar">
-      <div class="sidebar-title">📂 Navegação</div><a href="index.html" class="active">📊 Dashboard</a><div class="sidebar-group"><div class="sidebar-group-label">Raiz</div><a href="scripts/build-iso.html">build_iso.sh <span class="s-badge">13</span></a><a href="scripts/build-iso-completa.html">build_iso_completa.sh <span class="s-badge">24</span></a><a href="scripts/build-offline-from-boot.html">build_offline_from_boot.sh <span class="s-badge">26</span></a><a href="scripts/build-offline-ol9.html">build_offline_ol9.sh <span class="s-badge">26</span></a><a href="scripts/create-rpm.html">create_rpm.sh <span class="s-badge">9</span></a><a href="scripts/debian.html">debian.sh <span class="s-badge">4</span></a><a href="scripts/fix-repos-ol9.html">fix-repos-ol9.sh <span class="s-badge">9</span></a><a href="scripts/git-sync.html">git-sync.sh <span class="s-badge">1</span></a><a href="scripts/oracle.html">oracle.sh <span class="s-badge">19</span></a><a href="scripts/update-appimages.html">update-appimages.sh <span class="s-badge">11</span></a></div><div class="sidebar-group"><div class="sidebar-group-label">System Scripts</div><a href="scripts/appimage2rpm.html">appimage2rpm.sh <span class="s-badge">9</span></a><a href="scripts/atualizar.html">atualizar.sh <span class="s-badge">2</span></a><a href="scripts/auto-fix-powerprofiles-selinux.html">auto_fix_powerprofiles_selinux.sh <span class="s-badge">2</span></a><a href="scripts/build-backup.html">build_backup.sh <span class="s-badge">16</span></a><a href="scripts/build-iso.html">build_iso.sh <span class="s-badge">15</span></a><a href="scripts/create-iso.html">create_iso.sh <span class="s-badge">13</span></a><a href="scripts/fix-repos-ol9.html">fix-repos-ol9.sh <span class="s-badge">9</span></a><a href="scripts/gerar-iso.html">gerar_iso.sh <span class="s-badge">2</span></a><a href="scripts/gerar-iso-ol10.html">gerar_iso_ol10.sh <span class="s-badge">12</span></a><a href="scripts/gerar-iso-ol9.html">gerar_iso_ol9.sh <span class="s-badge">13</span></a><a href="scripts/manager-repo-sh.html">manager_repo_sh <span class="s-badge">3</span></a><a href="scripts/manut.html">manut.sh <span class="s-badge">4</span></a><a href="scripts/node.html">node.sh <span class="s-badge">12</span></a><a href="scripts/ol9-audit-otimizar.html">ol9-audit-otimizar.sh <span class="s-badge">14</span></a><a href="scripts/ol9-full-setup.html">ol9-full-setup.sh <span class="s-badge">12</span></a><a href="scripts/oracle-config.html">oracle_config.sh <span class="s-badge">2</span></a><a href="scripts/otimizar-gnome.html">otimizar-gnome.sh <span class="s-badge">3</span></a><a href="scripts/otimizar-xfce.html">otimizar-xfce.sh <span class="s-badge">15</span></a><a href="scripts/remove-old-kernels.html">remove_old_kernels.sh <span class="s-badge">4</span></a><a href="scripts/setup-xfce-tiling.html">setup-xfce-tiling.sh <span class="s-badge">7</span></a><a href="scripts/setup-zram.html">setup-zram.sh <span class="s-badge">3</span></a><a href="scripts/xrandr-config.html">xrandr-config.sh <span class="s-badge">7</span></a></div><div class="sidebar-group"><div class="sidebar-group-label">VM Scripts</div><a href="scripts/control.html">control.sh <span class="s-badge">8</span></a><a href="scripts/restore-snapshot-disable-ufw.html">restore-snapshot-disable-ufw.sh <span class="s-badge">1</span></a><a href="scripts/setup-api-debian.html">setup-api-debian.sh <span class="s-badge">13</span></a></div><div class="sidebar-group"><div class="sidebar-group-label">Bluetooth</div><a href="scripts/bt-auto.html">bt-auto.sh <span class="s-badge">1</span></a><a href="scripts/bt-ctl.html">bt-ctl.sh <span class="s-badge">1</span></a></div>
+      <div class="sidebar-title">📂 Navegação</div><a href="index.html" class="active">📊 Dashboard</a><div class="sidebar-group"><div class="sidebar-group-label">Raiz</div><a href="scripts/build-iso.html">build_iso.sh <span class="s-badge">13</span></a><a href="scripts/build-iso-completa.html">build_iso_completa.sh <span class="s-badge">24</span></a><a href="scripts/build-offline-from-boot.html">build_offline_from_boot.sh <span class="s-badge">26</span></a><a href="scripts/build-offline-ol9.html">build_offline_ol9.sh <span class="s-badge">26</span></a><a href="scripts/create-rpm.html">create_rpm.sh <span class="s-badge">9</span></a><a href="scripts/debian.html">debian.sh <span class="s-badge">4</span></a><a href="scripts/fix-repos-ol9.html">fix-repos-ol9.sh <span class="s-badge">9</span></a><a href="scripts/git-sync.html">git-sync.sh <span class="s-badge">1</span></a><a href="scripts/oracle.html">oracle.sh <span class="s-badge">19</span></a><a href="scripts/update-appimages.html">update-appimages.sh <span class="s-badge">11</span></a></div><div class="sidebar-group"><div class="sidebar-group-label">System Scripts</div><a href="scripts/appimage2rpm.html">appimage2rpm.sh <span class="s-badge">9</span></a><a href="scripts/atualizar.html">atualizar.sh <span class="s-badge">2</span></a><a href="scripts/auto-fix-powerprofiles-selinux.html">auto_fix_powerprofiles_selinux.sh <span class="s-badge">2</span></a><a href="scripts/build-backup.html">build_backup.sh <span class="s-badge">16</span></a><a href="scripts/build-iso.html">build_iso.sh <span class="s-badge">15</span></a><a href="scripts/create-iso.html">create_iso.sh <span class="s-badge">13</span></a><a href="scripts/fix-repos-ol9.html">fix-repos-ol9.sh <span class="s-badge">9</span></a><a href="scripts/gerar-iso.html">gerar_iso.sh <span class="s-badge">2</span></a><a href="scripts/gerar-iso-ol10.html">gerar_iso_ol10.sh <span class="s-badge">12</span></a><a href="scripts/gerar-iso-ol9.html">gerar_iso_ol9.sh <span class="s-badge">13</span></a><a href="scripts/manager-repo-sh.html">manager_repo_sh <span class="s-badge">3</span></a><a href="scripts/manut.html">manut.sh <span class="s-badge">4</span></a><a href="scripts/node.html">node.sh <span class="s-badge">12</span></a><a href="scripts/ol9-audit-otimizar.html">ol9-audit-otimizar.sh <span class="s-badge">14</span></a><a href="scripts/ol9-full-setup.html">ol9-full-setup.sh <span class="s-badge">12</span></a><a href="scripts/oracle-config.html">oracle_config.sh <span class="s-badge">2</span></a><a href="scripts/otimizar-gnome.html">otimizar-gnome.sh <span class="s-badge">3</span></a><a href="scripts/otimizar-xfce.html">otimizar-xfce.sh <span class="s-badge">15</span></a><a href="scripts/remove-old-kernels.html">remove_old_kernels.sh <span class="s-badge">4</span></a><a href="scripts/setup-xfce-tiling.html">setup-xfce-tiling.sh <span class="s-badge">7</span></a><a href="scripts/setup-zram.html">setup-zram.sh <span class="s-badge">3</span></a><a href="scripts/xrandr-config.html">xrandr-config.sh <span class="s-badge">7</span></a></div><div class="sidebar-group"><div class="sidebar-group-label">VM Scripts</div><a href="scripts/control.html">control.sh <span class="s-badge">8</span></a><a href="scripts/restore-snapshot-disable-ufw.html">restore-snapshot-disable-ufw.sh <span class="s-badge">1</span></a><a href="scripts/setup-api-debian.html">setup-api-debian.sh <span class="s-badge">13</span></a></div><div class="sidebar-group"><div class="sidebar-group-label">Bluetooth</div><a href="scripts/bt-auto.html">bt-auto.sh <span class="s-badge">1</span></a><a href="scripts/bt-ctl.html">bt-ctl.sh <span class="s-badge">1</span></a></div><div class="sidebar-group"><div class="sidebar-group-label">Ferramentas</div><a href="../ferramentas/fluxograma.html">Gerador de Fluxogramas</a><a href="../ferramentas/instagram-feed.html">Instagram Feed Resumo</a></div><div class="sidebar-group"><div class="sidebar-group-label">Editor</div><a href="#" onclick="openNewFileEditor();return false;">Abrir Arquivo...</a></div>
     </div>
     <div class="main-content">
       <p class="stat-line">Categorias: <span class="badge badge-dir">Bluetooth (2)</span> <span class="badge badge-dir">Raiz (10)</span> <span class="badge badge-dir">System Scripts (22)</span> <span class="badge badge-dir">VM Scripts (3)</span> </p>
+
+      <h2 style="font-size:1.2rem;margin-top:16px;">Ferramentas</h2>
+      <div class="ferramenta-grid">
+        <a href="../ferramentas/fluxograma.html" class="ferramenta-card">
+          <div class="card-icon" style="background:linear-gradient(135deg,#7b2ff7,#00d2ff);">📊</div>
+          <div class="card-body"><h3>Gerador de Fluxogramas</h3><p>Crie fluxogramas interativos com Mermaid.js. Templates, export PNG/SVG, temas.</p></div>
+        </a>
+        <a href="../ferramentas/instagram-feed.html" class="ferramenta-card">
+          <div class="card-icon" style="background:linear-gradient(135deg,#E1306C,#833AB4,#F77737);">📸</div>
+          <div class="card-body"><h3>Instagram Feed Resumo</h3><p>Visualize e exporte o resumo do feed Instagram via Graph API.</p></div>
+        </a>
+        <div class="ferramenta-card" onclick="openNewFileEditor()" style="cursor:pointer;">
+          <div class="card-icon" style="background:linear-gradient(135deg,#16a34a,#2563eb);">✏️</div>
+          <div class="card-body"><h3>Editor de Codigo Online</h3><p>Edite scripts .sh e paginas .html diretamente no navegador com syntax highlight.</p></div>
+        </div>
+      </div>
+
+      <hr class="section-divider">
+      <h2 style="font-size:1.2rem;">Scripts</h2>
 
       <input type="text" class="search-box" id="search" placeholder="Pesquisar scripts, comandos, descrições..." oninput="filterTable()">
 
@@ -115,6 +164,7 @@ tr:hover td { background: #f8fafc; }
   <td>
     <a href="scripts/bt-auto.desktop" download class="tag" title="Download .desktop">🖥️</a>
     <a href="scripts/bt-auto.html" class="tag" title="Abrir página">📄</a>
+    <button class="tag-edit" onclick="openEditor('bluetooth/bt-auto.sh')" title="Editar no Editor">✏️</button>
   </td>
 </tr><tr>
   <td><a href="scripts/bt-ctl.html"><strong>bt-ctl.sh</strong></a></td>
@@ -125,6 +175,7 @@ tr:hover td { background: #f8fafc; }
   <td>
     <a href="scripts/bt-ctl.desktop" download class="tag" title="Download .desktop">🖥️</a>
     <a href="scripts/bt-ctl.html" class="tag" title="Abrir página">📄</a>
+    <button class="tag-edit" onclick="openEditor('bluetooth/bt-ctl.sh')" title="Editar no Editor">✏️</button>
   </td>
 </tr><tr>
   <td><a href="scripts/build-iso.html"><strong>build_iso.sh</strong></a></td>
@@ -135,6 +186,7 @@ tr:hover td { background: #f8fafc; }
   <td>
     <a href="scripts/build-iso.desktop" download class="tag" title="Download .desktop">🖥️</a>
     <a href="scripts/build-iso.html" class="tag" title="Abrir página">📄</a>
+    <button class="tag-edit" onclick="openEditor('build_iso.sh')" title="Editar no Editor">✏️</button>
   </td>
 </tr><tr>
   <td><a href="scripts/build-iso-completa.html"><strong>build_iso_completa.sh</strong></a></td>
@@ -482,7 +534,178 @@ tr:hover td { background: #f8fafc; }
   </div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/shell/shell.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/htmlmixed/htmlmixed.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/xml/xml.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/css/css.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/edit/matchbrackets.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/edit/closebrackets.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/selection/active-line.min.js"></script>
+
+<div class="editor-overlay" id="editorOverlay">
+  <div class="editor-modal">
+    <div class="editor-topbar">
+      <div style="display:flex;align-items:center;gap:10px;min-width:0;">
+        <span class="fname" id="editorFileName">sem-arquivo</span>
+        <span class="badge-lang" id="editorLang">text</span>
+      </div>
+      <div class="editor-btns">
+        <button class="btn-edit-new" onclick="openNewFileEditor()" title="Novo arquivo em branco">+ Novo</button>
+        <button class="btn-edit-save" onclick="downloadFile()" title="Baixar arquivo editado">⬇ Download</button>
+        <button class="btn-edit-copy" onclick="copyCode()" title="Copiar codigo">📋 Copiar</button>
+        <button class="btn-edit-download" onclick="downloadAsFile()" title="Salvar como arquivo local">💾 Salvar</button>
+        <button class="btn-edit-close" onclick="closeEditor()">✕ Fechar</button>
+      </div>
+    </div>
+    <div class="editor-body"><textarea id="codeArea"></textarea></div>
+    <div class="editor-statusbar">
+      <span id="editorStatus">Pronto</span>
+      <span id="editorInfo">Linhas: 0 | Caracteres: 0</span>
+    </div>
+  </div>
+</div>
+
 <script>
+var RAW_BASE = 'https://raw.githubusercontent.com/wrhbra2013/backup/main/';
+var editor = null;
+var currentFileName = '';
+
+function getMode(name) {
+  if (name.endsWith('.sh') || name.endsWith('.bash')) return 'shell';
+  if (name.endsWith('.html') || name.endsWith('.htm')) return 'htmlmixed';
+  if (name.endsWith('.js')) return 'javascript';
+  if (name.endsWith('.css')) return 'css';
+  if (name.endsWith('.xml')) return 'xml';
+  if (name.endsWith('.json')) return { name: 'javascript', json: true };
+  return 'text';
+}
+
+function getLangLabel(name) {
+  var m = getMode(name);
+  if (m === 'shell') return 'Bash';
+  if (m === 'htmlmixed') return 'HTML';
+  if (m === 'javascript') return 'JS';
+  if (m === 'css') return 'CSS';
+  if (m === 'xml') return 'XML';
+  return 'Text';
+}
+
+function initEditor() {
+  if (editor) return;
+  editor = CodeMirror.fromTextArea(document.getElementById('codeArea'), {
+    theme: 'material-darker',
+    lineNumbers: true,
+    matchBrackets: true,
+    autoCloseBrackets: true,
+    styleActiveLine: true,
+    tabSize: 2,
+    indentWithTabs: false,
+    lineWrapping: true,
+    extraKeys: {
+      'Tab': function(cm) {
+        if (cm.somethingSelected()) { cm.indentSelection('add'); }
+        else { cm.replaceSelection('  ', 'end'); }
+      }
+    }
+  });
+  editor.on('change', function() {
+    updateEditorInfo();
+  });
+}
+
+function updateEditorInfo() {
+  if (!editor) return;
+  var lines = editor.lineCount();
+  var chars = editor.getValue().length;
+  document.getElementById('editorInfo').textContent = 'Linhas: ' + lines + ' | Caracteres: ' + chars;
+}
+
+function openEditor(filePath) {
+  initEditor();
+  var overlay = document.getElementById('editorOverlay');
+  overlay.classList.add('active');
+  currentFileName = filePath.split('/').pop();
+  document.getElementById('editorFileName').textContent = filePath;
+  document.getElementById('editorLang').textContent = getLangLabel(currentFileName);
+  document.getElementById('editorStatus').textContent = 'Carregando...';
+  editor.setValue('// Carregando ' + filePath + '...');
+  editor.setOption('mode', getMode(currentFileName));
+  editor.refresh();
+
+  var url = RAW_BASE + filePath;
+  fetch(url)
+    .then(function(r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.text();
+    })
+    .then(function(code) {
+      editor.setValue(code);
+      editor.clearHistory();
+      document.getElementById('editorStatus').textContent = 'Carregado de: ' + url;
+      updateEditorInfo();
+      editor.refresh();
+    })
+    .catch(function(err) {
+      editor.setValue('# Erro ao carregar: ' + url + '\n# ' + err.message + '\n\n# Verifique se o arquivo existe no repositorio.');
+      document.getElementById('editorStatus').textContent = 'Erro: ' + err.message;
+      updateEditorInfo();
+    });
+}
+
+function openNewFileEditor() {
+  initEditor();
+  var overlay = document.getElementById('editorOverlay');
+  overlay.classList.add('active');
+  currentFileName = 'novo-arquivo.sh';
+  document.getElementById('editorFileName').textContent = 'novo-arquivo.sh';
+  document.getElementById('editorLang').textContent = 'Bash';
+  editor.setValue('#!/bin/bash\n# Novo script\n\necho "Hello World"\n');
+  editor.setOption('mode', 'shell');
+  editor.clearHistory();
+  document.getElementById('editorStatus').textContent = 'Novo arquivo - edite e faca download';
+  updateEditorInfo();
+  editor.refresh();
+}
+
+function closeEditor() {
+  document.getElementById('editorOverlay').classList.remove('active');
+}
+
+function copyCode() {
+  if (!editor) return;
+  var code = editor.getValue();
+  navigator.clipboard.writeText(code).then(function() {
+    document.getElementById('editorStatus').textContent = 'Copiado para a area de transferencia!';
+    setTimeout(function() {
+      document.getElementById('editorStatus').textContent = 'Pronto';
+    }, 2000);
+  }).catch(function() {
+    var ta = document.createElement('textarea');
+    ta.value = code;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    document.getElementById('editorStatus').textContent = 'Copiado!';
+  });
+}
+
+function downloadFile() {
+  if (!editor) return;
+  var code = editor.getValue();
+  var blob = new Blob([code], { type: 'text/plain;charset=utf-8' });
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = currentFileName || 'arquivo.txt';
+  a.click();
+  URL.revokeObjectURL(a.href);
+  document.getElementById('editorStatus').textContent = 'Download: ' + (currentFileName || 'arquivo.txt');
+}
+
+function downloadAsFile() { downloadFile(); }
+
 function filterTable() {
   var input = document.getElementById('search');
   var filter = input.value.toLowerCase();
@@ -492,6 +715,34 @@ function filterTable() {
     rows[i].style.display = text.indexOf(filter) > -1 ? '' : 'none';
   }
 }
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeEditor();
+  if (e.ctrlKey && e.key === 's') { e.preventDefault(); downloadFile(); }
+  if (e.ctrlKey && e.key === 'o') { e.preventDefault(); openNewFileEditor(); }
+});
+
+document.getElementById('editorOverlay').addEventListener('click', function(e) {
+  if (e.target === this) closeEditor();
+});
+
+document.querySelectorAll('#script-table tbody tr').forEach(function(row) {
+  var actionsCell = row.querySelector('td:last-child');
+  if (actionsCell && !actionsCell.querySelector('.tag-edit')) {
+    var link = actionsCell.querySelector('a.tag');
+    if (link && link.href && link.href.includes('.desktop')) {
+      var name = link.href.split('/').pop().replace('.desktop', '');
+    }
+    if (name) {
+      var btn = document.createElement('button');
+      btn.className = 'tag-edit';
+      btn.title = 'Editar no Editor';
+      btn.textContent = '\u270F\uFE0F';
+      btn.setAttribute('onclick', "openEditor('" + name + ".sh')");
+      actionsCell.appendChild(btn);
+    }
+  }
+});
 </script>
 </body>
 </html>
