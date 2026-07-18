@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesquisas em Tendência - Motores de Busca</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0f0f1a;
+            color: #e0e0e0;
+            min-height: 100vh;
+        }
+        header {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            padding: 30px;
+            text-align: center;
+            border-bottom: 2px solid #0f3460;
+        }
+        header h1 {
+            font-size: 2em;
+            color: #e94560;
+            margin-bottom: 8px;
+        }
+        header p { color: #a0a0b0; font-size: 0.95em; }
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        .controls select, .controls button {
+            padding: 10px 18px;
+            border-radius: 8px;
+            border: 1px solid #0f3460;
+            background: #1a1a2e;
+            color: #e0e0e0;
+            font-size: 0.95em;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .controls select:hover, .controls button:hover {
+            border-color: #e94560;
+        }
+        .controls button {
+            background: #e94560;
+            color: #fff;
+            border: none;
+            font-weight: bold;
+        }
+        .controls button:hover { background: #c73650; }
+        .controls button:disabled { background: #555; cursor: wait; }
+        #status {
+            text-align: center;
+            padding: 15px;
+            color: #a0a0b0;
+            font-style: italic;
+        }
+        #status.error { color: #e94560; }
+        .container {
+            max-width: 1100px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #1a1a2e;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+        }
+        thead th {
+            background: #16213e;
+            padding: 14px 16px;
+            text-align: left;
+            color: #e94560;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 2px solid #0f3460;
+        }
+        tbody tr {
+            border-bottom: 1px solid #0f3460;
+            transition: background 0.2s;
+        }
+        tbody tr:hover { background: #16213e; }
+        tbody td {
+            padding: 12px 16px;
+            font-size: 0.95em;
+        }
+        .rank {
+            font-weight: bold;
+            color: #e94560;
+            font-size: 1.1em;
+            width: 50px;
+            text-align: center;
+        }
+        .keyword { font-weight: 600; color: #fff; }
+        .traffic { color: #53d769; font-weight: bold; }
+        .engines a {
+            display: inline-block;
+            padding: 4px 10px;
+            margin: 2px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.8em;
+            font-weight: bold;
+            color: #fff;
+            transition: transform 0.15s, opacity 0.2s;
+        }
+        .engines a:hover { transform: scale(1.08); opacity: 0.85; }
+        .engines .google { background: #4285f4; }
+        .engines .bing { background: #00809d; }
+        .engines .yahoo { background: #6001d2; }
+        .engines .duck { background: #de5833; }
+        .engines .brave { background: #fb542b; }
+        .category {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.78em;
+            background: #0f3460;
+            color: #a0c4ff;
+        }
+        .search-box {
+            margin: 25px auto;
+            max-width: 600px;
+            display: flex;
+            gap: 8px;
+        }
+        .search-box input {
+            flex: 1;
+            padding: 12px 18px;
+            border-radius: 8px;
+            border: 1px solid #0f3460;
+            background: #1a1a2e;
+            color: #fff;
+            font-size: 1em;
+        }
+        .search-box button {
+            padding: 12px 24px;
+            border-radius: 8px;
+            border: none;
+            background: #e94560;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .search-box button:hover { background: #c73650; }
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #555;
+            font-size: 0.8em;
+            margin-top: 30px;
+        }
+        @media (max-width: 700px) {
+            header h1 { font-size: 1.3em; }
+            .engines a { padding: 3px 6px; font-size: 0.72em; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Pesquisas em Tendencia</h1>
+        <p>Termos mais buscados agora nos principais motores de busca</p>
+        <div class="controls">
+            <select id="pais">
+                <option value="BR">Brasil</option>
+                <option value="US">EUA</option>
+                <option value="global">Global</option>
+            </select>
+            <select id="idioma">
+                <option value="pt-BR">Portugues (BR)</option>
+                <option value="en-US">English (US)</option>
+            </select>
+            <button id="btnAtualizar" onclick="buscarTendencias()">Buscar Tendencias</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="search-box">
+            <input type="text" id="buscaManual" placeholder="Pesquisar palavra-chave manualmente..." onkeydown="if(event.key==='Enter') pesquisarManual()">
+            <button onclick="pesquisarManual()">Buscar</button>
+        </div>
+
+        <div id="status">Clique em "Buscar Tendencias" para carregar os dados</div>
+
+        <table id="tabela" style="display:none;">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Palavra-chave</th>
+                    <th>Categoria</th>
+                    <th>Volume</th>
+                    <th>Motores de Busca</th>
+                </tr>
+            </thead>
+            <tbody id="corpo"></tbody>
+        </table>
+    </div>
+
+    <footer>
+        Dados obtidos via Google Trends &middot; Atualizado em tempo real
+    </footer>
+
+    <script>
+        const PROXY = 'https://api.allorigins.win/raw?url=';
+
+        function montarLinks(termo) {
+            const q = encodeURIComponent(termo);
+            return `
+                <a class="google" href="https://www.google.com/search?q=${q}" target="_blank" title="Google">Google</a>
+                <a class="bing" href="https://www.bing.com/search?q=${q}" target="_blank" title="Bing">Bing</a>
+                <a class="yahoo" href="https://search.yahoo.com/search?p=${q}" target="_blank" title="Yahoo">Yahoo</a>
+                <a class="duck" href="https://duckduckgo.com/?q=${q}" target="_blank" title="DuckDuckGo">DDG</a>
+                <a class="brave" href="https://search.brave.com/search?q=${q}" target="_blank" title="Brave">Brave</a>
+            `;
+        }
+
+        async function buscarTendencias() {
+            const status = document.getElementById('status');
+            const tabela = document.getElementById('tabela');
+            const corpo = document.getElementById('corpo');
+            const btn = document.getElementById('btnAtualizar');
+            const pais = document.getElementById('pais').value;
+
+            btn.disabled = true;
+            btn.textContent = 'Carregando...';
+            status.style.display = 'block';
+            status.className = '';
+            status.textContent = 'Buscando tendencias atuais...';
+            tabela.style.display = 'none';
+            corpo.innerHTML = '';
+
+            try {
+                const geo = pais === 'global' ? '' : pais;
+                const url = `https://trends.google.com/trends/api/dailytrends?hl=pt-BR&tz=-180&geo=${geo}`;
+                const resp = await fetch(PROXY + encodeURIComponent(url));
+
+                if (!resp.ok) throw new Error('Falha ao buscar dados');
+
+                const data = await resp.json();
+                const trends = data.default?.trendingSearchesDays;
+
+                if (!trends || trends.length === 0) {
+                    throw new Error('Nenhum dado de tendencia encontrado');
+                }
+
+                const todosTermos = [];
+                for (const dia of trends) {
+                    const searchDate = dia.date;
+                    for (const item of dia.trendingSearches) {
+                        todosTermos.push({
+                            titulo: item.title.query,
+                            categoria: item.category || 'Geral',
+                            volume: item.formattedTraffic || 'N/A',
+                            url: item.url?.query || null
+                        });
+                    }
+                }
+
+                if (todosTermos.length === 0) {
+                    throw new Error('Nenhum termo encontrado');
+                }
+
+                todosTermos.sort((a, b) => {
+                    const parseVol = (v) => {
+                        if (typeof v !== 'string') return 0;
+                        const n = parseFloat(v.replace(/[+,.]/g, ''));
+                        if (v.includes('M')) return n * 1000000;
+                        if (v.includes('K') || v.includes('k')) return n * 1000;
+                        return n;
+                    };
+                    return parseVol(b.volume) - parseVol(a.volume);
+                });
+
+                todosTermos.forEach((termo, i) => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td class="rank">${i + 1}</td>
+                        <td class="keyword">${termo.titulo}</td>
+                        <td><span class="category">${termo.categoria}</span></td>
+                        <td class="traffic">${termo.volume}</td>
+                        <td class="engines">${montarLinks(termo.titulo)}</td>
+                    `;
+                    corpo.appendChild(tr);
+                });
+
+                status.style.display = 'none';
+                tabela.style.display = 'table';
+
+            } catch (err) {
+                status.className = 'error';
+                status.textContent = 'Erro: ' + err.message + '. Tentando fonte alternativa...';
+
+                try {
+                    await buscarAlternativa();
+                } catch (err2) {
+                    status.textContent = 'Erro ao buscar tendencias: ' + err2.message;
+                }
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Buscar Tendencias';
+            }
+        }
+
+        async function buscarAlternativa() {
+            const status = document.getElementById('status');
+            const tabela = document.getElementById('tabela');
+            const corpo = document.getElementById('corpo');
+
+            const rssUrls = [
+                'https://trends.google.com/trends/trendingsearches/daily/rss?geo=BR',
+                'https://trends.google.com/trends/trendingsearches/daily/rss?geo=US'
+            ];
+
+            let xml = null;
+            for (const rssUrl of rssUrls) {
+                try {
+                    const resp = await fetch(PROXY + encodeURIComponent(rssUrl));
+                    if (resp.ok) {
+                        xml = await resp.text();
+                        break;
+                    }
+                } catch (e) { continue; }
+            }
+
+            if (!xml) throw new Error('Fontes alternativas indisponiveis');
+
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(xml, 'text/xml');
+            const items = doc.querySelectorAll('item');
+
+            if (items.length === 0) throw new Error('Nenhum item no RSS');
+
+            const todosTermos = [];
+            items.forEach(item => {
+                const title = item.querySelector('title')?.textContent || '';
+                const approxTraffic = item.querySelector('ht:approx_traffic')?.textContent || 'N/A';
+                const keywords = item.querySelector('ht:news_url')?.textContent || '';
+                const category = item.querySelector('ht:picture_source')?.textContent || 'Geral';
+
+                if (title) {
+                    todosTermos.push({
+                        titulo: title,
+                        categoria: 'Trending',
+                        volume: approxTraffic !== 'N/A' ? approxTraffic : 'Popular',
+                        url: null
+                    });
+                }
+            });
+
+            if (todosTermos.length === 0) throw new Error('Nenhum termo extraido');
+
+            todosTermos.sort((a, b) => {
+                const parseVol = (v) => {
+                    if (typeof v !== 'string') return 0;
+                    const n = parseFloat(v.replace(/[+,.]/g, ''));
+                    if (v.includes('M')) return n * 1000000;
+                    if (v.includes('K') || v.includes('k')) return n * 1000;
+                    return n;
+                };
+                return parseVol(b.volume) - parseVol(a.volume);
+            });
+
+            todosTermos.forEach((termo, i) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="rank">${i + 1}</td>
+                    <td class="keyword">${termo.titulo}</td>
+                    <td><span class="category">${termo.categoria}</span></td>
+                    <td class="traffic">${termo.volume}</td>
+                    <td class="engines">${montarLinks(termo.titulo)}</td>
+                `;
+                corpo.appendChild(tr);
+            });
+
+            status.style.display = 'none';
+            tabela.style.display = 'table';
+        }
+
+        function pesquisarManual() {
+            const input = document.getElementById('buscaManual');
+            const termo = input.value.trim();
+            if (!termo) return;
+            window.open('https://www.google.com/search?q=' + encodeURIComponent(termo), '_blank');
+            window.open('https://www.bing.com/search?q=' + encodeURIComponent(termo), '_blank');
+            window.open('https://duckduckgo.com/?q=' + encodeURIComponent(termo), '_blank');
+            input.value = '';
+        }
+    </script>
+</body>
+</html>
