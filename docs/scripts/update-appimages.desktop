@@ -2,7 +2,7 @@
 Type=Application
 Name=update-appimages.sh
 Comment=Apps data: repo|filter|filename|label|desktop|icon|mime|icon_url
-Exec=x-terminal-emulator -e bash -c '/home/wander/Public/backup/update-appimages.sh; echo ""; echo "=== Script finalizado. Pressione Enter para fechar ==="; read'
+Exec=x-terminal-emulator -e bash -c '/home/runner/work/backup/backup/update-appimages.sh; echo ""; echo "=== Script finalizado. Pressione Enter para fechar ==="; read'
 Terminal=true
 Icon=terminal
 Categories=Development;System;
