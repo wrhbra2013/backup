@@ -2,7 +2,7 @@
 Type=Application
 Name=auto_fix_powerprofiles_selinux.sh
 Comment=auto_fix_powerprofiles_selinux.sh
-Exec=x-terminal-emulator -e bash -c '/home/runner/work/backup/backup/system_scripts/auto_fix_powerprofiles_selinux.sh; echo ""; echo "=== Script finalizado. Pressione Enter para fechar ==="; read'
+Exec=x-terminal-emulator -e bash -c '/home/wander/Public/backup/system_scripts/auto_fix_powerprofiles_selinux.sh; echo ""; echo "=== Script finalizado. Pressione Enter para fechar ==="; read'
 Terminal=true
 Icon=terminal
 Categories=Development;System;

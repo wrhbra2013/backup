@@ -11,6 +11,7 @@ from html import escape
 PROJECT_DIR = Path(__file__).parent
 OUTPUT_DIR = PROJECT_DIR / "docs"
 SCRIPTS_DIR = OUTPUT_DIR / "scripts"
+FERRAMENTAS_DIR = PROJECT_DIR / "ferramentas"
 
 HEADER_COMMANDS = {
     "dnf": "Package Manager",
@@ -304,6 +305,32 @@ def scan_scripts():
     return results
 
 
+def scan_ferramentas():
+    """Scan all .html files in ferramentas/ and extract TOOL_META comments."""
+    if not FERRAMENTAS_DIR.exists():
+        return []
+    results = []
+    for path in sorted(FERRAMENTAS_DIR.glob("*.html")):
+        try:
+            content = path.read_text(encoding="utf-8")
+            meta = {"path": path, "filename": path.name, "rel_path": f"ferramentas/{path.name}"}
+            match = re.search(r"<!--\s*TOOL_META:\s*(.*?)\s*-->", content)
+            if match:
+                for pair in match.group(1).split("|"):
+                    if "=" in pair:
+                        k, v = pair.split("=", 1)
+                        meta[k.strip()] = v.strip()
+            meta.setdefault("title", path.stem.replace("-", " ").title())
+            meta.setdefault("desc", "")
+            meta.setdefault("tags", "")
+            meta.setdefault("gradient", "#4f46e5,#7c3aed,#22d3ee")
+            meta.setdefault("icon", "🔧")
+            results.append(meta)
+        except Exception as e:
+            print(f"  Error processing ferramenta {path}: {e}")
+    return results
+
+
 def make_slug(name):
     """Create a URL-friendly slug from filename."""
     slug = name.replace(".sh", "").replace("_", "-")
@@ -379,12 +406,25 @@ tr:hover td { background: #f8fafc; }
 .sidebar-group-label { padding: 6px 16px; font-size: 0.7rem; font-weight: 600; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.3px; }
 .sidebar a .s-badge { float: right; background: #e5e7eb; color: #374151; padding: 0 6px; border-radius: 3px; font-size: 0.65rem; font-weight: 600; line-height: 1.6; }
 .main-content { flex: 1; min-width: 0; }
+.tool-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin: 16px 0 28px; }
+.tool-card { display: flex; flex-direction: column; background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); overflow: hidden; text-decoration: none; color: inherit; transition: transform 0.2s, box-shadow 0.2s; position: relative; }
+.tool-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.12); }
+.tool-banner { height: 100px; display: flex; align-items: center; justify-content: center; }
+.tool-emoji { font-size: 3rem; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.3)); }
+.tool-body { padding: 16px; flex: 1; }
+.tool-body h3 { font-size: 1rem; color: #1e293b; margin-bottom: 6px; }
+.tool-body p { font-size: 0.82rem; color: #6b7280; line-height: 1.4; margin-bottom: 8px; }
+.tool-tags { display: flex; flex-wrap: wrap; gap: 4px; }
+.tool-arrow { position: absolute; top: 16px; right: 16px; font-size: 1.2rem; color: #9ca3af; transition: color 0.2s; }
+.tool-card:hover .tool-arrow { color: #2563eb; }
 @media (max-width: 800px) { .layout { flex-direction: column; } .sidebar { width: 100%; position: static; max-height: none; } }
 """
 
 
-def render_index(scripts, dirs):
+def render_index(scripts, dirs, ferramentas=None):
     """Render the dashboard index page with sidebar menu."""
+    if ferramentas is None:
+        ferramentas = []
     total_scripts = len(scripts)
     total_commands = sum(len([c for cat in s["commands"].values() for c in cat]) for s in scripts)
     total_functions = sum(len(s["functions"]) for s in scripts)
@@ -405,6 +445,12 @@ def render_index(scripts, dirs):
             slug = make_slug(s["filename"])
             cmd_count = sum(len(cmds) for cmds in s["commands"].values())
             sidebar_html += f'<a href="scripts/{slug}.html">{escape(s["filename"])} <span class="s-badge">{cmd_count}</span></a>'
+        sidebar_html += '</div>'
+
+    if ferramentas:
+        sidebar_html += '<div class="sidebar-group"><div class="sidebar-group-label">🧰 Ferramentas</div>'
+        for f in ferramentas:
+            sidebar_html += f'<a href="{escape(f["rel_path"])}">{escape(f.get("icon", "🔧"))} {escape(f.get("title", f["filename"]))}</a>'
         sidebar_html += '</div>'
 
     rows_html = ""
@@ -440,13 +486,31 @@ def render_index(scripts, dirs):
         label = dir_label.get(d, d)
         categories_html += f'<span class="badge badge-dir">{label} ({len(sc)})</span> '
 
+    ferramentas_cards = ""
+    for f in ferramentas:
+        gradient = f.get("gradient", "#4f46e5,#7c3aed,#22d3ee")
+        colors = [c.strip() for c in gradient.split(",")]
+        grad_css = f"linear-gradient(135deg, {', '.join(colors)})" if len(colors) >= 2 else gradient
+        tags_html = "".join(f'<span class="tag">{escape(t.strip())}</span>' for t in f.get("tags", "").split(",") if t.strip())
+        ferramentas_cards += f"""<a href="{escape(f['rel_path'])}" class="tool-card">
+  <div class="tool-banner" style="background: {grad_css}">
+    <span class="tool-emoji">{escape(f.get('icon', '🔧'))}</span>
+  </div>
+  <div class="tool-body">
+    <h3>{escape(f.get('title', f['filename']))}</h3>
+    <p>{escape(f.get('desc', ''))}</p>
+    <div class="tool-tags">{tags_html}</div>
+  </div>
+  <span class="tool-arrow">→</span>
+</a>"""
+
     html = f"""<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src 'self' https://api.github.com https://raw.githubusercontent.com;">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📜</text></svg>">
+<link rel="icon" href="/favicon.ico" sizes="any">
 <title>Backup Scripts — Dashboard</title>
 <style>{css_style()}</style>
 </head>
@@ -469,6 +533,8 @@ def render_index(scripts, dirs):
     <div class="stat-card"><div class="num">{total_functions}</div><div class="label">Funções</div></div>
     <div class="stat-card"><div class="num">{total_lines:,}</div><div class="label">Linhas de código</div></div>
   </div>
+
+  {'<h2 style="margin-top:2rem">🧰 Ferramentas HTML</h2><div class="tool-grid">' + ferramentas_cards + '</div>' if ferramentas_cards else ''}
 
   <div class="layout">
     <div class="sidebar">
@@ -590,7 +656,7 @@ def render_script_page(s, dirs):
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:;">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📜</text></svg>">
+<link rel="icon" href="/favicon.ico" sizes="any">
 <title>{escape(s["filename"])} — Script Details</title>
 <style>{css_style()}</style>
 </head>
@@ -694,6 +760,10 @@ def generate():
     scripts = scan_scripts()
     print(f"  Found {len(scripts)} scripts")
 
+    print("Scanning ferramentas...")
+    ferramentas = scan_ferramentas()
+    print(f"  Found {len(ferramentas)} ferramentas")
+
     # Build directory map for sidebar menu
     dirs = {}
     for s in scripts:
@@ -707,10 +777,19 @@ def generate():
         shutil.rmtree(OUTPUT_DIR)
     SCRIPTS_DIR.mkdir(parents=True)
 
-    # Generate index
-    print("Generating index.html...")
-    index_html = render_index(scripts, dirs)
-    (OUTPUT_DIR / "index.html").write_text(index_html, encoding="utf-8")
+    # Generate index (only if not hand-crafted)
+    index_path = OUTPUT_DIR / "index.html"
+    if index_path.exists():
+        existing = index_path.read_text(encoding="utf-8")
+        is_handcrafted = "var(--bg)" in existing or "tool-banner" in existing
+    else:
+        is_handcrafted = False
+    if not is_handcrafted:
+        print("Generating index.html...")
+        index_html = render_index(scripts, dirs, ferramentas)
+        index_path.write_text(index_html, encoding="utf-8")
+    else:
+        print("Skipping index.html (hand-crafted version detected)")
 
     # Generate individual pages
     for s in scripts:

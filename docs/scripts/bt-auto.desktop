@@ -2,7 +2,7 @@
 Type=Application
 Name=bt-auto.sh
 Comment=bt-auto.sh
-Exec=x-terminal-emulator -e bash -c '/home/runner/work/backup/backup/bluetooth/bt-auto.sh; echo ""; echo "=== Script finalizado. Pressione Enter para fechar ==="; read'
+Exec=x-terminal-emulator -e bash -c '/home/wander/Public/backup/bluetooth/bt-auto.sh; echo ""; echo "=== Script finalizado. Pressione Enter para fechar ==="; read'
 Terminal=true
 Icon=terminal
 Categories=Development;System;

@@ -2,7 +2,7 @@
 Type=Application
 Name=xrandr-config.sh
 Comment=xrandr-config.sh
-Exec=x-terminal-emulator -e bash -c '/home/runner/work/backup/backup/system_scripts/xrandr-config.sh; echo ""; echo "=== Script finalizado. Pressione Enter para fechar ==="; read'
+Exec=x-terminal-emulator -e bash -c '/home/wander/Public/backup/system_scripts/xrandr-config.sh; echo ""; echo "=== Script finalizado. Pressione Enter para fechar ==="; read'
 Terminal=true
 Icon=terminal
 Categories=Development;System;

@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - '**.sh'
+      - 'ferramentas/*.html'
       - 'generate-docs.py'
   workflow_dispatch:
 
@@ -34,6 +35,7 @@ jobs:
             echo "No changes to commit"
           else
             SH_COUNT=$(find . -name "*.sh" -not -path "./.git/*" -not -path "./docs/*" | wc -l)
-            git commit -m "docs: auto-update — $SH_COUNT scripts [skip ci]"
+            TOOL_COUNT=$(find ./ferramentas -name "*.html" 2>/dev/null | wc -l)
+            git commit -m "docs: auto-update — $SH_COUNT scripts, $TOOL_COUNT tools [skip ci]"
             git push
           fi
