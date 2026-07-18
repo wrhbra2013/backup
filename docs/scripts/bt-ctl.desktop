@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=bt-ctl.sh
+Comment=============================================
+Exec=x-terminal-emulator -e bash -c '/home/wander/Public/backup/bluetooth/bt-ctl.sh; echo ""; echo "=== Script finalizado. Pressione Enter para fechar ==="; read'
+Terminal=true
+Icon=terminal
+Categories=Development;System;

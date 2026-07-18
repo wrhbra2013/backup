@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>bt-ctl.sh — Script Details</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, monospace; background: #f5f5f5; color: #1a1a1a; line-height: 1.6; }
+.container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+h1 { font-size: 1.8rem; margin-bottom: 8px; }
+h2 { font-size: 1.3rem; margin: 24px 0 12px; color: #2563eb; border-bottom: 2px solid #e5e7eb; padding-bottom: 6px; }
+h3 { font-size: 1rem; margin: 16px 0 8px; color: #374151; }
+.subtitle { color: #6b7280; margin-bottom: 20px; font-size: 0.95rem; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+.header-bar { background: #1e293b; color: #fff; padding: 16px 0; margin-bottom: 24px; }
+.header-bar .container { display: flex; justify-content: space-between; align-items: center; }
+.header-bar h1 { margin: 0; font-size: 1.3rem; }
+.header-bar h1 a { color: #fff; }
+.header-bar h1 a:hover { text-decoration: none; }
+.header-bar .nav a { color: #93c5fd; margin-left: 16px; font-size: 0.9rem; }
+.search-box { width: 100%; padding: 10px 14px; border: 2px solid #d1d5db; border-radius: 8px; font-size: 0.95rem; margin-bottom: 20px; outline: none; transition: border-color 0.2s; }
+.search-box:focus { border-color: #2563eb; }
+table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+th, td { padding: 10px 14px; text-align: left; font-size: 0.9rem; }
+th { background: #f8fafc; font-weight: 600; color: #374151; border-bottom: 2px solid #e5e7eb; }
+td { border-bottom: 1px solid #f0f0f0; }
+tr:hover td { background: #f8fafc; }
+.badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; margin: 1px 2px; }
+.badge-pkg { background: #dcfce7; color: #166534; }
+.badge-cmd { background: #dbeafe; color: #1e40af; }
+.badge-func { background: #fef3c7; color: #92400e; }
+.badge-dir { background: #e5e7eb; color: #374151; }
+.tag { display: inline-block; padding: 2px 6px; border-radius: 3px; font-size: 0.7rem; font-weight: 600; background: #e5e7eb; color: #374151; margin: 1px; }
+.tag-category { background: #ede9fe; color: #5b21b6; }
+.cmd-count { font-size: 0.8rem; color: #6b7280; }
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 24px; }
+.stat-card { background: #fff; border-radius: 8px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); text-align: center; }
+.stat-card .num { font-size: 1.8rem; font-weight: 700; color: #2563eb; }
+.stat-card .label { font-size: 0.8rem; color: #6b7280; margin-top: 4px; }
+.script-page { max-width: 960px; margin: 0 auto; }
+.meta-table { width: 100%; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 20px; }
+.meta-table td { padding: 8px 14px; border-bottom: 1px solid #f0f0f0; }
+.meta-table td:first-child { font-weight: 600; color: #374151; width: 140px; background: #f8fafc; }
+.cmd-group { margin-bottom: 16px; }
+.cmd-group-title { font-size: 0.85rem; font-weight: 600; color: #5b21b6; margin-bottom: 6px; }
+.cmd-list { display: flex; flex-wrap: wrap; gap: 4px; }
+.source-box { margin: 12px 0; }
+.source-box textarea { width: 100%; padding: 12px; border: 2px solid #d1d5db; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 0.8rem; line-height: 1.4; background: #1e293b; color: #e5e7eb; resize: vertical; outline: none; }
+.source-box textarea:focus { border-color: #2563eb; }
+.copy-btn { display: inline-block; padding: 8px 16px; background: #2563eb; color: #fff; border: none; border-radius: 6px; font-size: 0.85rem; cursor: pointer; margin: 8px 4px 4px 0; transition: background 0.2s; }
+.copy-btn:hover { background: #1d4ed8; }
+.copy-btn.copied { background: #16a34a; }
+.download-btn { display: inline-block; padding: 8px 16px; background: #374151; color: #fff; border: none; border-radius: 6px; font-size: 0.85rem; cursor: pointer; margin: 8px 4px 4px 0; transition: background 0.2s; text-decoration: none; }
+.download-btn:hover { background: #1f2937; text-decoration: none; }
+.func-list { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+.func-item { background: #fef3c7; color: #92400e; padding: 3px 10px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 0.8rem; }
+.var-list { display: flex; flex-wrap: wrap; gap: 6px; }
+.var-item { background: #f0fdf4; color: #166534; padding: 3px 10px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 0.78rem; }
+.var-item code { font-size: 0.78rem; }
+.back-link { display: inline-block; margin-bottom: 16px; color: #2563eb; font-size: 0.9rem; }
+.back-link:before { content: "← "; }
+.stat-line { font-size: 0.8rem; color: #6b7280; margin-bottom: 12px; }
+.layout { display: flex; gap: 24px; align-items: flex-start; }
+.sidebar { width: 260px; flex-shrink: 0; background: #fff; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); overflow: hidden; position: sticky; top: 20px; max-height: calc(100vh - 80px); overflow-y: auto; }
+.sidebar-title { padding: 12px 16px; font-weight: 700; font-size: 0.85rem; color: #1e293b; background: #f8fafc; border-bottom: 1px solid #e5e7eb; text-transform: uppercase; letter-spacing: 0.5px; }
+.sidebar a { display: block; padding: 8px 16px; color: #374151; text-decoration: none; font-size: 0.82rem; border-left: 3px solid transparent; transition: all 0.15s; }
+.sidebar a:hover { background: #f1f5f9; border-left-color: #93c5fd; }
+.sidebar a.active { background: #eff6ff; border-left-color: #2563eb; color: #1e40af; font-weight: 600; }
+.sidebar-group { border-top: 1px solid #f0f0f0; }
+.sidebar-group-label { padding: 6px 16px; font-size: 0.7rem; font-weight: 600; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.3px; }
+.sidebar a .s-badge { float: right; background: #e5e7eb; color: #374151; padding: 0 6px; border-radius: 3px; font-size: 0.65rem; font-weight: 600; line-height: 1.6; }
+.main-content { flex: 1; min-width: 0; }
+@media (max-width: 800px) { .layout { flex-direction: column; } .sidebar { width: 100%; position: static; max-height: none; } }
+</style>
+</head>
+<body>
+<div class="header-bar">
+  <div class="container">
+    <h1><a href="../index.html">📜 Backup Scripts</a></h1>
+    <div class="nav">
+      <a href="../index.html">Dashboard</a>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <div class="layout">
+    <div class="sidebar">
+      <div class="sidebar-title">📂 Navegação</div>
+      <a href="../index.html">📊 Dashboard</a>
+      <div class="sidebar-group"><div class="sidebar-group-label">Raiz</div><a href="build-iso.html">build_iso.sh <span class="s-badge">13</span></a><a href="build-iso-completa.html">build_iso_completa.sh <span class="s-badge">24</span></a><a href="build-offline-from-boot.html">build_offline_from_boot.sh <span class="s-badge">26</span></a><a href="build-offline-ol9.html">build_offline_ol9.sh <span class="s-badge">26</span></a><a href="create-rpm.html">create_rpm.sh <span class="s-badge">9</span></a><a href="debian.html">debian.sh <span class="s-badge">4</span></a><a href="fix-repos-ol9.html">fix-repos-ol9.sh <span class="s-badge">9</span></a><a href="git-sync.html">git-sync.sh <span class="s-badge">1</span></a><a href="oracle.html">oracle.sh <span class="s-badge">19</span></a><a href="update-appimages.html">update-appimages.sh <span class="s-badge">11</span></a></div><div class="sidebar-group"><div class="sidebar-group-label">System Scripts</div><a href="appimage2rpm.html">appimage2rpm.sh <span class="s-badge">9</span></a><a href="atualizar.html">atualizar.sh <span class="s-badge">2</span></a><a href="auto-fix-powerprofiles-selinux.html">auto_fix_powerprofiles_selinux.sh <span class="s-badge">2</span></a><a href="build-backup.html">build_backup.sh <span class="s-badge">16</span></a><a href="build-iso.html">build_iso.sh <span class="s-badge">15</span></a><a href="create-iso.html">create_iso.sh <span class="s-badge">13</span></a><a href="fix-repos-ol9.html">fix-repos-ol9.sh <span class="s-badge">9</span></a><a href="gerar-iso.html">gerar_iso.sh <span class="s-badge">2</span></a><a href="gerar-iso-ol10.html">gerar_iso_ol10.sh <span class="s-badge">12</span></a><a href="gerar-iso-ol9.html">gerar_iso_ol9.sh <span class="s-badge">13</span></a><a href="manager-repo-sh.html">manager_repo_sh <span class="s-badge">3</span></a><a href="manut.html">manut.sh <span class="s-badge">4</span></a><a href="node.html">node.sh <span class="s-badge">12</span></a><a href="ol9-audit-otimizar.html">ol9-audit-otimizar.sh <span class="s-badge">14</span></a><a href="ol9-full-setup.html">ol9-full-setup.sh <span class="s-badge">12</span></a><a href="oracle-config.html">oracle_config.sh <span class="s-badge">2</span></a><a href="otimizar-gnome.html">otimizar-gnome.sh <span class="s-badge">3</span></a><a href="otimizar-xfce.html">otimizar-xfce.sh <span class="s-badge">15</span></a><a href="remove-old-kernels.html">remove_old_kernels.sh <span class="s-badge">4</span></a><a href="setup-xfce-tiling.html">setup-xfce-tiling.sh <span class="s-badge">7</span></a><a href="setup-zram.html">setup-zram.sh <span class="s-badge">3</span></a><a href="xrandr-config.html">xrandr-config.sh <span class="s-badge">7</span></a></div><div class="sidebar-group"><div class="sidebar-group-label">VM Scripts</div><a href="control.html">control.sh <span class="s-badge">8</span></a><a href="restore-snapshot-disable-ufw.html">restore-snapshot-disable-ufw.sh <span class="s-badge">1</span></a><a href="setup-api-debian.html">setup-api-debian.sh <span class="s-badge">13</span></a></div><div class="sidebar-group"><div class="sidebar-group-label">Bluetooth</div><a href="bt-auto.html">bt-auto.sh <span class="s-badge">1</span></a><a href="bt-ctl.html" class="active">bt-ctl.sh <span class="s-badge">1</span></a></div>
+    </div>
+    <div class="main-content script-page">
+      <a href="../index.html" class="back-link">Voltar ao Dashboard</a>
+
+      <h1>bt-ctl.sh</h1>
+      <p class="subtitle">============================================</p>
+
+      <div class="meta-table"><table><tr><td colspan='2'>============================================</td></tr><tr><td colspan='2'>bt-ctl.sh - Script de gerenciamento Bluetooth</td></tr><tr><td colspan='2'>Usa bluetoothctl e seus parametros</td></tr><tr><td colspan='2'>============================================</td></tr><tr><td colspan='2'>&nbsp;</td></tr></table></div>
+      <div class="meta-table"><table><tr><td>Arquivo</td><td><code>bluetooth/bt-ctl.sh</code></td></tr><tr><td>Shebang</td><td><code>#!/bin/bash</code></td></tr><tr><td>Tamanho</td><td>9.1 KB · 322 linhas</td></tr></table></div>
+      <h2>Funções</h2><div class='func-list'><span class="func-item">log_msg() <span style="opacity:0.5">linha 16</span></span><span class="func-item">check_bluetooth() <span style="opacity:0.5">linha 20</span></span><span class="func-item">info_controller() <span style="opacity:0.5">linha 28</span></span><span class="func-item">list_devices() <span style="opacity:0.5">linha 35</span></span><span class="func-item">power_on() <span style="opacity:0.5">linha 42</span></span><span class="func-item">power_off() <span style="opacity:0.5">linha 48</span></span><span class="func-item">scan_on() <span style="opacity:0.5">linha 55</span></span><span class="func-item">pair_device() <span style="opacity:0.5">linha 64</span></span><span class="func-item">connect_device() <span style="opacity:0.5">linha 77</span></span><span class="func-item">disconnect_device() <span style="opacity:0.5">linha 89</span></span><span class="func-item">trust_device() <span style="opacity:0.5">linha 101</span></span><span class="func-item">remove_device() <span style="opacity:0.5">linha 113</span></span><span class="func-item">discoverable_on() <span style="opacity:0.5">linha 125</span></span><span class="func-item">discoverable_off() <span style="opacity:0.5">linha 131</span></span><span class="func-item">pairable_on() <span style="opacity:0.5">linha 138</span></span><span class="func-item">pairable_off() <span style="opacity:0.5">linha 143</span></span><span class="func-item">device_info() <span style="opacity:0.5">linha 149</span></span><span class="func-item">block_device() <span style="opacity:0.5">linha 160</span></span><span class="func-item">unblock_device() <span style="opacity:0.5">linha 170</span></span><span class="func-item">set_alias() <span style="opacity:0.5">linha 181</span></span><span class="func-item">reset_alias() <span style="opacity:0.5">linha 192</span></span><span class="func-item">pairable_mode() <span style="opacity:0.5">linha 198</span></span><span class="func-item">interactive() <span style="opacity:0.5">linha 209</span></span><span class="func-item">show_help() <span style="opacity:0.5">linha 267</span></span></div>
+      <h2>Variáveis de Configuração</h2><div class='var-list'><span class="var-item"><code>RED</code> = <code>\033[0;31m</code></span><span class="var-item"><code>GREEN</code> = <code>\033[0;32m</code></span><span class="var-item"><code>YELLOW</code> = <code>\033[1;33m</code></span><span class="var-item"><code>CYAN</code> = <code>\033[0;36m</code></span><span class="var-item"><code>NC</code> = <code>\033[0m</code></span><span class="var-item"><code>LOG_FILE</code> = <code>/var/log/bt-ctl.log</code></span></div>
+      <h2>Comandos Utilizados</h2><div class="cmd-group"><div class="cmd-group-title">File Operations</div><div class="cmd-list"><span class="badge badge-cmd">tee</span></div></div>
+      
+
+      <h2>Código Fonte</h2>
+      <div class="source-box">
+        <textarea id="source-code" rows="20" readonly spellcheck="false">#!/bin/bash
+
+# ============================================
+# bt-ctl.sh - Script de gerenciamento Bluetooth
+# Usa bluetoothctl e seus parametros
+# ============================================
+
+RED=&#x27;\033[0;31m&#x27;
+GREEN=&#x27;\033[0;32m&#x27;
+YELLOW=&#x27;\033[1;33m&#x27;
+CYAN=&#x27;\033[0;36m&#x27;
+NC=&#x27;\033[0m&#x27;
+
+LOG_FILE=&quot;/var/log/bt-ctl.log&quot;
+
+log_msg() {
+    echo -e &quot;[$(date &#x27;+%Y-%m-%d %H:%M:%S&#x27;)] $1&quot; | tee -a &quot;$LOG_FILE&quot;
+}
+
+check_bluetooth() {
+    if ! command -v bluetoothctl &amp;&gt;/dev/null; then
+        echo -e &quot;${RED}bluetoothctl nao encontrado. Instale bluez.${NC}&quot;
+        exit 1
+    fi
+}
+
+# --- Informacoes do controlador ---
+info_controller() {
+    echo -e &quot;${CYAN}=== Informacoes do Controlador ===${NC}&quot;
+    bluetoothctl show
+    echo &quot;&quot;
+}
+
+# --- Listar dispositivos pareados ---
+list_devices() {
+    echo -e &quot;${CYAN}=== Dispositivos Conhecidos ===${NC}&quot;
+    bluetoothctl devices
+    echo &quot;&quot;
+}
+
+# --- Ligacao do Bluetooth ---
+power_on() {
+    echo -e &quot;${YELLOW}Ligando Bluetooth...${NC}&quot;
+    bluetoothctl power on
+    log_msg &quot;Bluetooth ligado&quot;
+}
+
+power_off() {
+    echo -e &quot;${YELLOW}Desligando Bluetooth...${NC}&quot;
+    bluetoothctl power off
+    log_msg &quot;Bluetooth desligado&quot;
+}
+
+# --- Scan de dispositivos ---
+scan_on() {
+    echo -e &quot;${YELLOW}Iniciando scan por 15 segundos...${NC}&quot;
+    timeout 15 bluetoothctl scan on 2&gt;/dev/null
+    echo -e &quot;${GREEN}Scan finalizado. Dispositivos encontrados:${NC}&quot;
+    bluetoothctl devices
+    log_msg &quot;Scan executado&quot;
+}
+
+# --- Emparelhar dispositivo ---
+pair_device() {
+    local MAC=$1
+    if [ -z &quot;$MAC&quot; ]; then
+        echo -e &quot;${RED}Uso: $0 pair &lt;MAC_ADDRESS&gt;${NC}&quot;
+        echo &quot;Exemplo: $0 pair 67:F0:01:5D:BC:31&quot;
+        return 1
+    fi
+    echo -e &quot;${YELLOW}Emparalhando com $MAC...${NC}&quot;
+    bluetoothctl pair &quot;$MAC&quot;
+    log_msg &quot;Tentativa de pareamento com $MAC&quot;
+}
+
+# --- Conectar dispositivo ---
+connect_device() {
+    local MAC=$1
+    if [ -z &quot;$MAC&quot; ]; then
+        echo -e &quot;${RED}Uso: $0 connect &lt;MAC_ADDRESS&gt;${NC}&quot;
+        return 1
+    fi
+    echo -e &quot;${YELLOW}Conectando a $MAC...${NC}&quot;
+    bluetoothctl connect &quot;$MAC&quot;
+    log_msg &quot;Tentativa de conexao com $MAC&quot;
+}
+
+# --- Desconectar dispositivo ---
+disconnect_device() {
+    local MAC=$1
+    if [ -z &quot;$MAC&quot; ]; then
+        echo -e &quot;${RED}Uso: $0 disconnect &lt;MAC_ADDRESS&gt;${NC}&quot;
+        return 1
+    fi
+    echo -e &quot;${YELLOW}Desconectando $MAC...${NC}&quot;
+    bluetoothctl disconnect &quot;$MAC&quot;
+    log_msg &quot;Desconectado de $MAC&quot;
+}
+
+# --- Confiar no dispositivo ---
+trust_device() {
+    local MAC=$1
+    if [ -z &quot;$MAC&quot; ]; then
+        echo -e &quot;${RED}Uso: $0 trust &lt;MAC_ADDRESS&gt;${NC}&quot;
+        return 1
+    fi
+    echo -e &quot;${YELLOW}Confiando em $MAC...${NC}&quot;
+    bluetoothctl trust &quot;$MAC&quot;
+    log_msg &quot;Dispositivo $MAC marcado como confiavel&quot;
+}
+
+# --- Remover dispositivo ---
+remove_device() {
+    local MAC=$1
+    if [ -z &quot;$MAC&quot; ]; then
+        echo -e &quot;${RED}Uso: $0 remove &lt;MAC_ADDRESS&gt;${NC}&quot;
+        return 1
+    fi
+    echo -e &quot;${RED}Removendo $MAC...${NC}&quot;
+    bluetoothctl remove &quot;$MAC&quot;
+    log_msg &quot;Dispositivo $MAC removido&quot;
+}
+
+# --- Tornar discoverable ---
+discoverable_on() {
+    echo -e &quot;${YELLOW}Tornando dispositivo visivel...${NC}&quot;
+    bluetoothctl discoverable on
+    log_msg &quot;Discoverable ligado&quot;
+}
+
+discoverable_off() {
+    echo -e &quot;${YELLOW}Ocultando dispositivo...${NC}&quot;
+    bluetoothctl discoverable off
+    log_msg &quot;Discoverable desligado&quot;
+}
+
+# --- Tornar pairable ---
+pairable_on() {
+    bluetoothctl pairable on
+    echo -e &quot;${GREEN}Pairable: ON${NC}&quot;
+}
+
+pairable_off() {
+    bluetoothctl pairable off
+    echo -e &quot;${YELLOW}Pairable: OFF${NC}&quot;
+}
+
+# --- Informacoes de um dispositivo ---
+device_info() {
+    local MAC=$1
+    if [ -z &quot;$MAC&quot; ]; then
+        echo -e &quot;${RED}Uso: $0 info &lt;MAC_ADDRESS&gt;${NC}&quot;
+        return 1
+    fi
+    echo -e &quot;${CYAN}=== Info: $MAC ===${NC}&quot;
+    bluetoothctl info &quot;$MAC&quot;
+}
+
+# --- Bloquear / Desbloquear ---
+block_device() {
+    local MAC=$1
+    if [ -z &quot;$MAC&quot; ]; then
+        echo -e &quot;${RED}Uso: $0 block &lt;MAC_ADDRESS&gt;${NC}&quot;
+        return 1
+    fi
+    bluetoothctl block &quot;$MAC&quot;
+    log_msg &quot;Dispositivo $MAC bloqueado&quot;
+}
+
+unblock_device() {
+    local MAC=$1
+    if [ -z &quot;$MAC&quot; ]; then
+        echo -e &quot;${RED}Uso: $0 unblock &lt;MAC_ADDRESS&gt;${NC}&quot;
+        return 1
+    fi
+    bluetoothctl unblock &quot;$MAC&quot;
+    log_msg &quot;Dispositivo $MAC desbloqueado&quot;
+}
+
+# --- Renomear controlador ---
+set_alias() {
+    local NAME=$1
+    if [ -z &quot;$NAME&quot; ]; then
+        echo -e &quot;${RED}Uso: $0 alias &lt;NOME&gt;${NC}&quot;
+        return 1
+    fi
+    bluetoothctl system-alias &quot;$NAME&quot;
+    log_msg &quot;Controlador renomeado para $NAME&quot;
+}
+
+# --- Remover alias ---
+reset_alias() {
+    bluetoothctl reset-alias
+    log_msg &quot;Alias resetado&quot;
+}
+
+# --- Modo de emparelhamento ---
+pairable_mode() {
+    local MODE=$1
+    if [ -z &quot;$MODE&quot; ]; then
+        echo -e &quot;${RED}Uso: $0 pairable-mode &lt;on|off&gt;${NC}&quot;
+        return 1
+    fi
+    bluetoothctl pairable &quot;$MODE&quot;
+    log_msg &quot;Pairable mode: $MODE&quot;
+}
+
+# --- Menu interativo ---
+interactive() {
+    while true; do
+        echo &quot;&quot;
+        echo -e &quot;${CYAN}========================================${NC}&quot;
+        echo -e &quot;${CYAN}   Gerenciador Bluetooth - Interativo   ${NC}&quot;
+        echo -e &quot;${CYAN}========================================${NC}&quot;
+        echo &quot;  1)  Info do controlador&quot;
+        echo &quot;  2)  Listar dispositivos&quot;
+        echo &quot;  3)  Ligar Bluetooth&quot;
+        echo &quot;  4)  Desligar Bluetooth&quot;
+        echo &quot;  5)  Scan (15s)&quot;
+        echo &quot;  6)  Emparelhar (pair)&quot;
+        echo &quot;  7)  Conectar&quot;
+        echo &quot;  8)  Desconectar&quot;
+        echo &quot;  9)  Confiar (trust)&quot;
+        echo &quot; 10)  Remover dispositivo&quot;
+        echo &quot; 11)  Discoverable on/off&quot;
+        echo &quot; 12)  Pairable on/off&quot;
+        echo &quot; 13)  Info de dispositivo&quot;
+        echo &quot; 14)  Block/Unblock&quot;
+        echo &quot; 15)  Renomear controlador&quot;
+        echo &quot;  0)  Sair&quot;
+        echo -e &quot;${CYAN}========================================${NC}&quot;
+        read -p &quot;Opcao: &quot; opt
+
+        case $opt in
+            1) info_controller ;;
+            2) list_devices ;;
+            3) power_on ;;
+            4) power_off ;;
+            5) scan_on ;;
+            6) read -p &quot;MAC: &quot; mac; pair_device &quot;$mac&quot; ;;
+            7) read -p &quot;MAC: &quot; mac; connect_device &quot;$mac&quot; ;;
+            8) read -p &quot;MAC: &quot; mac; disconnect_device &quot;$mac&quot; ;;
+            9) read -p &quot;MAC: &quot; mac; trust_device &quot;$mac&quot; ;;
+            10) read -p &quot;MAC: &quot; mac; remove_device &quot;$mac&quot; ;;
+            11)
+                read -p &quot;on/off: &quot; mode
+                if [ &quot;$mode&quot; = &quot;on&quot; ]; then discoverable_on; else discoverable_off; fi
+                ;;
+            12)
+                read -p &quot;on/off: &quot; mode
+                if [ &quot;$mode&quot; = &quot;on&quot; ]; then pairable_on; else pairable_off; fi
+                ;;
+            13) read -p &quot;MAC: &quot; mac; device_info &quot;$mac&quot; ;;
+            14)
+                read -p &quot;MAC: &quot; mac
+                read -p &quot;block/unblock: &quot; action
+                if [ &quot;$action&quot; = &quot;block&quot; ]; then block_device &quot;$mac&quot;; else unblock_device &quot;$mac&quot;; fi
+                ;;
+            15) read -p &quot;Nome: &quot; name; set_alias &quot;$name&quot; ;;
+            0) echo &quot;Saindo...&quot;; exit 0 ;;
+            *) echo -e &quot;${RED}Opcao invalida${NC}&quot; ;;
+        esac
+    done
+}
+
+# --- Ajuda ---
+show_help() {
+    echo -e &quot;${CYAN}Uso: $0 [comando] [parametros]${NC}&quot;
+    echo &quot;&quot;
+    echo &quot;Comandos:&quot;
+    echo &quot;  info                     - Mostra info do controlador&quot;
+    echo &quot;  list                     - Lista dispositivos conhecidos&quot;
+    echo &quot;  power on|off             - Liga/desliga Bluetooth&quot;
+    echo &quot;  scan                     - Scan por 15 segundos&quot;
+    echo &quot;  pair &lt;MAC&gt;               - Emparella com dispositivo&quot;
+    echo &quot;  connect &lt;MAC&gt;            - Conecta ao dispositivo&quot;
+    echo &quot;  disconnect &lt;MAC&gt;         - Desconecta dispositivo&quot;
+    echo &quot;  trust &lt;MAC&gt;              - Confiar no dispositivo&quot;
+    echo &quot;  remove &lt;MAC&gt;             - Remove dispositivo&quot;
+    echo &quot;  discoverable on|off      - Visivel/invisivel&quot;
+    echo &quot;  pairable on|off          - Permite/nega pareamento&quot;
+    echo &quot;  info &lt;MAC&gt;               - Info de um dispositivo&quot;
+    echo &quot;  block &lt;MAC&gt;              - Bloqueia dispositivo&quot;
+    echo &quot;  unblock &lt;MAC&gt;            - Desbloqueia dispositivo&quot;
+    echo &quot;  alias &lt;NOME&gt;             - Renomeia controlador&quot;
+    echo &quot;  reset-alias              - Reseta nome do controlador&quot;
+    echo &quot;  interactive              - Menu interativo&quot;
+    echo &quot;  help                     - Esta ajuda&quot;
+}
+
+# --- Main ---
+check_bluetooth
+
+case &quot;${1:-help}&quot; in
+    info)          info_controller ;;
+    list)          list_devices ;;
+    power)         power_on; power_off ;;
+    scan)          scan_on ;;
+    pair)          pair_device &quot;$2&quot; ;;
+    connect)       connect_device &quot;$2&quot; ;;
+    disconnect)    disconnect_device &quot;$2&quot; ;;
+    trust)         trust_device &quot;$2&quot; ;;
+    remove)        remove_device &quot;$2&quot; ;;
+    discoverable)
+        if [ &quot;$2&quot; = &quot;on&quot; ]; then discoverable_on; else discoverable_off; fi
+        ;;
+    pairable)
+        if [ &quot;$2&quot; = &quot;on&quot; ]; then pairable_on; else pairable_off; fi
+        ;;
+    info-dev)      device_info &quot;$2&quot; ;;
+    block)         block_device &quot;$2&quot; ;;
+    unblock)       unblock_device &quot;$2&quot; ;;
+    alias)         set_alias &quot;$2&quot; ;;
+    reset-alias)   reset_alias ;;
+    interactive)   interactive ;;
+    help|--help|-h) show_help ;;
+    *)
+        echo -e &quot;${RED}Comando desconhecido: $1${NC}&quot;
+        show_help
+        ;;
+esac
+</textarea>
+        <div>
+          <button class="copy-btn" onclick="copySource()" id="copy-btn">📋 Copiar código</button>
+          <button class="copy-btn" onclick="downloadSource()" id="dl-btn">💾 Download .sh</button>
+          <a href="bt-ctl.desktop" class="download-btn" download>▶️ Abrir no Terminal (.desktop)</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function copySource() {
+  var textarea = document.getElementById('source-code');
+  textarea.select();
+  textarea.setSelectionRange(0, 999999);
+  document.execCommand('copy');
+  var btn = document.getElementById('copy-btn');
+  btn.textContent = '✅ Copiado!';
+  btn.classList.add('copied');
+  setTimeout(function() {
+    btn.textContent = '📋 Copiar código';
+    btn.classList.remove('copied');
+  }, 2000);
+}
+
+function downloadSource() {
+  var content = document.getElementById('source-code').value;
+  var blob = new Blob([content], {type: 'application/x-shellscript'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'bt-ctl.sh';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  var btn = document.getElementById('dl-btn');
+  btn.textContent = '✅ Baixado!';
+  setTimeout(function() {
+    btn.textContent = '💾 Download .sh';
+  }, 2000);
+}
+</script>
+</body>
+</html>

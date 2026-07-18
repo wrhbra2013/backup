@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Instagram Feed Resumo</title>
+  <style>
+    :root {
+      --bg: linear-gradient(135deg, #f5f7fa, #e8ecf1, #f0f2f5);
+      --surface: rgba(255,255,255,0.85);
+      --surface2: rgba(255,255,255,0.95);
+      --border: rgba(0,0,0,0.07);
+      --border-focus: rgba(225,48,108,0.45);
+      --text: #1a1a2e;
+      --text-muted: #555;
+      --text-dim: #999;
+      --accent: #E1306C;
+      --accent2: #833AB4;
+      --accent3: #F77737;
+      --gradient-ig: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+      --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
+      --shadow-lg: 0 8px 30px rgba(0,0,0,0.1);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--bg);
+      min-height: 100vh;
+      color: var(--text);
+    }
+
+    header {
+      background: rgba(255,255,255,0.8);
+      backdrop-filter: blur(12px);
+      padding: 16px 30px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .ig-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: var(--gradient-ig);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+
+    header h1 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      background: var(--gradient-ig);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    header .version {
+      margin-left: auto;
+      background: rgba(225,48,108,0.08);
+      border: 1px solid rgba(225,48,108,0.2);
+      padding: 4px 12px;
+      border-radius: 16px;
+      font-size: 0.72rem;
+      color: #d62862;
+    }
+
+    .main {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 0;
+      height: calc(100vh - 65px);
+    }
+
+    .panel {
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid var(--border);
+      overflow: hidden;
+      background: rgba(255,255,255,0.6);
+    }
+
+    .panel-header {
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .panel-header h2 {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .panel-body {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    label {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+      display: block;
+    }
+
+    input[type="text"], input[type="number"] {
+      width: 100%;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      color: var(--text);
+      font-size: 0.85rem;
+      font-family: 'Fira Code', 'Consolas', monospace;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      box-shadow: var(--shadow-sm);
+    }
+
+    input:focus {
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 3px rgba(225,48,108,0.1);
+    }
+
+    input::placeholder { color: #aaa; }
+
+    .token-input {
+      position: relative;
+    }
+
+    .token-input input {
+      padding-right: 40px;
+    }
+
+    .toggle-vis {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--text-dim);
+      cursor: pointer;
+      font-size: 1rem;
+      padding: 4px;
+    }
+
+    .toggle-vis:hover { color: var(--text); }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .btn {
+      padding: 10px 18px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-family: inherit;
+    }
+
+    .btn-ig {
+      background: var(--gradient-ig);
+      color: white;
+    }
+
+    .btn-ig:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 20px rgba(225,48,108,0.3);
+    }
+
+    .btn-ig:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .btn-outline {
+      background: #fff;
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .btn-outline:hover {
+      background: #f0f0f0;
+      color: var(--text);
+      box-shadow: var(--shadow-md);
+    }
+
+    .status-bar {
+      padding: 10px 20px;
+      border-top: 1px solid var(--border);
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.5);
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #ccc;
+      flex-shrink: 0;
+    }
+
+    .status-dot.ok { background: #4caf50; }
+    .status-dot.err { background: #e53935; }
+    .status-dot.loading { background: #fb8c00; animation: pulse 1s infinite; }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    .preview {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: rgba(245,247,250,0.5);
+    }
+
+    .preview-body {
+      flex: 1;
+      padding: 24px;
+      overflow-y: auto;
+    }
+
+    .feed-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+    }
+
+    .post-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .post-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .post-thumb {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      background: #f0f0f0;
+      display: block;
+    }
+
+    .post-thumb-placeholder {
+      width: 100%;
+      aspect-ratio: 1;
+      background: #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-dim);
+      font-size: 2rem;
+    }
+
+    .post-info {
+      padding: 14px;
+      background: #fff;
+    }
+
+    .post-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .post-type {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+
+    .type-image { background: rgba(225,48,108,0.1); color: #d62862; }
+    .type-video { background: rgba(131,58,180,0.1); color: #7b2fa8; }
+    .type-carousel { background: rgba(247,119,55,0.1); color: #e06820; }
+    .type-sidecar { background: rgba(247,119,55,0.1); color: #e06820; }
+
+    .post-date {
+      font-size: 0.72rem;
+      color: var(--text-dim);
+    }
+
+    .post-caption {
+      font-size: 0.82rem;
+      color: var(--text);
+      line-height: 1.5;
+      max-height: 4.5em;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      word-break: break-word;
+    }
+
+    .post-stats {
+      display: flex;
+      gap: 16px;
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .stat {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .stat-icon { font-size: 0.85rem; }
+
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      color: var(--text-dim);
+      gap: 16px;
+      text-align: center;
+    }
+
+    .empty-state .big-icon {
+      font-size: 4rem;
+      opacity: 0.4;
+    }
+
+    .empty-state p {
+      max-width: 320px;
+      line-height: 1.6;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    textarea {
+      width: 100%;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px;
+      color: var(--text);
+      font-family: 'Fira Code', 'Consolas', monospace;
+      font-size: 0.78rem;
+      line-height: 1.5;
+      resize: vertical;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      min-height: 120px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    textarea:focus {
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 3px rgba(225,48,108,0.1);
+    }
+
+    .tabs {
+      display: flex;
+      gap: 0;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.6);
+    }
+
+    .tab {
+      padding: 10px 18px;
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      cursor: pointer;
+      border: none;
+      background: none;
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+
+    .tab:hover { color: var(--text); background: rgba(0,0,0,0.02); }
+
+    .tab.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+      font-weight: 600;
+    }
+
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    .help-text {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      padding: 8px 12px;
+      background: rgba(225,48,108,0.04);
+      border: 1px solid rgba(225,48,108,0.1);
+      border-radius: 6px;
+    }
+
+    .help-text a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .help-text a:hover { text-decoration: underline; }
+
+    .loading-spinner {
+      display: none;
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(255,255,255,0.2);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .spinner-active { display: inline-block; }
+
+    .search-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.15s;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .search-item:hover {
+      border-color: var(--accent);
+      background: rgba(225,48,108,0.03);
+      box-shadow: var(--shadow-md);
+    }
+
+    .search-item-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .search-item-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .search-item-name {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .search-item-id {
+      font-size: 0.68rem;
+      color: var(--text-dim);
+      font-family: 'Fira Code', monospace;
+    }
+
+    .search-item-badge {
+      font-size: 0.65rem;
+      padding: 2px 7px;
+      border-radius: 4px;
+      background: rgba(76,175,80,0.1);
+      color: #2e7d32;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(4px);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-overlay code {
+      font-family: 'Fira Code', 'Consolas', monospace;
+    }
+
+    .modal-overlay a {
+      color: #E1306C;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .modal-overlay a:hover {
+      text-decoration: underline;
+    }
+
+    .modal-overlay ol, .modal-overlay ul {
+      margin: 4px 0;
+    }
+
+    .modal-overlay li {
+      margin-bottom: 2px;
+    }
+
+    @media (max-width: 900px) {
+      .main {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
+      }
+      .panel { border-right: none; border-bottom: 1px solid var(--border); max-height: 50vh; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="ig-icon">📸</div>
+    <h1>Instagram Feed Resumo</h1>
+    <span class="version">Graph API v18.0</span>
+  </header>
+
+  <div class="main">
+    <div class="panel">
+      <div class="panel-header">
+        <h2>Configuracao</h2>
+      </div>
+      <div class="panel-body">
+
+        <div style="display:flex;align-items:center;justify-content:space-between;background:rgba(225,48,108,0.04);border:1px solid rgba(225,48,108,0.1);border-radius:8px;padding:12px 16px;">
+          <div style="font-size:0.82rem;color:var(--text-muted);">Precisa de ajuda para configurar?</div>
+          <button class="btn btn-ig" onclick="openTutorial()" style="padding:7px 14px;font-size:0.78rem;">Passo a passo</button>
+        </div>
+
+        <div>
+          <label>Access Token</label>
+          <div class="token-input">
+            <input type="text" id="tokenInput" placeholder="Cole seu access token aqui..." spellcheck="false">
+            <button class="toggle-vis" onclick="toggleTokenVis()" title="Mostrar/ocultar">👁</button>
+          </div>
+        </div>
+
+        <div>
+          <label>Instagram Business Account ID (auto-detecta se vazio)</label>
+          <input type="text" id="userIdInput" placeholder="Detectado automaticamente via Pagina Facebook" spellcheck="false">
+          <div style="font-size:0.68rem;color:#aaa;margin-top:4px;">Nao use o @username. O ID numerico e detectado automaticamente.</div>
+        </div>
+
+        <div style="border-top:1px solid var(--border);padding-top:14px;">
+          <label>Buscar pagina publica</label>
+          <div style="display:flex;gap:8px;">
+            <input type="text" id="searchInput" placeholder="Nome da pagina ou @usuario..." spellcheck="false" style="flex:1;">
+            <button class="btn btn-ig" id="searchBtn" onclick="searchPages()" style="padding:10px 14px;white-space:nowrap;">
+              <span class="loading-spinner" id="searchSpinner"></span>
+              <span id="searchLabel">Buscar</span>
+            </button>
+          </div>
+          <div id="searchResults" style="margin-top:8px;display:none;">
+            <div style="font-size:0.72rem;color:var(--text-dim);margin-bottom:6px;">Resultados (clique para usar):</div>
+            <div id="searchList" style="display:flex;flex-direction:column;gap:6px;max-height:180px;overflow-y:auto;"></div>
+          </div>
+          <div style="margin-top:8px;font-size:0.68rem;color:#aaa;">
+            Se a busca der erro de permissao, voce pode encontrar o ID manualmente:
+            <a href="https://developers.facebook.com/tools/explorer/" target="_blank" style="color:var(--accent);">Graph API Explorer</a>
+            → GET <code style="background:rgba(0,0,0,0.05);padding:1px 4px;border-radius:3px;">me?fields=id,name</code> → copie o <strong>id</strong>.
+          </div>
+        </div>
+
+        <div class="row">
+          <div>
+            <label>Limite de posts</label>
+            <input type="number" id="limitInput" value="12" min="1" max="100">
+          </div>
+          <div>
+            <label>Campos extras</label>
+            <input type="text" id="fieldsInput" value="caption,media_type,like_count,comments_count,timestamp,media_url,permalink" placeholder="campos" spellcheck="false">
+          </div>
+        </div>
+
+        <div style="display:flex;gap:10px;">
+          <button class="btn btn-ig" id="fetchBtn" onclick="fetchFeed()">
+            <span class="loading-spinner" id="spinner"></span>
+            <span id="btnLabel">Buscar Feed</span>
+          </button>
+          <button class="btn btn-outline" onclick="exportJSON()">⬇ JSON</button>
+          <button class="btn btn-outline" onclick="exportCSV()">⬇ CSV</button>
+        </div>
+
+        <div>
+          <label>Resumo (textarea)</label>
+          <textarea id="summaryArea" readonly placeholder="O resumo do feed aparecera aqui...&#10;&#10;1. Cole o token acima&#10;2. Clique em Buscar Feed&#10;3. Veja o resultado ao lado e aqui em texto"></textarea>
+        </div>
+
+      </div>
+      <div class="status-bar">
+        <span class="status-dot" id="statusDot"></span>
+        <span id="statusText">Aguardando token...</span>
+      </div>
+    </div>
+
+    <div class="preview">
+      <div class="tabs">
+        <button class="tab active" onclick="switchTab('cards', this)">Cards</button>
+        <button class="tab" onclick="switchTab('raw', this)">JSON Bruto</button>
+        <button class="tab" onclick="switchTab('resumo', this)">Resumo Texto</button>
+      </div>
+
+      <div class="preview-body">
+        <div class="tab-content active" id="tab-cards">
+          <div class="empty-state" id="emptyState">
+            <div class="big-icon">📸</div>
+            <p>Conecte sua conta Instagram usando o Graph API para visualizar um resumo do seu feed aqui.</p>
+          </div>
+          <div class="feed-grid" id="feedGrid" style="display:none;"></div>
+        </div>
+
+        <div class="tab-content" id="tab-raw">
+          <textarea id="rawJsonArea" readonly style="min-height:400px;height:100%;background:transparent;border:none;font-size:0.75rem;" placeholder="JSON bruto da API aparecera aqui..."></textarea>
+        </div>
+
+        <div class="tab-content" id="tab-resumo">
+          <textarea id="resumoArea" readonly style="min-height:400px;height:100%;background:transparent;border:none;font-size:0.82rem;line-height:1.7;" placeholder="Resumo formatado em texto plano..."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API_BASE = 'https://graph.facebook.com/v18.0';
+    let feedData = [];
+
+    function setStatus(state, msg) {
+      const dot = document.getElementById('statusDot');
+      const txt = document.getElementById('statusText');
+      dot.className = 'status-dot ' + state;
+      txt.textContent = msg;
+    }
+
+    function toggleTokenVis() {
+      const inp = document.getElementById('tokenInput');
+      inp.type = inp.type === 'password' ? 'text' : 'password';
+    }
+
+    function switchTab(name, el) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      el.classList.add('active');
+      document.getElementById('tab-' + name).classList.add('active');
+    }
+
+    async function searchPages() {
+      const token = document.getElementById('tokenInput').value.trim();
+      if (!token) {
+        setStatus('err', 'Insira um access token primeiro.');
+        return;
+      }
+
+      const query = document.getElementById('searchInput').value.trim();
+      if (!query) {
+        setStatus('err', 'Digite o nome da pagina ou @usuario para buscar.');
+        return;
+      }
+
+      const btn = document.getElementById('searchBtn');
+      const spinner = document.getElementById('searchSpinner');
+      const label = document.getElementById('searchLabel');
+      const resultsEl = document.getElementById('searchResults');
+      const listEl = document.getElementById('searchList');
+
+      btn.disabled = true;
+      spinner.classList.add('spinner-active');
+      label.textContent = '...';
+      setStatus('loading', `Buscando "${query}" nas paginas Facebook...`);
+
+      try {
+        const searchUrl = `${API_BASE}/pages/search?q=${encodeURIComponent(query)}&fields=id,name,instagram_business_account&access_token=${token}`;
+        const res = await fetch(searchUrl);
+        const data = await res.json();
+
+        if (data.error) throw new Error(data.error.message);
+
+        const pages = (data.data || []).filter(p => p.instagram_business_account && p.instagram_business_account.id);
+
+        if (!pages.length) {
+          resultsEl.style.display = 'block';
+          listEl.innerHTML = `<div style="font-size:0.78rem;color:var(--text-dim);padding:8px;">Nenhuma pagina com conta Instagram Business vinculada encontrada para "${query}". Tente outro nome.</div>`;
+          setStatus('err', 'Nenhum resultado com IG Business encontrado.');
+          return;
+        }
+
+        setStatus('ok', `${pages.length} pagina(s) com IG Business encontrada(s).`);
+
+        listEl.innerHTML = pages.map(p => {
+          const igId = p.instagram_business_account.id;
+          const pageId = p.id;
+          return `
+            <div class="search-item" onclick="selectSearchResult('${igId}', '${escapeAttr(p.name)}', '${pageId}')">
+              <div class="search-item-avatar">📸</div>
+              <div class="search-item-info">
+                <div class="search-item-name">${escapeHtml(p.name)}</div>
+                <div class="search-item-id">IG: ${igId} | Page: ${pageId}</div>
+              </div>
+              <div class="search-item-badge">Usar</div>
+            </div>
+          `;
+        }).join('');
+
+        resultsEl.style.display = 'block';
+
+      } catch (err) {
+        const msg = err.message || '';
+        let hint = '';
+        if (msg.includes('pages_read_engagement') || msg.includes('Page Public Content Access')) {
+          hint = '\n\nPara buscar paginas publicas, voce precisa:\n' +
+            '1. No painel do app, vá em Instagram > Configuracoes\n' +
+            '2. Solicite a permissao "Page Public Content Access"\n' +
+            '3. Ou use um token de Pagina que voce gerencia com pages_read_engagement\n\n' +
+            'Alternativa: cole diretamente o Instagram Business Account ID no campo acima.';
+        }
+        setStatus('err', 'Erro: ' + msg + hint);
+        resultsEl.style.display = 'none';
+      } finally {
+        btn.disabled = false;
+        spinner.classList.remove('spinner-active');
+        label.textContent = 'Buscar';
+      }
+    }
+
+    function selectSearchResult(igId, pageName, pageId) {
+      document.getElementById('userIdInput').value = igId;
+      setStatus('ok', `Selecionado: ${pageName} (IG ID: ${igId})`);
+      document.getElementById('searchResults').style.display = 'none';
+    }
+
+    function escapeAttr(str) {
+      return str.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+    }
+
+    async function detectUserId(token) {
+      setStatus('loading', 'Buscando paginas vinculadas...');
+
+      const pagesRes = await fetch(`${API_BASE}/me/accounts?fields=id,name,instagram_business_account&access_token=${token}`);
+      const pagesData = await pagesRes.json();
+
+      if (pagesData.error) throw new Error(pagesData.error.message);
+
+      const pages = pagesData.data || [];
+
+      if (!pages.length) {
+        throw new Error('Nenhuma Pagina Facebook encontrada. Certifique-se de que o token tem permissao pages_show_list e que sua conta Instagram Business esta vinculada a uma Pagina.');
+      }
+
+      for (const page of pages) {
+        if (page.instagram_business_account && page.instagram_business_account.id) {
+          setStatus('ok', `Conta IG Business encontrada via pagina "${page.name}".`);
+          return page.instagram_business_account.id;
+        }
+      }
+
+      const pageNames = pages.map(p => `"${p.name}"`).join(', ');
+      throw new Error(
+        `Nenhuma conta Instagram Business vinculada as paginas encontradas (${pageNames}). ` +
+        `Verifique: 1) Sua conta IG e Business/Creator, ` +
+        `2) Ela esta vinculada a uma Pagina Facebook em Configuracoes > Contas Profissionais, ` +
+        `3) O token tem permissao pages_read_engagement.`
+      );
+    }
+
+    async function fetchFeed() {
+      const token = document.getElementById('tokenInput').value.trim();
+      if (!token) {
+        setStatus('err', 'Insira um access token valido.');
+        return;
+      }
+
+      const btn = document.getElementById('fetchBtn');
+      const spinner = document.getElementById('spinner');
+      const btnLabel = document.getElementById('btnLabel');
+
+      btn.disabled = true;
+      spinner.classList.add('spinner-active');
+      btnLabel.textContent = 'Buscando...';
+      setStatus('loading', 'Conectando a API...');
+
+      try {
+        let userId = document.getElementById('userIdInput').value.trim();
+        if (userId && !/^\d+$/.test(userId)) {
+          throw new Error(`"${userId}" nao e um ID valido. O Instagram Business Account ID deve ser numerico (ex: 17841400123456789). Nao use o @username. Deixe o campo vazio para auto-deteccao.`);
+        }
+        if (!userId) {
+          setStatus('loading', 'Detectando User ID via paginas...');
+          userId = await detectUserId(token);
+          document.getElementById('userIdInput').value = userId;
+        }
+
+        const limit = document.getElementById('limitInput').value || 12;
+        const fields = document.getElementById('fieldsInput').value || 'id,caption,media_type,media_url,timestamp,like_count,comments_count';
+
+        setStatus('loading', `Buscando ${limit} posts...`);
+
+        const url = `${API_BASE}/${userId}/media?fields=${fields}&limit=${limit}&access_token=${token}`;
+        const res = await fetch(url);
+        const data = await res.json();
+
+        if (data.error) throw new Error(data.error.message);
+
+        feedData = data.data || [];
+        setStatus('ok', `${feedData.length} posts carregados.`);
+
+        renderCards(feedData);
+        renderRawJson(data);
+        renderResumo(feedData);
+        renderTextareaSummary(feedData);
+
+      } catch (err) {
+        setStatus('err', 'Erro: ' + err.message);
+        document.getElementById('summaryArea').value = 'ERRO: ' + err.message;
+      } finally {
+        btn.disabled = false;
+        spinner.classList.remove('spinner-active');
+        btnLabel.textContent = 'Buscar Feed';
+      }
+    }
+
+    function renderCards(posts) {
+      const grid = document.getElementById('feedGrid');
+      const empty = document.getElementById('emptyState');
+
+      if (!posts.length) {
+        grid.style.display = 'none';
+        empty.style.display = 'flex';
+        empty.querySelector('p').textContent = 'Nenhum post encontrado. Verifique o token e permissoes.';
+        return;
+      }
+
+      empty.style.display = 'none';
+      grid.style.display = 'grid';
+
+      grid.innerHTML = posts.map(p => {
+        const type = (p.media_type || 'IMAGE').toUpperCase();
+        const typeClass = type === 'VIDEO' ? 'type-video' : type === 'CAROUSEL_ALBUM' ? 'type-carousel' : 'type-image';
+        const typeLabel = type === 'CAROUSEL_ALBUM' ? 'Carousel' : type;
+        const date = p.timestamp ? new Date(p.timestamp).toLocaleDateString('pt-BR', { day:'2-digit', month:'short', year:'numeric' }) : '';
+        const caption = p.caption || 'Sem legenda...';
+        const likes = p.like_count ?? '-';
+        const comments = p.comments_count ?? '-';
+
+        const thumb = p.thumbnail_url || p.media_url;
+        const thumbHtml = thumb
+          ? `<img class="post-thumb" src="${thumb}" alt="post" onerror="this.outerHTML='<div class=\\'post-thumb-placeholder\\'>📷</div>'" loading="lazy">`
+          : `<div class="post-thumb-placeholder">${type === 'VIDEO' ? '🎬' : '📷'}</div>`;
+
+        return `
+          <div class="post-card">
+            ${thumbHtml}
+            <div class="post-info">
+              <div class="post-meta">
+                <span class="post-type ${typeClass}">${typeLabel}</span>
+                <span class="post-date">${date}</span>
+              </div>
+              <div class="post-caption">${escapeHtml(caption)}</div>
+              <div class="post-stats">
+                <span class="stat"><span class="stat-icon">❤️</span> ${likes}</span>
+                <span class="stat"><span class="stat-icon">💬</span> ${comments}</span>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderRawJson(data) {
+      document.getElementById('rawJsonArea').value = JSON.stringify(data, null, 2);
+    }
+
+    function renderResumo(posts) {
+      if (!posts.length) {
+        document.getElementById('resumoArea').value = 'Nenhum post para resumir.';
+        return;
+      }
+
+      let txt = `RESUMO DO FEED - ${posts.length} posts\n`;
+      txt += '='.repeat(50) + '\n\n';
+
+      let totalLikes = 0, totalComments = 0;
+
+      posts.forEach((p, i) => {
+        const type = (p.media_type || 'IMAGE').toUpperCase();
+        const date = p.timestamp ? new Date(p.timestamp).toLocaleDateString('pt-BR') : 'N/D';
+        const caption = (p.caption || 'Sem legenda').substring(0, 150);
+        const likes = p.like_count ?? 0;
+        const comments = p.comments_count ?? 0;
+
+        totalLikes += likes;
+        totalComments += comments;
+
+        txt += `${i + 1}. [${type}] ${date}\n`;
+        txt += `   Likes: ${likes} | Comentarios: ${comments}\n`;
+        txt += `   "${caption}"\n`;
+        if (p.permalink) txt += `   Link: ${p.permalink}\n`;
+        txt += '\n';
+      });
+
+      txt += '-'.repeat(50) + '\n';
+      txt += `TOTAL: ${totalLikes} likes | ${totalComments} comentarios\n`;
+      txt += `MEDIA: ${(totalLikes / posts.length).toFixed(1)} likes/post | ${(totalComments / posts.length).toFixed(1)} comentarios/post\n`;
+
+      document.getElementById('resumoArea').value = txt;
+    }
+
+    function renderTextareaSummary(posts) {
+      if (!posts.length) {
+        document.getElementById('summaryArea').value = 'Nenhum post encontrado.';
+        return;
+      }
+
+      let txt = `Feed Instagram - ${posts.length} posts\n\n`;
+      posts.forEach((p, i) => {
+        const type = (p.media_type || 'IMAGE').toUpperCase();
+        const date = p.timestamp ? new Date(p.timestamp).toLocaleDateString('pt-BR') : 'N/D';
+        const caption = (p.caption || 'Sem legenda').substring(0, 100);
+        txt += `${i+1}. [${type}] ${date} | ❤${p.like_count ?? 0} 💬${p.comments_count ?? 0}\n   ${caption}\n\n`;
+      });
+
+      document.getElementById('summaryArea').value = txt;
+    }
+
+    function exportJSON() {
+      if (!feedData.length) return;
+      const blob = new Blob([JSON.stringify(feedData, null, 2)], { type: 'application/json' });
+      downloadBlob(blob, 'instagram-feed.json');
+    }
+
+    function exportCSV() {
+      if (!feedData.length) return;
+      const headers = ['ID', 'Tipo', 'Data', 'Legenda', 'Likes', 'Comentarios', 'Link'];
+      const rows = feedData.map(p => [
+        p.id || '',
+        (p.media_type || '').replace('CAROUSEL_ALBUM', 'CAROUSEL'),
+        p.timestamp || '',
+        `"${(p.caption || '').replace(/"/g, '""')}"`,
+        p.like_count ?? 0,
+        p.comments_count ?? 0,
+        p.permalink || ''
+      ]);
+      const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      downloadBlob(blob, 'instagram-feed.csv');
+    }
+
+    function downloadBlob(blob, name) {
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = name;
+      a.click();
+      URL.revokeObjectURL(a.href);
+    }
+
+    function escapeHtml(str) {
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    document.getElementById('tokenInput').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') fetchFeed();
+    });
+
+    document.getElementById('searchInput').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') searchPages();
+    });
+
+    // Restore token from localStorage
+    const saved = localStorage.getItem('ig_token');
+    if (saved) document.getElementById('tokenInput').value = saved;
+
+    document.getElementById('tokenInput').addEventListener('input', function() {
+      localStorage.setItem('ig_token', this.value);
+    });
+
+    function openTutorial() {
+      document.getElementById('tutorialModal').classList.add('active');
+    }
+
+    function closeTutorial() {
+      document.getElementById('tutorialModal').classList.remove('active');
+    }
+
+    document.getElementById('tutorialModal').addEventListener('click', function(e) {
+      if (e.target === this) closeTutorial();
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeTutorial();
+    });
+  </script>
+
+  <div class="modal-overlay" id="tutorialModal">
+    <div class="modal" style="max-width:700px;max-height:85vh;overflow-y:auto;background:#fff;border-radius:16px;padding:30px;box-shadow:0 20px 60px rgba(0,0,0,0.15);">
+
+      <h3 style="font-size:1.2rem;margin-bottom:20px;color:#1a1a2e;">Como configurar o Instagram Graph API</h3>
+
+      <div style="margin-bottom:20px;">
+        <h4 style="font-size:0.95rem;color:#E1306C;margin-bottom:10px;">1. Criar App no Facebook Developers</h4>
+        <ol style="font-size:0.82rem;color:#555;line-height:1.8;padding-left:20px;">
+          <li>Acesse <a href="https://developers.facebook.com/" target="_blank" style="color:#E1306C;">developers.facebook.com</a></li>
+          <li>Clique em <strong>"Meus Apps"</strong> → <strong>"Criar App"</strong></li>
+          <li>Escolha o tipo <strong>"Business"</strong></li>
+          <li>Dê um nome ao app (ex: "Meu Feed IG")</li>
+          <li>Clique em <strong>"Criar App"</strong></li>
+        </ol>
+      </div>
+
+      <div style="margin-bottom:20px;">
+        <h4 style="font-size:0.95rem;color:#E1306C;margin-bottom:10px;">2. Adicionar o producto Instagram Graph API</h4>
+        <ol style="font-size:0.82rem;color:#555;line-height:1.8;padding-left:20px;">
+          <li>No painel do app, clique em <strong>"Configurar"</strong> ao lado do Instagram Graph API</li>
+          <li>Ou vá em <strong>"Produtos"</strong> → busque <strong>"Instagram"</strong> → clique em <strong>"Configurar"</strong></li>
+          <li>Conecte uma conta Instagram Business/Creator</li>
+        </ol>
+      </div>
+
+      <div style="margin-bottom:20px;">
+        <h4 style="font-size:0.95rem;color:#E1306C;margin-bottom:10px;">3. Converter conta para Business/Creator (se necessario)</h4>
+        <ol style="font-size:0.82rem;color:#555;line-height:1.8;padding-left:20px;">
+          <li>No app Instagram, vá em <strong>Configuracoes</strong> → <strong>Conta</strong></li>
+          <li>Toque em <strong>"Mudar para Conta Profissional"</strong></li>
+          <li>Escolha <strong>"Criador"</strong> ou <strong>"Negocio"</strong></li>
+          <li>Siga as instrucoes e vincule a uma <strong>Pagina Facebook</strong></li>
+        </ol>
+      </div>
+
+      <div style="margin-bottom:20px;">
+        <h4 style="font-size:0.95rem;color:#E1306C;margin-bottom:10px;">4. Vincular conta IG a uma Pagina Facebook</h4>
+        <ol style="font-size:0.82rem;color:#555;line-height:1.8;padding-left:20px;">
+          <li>No Facebook, crie ou acesse uma <strong>Pagina</strong></li>
+          <li>Vá nas <strong>Configuracoes da Pagina</strong> → <strong>Contas Profissionais</strong></li>
+          <li>Clique em <strong>"Conectar conta"</strong> e selecione sua conta Instagram</li>
+          <li>Autorize o vinculo</li>
+        </ol>
+      </div>
+
+      <div style="margin-bottom:20px;">
+        <h4 style="font-size:0.95rem;color:#E1306C;margin-bottom:10px;">5. Configurar permissoes do App</h4>
+        <ol style="font-size:0.82rem;color:#555;line-height:1.8;padding-left:20px;">
+          <li>No painel do app, vá em <strong>"Configuracoes"</strong> → <strong>"Permissoes da API"</strong></li>
+          <li>Ative as permissoes:
+            <ul style="margin-top:4px;">
+              <li><code style="background:rgba(225,48,108,0.08);padding:1px 6px;border-radius:3px;color:#d62862;">instagram_basic</code></li>
+              <li><code style="background:rgba(225,48,108,0.08);padding:1px 6px;border-radius:3px;color:#d62862;">pages_show_list</code></li>
+              <li><code style="background:rgba(225,48,108,0.08);padding:1px 6px;border-radius:3px;color:#d62862;">pages_read_engagement</code></li>
+            </ul>
+          </li>
+          <li><strong>Para buscar paginas publicas</strong> tambem ative:
+            <ul style="margin-top:4px;">
+              <li><code style="background:rgba(225,48,108,0.08);padding:1px 6px;border-radius:3px;color:#d62862;">Page Public Content Access</code> (em "Recursos")</li>
+            </ul>
+          </li>
+        </ol>
+      </div>
+
+      <div style="margin-bottom:20px;">
+        <h4 style="font-size:0.95rem;color:#E1306C;margin-bottom:10px;">6. Gerar Access Token</h4>
+        <ol style="font-size:0.82rem;color:#555;line-height:1.8;padding-left:20px;">
+          <li>Vá ao <a href="https://developers.facebook.com/tools/explorer/" target="_blank" style="color:#E1306C;">Graph API Explorer</a></li>
+          <li>No canto superior direito, selecione seu app</li>
+          <li>Clique em <strong>"Gerar Token de Acesso"</strong></li>
+          <li>Selecione as permissoes: <code>instagram_basic</code>, <code>pages_show_list</code>, <code>pages_read_engagement</code></li>
+          <li>Clique em <strong>"Gerar Token de Acesso"</strong></li>
+          <li>Copie o token gerado</li>
+        </ol>
+      </div>
+
+      <div style="margin-bottom:20px;">
+        <h4 style="font-size:0.95rem;color:#E1306C;margin-bottom:10px;">7. Converter para Token de Longo Prazo (recomendado)</h4>
+        <ol style="font-size:0.82rem;color:#555;line-height:1.8;padding-left:20px;">
+          <li>No Graph API Explorer, copie o token curto</li>
+          <li>Cole no campo acima e clique em <strong>"Buscar Feed"</strong></li>
+          <li>O token curto expira em ~1h. Para tokens longos:</li>
+          <li>Use o endpoint: <code style="background:rgba(0,0,0,0.05);padding:1px 6px;border-radius:3px;font-size:0.75rem;">GET /oauth/access_token?grant_type=fb_exchange_token&client_id=APP_ID&client_secret=APP_SECRET&fb_exchange_token=SHORT_TOKEN</code></li>
+        </ol>
+      </div>
+
+      <div style="background:rgba(225,48,108,0.05);border:1px solid rgba(225,48,108,0.1);border-radius:8px;padding:14px;margin-bottom:16px;">
+        <h4 style="font-size:0.88rem;color:#d62862;margin-bottom:6px;">Erros comuns:</h4>
+        <ul style="font-size:0.78rem;color:#555;line-height:1.7;padding-left:16px;">
+          <li><strong>"Object does not exist"</strong> → O ID nao e valido ou a conta nao e Business</li>
+          <li><strong>"Missing permission"</strong> → Falta ativar a permissao no app</li>
+          <li><strong>"Unsupported get request"</strong> → Token invalido ou expirado</li>
+          <li><strong>"pages_read_engagement"</strong> → Ative Page Public Content Access</li>
+        </ul>
+      </div>
+
+      <button class="btn btn-ig" onclick="closeTutorial()" style="width:100%;justify-content:center;">Entendi, fechar</button>
+    </div>
+  </div>
+
+</body>
+</html>

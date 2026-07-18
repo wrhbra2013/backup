@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=build_offline_from_boot.sh
+Comment===============================================================================
+Exec=x-terminal-emulator -e bash -c '/home/wander/Public/backup/build_offline_from_boot.sh; echo ""; echo "=== Script finalizado. Pressione Enter para fechar ==="; read'
+Terminal=true
+Icon=terminal
+Categories=Development;System;

@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=build_offline_ol9.sh
+Comment===============================================================================
+Exec=x-terminal-emulator -e bash -c '/home/wander/Public/backup/build_offline_ol9.sh; echo ""; echo "=== Script finalizado. Pressione Enter para fechar ==="; read'
+Terminal=true
+Icon=terminal
+Categories=Development;System;
