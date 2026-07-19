@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; connect-src 'self' https:;">
+    <link rel="icon" href="/favicon.ico" sizes="any">
     <title>Pesquisas em Tendência - Motores de Busca</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -229,6 +230,7 @@
             const corpo = document.getElementById('corpo');
             const btn = document.getElementById('btnAtualizar');
             const pais = document.getElementById('pais').value;
+            const idioma = document.getElementById('idioma').value;
 
             btn.disabled = true;
             btn.textContent = 'Carregando...';
@@ -240,7 +242,7 @@
 
             try {
                 const geo = pais === 'global' ? '' : pais;
-                const url = `https://trends.google.com/trends/api/dailytrends?hl=pt-BR&tz=-180&geo=${geo}`;
+                const url = `https://trends.google.com/trends/api/dailytrends?hl=${idioma}&tz=-180&geo=${geo}`;
                 const resp = await fetch(PROXY + encodeURIComponent(url));
 
                 if (!resp.ok) throw new Error('Falha ao buscar dados');
@@ -254,7 +256,6 @@
 
                 const todosTermos = [];
                 for (const dia of trends) {
-                    const searchDate = dia.date;
                     for (const item of dia.trendingSearches) {
                         todosTermos.push({
                             titulo: item.title.query,
@@ -342,14 +343,17 @@
             const todosTermos = [];
             items.forEach(item => {
                 const title = item.querySelector('title')?.textContent || '';
-                const approxTraffic = item.querySelector('ht:approx_traffic')?.textContent || 'N/A';
-                const keywords = item.querySelector('ht:news_url')?.textContent || '';
-                const category = item.querySelector('ht:picture_source')?.textContent || 'Geral';
+                let approxTraffic = 'N/A';
+                let category = 'Geral';
+                for (const child of item.children) {
+                    if (child.localName === 'approx_traffic') approxTraffic = child.textContent || 'N/A';
+                    if (child.localName === 'picture_source') category = child.textContent || 'Geral';
+                }
 
                 if (title) {
                     todosTermos.push({
                         titulo: title,
-                        categoria: 'Trending',
+                        categoria: category,
                         volume: approxTraffic !== 'N/A' ? approxTraffic : 'Popular',
                         url: null
                     });
@@ -390,8 +394,6 @@
             const termo = input.value.trim();
             if (!termo) return;
             window.open('https://www.google.com/search?q=' + encodeURIComponent(termo), '_blank');
-            window.open('https://www.bing.com/search?q=' + encodeURIComponent(termo), '_blank');
-            window.open('https://duckduckgo.com/?q=' + encodeURIComponent(termo), '_blank');
             input.value = '';
         }
     </script>
