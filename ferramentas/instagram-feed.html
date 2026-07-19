@@ -652,6 +652,21 @@
           <textarea id="summaryArea" readonly placeholder="O resumo do feed aparecera aqui...&#10;&#10;1. Cole o token acima&#10;2. Clique em Buscar Feed&#10;3. Veja o resultado ao lado e aqui em texto"></textarea>
         </div>
 
+        <div style="border-top:1px solid var(--border);padding-top:14px;">
+          <label>Baixar Resumo de Qualquer Perfil</label>
+          <div style="font-size:0.72rem;color:var(--text-dim);margin-bottom:8px;">Busca o perfil pelo nome da pagina ou ID numerico e baixa um JSON com dados do perfil + posts recentes.</div>
+          <div style="display:flex;gap:8px;">
+            <input type="text" id="profileSearchInput" placeholder="Nome da pagina ou @usuario..." spellcheck="false" style="flex:1;">
+            <button class="btn btn-ig" id="profileSearchBtn" onclick="downloadProfileSummary()" style="padding:10px 14px;white-space:nowrap;">
+              <span class="loading-spinner" id="profileSearchSpinner"></span>
+              <span id="profileSearchLabel">Baixar Resumo</span>
+            </button>
+          </div>
+          <div style="margin-top:8px;">
+            <textarea id="profileSummaryArea" readonly style="min-height:80px;font-size:0.72rem;background:rgba(245,247,250,0.5);" placeholder="O JSON do resumo do perfil aparecera aqui apos o download..."></textarea>
+          </div>
+        </div>
+
       </div>
       <div class="status-bar">
         <span class="status-dot" id="statusDot"></span>
@@ -1038,6 +1053,109 @@
     document.getElementById('tokenInput').addEventListener('input', function() {
       localStorage.setItem('ig_token', this.value);
     });
+
+    async function downloadProfileSummary() {
+      const token = document.getElementById('tokenInput').value.trim();
+      if (!token) {
+        setStatus('err', 'Insira um access token valido.');
+        return;
+      }
+
+      const query = document.getElementById('profileSearchInput').value.trim();
+      if (!query) {
+        setStatus('err', 'Digite o nome da pagina ou @usuario do perfil.');
+        return;
+      }
+
+      const btn = document.getElementById('profileSearchBtn');
+      const spinner = document.getElementById('profileSearchSpinner');
+      const label = document.getElementById('profileSearchLabel');
+
+      btn.disabled = true;
+      spinner.classList.add('spinner-active');
+      label.textContent = '...';
+      setStatus('loading', 'Buscando perfil "' + query + '"...');
+
+      try {
+        let igUserId = null;
+
+        if (/^\d+$/.test(query)) {
+          igUserId = query;
+        } else {
+          const searchRes = await fetch(API_BASE + '/pages/search?q=' + encodeURIComponent(query) + '&fields=id,name,instagram_business_account&access_token=' + token);
+          const searchData = await searchRes.json();
+          if (searchData.error) throw new Error(searchData.error.message);
+
+          const pages = (searchData.data || []).filter(function(p) {
+            return p.instagram_business_account && p.instagram_business_account.id;
+          });
+          if (!pages.length) throw new Error('Nenhuma pagina com IG Business encontrada para "' + query + '".');
+          igUserId = pages[0].instagram_business_account.id;
+        }
+
+        setStatus('loading', 'Buscando dados do perfil...');
+        const profileRes = await fetch(API_BASE + '/' + igUserId + '?fields=username,name,biography,followers_count,follows_count,media_count,profile_picture_url&access_token=' + token);
+        const profileData = await profileRes.json();
+        if (profileData.error) throw new Error(profileData.error.message);
+
+        setStatus('loading', 'Buscando posts recentes...');
+        const postsRes = await fetch(API_BASE + '/' + igUserId + '/media?fields=id,caption,media_type,media_url,thumbnail_url,timestamp,like_count,comments_count,permalink&limit=25&access_token=' + token);
+        const postsData = await postsRes.json();
+        if (postsData.error) throw new Error(postsData.error.message);
+
+        const posts = postsData.data || [];
+        let totalLikes = 0, totalComments = 0;
+        posts.forEach(function(p) { totalLikes += (p.like_count ?? 0); totalComments += (p.comments_count ?? 0); });
+
+        const summary = {
+          perfil: {
+            username: profileData.username || null,
+            nome: profileData.name || null,
+            bio: profileData.biography || null,
+            seguidores: profileData.followers_count ?? null,
+            seguindo: profileData.follows_count ?? null,
+            total_posts: profileData.media_count ?? null,
+            foto_perfil: profileData.profile_picture_url || null,
+            id_ig_business: igUserId,
+          },
+          estatisticas: {
+            posts_baixados: posts.length,
+            total_likes: totalLikes,
+            total_comentarios: totalComments,
+            media_likes_por_post: posts.length ? +(totalLikes / posts.length).toFixed(1) : 0,
+            media_comentarios_por_post: posts.length ? +(totalComments / posts.length).toFixed(1) : 0,
+          },
+          posts: posts.map(function(p) {
+            return {
+              id: p.id,
+              tipo: (p.media_type || 'IMAGE').toUpperCase(),
+              data: p.timestamp || null,
+              legenda: p.caption || null,
+              likes: p.like_count ?? 0,
+              comentarios: p.comments_count ?? 0,
+              url_midia: p.media_url || null,
+              url_thumbnail: p.thumbnail_url || null,
+              permalink: p.permalink || null,
+            };
+          }),
+        };
+
+        const jsonStr = JSON.stringify(summary, null, 2);
+        const filename = 'instagram-' + (summary.perfil.username || igUserId) + '-resumo.json';
+        const blob = new Blob([jsonStr], { type: 'application/json' });
+        downloadBlob(blob, filename);
+
+        setStatus('ok', 'Perfil "' + summary.perfil.username + '" baixado! ' + posts.length + ' posts em JSON.');
+        document.getElementById('profileSummaryArea').value = jsonStr;
+
+      } catch (err) {
+        setStatus('err', 'Erro: ' + err.message);
+      } finally {
+        btn.disabled = false;
+        spinner.classList.remove('spinner-active');
+        label.textContent = 'Baixar Resumo';
+      }
+    }
 
     function openTutorial() {
       document.getElementById('tutorialModal').classList.add('active');

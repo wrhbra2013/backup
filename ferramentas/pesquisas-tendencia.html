@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; connect-src 'self' https:;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:;">
     <link rel="icon" href="/favicon.ico" sizes="any">
     <title>Pesquisas em Tendência - Motores de Busca</title>
     <style>
@@ -211,24 +211,7 @@
     </footer>
 
     <script>
-        const PROXIES = [
-            { build: (url) => `https://corsproxy.io/?${encodeURIComponent(url)}`, type: 'text' },
-            { build: (url) => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`, type: 'text' },
-            { build: (url) => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`, type: 'text' }
-        ];
-
-        async function fetchViaProxy(url, asJson = false) {
-            for (const proxy of PROXIES) {
-                try {
-                    const resp = await fetch(proxy.build(url), { signal: AbortSignal.timeout(10000) });
-                    if (!resp.ok) continue;
-                    const text = await resp.text();
-                    if (!text || text.startsWith('<')) continue;
-                    return asJson ? JSON.parse(text) : text;
-                } catch (e) { continue; }
-            }
-            throw new Error('Todos os proxies indisponiveis');
-        }
+        const DATA_URL = 'data/trends.json';
 
         function montarLinks(termo) {
             const q = encodeURIComponent(termo);
@@ -258,32 +241,21 @@
             corpo.innerHTML = '';
 
             try {
-                const geo = pais === 'global' ? '' : pais;
-                const url = `https://trends.google.com/trends/api/dailytrends?hl=${idioma}&tz=-180&geo=${geo}`;
-                const data = await fetchViaProxy(url, true);
-                const trends = data.default?.trendingSearchesDays;
+                const resp = await fetch(DATA_URL + '?t=' + Date.now());
+                if (!resp.ok) throw new Error('Arquivo de dados nao encontrado');
 
-                if (!trends || trends.length === 0) {
-                    throw new Error('Nenhum dado de tendencia encontrado');
+                const data = await resp.json();
+                let terms = data.terms || [];
+
+                if (pais !== 'global') {
+                    terms = terms.filter(t => t.geo === pais);
                 }
 
-                const todosTermos = [];
-                for (const dia of trends) {
-                    for (const item of dia.trendingSearches) {
-                        todosTermos.push({
-                            titulo: item.title.query,
-                            categoria: item.category || 'Geral',
-                            volume: item.formattedTraffic || 'N/A',
-                            url: item.url?.query || null
-                        });
-                    }
+                if (terms.length === 0) {
+                    throw new Error('Nenhum termo encontrado para este pais');
                 }
 
-                if (todosTermos.length === 0) {
-                    throw new Error('Nenhum termo encontrado');
-                }
-
-                todosTermos.sort((a, b) => {
+                terms.sort((a, b) => {
                     const parseVol = (v) => {
                         if (typeof v !== 'string') return 0;
                         const n = parseFloat(v.replace(/[+,.]/g, ''));
@@ -294,7 +266,7 @@
                     return parseVol(b.volume) - parseVol(a.volume);
                 });
 
-                todosTermos.forEach((termo, i) => {
+                terms.forEach((termo, i) => {
                     const tr = document.createElement('tr');
                     tr.innerHTML = `
                         <td class="rank">${i + 1}</td>
@@ -306,97 +278,19 @@
                     corpo.appendChild(tr);
                 });
 
-                status.style.display = 'none';
+                const dt = new Date(data.updated);
+                status.className = '';
+                status.style.display = 'block';
+                status.textContent = `Dados de ${dt.toLocaleDateString('pt-BR')} ${dt.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'})} (fonte: ${data.source || 'cache'}) — ${terms.length} termos`;
                 tabela.style.display = 'table';
 
             } catch (err) {
                 status.className = 'error';
-                status.textContent = 'Erro: ' + err.message + '. Tentando fonte alternativa...';
-
-                try {
-                    await buscarAlternativa();
-                } catch (err2) {
-                    status.textContent = 'Erro ao buscar tendencias: ' + err2.message;
-                }
+                status.textContent = 'Erro: ' + err.message + '. Clique em "Buscar Tendencias" para atualizar os dados.';
             } finally {
                 btn.disabled = false;
                 btn.textContent = 'Buscar Tendencias';
             }
-        }
-
-        async function buscarAlternativa() {
-            const status = document.getElementById('status');
-            const tabela = document.getElementById('tabela');
-            const corpo = document.getElementById('corpo');
-
-            const rssUrls = [
-                'https://trends.google.com/trends/trendingsearches/daily/rss?geo=BR',
-                'https://trends.google.com/trends/trendingsearches/daily/rss?geo=US'
-            ];
-
-            let xml = null;
-            for (const rssUrl of rssUrls) {
-                try {
-                    xml = await fetchViaProxy(rssUrl, false);
-                    if (xml) break;
-                } catch (e) { continue; }
-            }
-
-            if (!xml) throw new Error('Fontes alternativas indisponiveis');
-
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(xml, 'text/xml');
-            const items = doc.querySelectorAll('item');
-
-            if (items.length === 0) throw new Error('Nenhum item no RSS');
-
-            const todosTermos = [];
-            items.forEach(item => {
-                const title = item.querySelector('title')?.textContent || '';
-                let approxTraffic = 'N/A';
-                let category = 'Geral';
-                for (const child of item.children) {
-                    if (child.localName === 'approx_traffic') approxTraffic = child.textContent || 'N/A';
-                    if (child.localName === 'picture_source') category = child.textContent || 'Geral';
-                }
-
-                if (title) {
-                    todosTermos.push({
-                        titulo: title,
-                        categoria: category,
-                        volume: approxTraffic !== 'N/A' ? approxTraffic : 'Popular',
-                        url: null
-                    });
-                }
-            });
-
-            if (todosTermos.length === 0) throw new Error('Nenhum termo extraido');
-
-            todosTermos.sort((a, b) => {
-                const parseVol = (v) => {
-                    if (typeof v !== 'string') return 0;
-                    const n = parseFloat(v.replace(/[+,.]/g, ''));
-                    if (v.includes('M')) return n * 1000000;
-                    if (v.includes('K') || v.includes('k')) return n * 1000;
-                    return n;
-                };
-                return parseVol(b.volume) - parseVol(a.volume);
-            });
-
-            todosTermos.forEach((termo, i) => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td class="rank">${i + 1}</td>
-                    <td class="keyword">${termo.titulo}</td>
-                    <td><span class="category">${termo.categoria}</span></td>
-                    <td class="traffic">${termo.volume}</td>
-                    <td class="engines">${montarLinks(termo.titulo)}</td>
-                `;
-                corpo.appendChild(tr);
-            });
-
-            status.style.display = 'none';
-            tabela.style.display = 'table';
         }
 
         function pesquisarManual() {
@@ -406,6 +300,8 @@
             window.open('https://www.google.com/search?q=' + encodeURIComponent(termo), '_blank');
             input.value = '';
         }
+
+        buscarTendencias();
     </script>
 </body>
 </html>
