@@ -1,31 +1,58 @@
 {
-  "updated": "2026-07-21T08:33:55.317234Z",
+  "updated": "2026-07-21T19:27:52.644411Z",
   "source": "google_news_rss",
   "terms": [
     {
-      "titulo": "Novo premiê do Reino Unido, Andy Burnham, assume governo e promete 'nova economia' para conter crise do país",
+      "titulo": "Irã ataca Bahrein e Kuwait após EUA bombardearem sul do país",
+      "fonte": "CNN Brasil",
+      "categoria": "Mundo",
+      "link": "https://news.google.com/rss/articles/CBMipwFBVV95cUxON19DZVkxQkUzMVdTbUxocGE0amV4UTNTUWdRWVp1OTh0TzdKZC1jTzBWT0h0MnZyWlR0RDdsdlVINTF0U0d5djlUVTFaN0pndUlMcUY1VmUwS00tLUVyZkxxR2x5cE9qOUc3TlRPb2tWdFM5aXVuRFg4aE4zckRJdkRqUHA0b3pUU1FINjRhcnZQY1haWW5uQW5BSDlwYlphRU5ZTTJfOA?oc=5",
+      "publicado": "Tue, 21 Jul 2026 12:06:49 GMT",
+      "geo": "BR",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "'Verdadeira natureza autoritária': Marco Rubio critica decisão de Daniel Ortega de cancelar eleições na Nicarágua",
       "fonte": "G1",
       "categoria": "Política",
-      "link": "https://news.google.com/rss/articles/CBMixgFBVV95cUxPSjViMUJzLXlxR1g1N3dpVVV2eW9jNm9QNk1KVTRLaEdfald1N2ZJcnBiTjNDdWQ5ZUh3OW9XdmM5cGhtNzM0OUZXcFBlS1VOVDc5ckRyNkpLa29xUUg0VU1reEd1cDRFemZ4WndmSFFxcU4wb2M2bUxDTUVmMmprcjFNRGd3UmRBSDVLVnlmSFVrclF5eFo0eFBHR2NZTmhZLVNpNTN6TVJPNExDNGFmT2wweUxkSDNHOVZxekxKc1hzdVlJYVHSAdQBQVVfeXFMTmV0WkM1NktIeThJa3FBd0FxT2tSdkh5TENfY2padDBfcHNDWi11bW5CMWtSdU4zNHYtbXMyWU5HU2lySjZKbVl4YXVGMTF6blRkRDRQVk9BMDFRUDJub1JIZmlneHFyM3FYMklrdWM5YmRpV2tEQUtyWFQ4YU01UDVPeHVnUlBSd1hqdFh0RE9vSkhOSll5SFFTQ1A2VXFSb0VOZERzSzRlZklLMFFyYUgxV2JCSG5GT0V0Y2tXalRGWmZCdmktRTltYUQzNFNxQ3RRdS0?oc=5",
-      "publicado": "Mon, 20 Jul 2026 12:02:13 GMT",
+      "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxPMG41em9XcWdhUHkxZVJvZlJ0bVI5R1UtRjNVbHkwYlZoOHJ0UFpDelNldmNyT0UtZ2ZOWUFoVm5zNmZNRUJpQ01TZ2dZZnlQQkcwT000Vk1tU2dzdExSbGdLRWw1MGl4blQ2Tk5udmVMbWRscUFMM0dQcUZQRjNtaUhkNDUxR04zTElCbFJLY1gzOXh6VlcxRTRBQzZrRUN2N2JVQVJibmFZMmVRVF9z0gG-AUFVX3lxTE9yT2ZFeE5zdFdTand6MzBqd2k0SkNQck5DTVhNMzVCV1ZfZjVmUnZBYllLeFRoa2lwYWZoMS13Zmk4bkkwN0VJRmFDNlhQbzdtaFUyMTdRWl81WWh4UmF6NjZxY3Y2MTUyZ2xaMV8tR01uSUpsSTNxNFdJYmFkTWdnUVpHTS1aMHRXeHliUGlqWnhCZUVVVENicnh2bDVQaGlXemw4UjYyT1N3Sng1aFE0eUVuVzJMeFlsV0pkN1E?oc=5",
+      "publicado": "Tue, 21 Jul 2026 14:30:42 GMT",
       "geo": "BR",
       "volume": "Trending"
     },
     {
-      "titulo": "Quem é Daniel Ortega e como é classificado o governo da Nicarágua? Entenda",
+      "titulo": "Trump diz que EUA vão atacar 'muito em breve' a montanha de Pickaxe, no Irã",
+      "fonte": "G1",
+      "categoria": "Mundo",
+      "link": "https://news.google.com/rss/articles/CBMiugFBVV95cUxQVWFpZUVwNnMteFZ0TkFkVnAya2xnQk45VTBUZDFBbHhMb3lTN3NlUmx2Vy0xa2VEUFlZbEoybUZiMC02dGlkeDlYN05FOHUxMi1LcGd2aEZiTWxuR1hUS2loQThmYjB3eXdKZkdQTklsRzl5dFdJQVdtWVhZWTFJUUJJV09KS3BKY3ZsalpCLUdwcmxVQ1BrZ2FoODhKcjdQQ0tPOE8xTWdLRUxDc2t2c0lSbU83OXpOX1HSAcgBQVVfeXFMTVo5cFl3eGdnMlhPQUNKLW10MEplTFNIQnkzVndOcXE0X2VrcWsyeU9NLTNLbk54R3Q3V21SQW12M296NkdtVU1pUTg1UUNocFZiQktkal9tN1daSlZYTzdJTXdmU3YzREFCbTJ3UnFodjFTbjZhWDNCSS1sRnVzTUMyYjRQT0JuQkcxRmJyOTRNNXQxXzA1TmlwX240MmhmVDNVYU1pbFJWRGtjWHdMaF9qVGdjM3BRS3NTaGJ6WFFOZFdGbi1yZEw?oc=5",
+      "publicado": "Tue, 21 Jul 2026 15:47:09 GMT",
+      "geo": "BR",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "Tropas do Líbano se posicionam no sul do país após retirada de Israel",
       "fonte": "CNN Brasil",
-      "categoria": "Política",
-      "link": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxNUnFHb0VhNzZhS0tNQU1ZcWxKM1YwV2VtQlZrQk1NRDZ2UWFKelBQQzloakVod0pSRWVLYkhVdGxJcXpvdlFBYzUxcFRsT2M2c1lQbTNtQlVXcTlfS2VnYnBLdnlhNzUzV3hIdEFPY0xwNDBJcXR3QXB5cDd6RTJUNHpJa1p2T2RkT0NOYXhmd1gtOUhDbVVSSnBTVDgzTW1oT1Y0VXlNWXBRT3RFb1hBWjJIa28tMzNk?oc=5",
-      "publicado": "Mon, 20 Jul 2026 20:53:02 GMT",
+      "categoria": "Mundo",
+      "link": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPQWFRaVlwdllFMS1CeU9LVFNuR3JuSk5GS2k1QmFfemtBZHdYREc4OWFLMUdHQXVKMXIwSGN0aTlSQ1V3a3NSMXhqc05RajF5cGx3bEVTbE5IUWltRnRVLUFqay1vNTlDdzRrOXB3M0FEcnlwVkdDQ0lrOU8yMWlmdDBWQTJhNk9PSk95Z05wZVhDYXNkSnVzdkNoQ1dxMVpoMmdKYkRLRXNqVjVwRFkxTDdKUQ?oc=5",
+      "publicado": "Tue, 21 Jul 2026 14:00:18 GMT",
       "geo": "BR",
       "volume": "Trending"
     },
     {
-      "titulo": "Houthis do Iêmen anunciam 'embargo marítimo' à Arábia Saudita em rota crucial do petróleo: 'Olho por olho'",
-      "fonte": "BBC",
-      "categoria": "Tecnologia",
-      "link": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE96dF8tOHBodl8zS1FBOFFUUGQ3SmVJOVg1VmFtXzZaSXlOdDVFeTFoeFMxMlFKUnpyQ2dYYmdtU0JEYVJlaF9SY1FVellqQW5NMzFHTGg3VjQ0VzBhMlAzVlZn0gFnQVVfeXFMTkdncTlKeDlUU3pNZmh2am5xODZsOTBkeWZrM0pHLVJaU1RzYWVpRzVobUdGZzI2ZDhMcG13ODRIbHVVMFExY0g4dFBVbXAzNElUbmE5NEozUzlMSFJqVnNrOUo5SUoyaw?oc=5",
-      "publicado": "Mon, 20 Jul 2026 20:31:29 GMT",
+      "titulo": "Petroleiros sauditas dão meia-volta no Mar Vermelho em meio a bloqueio naval dos Houthis",
+      "fonte": "G1",
+      "categoria": "Geral",
+      "link": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxNWEotUnM0YUYybGRuVS0takd5VThCQTJzQzhTc3ZnQ0g0OGJnZ09IOFZWZkJzS0oybm8wSDdEaDNjZGZYVm1JQjlndzNsc1RwZUREVmh5d0gtdzBfeTVJaHB3d2tPb0xhUFVTck96MGNxUEp0RHlKQmlSUGlfSlVXNjhKVVg2S01WSnFuUDVUOFJWbTRwX0l2OUNJdlZ5NUdWMXRfRGlPWlE4N1BReVNZdWlGbDFTNnRvQjBmMWJjS0rSAc8BQVVfeXFMT2dsRHY0ZFNKblFUb3ZoZVRQWklRVnR6VkZrWnU3Q1VNSVdVSlFhMmlDMF9FWl9sZEh1SlpOM3hzM1ZyRExIYmp2Zjg5MFNEZWFCamtpdUFiUVlYeHRtU3Y5WU42Mk41Z2tWbnNrTkhReUl0U3VrS2hiOXYtTnh0ZHlnY2FyTE9peXhvQVpoVDNoYVFmRTRMWEdEOGM5UkxYSlQ3QnR6Y2NJZkNwOFUzbjlXdnZCMmRJZlQ4NHpKalh6SVZGeUhQcHEtZDBDdlpv?oc=5",
+      "publicado": "Tue, 21 Jul 2026 13:03:15 GMT",
+      "geo": "BR",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "Contratado como 'funcionário público', gato Larry passa a viver com o novo premiê inglês",
+      "fonte": "Terra",
+      "categoria": "Geral",
+      "link": "https://news.google.com/rss/articles/CBMigAJBVV95cUxPUTl1ajViZEtnZ3pGWVpaZ1hTcjVmLVpEWGU2emIwNzgzRllNUWpoUFowSU5aS0NSQm00VGZYWFk2RkVGeUtydjZRVklRT2JhZ3JONUpqNURxbFJsYlJYWUp1TnZrRTFxbDVWWFU0WmM0ZVZFOXFMUlVkaUZQRWl2Qk1iOXhFWGxYX1J0MkNpdmdnbUplSEtOX2R6U3pPTWJwZ2xnejIzWVZqbTJuOEdCUHc1T3dpdFJfb211NW9QVHBMOFluRDNCUmpWZGF0UFREVmd1VV9kR1pjYzhWbjVYRzZsRm45TFBuWUw0MFlsRVlRWVF1eXAxNTUxWXJfRGZi?oc=5",
+      "publicado": "Mon, 20 Jul 2026 16:35:00 GMT",
       "geo": "BR",
       "volume": "Trending"
     },
@@ -39,74 +66,92 @@
       "volume": "Trending"
     },
     {
-      "titulo": "Jovem de 19 anos está entre os militares americanos mortos na guerra com o Irã",
+      "titulo": "Japão reforma monarquia, mas ainda exclui mulheres da sucessão",
       "fonte": "G1",
-      "categoria": "Mundo",
-      "link": "https://news.google.com/rss/articles/CBMiygFBVV95cUxPYW5ORlo3OWRhYmllV0NOTUhQYnRkVkYyQUctT3hMRld3U2NuZ2pUMXhndEEtX0JiVnhaTTV2ODVoZS1sZGN1NERwUjM5cEVaVzlCTktHMjFWSWltT1BQYkZnRUg1R3l5RVlWMjU1SHk4RndjZVZaa3B4Z1NqaEFJa1NLcGdnT1Z2dm9jTTFaSVJiU1ZGTmFhOWdGZjlTMldiYlZBRmh1VFhCRTk5cUN0VHh0WlVsVS1ObW9DUEFPM3JTUEZpVDNCZnBR0gHYAUFVX3lxTE1HR19IQTFBYXpVamJpVGlnZ3VER0ZmMkg4SDFRRFlpNmZMTDlGZWtvQWxIMm1kc3ZjOFJxMmJEc190cS1TSnZtck5CNGwzTWE5TWZkalFQdFR3Rko5U3lvc0FTZGVDeEJXTUpXTWNrUkZ2MlNidWs5Yk5HbGdFR0xyckVSb1BuNUU2c2FydkIyd1c0bEQ2Uk05TzgwZGx0d1R4NDNmQ1E4T1ZlVkN4ekJnSWo4SVgyN2x1V3NCcUVPRmZwQjJxZUkyQ0RTQzBuaVdnWFhsMDdJRg?oc=5",
-      "publicado": "Tue, 21 Jul 2026 02:36:05 GMT",
+      "categoria": "Geral",
+      "link": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPX1lZNlVNSGxidlVUM1Nyakp4eDZ0eURDZk90TkhGS3FqVVBRbjR4a19QalRTbXlaUzBMRHJFdWVfajFURGFfaE9YVmpPcVFCUml1cW5GcXFpb2xZWXhDeHY2YU9vUmY4T21XZndseUpqT2lGYUtRS3NneHpPalNPRzJaTW9iZ1o2R2E0bWd2M3dLdUZRZy1ybnlUWnlpbnBmOElqSDlJZ19Bb0ZwcnVsNXJIUdIBwgFBVV95cUxPZ1JhNHUyMEhUYjRJQWdVMzRxZkdTdVNXXzdjWGdsNXFrZ1BzLW9FU01aM3M0T015NFdvaDFBNjVtekQ4cHp0dTNDVElaLWMzS2lvdWFFcE0yYU84Sjg5a1BhU3JVWGNCSHU4REVZWUVoc1V0NkhFUDZBdE8xdmtZd25VNFJDTnl2MzFIbHNqU0Vwa2gySGJLZ3RRclQ4NVpFV0NQX0VyWVpwc01EYXlRXzZsNG12TG1qN1NmWnFHU2xOZw?oc=5",
+      "publicado": "Tue, 21 Jul 2026 17:49:38 GMT",
       "geo": "BR",
       "volume": "Trending"
     },
     {
-      "titulo": "Irã envolve mais aliados americanos na guerra e ameaça estreito no Mar Vermelho após novos ataques",
+      "titulo": "Irã ataca radares e sistemas de defesa americanos em resposta a bombardeios",
+      "fonte": "Correio do Povo",
+      "categoria": "Mundo",
+      "link": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxQSFE4QzZnbDV0QTdXMW5oVGVGTnhvc0hkVnVuXzVFbkh1Tnd2YUpLUzBsR1ZENmlGcDFGZG4yODRLRHNwc3BhQ3RneEEycE1ZNHptVlE3cXVkd3NRdm9HQjBwQ3gwSGU5ZTc3a1pDc2NHcTdmX2tVN2s4SW1IZFBiQy1YZGpabDZkYnllU2VodjNkOVFNMUh4cUhhNGcyRHFSTmVyNkhyVzBMdDlqNUp5YjI4SmdwdVprYUhYTG4zUkRncnUxdE91eFI1Wmh5dHRNa0puVA?oc=5",
+      "publicado": "Tue, 21 Jul 2026 11:38:49 GMT",
+      "geo": "BR",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "Ofensiva de Trump contra as eleições pode levar a um autogolpe nos EUA? Entenda",
       "fonte": "Estadão",
       "categoria": "Mundo",
-      "link": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxPVllERnZjalZNNE1YM0hWUUZUcHBuNVkzOEluY1E0Z3BmTE9GS011aEdxeVlJbjBlemlGbU4xOThfVGxiSENUVWFrcnBVY0VVSGRGTWExWEQtOGtMUldCSThfMWMwNGt1c3BBMzRKQkxRdFREUFlxd2NDeHhKNFJ4SkJockJWZ3dKYURwa2NpbTNBdm9UZllTdFdwYzBpckp6QkFwTGtncWtHaHV4SVhuTVFNbWQzQ0ozQVZvQ3puM0cweC1fMGozSEI2SXd6UUExTElxRURDWU1JSUN30gHiAUFVX3lxTE13YldMTkliZFJKWURDT3E4UjRidjZPNU44bHd1Xy1hNHlNbnNyOWFjcjJLYnRiSHhiM0pRWEdzakpCRy1NY3ZLZXdSQlZ4cmhwbFpNUWFXZXFKeXFMb2F1OWlpM0lycmxPUV9NcXRnYXdxU2FLWFl2dFBVcmdCTHV3dDNYT2loR0l5MVRoTHBsc3hpLXhWYXlQWGhXYjdTaV9zTy10RGY3OHZsUjFaSndzUjZtNWkyUVotVzQta25GZUgtNnZLSGl1QmZUMG9XYVhna01QcHlNTFY3N2UtLTlHaWc?oc=5",
-      "publicado": "Mon, 20 Jul 2026 17:52:00 GMT",
+      "link": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxQejMzeFlfQVNnOHh0OTFta2g4YXZNNEo0TzVJR0VxNUdpVjFCcGd0bzJjVjFwTXpFaG4tNnVsSWF0Z1h5Sm9FVUtOUGZlTmVfekFtdkUteHoxanZGb1VmZFhRRTQyVlB3Qko5UF9FVGpLcDJ2NnltclhzcFRRTzY4alQtWUdHbE9QNW5xYjBCUkMwek9rZVhLcUR6VHozYVJhc3RSVWE0SE9rZkxBUlJPSDdTU0s2QTEwUWp6bkt4UW5JQnhRc1Q4R0pNbjU4REJMeDVvSEdn0gHbAUFVX3lxTE1vZEhzbTVWemZPTlByMjZKUDh0TF81VU11TzJ2Skp6S0tjcDB5RWxuOHRRSGxEUG4tSThmbThFSmw2bk15aFFsQVJWcWNHcDFSejVDSTgwaG5zVDZ0Y0NOZVU1ZmstZW5yQ19kSUVVZ2xpUkp2dTJZZHdNYi1BLWhGWXVZNUp1b1E3ZkI1a3A1R0t0NnQ4UDdYU3NmWmVYTXZNYlBuYmtNRV9UYVo4VVlBWGVBMmp4UmJZbTdCVEdLQ2ZyajcyUmFpcVRGVFBWSFFjeU5xYkxyTzk1TQ?oc=5",
+      "publicado": "Mon, 20 Jul 2026 21:00:00 GMT",
       "geo": "BR",
       "volume": "Trending"
     },
     {
-      "titulo": "Petróleo cai após sinal de mediação entre EUA e Irã",
+      "titulo": "França aprova proibição de redes sociais para menores de 15 anos; medida é inédita na UE",
       "fonte": "G1",
-      "categoria": "Mundo",
-      "link": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxOczh4M1ZudFBmMHI2U0NiaDJaQ1Z5SHRXMFlmVVJHN1QwTC1sbEVaQ2J2WHQtZ0QyZlNmVV9RTXFYWnY2R1pQN0NqbkRjM21EOUdPdTZNdnhuSHBNTU8xZmlyb2JVbXl1Szh6MEttTDJfdlJGbWQ1Q0hsVjUyWW5Ea1BEemNpNktJM2lHVGNkcHBacjNHWXA2dkJoZ0t3aXRwV3BzYTVpbjBGQdIBuAFBVV95cUxQNzhUdDlsalJoM1Bacmp4Zi1QS1FfLW1FM0xQS3ZIbmh4Q2pKUE1qQ2Q2OFhITnRzY3VxUXR1RTZYN2pYdXRkekdIX0ZFYTdnVnZWOXQzd2J3UEZvRXJ4NjIxTVZlVHM1ekpGS2VUVndvWkNrZGUzWk5lclB1SEwwM1B1dTd6QVJVVmx6MHd4M1hramd0MnlmMXU2cEtNSzlQVGRtS09obExRX2RpY2F4OEkyMW1Mb2Z5?oc=5",
-      "publicado": "Tue, 21 Jul 2026 05:45:23 GMT",
-      "geo": "BR",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "Alunos protestam em Calcutá em apoio ao \"movimento das baratas\" na Índia",
-      "fonte": "CNN Brasil",
       "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxNM0ZTQTNHNkJJSXNONmt0bXFoUzJqTnp1SThBU250a3FIbHdFQmVtaldmeEx2cUUya3k0YWZScE9ZN0VVdzhZZmhEeDQtVXZaVjIwdTF4U1dfaEs4WHJPeUpBczVNVHo2allIZ04zYjFERW92ZEJrdzhVSENsN2xyYlRtbG9FdlpYN3ZBSFpHYVVYakg1LUowNjNqYkItbFgyY2diMDlzUmcwdlI1cm15Y3U5UkI?oc=5",
-      "publicado": "Mon, 20 Jul 2026 18:44:07 GMT",
+      "link": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxOYVVDUU9WRmI2LVVETkJYbnd5X05kMnlUUG5xbzc3dzNiY0V3dkxEb0Z5NkZfZk1jR25fUTNzUzBsc3NLMnN3c2lrUjRhSzdNVXgwRnExS0Z0OUZUZmNzUzZFX3ZlWmhqMGIwd2hDYnNxNWlLYUNfRkJIQzJNOWFfVEZlS2pJUlJTSTBWS1pRRXVYMm4zZTBDTjY5NGJRZ0VRdGZmeks5aFozV2Fveko5Y04wMnFTcWJTS2t4Z3VfU1NZMEg3ZlNodkdWVzRmaEdVTjQ1dzZXakw3SHly0gHrAUFVX3lxTFA4cHJQUXZqblMzS2V1UnU2TmtsS3ZheFZfX1dQR3dOaUh3Rjlwc1lRYXJUektZMmRUcjFfdnRnY3R6YVhDQjhvUUZoMW1KRldPRE1uYkxNU0tySmZ2a3BCMnAxd2lSeWVKN1hjNnEwZ180MVgyR25rZ3QwZk55dXI4NTZfZndJcTdyczZIdU9TY2dGVHZ1VzZiS1dCbGhpT21hMVk0OHFvb3hOVUJLSERJVk05RnY4WEFhRnB0QXhLWXFfWUhWVXo4bkJHMGRTRUVWTk9kOW11cVN5aFp0M0lCUVdNMXpyS1RUUjA?oc=5",
+      "publicado": "Tue, 21 Jul 2026 17:58:54 GMT",
       "geo": "BR",
       "volume": "Trending"
     },
     {
-      "titulo": "Petroleiro é atingido por projétil no Estreito de Ormuz, diz agência",
-      "fonte": "CNN Brasil",
+      "titulo": "Doença do legionário mata quatro pessoas em Nova York; entenda o que é",
+      "fonte": "UOL Notícias",
       "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMisAFBVV95cUxQR3lkYW5wTVZ1LVA1TzVQcW5ySWI2Tko1ZElES1cwMm9LU3dnaEsyRmpKQTFpNEFhWVRoSXNEdExiNXAyS0xvWHFFWm5GYnRsMnVYU24yZDE4Z09qckJfTnhqb1dGNUJobXZ1Y09xR1QtUmZLNTU3UWZXWkxwQklVR1p0TjFSbjJDWlE1Slgtb19NX1V6YVNnT0ZpTzhVdWh5dzRpbEwyX3dhLTFxSmpVbg?oc=5",
-      "publicado": "Mon, 20 Jul 2026 20:31:53 GMT",
+      "link": "https://news.google.com/rss/articles/CBMizAFBVV95cUxQbWRBaHE5UGJ1UWZZMTR5U01YMHktaUxuTndGNlByd2t1VGhOVTlnM0hOOGwxUHN5R3VYLVp0THBoak1VUjVrdEZlbWd5bjFEWjAyWThjVldkazFvaUxEbFM0dWhRNU9qQUV0RUV4WmNyZkd3dW1SeU9nZzBWd3lJeXgyVVFLdFhqSWNtTld3LTE2T1Z6WnFUTzRsVDY3bzVKeUtNZE5oVGptUTVUWkJleTFWS0U1SUcyVUVkLVp3YkFWNkp5Z01WQTV5WlI?oc=5",
+      "publicado": "Tue, 21 Jul 2026 12:51:26 GMT",
       "geo": "BR",
       "volume": "Trending"
     },
     {
-      "titulo": "Número de mortos em ataque russo a embarcação na Ucrânia sobe para 10",
-      "fonte": "CNN Brasil",
-      "categoria": "Mundo",
-      "link": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxNczlDTnNzdXBtSDFKVFdQc05IeFBfR1B5ZjJSbS1KU2Y2RVl5blQ3bGMySDBjaThYN0laemZMRHhaLUtEak9MU3BNNjF4WHBmVmFZemR6elF0STVETkVZOW1sZm1helY3THZEbWdON2NUZF9CZlRiNVRmM0dzbW45MFNfNWpnaE1DVzdlUTI4QWtzSnRXLTVVNEhZNS0ybEwyLWRzOVl3ZzE?oc=5",
-      "publicado": "Mon, 20 Jul 2026 06:40:23 GMT",
+      "titulo": "Brasil tem menor índice de fome da história, indica relatório da ONU",
+      "fonte": "Brasil 247",
+      "categoria": "Geral",
+      "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxQZ2NOMEFkZnh0Slc2NWlidEJ5QzhiOUx4SUVpTHVFMTZwdTRIWHc0M2dLSDluMXVjc0p4RGt2aVJmUjhaN0c0TUY1S1Nyal9jaDE2QkZEb0JBX1RVbnEzdGQ0NTJVN2xXLUdYYnh2RzFKTTB0eFlDZmlxOF9SNkc4ZGlPcWJaM0d0eWpaQ2w2NGJLZllITzQzOGExampBRkdBc3ow?oc=5",
+      "publicado": "Tue, 21 Jul 2026 15:41:00 GMT",
       "geo": "BR",
       "volume": "Trending"
     },
     {
-      "titulo": "Novo Air Force One doado aos EUA pelo Catar vai ser modernizado, diz Trump",
-      "fonte": "CNN Brasil",
-      "categoria": "Mundo",
-      "link": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxOTm5EanVMaXAtd29NTUZmNlZjX1ZKSEFBZEMzWmNicGlHazhmdEtDcTlhSWVPNFRoZzBKd0hGMHdwNEFZVWs3bHZxTUlLX0VzSF9iUkREcmVtWWJPWS1hSzdSVmZXOE5qbzBadjlqcFB0bmhFTzJYb3ZwdURsNzB3WXVncUxJQnFxMmplZlV3eGJCcnByd01oa05yZU9sVlpvN2lSZzdNNUVzSDRnOG1KU2xEOFJELS1J?oc=5",
-      "publicado": "Mon, 20 Jul 2026 19:57:26 GMT",
-      "geo": "BR",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "Israel começa a retirar militares de zonas ocupadas no sul do Líbano",
+      "titulo": "Ex-ministra britânica foi atingida 21 vezes com um martelo, dizem promotores",
       "fonte": "G1",
+      "categoria": "Geral",
+      "link": "https://news.google.com/rss/articles/CBMivwFBVV95cUxQY3RScUVxNllyTmRYNTYtWEJNQ1BwZnBud2Z6OGdLM1k5TWlIZm1OOVZjcmJMcWh2ZnZKWFJFbUQxZGRYSm55a1dkOE5sZUdZSWtFSzBCRTdUejlzSEZ4RzFaOGw2X3BkWlNFSHhNUVdiNTZNX19xUUtWVGNIczBFVzM0LTdvYlRQNnM0TTdRLXJsTVVXUkp5dXAycWZVU1N2aTY2bkVrc1pET3dIcnN0aDYxblY0R1BNeXU5OHFlWdIBzgFBVV95cUxOZjZiUG9xNzlVdFJoamRtQjVob2N2bTBSaVpNYWtZb3VzQ1dEY3hLVHBpOUtoTVctaGtrZzItTmdENm5OR0tSSTZlaFRLb1ljNFJjNmpRdjlNX2kzVkt3OE41ck9INWMxaklNM0d1X0JOdlRPMG1JWXVUNndCejBaQkZGTmxmblhDWFFic2FRR19STnFJNngtREFPZ0FxaDhvd19XR1pHQVUwY2IzTFBGTG9wUDZ5a2ZJTUlHdW9hR3MyZnNmR19BSVIwektnZw?oc=5",
+      "publicado": "Tue, 21 Jul 2026 13:13:05 GMT",
+      "geo": "BR",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "Jovens do 'Partido das Baratas' fazem protestos na Índia e pedem renúncia de primeiro-ministro",
+      "fonte": "Folha de S.Paulo",
+      "categoria": "Política",
+      "link": "https://news.google.com/rss/articles/CBMi2gFBVV95cUxOYThDLTVlb1lHdmwwYTFWNkFoWHM2ZWw3cWRaSGU2SVpMSlEySzdVMXFVVDFpQkxDdlNwNXB1dGNxSnlQeHFCa1RzSjB2RVVBWXR4NEc1X1IzNDBLMVhEb25zeVRGNklqN1RaSEhBMFVZdHVVNE95VXV0LTRMN2xpZ2M0TEF4aVpCNVQ3YkdzRHZxUWprZDFER1BWVGhtZG55MXZvN3JjNnU0SmlzS3lBaDREVElUel9nVWtCaG1wRjRtRVhSdnFnT0I3MU12WE5mZ1Z4UWlpb1ZJZw?oc=5",
+      "publicado": "Mon, 20 Jul 2026 22:16:00 GMT",
+      "geo": "BR",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "Leão XIV: não são as armas atômicas, mas o desarmamento que gera a paz",
+      "fonte": "Vatican News",
+      "categoria": "Geral",
+      "link": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxNX0JHQWROVldiLUEyVi1RMWJfanpKUWJYUlNESXlDX2ZvMXBVTGcyQXNERXA5aWZkOGRKbTlYRFZ4aVdXY3I2eEZvdExLLWVLck5nVVFVeGVRRFl5akFTN1RSVFRPMjFwc1ZfanRtSFgwODR0eE9UN2dyMG1CMkxVVmNNUGd3NzF3T0tuN3V4UUVEQVN1NWhvWnR6RS1ReE41ZWlHVjhLOWo?oc=5",
+      "publicado": "Tue, 21 Jul 2026 19:26:24 GMT",
+      "geo": "BR",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "Ucrânia lança 400 drones contra Moscou em novo ataque",
+      "fonte": "Portal iG",
       "categoria": "Mundo",
-      "link": "https://news.google.com/rss/articles/CBMivAFBVV95cUxNV2VMbXVCQ01ManhOVXBZZ1pCQW56aDJheE5uZ1FLSTg1VTlZNHo3dzc1c1JuQUtpNVpMOFZCdWtjblVDaFh3MFBQdm4xdVdRcDRZUHdnZ3BDWGlJb1YyZ21fNjlFV2poZ1AwUW1KbUMzVGlyTnFRRGRZVjVPSkZnV3JjdnRYSTB4ZDIxZktkWlBqVUZJa1ZGbFJxSUlEY2pIbmZzczJKNVdKaGEzSFRUdV9hdF9TbnBwREMzd9IBywFBVV95cUxQWENaaUdBMFVJR2pUdEEyaHoyYVRPcFo2NlJVS0ptajl6d2x6VHR0WXRMcU0wRWM1REFEUG0yaVU3ZDRzTTZ5aDBtOEtlQzFZcFFNeGxUZks0ZmJLQTNyWTNWenhPVXlpenhUQzZnMTJZRmVDcGNWTjlKWkF5MWhHX1QyUkk2WU9qVjNkUjJuZ3NSNC1zTmhlVHJXRlA5YkpWTWpZZGx4R21mOGZyaG00UW1IYmpBUEpraC1fMVJQUmxoWGxTX1U5SnZHUQ?oc=5",
-      "publicado": "Mon, 20 Jul 2026 19:59:33 GMT",
+      "link": "https://news.google.com/rss/articles/CBMiswFBVV95cUxOQmR4N04zYThSbDAzbDFfcXlzVGlRS0NtSzNXUHE4RTdFUGZ1LXRJbVpLdG0tQk80bnFHSFlHVkIzekpocV82QVlWLUxhSU1DWGt0a2V3dWxvQ2NacTVQWmFYaWduY0JfYndFZXFLcHYyN2djb0JZakxZdWItZzg4Qmo2Y25ISUVHQnY3XzJMX1M4N1RGUUtIY1FYZnRIc3hqUlAtRURhSllWaExKS2E1d2RGWdIBuAFBVV95cUxPZ0JDYWFaY2dyT3N2UU5FRXlBYlJWYmRjNGxNNEU4YVB4OTVlT054dnN0TElOakV3d0FxSFpOMEhTU3NWNmRSTXkyczQ2ajhGLW9PNEJXdkt4dXl1enY4LVREZjdwZVp3QzdXQjJmZHlLcF9xN3M1R1pGblh2UmVoRXZ6Y0JRaG41R1RZWEVZcXdJaVBnMEJucTJkbWx6Qmp2QjVtVjVrRTBzcnFpS3hFWUNmb2twTEw1?oc=5",
+      "publicado": "Mon, 20 Jul 2026 12:42:00 GMT",
       "geo": "BR",
       "volume": "Trending"
     },
@@ -120,11 +165,11 @@
       "volume": "Trending"
     },
     {
-      "titulo": "O que é a doença dos legionários, que já deixou 3 mortos e 74 infectados em Nova York",
-      "fonte": "R7",
-      "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMizAFBVV95cUxPTGl2ZURJN2c1bk5jVVRwRS1WWERoY1JIbjMxakU2cjZZN3I0SEp4LW5pYWc0bHM3WkN3RXBrSmNoNXBnVGRqTnU4XzNQRW5mNUpPc21mNnJOaDlGUjVkaGxhYnk0VlhhbGRsRlFKRk5yV2Y3dTZmcXRHbWtCaUx4Y0g1UGpkVnpfVW9ZbHlxZGx1X3k5LVRCNTZFQ3gtU0NIa2xyZ016SVVIWFBTeXlZeFlySldaaktjZGU4T2Zya3BVdWJsV09Pbi1TaUo?oc=5",
-      "publicado": "Mon, 20 Jul 2026 05:00:01 GMT",
+      "titulo": "Reforçando o insucesso: mantendo mesmas táticas, EUA não vai vencer o Irã",
+      "fonte": "Gazeta do Povo",
+      "categoria": "Mundo",
+      "link": "https://news.google.com/rss/articles/CBMioAFBVV95cUxOZlc5VlFFTkpXMDBRalgyUkg1SGZLVHdrd3FWZ1I3Ty1WT25WdS1lRktLakxmRXZKbExicFRGRFhkTkg4dGFuMUJpNC1zM0pDcFVmYW9wRGpFYVB6SU83N3JoLVVRU293NE9wLWZoZEsyVk84c1gtYUNabnFFMm9hU1BDWlhmcjJVVTZIQjlRaTYyT0ZQdjUwcmRraUZudUxy?oc=5",
+      "publicado": "Mon, 20 Jul 2026 12:48:00 GMT",
       "geo": "BR",
       "volume": "Trending"
     },
@@ -138,83 +183,38 @@
       "volume": "Trending"
     },
     {
-      "titulo": "Chefe do tráfico mexicano 'El Mayo' é condenado à prisão perpétua nos EUA",
-      "fonte": "G1",
-      "categoria": "Mundo",
-      "link": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxOSnQ5bWZiU3BleklZZ01TQkVXTk9fdGhkcU1EYzdjR0RfQjJCUFZYZjRLMUZ1NlVjTm84Tzc0TUdFY2NIajlTUnpJaElKVUhtUWNqaEJJNzJRQ2I0cUdrVUNibG9LVDgwdnVwT2k4MHB0cjBzQkgzQjdCRWktZjc0Tlh6bEZkUGUtUDNmVDBtMUN4R2lxM3FrSzBKR3JuY2dkRVZsYzhYemNleF93T2c0WE9wbHZ4LXBpa2FjcjJuai3SAc8BQVVfeXFMTjN0VU96SmlvNU01Rm96eFJiMDRsT1V2aVVvaV9IU25meTF0dU5aMXFYUjMtY2JVS2YxblA0N2tKa1B0ZGFBWkxUMFloNWNoTEthb3FDTEtTQVQ2YjBjYlhibzNsZnkzQWVUQzVSQThYWG5xYlN4aHVtNnkxLW1Fblk2c2V5WDRQOTlBeldyUUsweGQwRk5PUGgyWVozVWQ0VmxvYjEycV9DWWhhLXBKYW5GT01IR1hJcnFvTXNFUEFGR1FUZjA3TkRtNXhnQjE4?oc=5",
-      "publicado": "Mon, 20 Jul 2026 15:14:26 GMT",
-      "geo": "BR",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "Gabinete de Netanyahu responde Mamdani sobre prisão: \"TPI é fachada\"",
-      "fonte": "CNN Brasil",
-      "categoria": "Mundo",
-      "link": "https://news.google.com/rss/articles/CBMirgFBVV95cUxQOFdVcWVLMGFvR0lMQUR6WkE4dTk2SzJtZXVFZk1XMkVoMkM4RU93b1Fkc21fdWM3Q1NrRk40RHJENVpzd2RpWTU5Y0FMR05waHJhXzRER2twUnJDelRkakFKdzNkQW9EYk13eFFnYUdNZ2tXQVQtNWQ0bS1faUJfRzFzZ2dvZmROTXNXcW10V2VNVFVwZzhrTFJSR2xydF9ta1Y5aE1WQWtZZ0tOS3c?oc=5",
-      "publicado": "Mon, 20 Jul 2026 02:18:42 GMT",
-      "geo": "BR",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "Ventos de mudança: Após 16 anos, governo da Hungria avança com processo de 'desorbanização' do país",
-      "fonte": "O GLOBO",
-      "categoria": "Política",
-      "link": "https://news.google.com/rss/articles/CBMi5gFBVV95cUxOQWlTTnZmeW1VVFNYUl81bzd5TUQ1dFNRbUpCMEx1M0ozMURFdS1YSnh3OEV4ckoxcG8zb2NlUnJZd3BLUUltT2RKNk4yZ19EZUI3Q01NT1BmWFpxNjdDVnh2eDI1eXM1TnNiVzc2MUtDaW42Tm43azR0dnFhZ085cEl6Rnk0ckNrWEN2Ynh3YnhtM1RKb184SUhSdGFMSGstUTh6SU50bXRpNFRCaEE2bkNxSEpYLUhvc0FkbGstbTFNUVI1WnBkSi00MFhhc0tmWGdlcGhqdkFsX2xwQm85ZHlxYTF0UdIB9AFBVV95cUxQT3E1N0h5bExoY3ZhUDFTVHRWbXpwWGVKMXBZeC15dTVlR29uNE03UVY2RWdvY1pqd3lCeUkzME1vd1FlSVVhWUpCdjd3SWhFVG1pZ0hjVlY5MW1PSHl5dHFwZ2ZCb3VyTmFEU2sxaUlxZzRPTG5EYUZ3bXJ1UFp2Qno1ajFyVE04VkFra0ExX3pVMmZ1UlRwRlBpeVdhTG9vN0lxQWtKUUdtWlA5RGNKOTNMckdXNnRlVExjQ1ZKTkxtR0VVaV9lRXRsT25MM2RRVkY5Nk1IZkJMbzR6RmM1NjJqRWc0dVowcXcxYTdESVdjNzY1?oc=5",
-      "publicado": "Mon, 20 Jul 2026 03:00:20 GMT",
-      "geo": "BR",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "Ataque da Rússia contra navio carregado de milho na costa de Odessa mata 10 pessoas",
-      "fonte": "Valor Econômico",
-      "categoria": "Mundo",
-      "link": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxPZVRFdnp3SUZxY2w2b0FLMUl4ZWFBMjBPLWQzcXpURWV5eGRvV19ZdWNqMEowX015STgzQmNaY3loNDRlOVc4LTByMmFUeEFlQTB6ODhvYzhkVVRMaVIzT0NJYjBzOEpWY3NPVjZOcUlCeWllTGw3S3VEQTJRWGhhVzU5eE5acmZaTVhIQjFNV0s5MFBWSVp2UzRNNkRFWDFTUzVmNnpuSTFEQWR5cElrWXdIMmczTlJjQjFiY215M1JvUTEwQThCeDR3MXpxX0tETXRN0gHiAUFVX3lxTE11TWlOamRLa1JxRF9Nd2d5aXpNZE9FWXpuWThfYzk2ZmVXV0RYNEJfMGlFaFBLZ25QbEEtZnlJMzBNNS04T01TRTdhbmFQWXZXMVlBXy0ycUswU2M0RDZNbW5lcUpKY0tvMlJNTjFiZ1BZeDhyZ0drc1B4WVZHZHdwODl1S2p5aUpZdHg5eWFWRjZ0TWY1Nmg5WmlRYXQ2Zy0wbExCeFA0SlpweUl5WG5fRUtudXdjMS1iaGJ2VnJXNHdHcWlNUW1jVlFBbi1fRWJ3al9yZklNYmdTUTVlbm9COFE?oc=5",
-      "publicado": "Mon, 20 Jul 2026 15:12:43 GMT",
-      "geo": "BR",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "Incêndio em Madri deixa 26.000 hectares queimados e 1.200 deslocados",
-      "fonte": "UOL Notícias",
-      "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxPSmNpb0cyc3BsbVRMR0JiVUw0dEZTcjJwWV9TWU1RSm5JNDNpdzZHcVNSVGQ3SllxWG5tQVJwLTNZZnRQZFFpVkVYY1paT0VJZHc2TUJCM2hjSG5sZGJiS0dNakVCWkplX3ZHam1ubDVMdGdwNlBzb2JicVIwcWczSjY0STk5WkZoY3FoQ1lKUklvam9XLVFjREgxdnd2YjF6NjBOSDdFVTBwenUzelB4T2VaenBPU3oyU0UydTBuaGZ5b0c1SlYtajZnek1BckgtQnBGWWFR?oc=5",
-      "publicado": "Mon, 20 Jul 2026 10:45:09 GMT",
-      "geo": "BR",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "Hamas anuncia eleição de Khalil al-Hayya como novo líder do movimento palestino",
-      "fonte": "UOL Notícias",
-      "categoria": "Mundo",
-      "link": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxQTGwzbGF0VTdhMnJFaVUyeHdIbm52MVAzdDlUbHpzTGx1TW5GWGVEbWM5T0hxLTU2Ymk0Vlh3MVRlVVBZOHFJWTNMQmlVLWU1MGJxWHNIZ3pHa3BWT3J2eVlBTTJvMnBxcTFkUHN2eWVxX3VIRTRFVGU5eUpmeEZjWEFLNEYxR3IyZHE3d1NvUmR4QUdDSDJVdmhjQzQxbWlpV3dNQ3VWUW5hUHo5eTVHdjJYSHJvTGlfdm9wNFl4SExuNk4tOUlsam1IRTM3OVdHR1d6THFjMHNGZ28?oc=5",
-      "publicado": "Mon, 20 Jul 2026 11:17:25 GMT",
-      "geo": "BR",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "Trump culpa Canadá por ar poluído nos EUA e ameaça com tarifas",
-      "fonte": "Portal iG",
-      "categoria": "Mundo",
-      "link": "https://news.google.com/rss/articles/CBMitwFBVV95cUxPbHNwbUtXendwdTBaVGdTY2NJcFVnblQ4eEZKNlNTX2pZMkNLMkFST1VGUjJNQXhFWm1BdVpOM05IMUh0NnJ3OTNMMUY0ZDVob1NxWUlQM24wSUVMU1VOR2xsZjZPNHBmYzFJVlZ2ajVEQ3R5b2ZkdzhQT2lrSzZFQi1zTGRUS096Zy1WOXBqeml5VEdQQkdtWmZ1RkdMNGxoY2k2RVBzdG9hbWlMOWRPOWNMdUd4SkE?oc=5",
-      "publicado": "Mon, 20 Jul 2026 04:36:00 GMT",
-      "geo": "BR",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "Reino Unido pede extradição de influencers 'redpill' Andrew e Tristan Tate; decisão final cabe ao governo Trump, diz imprensa dos EUA",
-      "fonte": "G1",
-      "categoria": "Mundo",
-      "link": "https://news.google.com/rss/articles/CBMiigJBVV95cUxPXzd1ekhNWDAtMXFyMHRfOTNJbXFKbkQ0aUNvSEhRR2p6bDlXYkhfR21ELUlYUVJNNE1PRjhJbmpfcXYxcXNJdDJxbVdmd0V5Wndia0tRM3JYZWN4Nnl2OUVaVlUwWldtWldlRDNUZkprVU5oNzEyWkE3T3lYbFlSMkVzVTdqX28zeHk2dVVOTjJLMTc1MnlyeDI4YzlKVnZLcEY3bWxYZVhTUHNfbk9ZODVGTXVUcV9Bako4dnNUWU9ZNm5iNVJyc3V0OWR1OTBjQ1lVVUdYaS1uRVFBeDlJaEZjWVpSdkRWdTZ1a2NzT29TZ3BEQm1RUk56OVFBTnZUNTlrcG1XbFhvQdIBmAJBVV95cUxNcl9IUmVYVWt0MW80aDB4N19ET1FCejZyMl9ZVTNxVmJEd2R1cjZDUkdlZTRzdjdiaVViV1BaeHNMTGxyT0gtYkY1djVtM0w1Qjc1Q2s1czVXSXBwdWhuOUo3ZS1qQ1A5ZkxsOS1ld2ptd1hITHFiblZlVUxpUTFVX0p3cktaeGM1NEhHQWZxeDZXVmpYU1dleS1ZZXpfWURyN3hya3VtQWYxa3ZKSjU0LWNvYjlCY0RNVU44bXNwcW9hNG1Bb2tkdE95UTZPdUFITFgxd01CNE1Ebl9Va0xtck1RWkRvaHk3aV8wQ0VsQW1MZVVIWUpycXBpQWROcGUxWkFOSkk4OEQ0VlFLblBrcVhHRTFpdWkw?oc=5",
-      "publicado": "Mon, 20 Jul 2026 19:12:15 GMT",
-      "geo": "BR",
-      "volume": "Trending"
-    },
-    {
       "titulo": "Capitão de balsa que naufragou na Guiana testa positivo para maconha",
       "fonte": "UOL Notícias",
       "categoria": "Geral",
       "link": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxQRzRMZ3R6TjhjLVp6SzNSNjBDeGhpTUR6MktrUHRwdjlUYWtrQlpNZEtSc3JvUEVKc1Y1VGY1VFMtVUhTVEROeTJSSURrN2I3a3JFcmdoMC1zeEw5S3A2YjlITm5TNkNOakwxNHRtdENOQUpsSWpkY0lBZnJZdW50SFZTWDVBTGNxWWkyQ3pKWGtyajVXUlhMc3piMXNzUlFaNkpKR3BUZ2xGdGc4SFc0VXVtM2d6M2hXTlpvbXZ5OFEwRDU2R2FUUk8zdDNuakoyMDFv?oc=5",
       "publicado": "Mon, 20 Jul 2026 18:24:41 GMT",
+      "geo": "BR",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "Cinco pessoas morrem tentando salvar pessoa que se afogava em rio nos EUA",
+      "fonte": "UOL Notícias",
+      "categoria": "Mundo",
+      "link": "https://news.google.com/rss/articles/CBMiywFBVV95cUxPaUxTLTJRRWJtOXgtYXZXY2hzU0tTUFNXdzdDMkIyUFRROHd4dEk5ZjVLc3d5OVFLdklBcmxsZTlyOEstWlB1ZXFoamtRTFFDZzkzOXkzVG9YT0xObTBfZ2Rmb3JVQlBDNmZ3NGdEMHJzRnFpM21HQW16cnlUODI4NkxQSkJyOXA3ODNGVEY0YTFDTWxwbWRseURCMTh0Mm5fbkNHeTdvR1JOUkp6WDFGQ2JOcWEySWhROTI5d1NTMGdndkNxUTZLT2o0aw?oc=5",
+      "publicado": "Tue, 21 Jul 2026 09:25:02 GMT",
+      "geo": "BR",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "Magyar vai convidar a campeã de xadrez Judit Polgár para a presidência da Hungria",
+      "fonte": "Público",
+      "categoria": "Tecnologia",
+      "link": "https://news.google.com/rss/articles/CBMivwFBVV95cUxOWU9aWE9iSGktTTNhb0pYVmtHVFh3UFpCVVhWUTdYeFg4UEpPakFxMGhFcXo2T3lqNUZWTlJETWlsbTFOeDNFcHBYYzlXcTVydUgwS3RyWF8yZHliUFpTNFd4RU1zM2FlM0lCRERCd0NzNnZhMnlfelRvREpOY21zd0pUOWFCcF9ET3ozbFVMbTBka3l2ZktWZHBQcWxjc1pIYTJwNVpXNFp0dDZuQms0a3NLY0FKczZBdmZVVTEyaw?oc=5",
+      "publicado": "Mon, 20 Jul 2026 10:13:54 GMT",
+      "geo": "BR",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "Pesquisadores estimam o limite máximo da longevidade humana; saiba quantos anos",
+      "fonte": "O GLOBO",
+      "categoria": "Ciência",
+      "link": "https://news.google.com/rss/articles/CBMizwFBVV95cUxNUVdQclFfaVozc0dWQllkSzh2RjBFREtWLUJfMHFjcGhXSmdiNmwyQjRmcUYwQmlmUkljR3paVzFXN1gtclJJTXFlc1lPcWhFMTkxOFNkTHRBVzJiMU00eUthdDZfcVJZOU43WU1OaHFkXzMybjBnM2twYmp5LVJxa0JaekJRNHY3Ym9PV1FKVGxOaFRoVHBpVHpRQTBfaHBQTzdVcWVMellkRS0xc1BVUTdmWEVMeThpdjEzNUNCMGt5Z1NWR3gxalBQRXI5dzDSAd4BQVVfeXFMTU9tZDJITUV4STYtRkxVczJQendnOE9lUEZmcWw3a2VwcVVPQnJmWkJFWmFrdFM1WlNQYVRmLVptREZvaGZ5WVBfNXR2VEhHOWstdDBTMFJ0TXRnVjVpaThBa1Z1ZU9pbHNBamhRcDdTS1JGQmhTcEVhVEY5NlIyZDhvSWdQSFkxRm9mTWNLMlluQ1JJME94MHMzbnlkRkFHcGRrRWp2SXJTX1dkN2dhQzQ5eE52aVFkVE5qRnVKZmpnNUlSeXJrenRjRThSeUpQN1AzNjRPcTBjZWpNYW5R?oc=5",
+      "publicado": "Tue, 21 Jul 2026 13:09:01 GMT",
       "geo": "BR",
       "volume": "Trending"
     },
@@ -228,74 +228,11 @@
       "volume": "Trending"
     },
     {
-      "titulo": "Montecassino: Papa confia à intercessão de São Bento a paz em regiões de conflito",
-      "fonte": "Vatican News",
-      "categoria": "Tecnologia",
-      "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxNSlppRUw2RGJYTXdLS2pEN0EwNldOSV9DNnZBVjhmb2pWQktQRHpReFJVbXdRT0lmaFh4Mng0aW02bXBCeWpQdmtNWmNTY2ZITURSSEVCRDRCMTFTdkdaMnNSLVBDLWp1T0RqZEoyZU1IcllUbFdOTXJ4Z0dadlpjcEZFSTgxSGotM19PZVlrQWIxY1NaQzltSzNzU3ZWTGlZQUxPZkZCM2c0MDBTTnlqNTM2X0NqQQ?oc=5",
-      "publicado": "Mon, 20 Jul 2026 14:19:25 GMT",
-      "geo": "BR",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "Número de casos de ebola no Congo sobe para 2.267; 893 pessoas morreram",
-      "fonte": "UOL Notícias",
-      "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMirAFBVV95cUxPUFdLUzMtcnEteG96MWxid1NxYXF3RzB3Vm9fcXNENTc4dlBVTVdtWFRYa1l4dVlZaHRkd08xLVFxUUpyV0xNRHQwWFZsc0pjdXdFeE1uNWh2dllXWmZrSVZyZ3RjRkxxWS1wRVRRX3BTUGpzcmJEcXhXWVRYa0NiTHM3ZUk2TjB2bU93MnVKQW5waGNuTjFqQi1teXBoVTJWdVRORFFrV1RaSVg4?oc=5",
-      "publicado": "Sun, 19 Jul 2026 18:45:50 GMT",
-      "geo": "BR",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "Bilionários do Vale do Silício abrem guerra à ideia de taxar riqueza",
-      "fonte": "Valor Econômico",
+      "titulo": "Trump usa investigação federal para tentar descobrir fontes do New York Times",
+      "fonte": "Diário do Centro do Mundo",
       "categoria": "Mundo",
-      "link": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxPeGxwWXVHM0ZzTWV6WFhGaTNaeGFWY2w3LU5yOFZXNHRIUXU4TnhfMHFvM19YdUI1QU9hdjZVbjNib1JIcUFBNzh4eVpIX2JjM3k2bVVyUEYwdkNGZjF5OUE2M09XN2ROUnJjRXhVQklCdnY4LWFqeE8xZ0xITlF0dW9xdDE4ZzRkRDRhcXc1VURBNlN5ZjAtbjVoLTZGbXhsWDRWNV9YSlFUamp0OFVJR2dHYjVhQWVPcndMU1lpNlLSAc8BQVVfeXFMT0wzelJOUEh1eTY4U083ZmRaNE9IOWZ0UFgwVG5xaktyR01wT212ZnlOOHBKNjJoVjNTc3VhdFBRT0R0WElxM01WdHNYa3U5MndwUlBtZ0lqNjlGTTBKZnFYMUt2dDZBbFJIN1JKRUdIZTRTaXJKM3pxWF9iamtFd19pYUFJdHE5c21XSGI3dVp1Z0dVMTY2SktjVHNMb1dTUjdIMXhVRXRqNTZTcGtmN21WMXVEWGlIQnRjWkFzdTRjZzNFMXNYRXl1al9fcDBz?oc=5",
-      "publicado": "Mon, 20 Jul 2026 08:01:47 GMT",
-      "geo": "BR",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "Agentes do ICE usarão câmeras corporais durante abordagens de veículos",
-      "fonte": "UOL Notícias",
-      "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMikwJBVV95cUxOeE9KNFJTZGs0bzM1VnIyeW1YYURDVHRneGFick1QT0FiWENDamZjd18xbXE5aXpQNFlOWllCZzFSWWZ5RjBnanZhWFA2UDMxa29VRHlJZVp1cVpxT0Y4UUFKOGZqa01GSDJENW5yYjFsaFE3VFpOU1dZdDlNMVlvaE5Ka2VKU0YzUTMwY2hDX0lCUmJPb1FvWGl4Y043S01HeXdoazVkRkgtZjM3UHJNaXhvNnZEbGEwRFVIR1FWNUJab3JCeDA3aWxBVVNHTXltMG9pVVI2MmxrOEtKVXh5dnJ3bzMwNTZ1bUJtNnljS0JFMUxBblN1ZFk1em82bUlNNHo4b2hmOGJyWk1Ec2pMR2FaOA?oc=5",
-      "publicado": "Sun, 19 Jul 2026 17:38:01 GMT",
-      "geo": "BR",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "Por que o Irã está atacando fortemente o Kuwait, o Bahrein e a Jordânia?",
-      "fonte": "CNN Brasil",
-      "categoria": "Mundo",
-      "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxPdFRIamZMTWk1UFlmNDU0WFdQcFVJMm9VUW0ydE9iclItbzVwUThfRlJCYzJhdWxJcWdSelFLVl9vN0xYcVNEYUtmZVpzX3hUUWtlLXZGeFU4YWJwbklHSnlTS0hQNmFrVi1HRGF6OXF3V2VvQ2JDcWpnZHhrcFNqM2ZDbEtGdzBLQmZGbVMzVTNSYU10ZDg1Vk5xZV9lNzZ4YWpHdWFZXzJwaUNkZ1M5YWFLX3A?oc=5",
-      "publicado": "Mon, 20 Jul 2026 15:04:34 GMT",
-      "geo": "BR",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "Teatros da Amazônia podem virar Patrimônio Mundial da Unesco",
-      "fonte": "CNN Brasil",
-      "categoria": "Tecnologia",
-      "link": "https://news.google.com/rss/articles/CBMitwFBVV95cUxOeGhFd0ROelBMY0dIanlKYzFVeVlhTmgtQWZHYVRuSGU0M0s2c1I5aEkybk5ER3RPd2oxWTg3WG1MeGlOaDBQRlhxLWMyRXBzeGZGc0hNUVlPXzg0M1FsSUdfem1CVnNqV08xMGQ3RUphdlRWSHZoOFpObzhUbm5RUzh5RmVwWll3dGNGdldpUWw4cGFEVEpzRWZtV3RfWHhQYUFTY0VIbXlWbkM1TXlKLXhkcnp0Vnc?oc=5",
-      "publicado": "Mon, 20 Jul 2026 12:26:43 GMT",
-      "geo": "BR",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "Vance x Rubio: os altos e baixos na disputa pelo posto de herdeiro de Trump para 2028",
-      "fonte": "G1",
-      "categoria": "Mundo",
-      "link": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxNUGtoamZPVFd0OElMc1JSdlI4TFJYLVdoRWw1Rlg2dGJVLTB3bzNiMXh3bHYyeF80S2FZM3M2d1ZtV0h2Q0pxTURnV2dwTVY5Q1M4LTExbFIzellzTTVwZU4wcEwzc3M5c0FsVlZiSjN4TlZOWE9NdGN6MmlSa1VyNC11eWJWTTFMaFAzYmVYRjlLTl9pV2ZIVkNEal9LZHJjNlEzN1ZvSHZiMVNFNTR3Qk5MNVdSaFF5dXQyYWtGS3dLZVZubXZGR3ZMeWgxanA4VlHSAeABQVVfeXFMTnFxUERHeFhTUmd4NUxQLXVIdmVaLWtFT29ncGNrVk40ZVlxd2tTUDgyV1dqYk5UQ05RNDdLenlYdVpqZ2dlSVRsVWhjNHVpaFZDLWFBR3hTdGlLb3hIVUFfeFJQdnNTa1VTTFBXNUJVYUtSWVV6cnV3WjdHZjZqanJXWjdxWG42SFVBMFRwN090UUhTVHU2T19xRlhTWlBLY0tnLWJFOWltMmxRQjZ4OF84V1JDXy1CdmJxVndYZk54ZkpPYkN1UXhIYkJzMEg4Y0U4VEFyb1I2dXVCbXpXM0w?oc=5",
-      "publicado": "Mon, 20 Jul 2026 08:03:35 GMT",
-      "geo": "BR",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "França se prepara para proibir uso de redes sociais para menores de 15 anos",
-      "fonte": "G1",
-      "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMiywFBVV95cUxQeDc1dzFvT2JiVldKbVowR0FQMHhCcGNla1UxMzM0eVNJU0RmOUx1NGxyMW5yUHMtX1lZWjZKTTNNektNMm1uYzhlaFJ6WWlDdFFyTzFSZ1RvYmpFRlFmdG55Q25iY0RLc1hWZGN0NnN4VkNEUEh6YjJwZmJaajQtTktINmtwZ1R0TzBUazJlTjZMcjBwel9ibllIdnkzNGx3N1ZFX1lqZ0x4bDljOHhUYmtMcnRGT2lFWUkzUzE2LWhtWERkT2tjQkcwUdIB2gFBVV95cUxNYXl6cUdUcHdDdjIydVhmcS1qZmI4WmJ6YzI5WVdiaklId0VCVjdOd0k0WDBualhadlRBUFBWRnNFOUJLZGxBVlVVcm5lNXBtcWdfcEFJaXpzZEhkbFdISXgySjNjNmlfQUFWdnpRbVBTb2NxM0ktZVM5QlJlNWR4OEFGWTVVcG9uM1A5NnllVThVRXdzZGtRdndNeGp2N0MtbTl4TWgwOFJWVk9wYlk3a2p1c01UbU8zczhnLXZ6MjhWZTdFNUEtcWpQS3lRaVhGUFBvSnZWNTFKQQ?oc=5",
-      "publicado": "Mon, 20 Jul 2026 17:18:47 GMT",
+      "link": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxQZ2xnTUt5SUhXZ1VTZmpmejlsdElESUc1RFhGTkl6U3cyQm80bGRCaUxNU0laSjlvei10bmhSOGIzOG1pQVhSYnptdklRZzRNMDJvT05UMWwyeGRvMXp2Q1dZVDVpRWxPQWxLdmdzdGxNZVlwcWNZUnQ0b0dCU1BqZ2hqbU1XTjFLUl9ONm1SWHlvaWdiUFYxanpteDZhODllUVN0U0tWT29DTU1keXJybWliamlhVmw5Nnpn?oc=5",
+      "publicado": "Tue, 21 Jul 2026 02:57:00 GMT",
       "geo": "BR",
       "volume": "Trending"
     },
@@ -309,20 +246,47 @@
       "volume": "Trending"
     },
     {
-      "titulo": "Air China planeja estrear o jato chinês COMAC C919 em rotas internacionais a partir de agosto",
-      "fonte": "AEROIN",
-      "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMiswFBVV95cUxNMk5QMW1MQVhoeXV2V3FIU1VzcjhBUFV0SDdOaUR2OGYydFRDRG9yaU5wNVREaVU0dEl1b2RrQWZVTmltZm52c0VUaFVRZzdPaFNtYUdPdjZRVTZUSVpHdUxUcGJwSzhyMGQzbTJfcl9BZHp5aDJzSzgzZEt6LWxnMTRqdHpkeDEwZVNVcDFWUFU5VklLcWJKYnNwQksxZk1SZVpBeWJ1Q0N2SXNmcVdQOVNoUdIBswFBVV95cUxNMk5QMW1MQVhoeXV2V3FIU1VzcjhBUFV0SDdOaUR2OGYydFRDRG9yaU5wNVREaVU0dEl1b2RrQWZVTmltZm52c0VUaFVRZzdPaFNtYUdPdjZRVTZUSVpHdUxUcGJwSzhyMGQzbTJfcl9BZHp5aDJzSzgzZEt6LWxnMTRqdHpkeDEwZVNVcDFWUFU5VklLcWJKYnNwQksxZk1SZVpBeWJ1Q0N2SXNmcVdQOVNoUQ?oc=5",
-      "publicado": "Mon, 20 Jul 2026 18:13:14 GMT",
+      "titulo": "Netanyahu não será preso enquanto estiver nos EUA, diz Trump",
+      "fonte": "R7",
+      "categoria": "Mundo",
+      "link": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxNUnB3X1ZFVVQyaExDU3pNMENjTUlNMFIzaVp4dXpyNGt1U0poSHZRWVdmemlEQlVNMWp6bndBWE9fZGV0d2tqNHFONnlybWJqdlhIelhXSTFPOExtMWlwVDhDS2d3NC0weTdLOTlubERxbERFTDlubkZTZFdNQS13Q3Rza2g5Z2g2RllhYmEzVUpxSW1nN3hSRlo1N3V6RjdSZExoTkxjUTEyWGc?oc=5",
+      "publicado": "Mon, 20 Jul 2026 18:49:10 GMT",
       "geo": "BR",
       "volume": "Trending"
     },
     {
-      "titulo": "A dor de barriga que o Taco Bell está causando à Yum!",
-      "fonte": "Brazil Journal",
-      "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMihgFBVV95cUxNRVRNQ3Ytb21KMGYtc0taOTBoZFBONW5qSWJ5dTliYVp5YWRyY1lWUVF1Sk9aQk1KUzZkRmR0a3pTR2hsM29jNGFPcklWZU1ZLUxXVlNCc0xmWEI3VlF1Q1hYOEdoM3hZU3JfN3hkS291b0Q3SU9SR3Z3VzNpWFpXNEdkdXFaQQ?oc=5",
-      "publicado": "Mon, 20 Jul 2026 03:30:15 GMT",
+      "titulo": "Chefe do tráfico mexicano 'El Mayo' é condenado à prisão perpétua nos EUA",
+      "fonte": "G1",
+      "categoria": "Mundo",
+      "link": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxOSnQ5bWZiU3BleklZZ01TQkVXTk9fdGhkcU1EYzdjR0RfQjJCUFZYZjRLMUZ1NlVjTm84Tzc0TUdFY2NIajlTUnpJaElKVUhtUWNqaEJJNzJRQ2I0cUdrVUNibG9LVDgwdnVwT2k4MHB0cjBzQkgzQjdCRWktZjc0Tlh6bEZkUGUtUDNmVDBtMUN4R2lxM3FrSzBKR3JuY2dkRVZsYzhYemNleF93T2c0WE9wbHZ4LXBpa2FjcjJuai3SAc8BQVVfeXFMTjN0VU96SmlvNU01Rm96eFJiMDRsT1V2aVVvaV9IU25meTF0dU5aMXFYUjMtY2JVS2YxblA0N2tKa1B0ZGFBWkxUMFloNWNoTEthb3FDTEtTQVQ2YjBjYlhibzNsZnkzQWVUQzVSQThYWG5xYlN4aHVtNnkxLW1Fblk2c2V5WDRQOTlBeldyUUsweGQwRk5PUGgyWVozVWQ0VmxvYjEycV9DWWhhLXBKYW5GT01IR1hJcnFvTXNFUEFGR1FUZjA3TkRtNXhnQjE4?oc=5",
+      "publicado": "Mon, 20 Jul 2026 15:14:26 GMT",
+      "geo": "BR",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "Ataque da Rússia contra navio carregado de milho na costa de Odessa mata 10 pessoas",
+      "fonte": "Valor Econômico",
+      "categoria": "Mundo",
+      "link": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxPZVRFdnp3SUZxY2w2b0FLMUl4ZWFBMjBPLWQzcXpURWV5eGRvV19ZdWNqMEowX015STgzQmNaY3loNDRlOVc4LTByMmFUeEFlQTB6ODhvYzhkVVRMaVIzT0NJYjBzOEpWY3NPVjZOcUlCeWllTGw3S3VEQTJRWGhhVzU5eE5acmZaTVhIQjFNV0s5MFBWSVp2UzRNNkRFWDFTUzVmNnpuSTFEQWR5cElrWXdIMmczTlJjQjFiY215M1JvUTEwQThCeDR3MXpxX0tETXRN0gHiAUFVX3lxTE11TWlOamRLa1JxRF9Nd2d5aXpNZE9FWXpuWThfYzk2ZmVXV0RYNEJfMGlFaFBLZ25QbEEtZnlJMzBNNS04T01TRTdhbmFQWXZXMVlBXy0ycUswU2M0RDZNbW5lcUpKY0tvMlJNTjFiZ1BZeDhyZ0drc1B4WVZHZHdwODl1S2p5aUpZdHg5eWFWRjZ0TWY1Nmg5WmlRYXQ2Zy0wbExCeFA0SlpweUl5WG5fRUtudXdjMS1iaGJ2VnJXNHdHcWlNUW1jVlFBbi1fRWJ3al9yZklNYmdTUTVlbm9COFE?oc=5",
+      "publicado": "Mon, 20 Jul 2026 15:12:43 GMT",
+      "geo": "BR",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "Hamas anuncia eleição de Khalil al-Hayya como novo líder do movimento palestino",
+      "fonte": "UOL Notícias",
+      "categoria": "Mundo",
+      "link": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxQTGwzbGF0VTdhMnJFaVUyeHdIbm52MVAzdDlUbHpzTGx1TW5GWGVEbWM5T0hxLTU2Ymk0Vlh3MVRlVVBZOHFJWTNMQmlVLWU1MGJxWHNIZ3pHa3BWT3J2eVlBTTJvMnBxcTFkUHN2eWVxX3VIRTRFVGU5eUpmeEZjWEFLNEYxR3IyZHE3d1NvUmR4QUdDSDJVdmhjQzQxbWlpV3dNQ3VWUW5hUHo5eTVHdjJYSHJvTGlfdm9wNFl4SExuNk4tOUlsam1IRTM3OVdHR1d6THFjMHNGZ28?oc=5",
+      "publicado": "Mon, 20 Jul 2026 11:17:25 GMT",
+      "geo": "BR",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "Trump admite que novo Air Force One doado pelo Catar ficará fora de serviço para receber melhorias",
+      "fonte": "AEROIN",
+      "categoria": "Mundo",
+      "link": "https://news.google.com/rss/articles/CBMiugFBVV95cUxOS2NRMVg3UUpvOS1EZWJibEd6Q3Etc291OEhSZzM4U0hoUHc4QkV5T2JCSU41ekNYYUQ3aXlNOVJUMGJoWDVicDYzQzYwTUtIcjIzMngwZURDd1NLUzJDNnNqS2t1bzJEQUR0RENnRUtqbWF1RHdDY1F4Rm14d2hKRnlycXB5eWJDY05NNW9sVVlOLWhvendLY1dBYXBLZzVhdFdFSk1reHBtUVozTGZ6X0cycTZ2MjJwcUHSAboBQVVfeXFMTktjUTFYN1FKbzktRGViYmxHekNxLXNvdThIUmczOFNIaFB3OEJFeU9iQklONXpDWGFEN2l5TTlSVDBiaFg1YnA2M0M2ME1LSHIyMzJ4MGVEQ3dTS1MyQzZzaktrdW8yREFEdERDZ0VLam1hdUR3Q2NReEZteHdoSkZ5cnFweXliQ2NOTTVvbFVZTi1ob3p3S2NXQWFwS2c1YXRXRUpNa3hwbVFaM0xmel9HMnE2djIycHFB?oc=5",
+      "publicado": "Mon, 20 Jul 2026 12:17:15 GMT",
       "geo": "BR",
       "volume": "Trending"
     },
@@ -336,47 +300,20 @@
       "volume": "Trending"
     },
     {
-      "titulo": "Pescadores cortam barbatanas de tubarões vivos e os atiram de volta ao mar, diz ONG",
-      "fonte": "Folha de S.Paulo",
+      "titulo": "Borderline pode ter origem genética, aponta maior estudo já feito sobre o transtorno",
+      "fonte": "G1",
+      "categoria": "Ciência",
+      "link": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxPdV9PRERUZC00MEVLWEdIWkRIYVh0Y0xLaHYwdjVSZHlpcEhHdl9hR0QtSkF6b3VpbHcxa1Y1UmxvOVpUMlZ1SVdKMmJSZV80aGhSUDZuX3NNcmViNkZjczhoTDdfdGJjX2NmVG5qbnUwU1MtdnIzbTlqbVMxUGp4ejFvVENyWW5TTktGdC12TmQzWUlXV09xbVgtWmRkZ1MtQVdQRjVwOVVPMXF4clc1M0VDNkVXZWNodEw2bE9KbHRVanRuLWRSRTBiVExjdi110gHfAUFVX3lxTE1jUjU0ZWk4dS1MVUkxUFhIQUpITjdIenM2OG95U0JHOThUd0l1TEZ3MlNlbTIteWVOYkpRTUNTT3J4MjlhNE5HMlhWQzM1LTUxWEhHYTV4RVU0OEdzbXlUMnhvVDczWDdsU2xndThLdzdUUlp1UVhQdGlkbVg1NjlpNUNkWE1yTjE5TkhsQnBXYW50MGNWdU41ekUybjUxWXo4ZDVfMHFDbnI4aTl2dTVoYkJyaHlKREM0Y2JfN0VzSExETWFlTVhLVlZ0RTIxUkpjSjdZX0hYQW94RXNEU0E?oc=5",
+      "publicado": "Tue, 21 Jul 2026 10:59:42 GMT",
+      "geo": "BR",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "A dor de barriga que o Taco Bell está causando à Yum!",
+      "fonte": "Brazil Journal",
       "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxOeEZoLVgtaW9xM1kyNFdYQ25lbzV5bjdwYlFGTTNOUS1sdDBIcllFY0pDaUYyWHdYQUV2eE9Nd2pZRmNRdTdZbVVfdXZZekxlbGVMaUstblZwQ1lCSXR4ZlMtd0hRTTVjOVlZRWh0QmIySElfQkZScHR3bmNIa05xQkdzU2puc2FRRHFOV2F5VldYSWs5UmI4WEZ6a3ZKeXlaTHRzOVpEY0hkQm5SZnFSTk0yS0xTbmR3YWp6azJVdzNrbS1wYTVUazgxTmhKWmZ2?oc=5",
-      "publicado": "Mon, 20 Jul 2026 08:00:00 GMT",
-      "geo": "BR",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "União Europeia libera € 1 bilhão para apoiar as capacidades de drones da Ucrânia contra a Rússia",
-      "fonte": "AEROIN",
-      "categoria": "Mundo",
-      "link": "https://news.google.com/rss/articles/CBMitwFBVV95cUxOSk9yMndSbFVmZENObEVhU3BhWEN3UG90X0xIOVBFTjE3NkZzMDMtZGd3QVYyVXhFQzdKM0FIRThNNDJBenFyTWx4QnlUZGNMUUp5YThrdTJfQTVBVlhuS0swWVRQWGtfdUQ1OXh4ZHFvVFh2aUNRZVhRNDFSX055RVlaWmhwMC1aY2pDLWoxQnpMYjBRRmxRSEdSMUI2MjFFZzZMWUxkaXVsRTlpQ1o0d2hmRVUtOUnSAbcBQVVfeXFMTkpPcjJ3UmxVZmRDTmxFYVNwYVhDd1BvdF9MSDlQRU4xNzZGczAzLWRnd0FWMlV4RUM3SjNBSEU4TTQyQXpxck1seEJ5VGRjTFFKeWE4a3UyX0E1QVZYbktLMFlUUFhrX3VENTl4eGRxb1RYdmlDUWVYUTQxUl9OeUVZWlpocDAtWmNqQy1qMUJ6TGIwUUZsUUhHUjFCNjIxRWc2TFlMZGl1bEU5aUNaNHdoZkVVLTlJ?oc=5",
-      "publicado": "Sun, 19 Jul 2026 11:36:54 GMT",
-      "geo": "BR",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "Um gigantesco \"túnel de proteção\": Ucrânia já tem mais de mil quilómetros de escudo antidrone para travar ataques russos",
-      "fonte": "CNN Portugal",
-      "categoria": "Mundo",
-      "link": "https://news.google.com/rss/articles/CBMingJBVV95cUxPampEM2NrZm9BbjlwaXE3Vzd6N1pKRjU5VlNUSEZrc0t5RHNyWkVfS3JFbnNOR2pXX2VVTlk1NUNscnVjQklMRUFSVGc5Q203T0VvdjJJS2VJN21FOC1POGdQSlZnU3djMnpOTzhFZlpuQkNlS2wwZGZxeE9JelU1UmxZSjJLamEtUUlTTlZNSzRoRDJld2lIdEIxNFFFamRTaEJ4enZpLUdGYnY3OWltVTg0dUNRbURxa21OTFpnTDNsLTgxdGRWeEtLWFpsZ094ZVdJdkhSNXdxa0RON2NqaTB1N1BQMnZQTFl6OEptbEd1U0E4UzJzRHBVaVpIbzZWNExONnZZekxTYWYtUXVULWRaamUwbWZaUXZFUzNB?oc=5",
-      "publicado": "Mon, 20 Jul 2026 14:10:00 GMT",
-      "geo": "BR",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "Análise com IA em mais de sete mil processos detalha como atuam os quatro grupos de ministros do STF",
-      "fonte": "O GLOBO",
-      "categoria": "Política",
-      "link": "https://news.google.com/rss/articles/CBMi8AFBVV95cUxOaGVnWDlubzQwZkxlNWo1YVcxSXFqdnpPQlV6M2o1Szlrb2k3cWJ5TnJyaUhidDhza3lMRlZwU2d4ZkFUSWo3VC1DZF9wTHJMZ1VBTFVVZERsd0lUQmlONTFSM2FiQURPT0labkFiV0x2WWJKbWRzNmJXN3dwbVBqY3BBZkFKVkEydjhLQkNkc0pGVHBzVHdfUDdwa3BjOHlCZUpSZDVOc0oyN2NYbUxsd1lHeUhjeUlkamR5ZGhzeDJmWXBBVXlvaUtQV1pmUEdhU1RoN0ZmRmJ3dUhMSldydHRLdlBCZzcyMkV2QWg0MkXSAf8BQVVfeXFMTzBUX3BTWkZkWWoxbDRoRTNySjFnMHFVRGFoTWxhSExISTlYRGlXOGNFOF94RGFGa25zTk4zdnRYNmE2cG8xNjBZU3Y0WmRGTXp2Wk5pMEs4RkNjZVMwMGNJTHJQYnlVRUpGSDNHckd3SnJEdmNYUWR5SjVXdXgtQjF6aFVQYzRGcVBEM3RLb0tHcHBuenR6WDVOelBJT01XNHNhMmF4Z04teHVUSEstT2ctazg4b2xjbWQ1bnhzNEZFQjdiWnFsVmNyWUNkaUpJYzBmS2F1UTdUX3c2RHdabHNyRWNNc0dsRDQwQzlkN3ptTlFsQ29TaGluVlRxVU5r?oc=5",
-      "publicado": "Mon, 20 Jul 2026 06:30:12 GMT",
-      "geo": "BR",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "Marco Rubio pede libertação de mais de 700 presos políticos em Cuba",
-      "fonte": "Revista Oeste",
-      "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMioAFBVV95cUxOa1ZONno2anFwNnBsZWlvRmhEdWVHSHF5NmRDZ0FRM0J4SlczdHBfcTdnX25DaXBjTE1DUEE0UEptVk1QSks0Rno0RnVCVVpBOFREQzAtYmM4T3cyNTNndFdON3FkcXhOS2pUdU9HVlpjdXpmSTh6ZWN1cGdqUm9uLVd3WE5mU0N3RnZPRGxCam5lNnZpQWZISUFyRUlUMG4w?oc=5",
-      "publicado": "Sun, 19 Jul 2026 16:34:58 GMT",
+      "link": "https://news.google.com/rss/articles/CBMihgFBVV95cUxNRVRNQ3Ytb21KMGYtc0taOTBoZFBONW5qSWJ5dTliYVp5YWRyY1lWUVF1Sk9aQk1KUzZkRmR0a3pTR2hsM29jNGFPcklWZU1ZLUxXVlNCc0xmWEI3VlF1Q1hYOEdoM3hZU3JfN3hkS291b0Q3SU9SR3Z3VzNpWFpXNEdkdXFaQQ?oc=5",
+      "publicado": "Mon, 20 Jul 2026 03:30:15 GMT",
       "geo": "BR",
       "volume": "Trending"
     },
@@ -390,11 +327,11 @@
       "volume": "Trending"
     },
     {
-      "titulo": "Mel: 5 efeitos importantes que ele tem no organismo e quem não deve consumi-lo",
-      "fonte": "O GLOBO",
-      "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMizgFBVV95cUxNQVRtMkU3SEh0aklSdmp4cG44eW00bVBydVRVQ3Q3LXRfQzlYelpWODBMX1Z0WXNXSDh3ci1jejBxM0NwaV9LaGVvRm5yN1hUWFhuV0dJcHB1UWZNcWJ3a09QOTVzT2NxNlRqa1phVFdnM05mVER6aGZBaUhqUXFyQjJRcXpUSVk2djNqeTNrdGlrRDluV05MV1h6cXh3Y2pvaXVISk9Xb2xQUXV6VGVoamZLdzRueFVfNU1IeXMzZDdFTl9RMXpGd0E2WC1NQdIB3AFBVV95cUxPS2JKZk1sYS1xOWowNkt2aVU0ZDhTSTBsNnMtZGZ4NG9HU2g0WWl1V3BVQlFRdEN2Ui1BeXl2OWh1Z0drZkZSUFFpczBvTHIya3VhR1JIekVRQzZYOWZtSm5hV2FyeGkxdE81OEtqclpxRHUtd0hCTHFvR0pQUWlhd1J4M1pIQ2xRMTREWlhDaWZ0UmlxUFBCNDd3WmxUamI2SVhiZUNXOUZmOER3dTloZ3A3U2F3UzIxOFZmdkE5SThZd2lCVVBJRFFNQXU3c0RDNk1wOWFCNmpPRTJx?oc=5",
-      "publicado": "Mon, 20 Jul 2026 15:54:04 GMT",
+      "titulo": "Sem sinal de trégua, Trump vai enviar mais jatos de guerra ao Oriente Médio",
+      "fonte": "CNN Brasil",
+      "categoria": "Mundo",
+      "link": "https://news.google.com/rss/articles/CBMiugFBVV95cUxNUHVCYWppY0RIMnVVZFJsTDk5UFk3SzNhWXZXUk9hMFh6WHZVTUR5c1RPUkhjdFBUOHVwalRZdFdsMlNkWU5PT3lZeUhmVDVROFBLOXBCcGkzYTVRSW5rMjZnSHN1RC1YUFhyM3N3Yy1tUGtsTUNBemJYS1lEbjFiSndRRXpHWXJlWFRhVmtLS0VXdmZUS1lnNHJDcW85V2VDY1VQVmlhUlZDZkllbWdxY3N6SUUzeTVHWXc?oc=5",
+      "publicado": "Mon, 20 Jul 2026 14:25:38 GMT",
       "geo": "BR",
       "volume": "Trending"
     },
@@ -408,92 +345,11 @@
       "volume": "Trending"
     },
     {
-      "titulo": "Arqueólogos descobrem ruínas maias na península mexicana de Yucatán",
-      "fonte": "Folha de S.Paulo",
-      "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxPcGtMNjZKWTFTQzRMc1FNc3h5U0xzRzAxVmRlejA4QkZPTndsbUhpUzZwQlpqd0xvLXZSLVlkTndiaVhTdGRfSEZmZDNpalY1Mnp1d08zSlZhbnRqa0Z6bVlRdHcwOENjbFVLbVJlaXhLWmZEVFlxc3g0UDAxZVkxNHA0SXNvX1BKN0ZlUXMtQk9mU3YyQS1YbElNS3piQkh4ZVpnejdGa01ySEJhT0UwMWJCcWF2WHZuUTRr?oc=5",
-      "publicado": "Mon, 20 Jul 2026 15:00:00 GMT",
-      "geo": "BR",
-      "volume": "Trending"
-    },
-    {
       "titulo": "Terra à vista!: Operação de guerra leva à Inglaterra relíquia esperada há 950 anos",
       "fonte": "UOL",
       "categoria": "Mundo",
       "link": "https://news.google.com/rss/articles/CBMizAFBVV95cUxOdVRidVZEMk5neGkxemtBTy1fRnhyNW9yWXBWaHdBR3o0ekYwVlVoWTRkZzNxREpIMnJrcWVpVU9rbTk4eWhsQnJSam5iRG5nMzhFcVNfZWQ3RFJBbTdISEZqVUFJU3hpR0YwM3JhWWdUa2Q0UHNUMTZHb1dPYkNGcEY5b2IyVGZpWlpDMUUtR1JwTjFsZ0xGTW90M3NHbUVieV8wcFVEQmdoUmRMTzgtRzNKQ2ZjRVZsOGpTRjBSSi1QMjN3TXdVMXY5WDc?oc=5",
       "publicado": "Mon, 20 Jul 2026 12:30:00 GMT",
-      "geo": "BR",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "Você sabe quais países falam português? Pesquisa mostra que maioria dos brasileiros não",
-      "fonte": "Jornal Correio",
-      "categoria": "Tecnologia",
-      "link": "https://news.google.com/rss/articles/CBMizAFBVV95cUxNaDZGai02bVJXcnM1cWUwcVI2THI1bWdOcm5KTFRzTDdha0RiSlU3UnlSNmo0VG9DR1VYZHVfWW5sY1B6UnljZmNRWkp0WHlFemdSRjFkNVljcWJ5RkFPR1hJQUpfNjcwclduZC01Wjdub0Zacm1MU05UYWpoOEFIN1dLVGxlaGh2VVduYkF0cDRYdm5xTUpkMl9xVkhaRUZiOFdJd1RlVVBpNlpXRzJSS1FhVFgtQVNFX1hyQ3hEVU93d1VOdWEyams3dDQ?oc=5",
-      "publicado": "Mon, 20 Jul 2026 09:00:00 GMT",
-      "geo": "BR",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "Capitão dos bombeiros, esposa e 3 filhos morrem após enchente em cânion",
-      "fonte": "Metrópoles",
-      "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMipgFBVV95cUxOeDRXRGJsLVEwc2xIR1VoQ0hrSWpvazRldW5TSWI5RW45aVR6Q3NpcHlweXptN2xQamJkZ0dZdFFGR09PRHV2NXBMNkdoUGJWcWc5R0FJVlNJVUxPVzlwbks2Yzl6a2taTXZ1QnNYbTVvdnA3QnNQTXVtUURhWjlTV1hTSDg2Sk5KNURodExGM3VTQi1VNER1U1E0NjgyOVUteHYtWFRR?oc=5",
-      "publicado": "Mon, 20 Jul 2026 12:42:00 GMT",
-      "geo": "BR",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "Presença massiva de aviões-tanque dos EUA em Tel Aviv volta a impactar o tráfego aéreo comercial local",
-      "fonte": "AEROIN",
-      "categoria": "Mundo",
-      "link": "https://news.google.com/rss/articles/CBMivwFBVV95cUxNS3VGR0xpOWw5QWpXTmVhSHFjdi1pOFc3QTZ5YlljSmRpZXZ2V0pKLVRlcWExM3JrZHNKWDdqNk40TXA4UVlHN3R3WjV5aDJKTDhUaXNnazQ2eWtGb1dQMk53Mm9VVjZuMEZweGRXLUxwSjNfc0ZfNTdtWFQzZ0l0LWRsMUY1MzE5cExpQWZ1RXJkWEc4b1N5bVQ2R05ZQjdmbHp4alJHN1dTOVMyd19IcWxQRFA4VHZBZ2x2VWtJQdIBvwFBVV95cUxNS3VGR0xpOWw5QWpXTmVhSHFjdi1pOFc3QTZ5YlljSmRpZXZ2V0pKLVRlcWExM3JrZHNKWDdqNk40TXA4UVlHN3R3WjV5aDJKTDhUaXNnazQ2eWtGb1dQMk53Mm9VVjZuMEZweGRXLUxwSjNfc0ZfNTdtWFQzZ0l0LWRsMUY1MzE5cExpQWZ1RXJkWEc4b1N5bVQ2R05ZQjdmbHp4alJHN1dTOVMyd19IcWxQRFA4VHZBZ2x2VWtJQQ?oc=5",
-      "publicado": "Sun, 19 Jul 2026 13:23:33 GMT",
-      "geo": "BR",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "Sete Airbus A400M decolam em formação e protagonizam espetáculo aéreo na França",
-      "fonte": "AEROIN",
-      "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMioAFBVV95cUxQQndoNzJLS2EzYm1UalVhb0pfTWJySjlHY0pRcTFUaGhnTFBPczJVRkswOS0xcUNobVlFUlh4SFA5bVltS0dVOGJXTmhhNE1ia2RqUzV5R3FneG83ZnBIOFRmVmVyVER5bTNxODJzdG1oS2ZnVE5ZVF90XzRhelhJQUNiLWsxM3dzX21qb0NIOHpZVlRtcXYxWEFEaUhYczZq0gGgAUFVX3lxTFBCd2g3MktLYTNibVRqVWFvSl9NYnJKOUdjSlFxMVRoaGdMUE9zMlVGSzA5LTFxQ2htWUVSWHhIUDltWW1LR1U4YldOaGE0TWJrZGpTNXlHcWd4bzdmcEg4VGZWZXJURHltM3E4MnN0bWhLZmdUTllUX3RfNGF6WElBQ2ItazEzd3NfbWpvQ0g4ellWVG1xdjFYQURpSFhzNmo?oc=5",
-      "publicado": "Sun, 19 Jul 2026 13:24:38 GMT",
-      "geo": "BR",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "Preferência por ser destro surgiu há 550 milhões de anos, sugere análise de fósseis",
-      "fonte": "Folha de S.Paulo",
-      "categoria": "Tecnologia",
-      "link": "https://news.google.com/rss/articles/CBMizwFBVV95cUxQaGIyWWJsdFBMM0NhS19EX3MwVUVsbU40cllRaGpiTE9JMVlGUS1oZUtJdGdLYm5xQ1VFeUNxaFp1TUJUNjhRRDFUSUtnZFI2c2YxM1pCSnVMbTh6Z0MzZDNseGlNVEJfbkVNM2U1ald3TWR3TkdHT3IyM0FWdVUwamFkT2RWSzhITUZFdlpTcl96T3cxY2piaVFsN0NZbDg0U3MxY01IT0VaUVZyTUFlLWRkRExWUUl6aW5qUGhxY185MU1SWE9aWll1UFJuOTg?oc=5",
-      "publicado": "Mon, 20 Jul 2026 09:00:00 GMT",
-      "geo": "BR",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "A saga de três irmãos para descobrir quem matou sua mãe após 17 anos",
-      "fonte": "G1",
-      "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMivAFBVV95cUxPaUd6aHJ5YWgzM0M5em1QekRzajJlQlU5ZGZRNmhiRkJSVXdkcWJoT0t1b25aOFhERGloMW5PeFM4OVBpakdpaEppQlMyMk1UQXMxa2pnNXBqSXhoaUtzRlFYbmF2cC1pU3NKWnQ0UkYxRndUY2pOQVN6enUtY0JLSmhrUHZ4QUZrUF9rUnBPUjdWY0pkc09ocmEzLXdhTDFCQXo3WFVkU3hrcFF2anZmOHJXMnhPMEFLWlpmTNIBywFBVV95cUxPOXFHdkFmNWNSVDU2SFB5NnNOaktoRHB1a085WERMUTFTaTUzVW8zRWNpVmRjUHFuMzNfRnlPU1RXeEtsNnpLSkp5VnJWZ1dyUmYzckdXUkVVa2tTTEZoaUNQOWJ2X2RqRldYenVyRHpjNXdpaU1nRnFsVDlGUnpLUWRLTkNZLVNBQ1ZqYUxVNEh0NmdCMVZpUjNaQ0UyRTJfMHh3bkZQZVdLZUNjS3JQV2lObGJtd3ROYi1aYnllb0tHdjRWLWItVGVrVQ?oc=5",
-      "publicado": "Sun, 19 Jul 2026 14:59:05 GMT",
-      "geo": "BR",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "Imprensa do Oriente Médio diz que líder supremo do Irã deixou o país",
-      "fonte": "Revista Oeste",
-      "categoria": "Mundo",
-      "link": "https://news.google.com/rss/articles/CBMimAFBVV95cUxNbnhLeFV1QjlIbFdJajBKZFBhOEVUZEpMNF96Y3V2aTFCb29EeXFyeDJHbzIweDFTdW0tVUE3cGtOWWFpSFM3NzAwbTNPWl8zMnpuTktXU1FGSlpQMWpMTzg1TkFUNml0czhrMUE2Ykloa0JXdTB1U2g4OC1jS0lVaHBuVDJsZHBaMjFnWmpIQzg2T20zeTB6MQ?oc=5",
-      "publicado": "Sun, 19 Jul 2026 22:21:49 GMT",
-      "geo": "BR",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "Restaurante dos EUA oferece pizza em troca de cobras mortas",
-      "fonte": "R7",
-      "categoria": "Mundo",
-      "link": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxOeGlLWlZvTHlrSk8xX0dnYmpnR1I5SVJMVnpTYmZRU1JKRV92cFV2cjhWanh6ZHVCVS1lWkZ5ZDhYYnJtNU1UanZhMW9DRGYwNV9CSWJDM1AyZDBpVFZkSWRXMHBEemMxaTZqcXFEcEJuMFc1U2FtbTlyN0YxeW1jSl85UG9aaWkydlhHU0JPT08wNnJzcFZlNDJ4OVJHNGJBZ2RGcDlfWFdfUGM?oc=5",
-      "publicado": "Mon, 20 Jul 2026 05:00:00 GMT",
       "geo": "BR",
       "volume": "Trending"
     },
@@ -507,65 +363,65 @@
       "volume": "Trending"
     },
     {
-      "titulo": "Irã aproveitou cessar-fogo para obter bilhões com venda de petróleo - 20/07/2026 - Economia",
-      "fonte": "Folha de S.Paulo",
-      "categoria": "Mundo",
-      "link": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxOQXRRUlY4eHoxRm5GMEhuM1gweEJfWXJJdl8tc2JTcWVuWHhORlFJYTRIa1FHdTZCSnRndGljNlIyVW5SVnRUT2didzdYcGE5WlpTaHhMOUI4bmRQLUFfUnFPdmd3allJc19pc21YMVNjeGpVV2dIalY4UTBpN185Sm5mbEZveE1kMWtmS3pCNHJQQndnUHZQVXRReWtmbzVaR2NxY2pfVEFsMV9VZ3JzSjRMdE9zYlYtS0Jn?oc=5",
-      "publicado": "Mon, 20 Jul 2026 14:08:00 GMT",
-      "geo": "BR",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "Como Kim Jong-un fez uma 'transformação milagrosa' da economia da Coreia do Norte: 'O regime está mais rico do que nunca'",
-      "fonte": "BBC",
-      "categoria": "Economia",
-      "link": "https://news.google.com/rss/articles/CBMiYkFVX3lxTFAtT0NzTW1YQ3RsMzR0Y0ZCTzkyMXcyUy10ZGs5Q2lBNkdNcVliamo2S0Z4M0dVVFB4SHBpcnV1czhOUDFGT0xPbkFqUDdnYkstSzI5ZDRzX196eTJfM2JYN1pn0gFnQVVfeXFMT0ZLVHlGbHc5NDVfVXZNaHpxNExKNElJdUlJYnBodS1JYUYzN2VwWGppWnJHYllPcUpnX0ZfMU00NTRlNWR3MlMtZC10YWpMTE53UXktMF9iSzl0azFha2J4aWV4cWV2dw?oc=5",
-      "publicado": "Sun, 19 Jul 2026 09:32:53 GMT",
-      "geo": "BR",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "Opinion | New U.K. prime minister promises a fresh start with failed policies",
-      "fonte": "The Washington Post",
+      "titulo": "Tankers with Saudi crude turn back as Houthis open new front in US-Iran war",
+      "fonte": "Reuters",
       "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMixAFBVV95cUxPdnNFNWhSVGRaM01qYWpSVDFoeEhLeGxQbnBCaTlIR05BZl8yRmpLMGJVUmQ4c1luVGt6RWd5NC1hdTFxTVhHNmtaZjlRNERWVXpvSWJ4NXhfdlVYcE4yR2o0d2J3VkNKLWg3dVotNjk5S25wYk9xLW9OaGtGcUxna3hFS0RaMm9NaDR1bjhuY1QwcDJHbWJTaFpKYzlidFlaZWI5RXpQanlIOGkwUEtkTElhYlhWWGxFOG9WSEl0ckZQcUhR?oc=5",
-      "publicado": "Tue, 21 Jul 2026 05:05:39 GMT",
+      "link": "https://news.google.com/rss/articles/CBMitwFBVV95cUxQT0Jlc0k2UzBpUjR0R3ZWd2NKVzZVM2F6azd0VWk0WlYySWhpTU8zc2V2NTVWc3hWRzBYSUk2LXNTSzhoUnF1VUotZ1FhdTlMVE53TmtEUllYSThLU3hSU3hIRGRxZHFoaFZXM2VReGdxNGVVcGVOYXh4NTcwdHBpWkZqLWtCTHhOdjFIbWhJcExkcUo3amxFa0x3N3VadTVqbXh2LUxQYXV1Y05IM0N4QlVlUjNmWHM?oc=5",
+      "publicado": "Tue, 21 Jul 2026 18:05:41 GMT",
       "geo": "US",
       "volume": "Trending"
     },
     {
-      "titulo": "Iran War Updates: U.S. carries out 10th night of strikes after 3 U.S. troops killed, nearly 100 injured in recent weeks",
-      "fonte": "CBS News",
+      "titulo": "New UK Prime Minister Burnham Promises Hope and Change. The Hurdles Are High.",
+      "fonte": "The New York Times",
       "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMikwFBVV95cUxPTnl2blBxN3hkcHpRclhTUVh1aEtCSDRKcTBPQXV3UmZFTExfVnExVEcxTW5uZlVRcEQyZDg1MXJ4SXNVUTl6cEdjR2Fla1pRQ1dzSWhoa1dJSlVtell4TXZ2YXNGbFRYRXFsc3hReHJDS0d6V0Q4Yk9KdkRMTEJWVk1OTWR4QWJRVVEtTldRZjBkRGM?oc=5",
-      "publicado": "Tue, 21 Jul 2026 05:30:04 GMT",
+      "link": "https://news.google.com/rss/articles/CBMinAFBVV95cUxQS21CU0U3eEJab0RHWWZNejVqWnpGaGdCcEN3eF9NYVFudFhkRnRjTDBxY2NXMVZ5d1lMcG9UcFdobnNkYTFvRFQxaGxsY2ZvdENia0pEY0RaVFlNLTVEekc3LWVxa1BiWkx5VF90ZjR0SkU0dGpRM0haak8xN1MwaUJPWXIxY2tEVG9rdGFxUjJoWmlUSGdvMGVadXA?oc=5",
+      "publicado": "Tue, 21 Jul 2026 09:50:13 GMT",
       "geo": "US",
       "volume": "Trending"
     },
     {
-      "titulo": "Man stabs tourists near the Acropolis in Athens, Greece",
+      "titulo": "India's youth-led Cockroach movement vows to continue protest after police crackdown",
+      "fonte": "NPR",
+      "categoria": "Geral",
+      "link": "https://news.google.com/rss/articles/CBMixAFBVV95cUxNYTZFQ2R6b1lGeV9tVlM4ZDk1MXhYRGhvbmE3U21ULUhscElyTFJtT0NkMlNFMUhtOWt2cnFNVHhHM1RyMk13MDBjRndTOWk1enh4S3dxX2ROaTBOMWdna0xUdXFNaHVRMURsUG9sa2VqNndCX1pVZ0sxemR5N2NjS0x1WW5CMkdGajg4dHRqdVNjZnloTHMzWUZEbl8tQTVfVXM1QWRRQnJSRzJRT0puXzExVS1Ecl9TSUFnMlZGQTFUNXNz?oc=5",
+      "publicado": "Tue, 21 Jul 2026 12:00:56 GMT",
+      "geo": "US",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "Man stabs and wounds tourists near the Acropolis in Athens, Greece",
       "fonte": "AP News",
       "categoria": "Geral",
       "link": "https://news.google.com/rss/articles/CBMilgFBVV95cUxNbU9YVm1RY0h0Q3V4RE1Zdnc3enEtSXFfSUVwa2g5dTBfN2NWWW1xby0xTS0xcENHVUd4dEVETDJ3LXhSOE5Mc2E2OEItelBSZjBiS3hsaFJCMHg1dVNyRVNsTlFYZ3ltamR2MlFFYV9EaHlkYy1Jb2l5dDRfeUFqTEt2el9Za29JMDcxRGZEMkVJTnZrYkE?oc=5",
-      "publicado": "Tue, 21 Jul 2026 06:48:00 GMT",
+      "publicado": "Tue, 21 Jul 2026 11:50:00 GMT",
       "geo": "US",
       "volume": "Trending"
     },
     {
-      "titulo": "Houthi Red Sea blockade would lift oil prices, but workarounds could limit impact",
-      "fonte": "Reuters",
-      "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMixwFBVV95cUxNV09nNHJnRVFremV5MkNFSW9ER3Q2bDllSURrWk5tOGpvN0Q5X0xaX2VMTlFZY04tenI5WEltOEZvV25qSjQ1blhnRG1VUGxQZEljSFhfakNrMjZfUkk0SWZPN1BtTDVzb29BOGVPQ2VzWV9pT2U0dThaZDU5Ump6VnZYek5XZlpJR0NWanhrNTAxRnMyT0hqemZieUtjN2x2Y3dUX0tkdUY0SHRTaEk2dmxVZGVYUHpEX3FlRE43VDVwMVpyb3BV?oc=5",
-      "publicado": "Mon, 20 Jul 2026 22:51:05 GMT",
+      "titulo": "Ann Widdecombe was hit on head 21 times with hammer, prosecutors say",
+      "fonte": "BBC",
+      "categoria": "Esportes",
+      "link": "https://news.google.com/rss/articles/CBMiWkFVX3lxTFB2YlltZ0djcGxOTXQ0OHV4MjNQclp5RkctYkM2TThmVFVyVWl0Zl9hd1ltUE1mMWdON3dtM2c5Qk1LU2hNUjJpZnUzajg4T1hFcHA4S1RUZ1NQdw?oc=5",
+      "publicado": "Tue, 21 Jul 2026 15:35:08 GMT",
       "geo": "US",
       "volume": "Trending"
     },
     {
-      "titulo": "Ukraine war briefing: Moscow targeted as Wildberries warehouse attacks continue",
-      "fonte": "The Guardian",
+      "titulo": "Ukraine Hits Putin’s Economy With Strikes on Giant Warehouses",
+      "fonte": "Bloomberg.com",
       "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxOS29sVmN3bTZzTzZpQldlUXFVZEhSd3B1UXU3ZVVGYmVUdDJqeHQ3UGEwR3pETlQ5YkRiaEk2a19MdzBWaDB0SV9RMi1SUlE4ZzN6dVI3RzZLY00tYTk4bjNaRUxBNndaQWg3Ync2WEpLUGhLYVd2bXRRUWIxR0xVQmI1cUY3S3pvV3JYWk44UmZoTkFWeThKZzZlS3hydldtLXQ4OEsyY2tGWFB1dmpwWTNmZlZSSS1rcjdLSGZVR3paUQ?oc=5",
-      "publicado": "Tue, 21 Jul 2026 01:25:00 GMT",
+      "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxNQnpUV3dzRjZoYVA5cVdQNTA3TllxaFFyRjlETXdfMHFyWUxjLTY2eUNOUzZfZG1NdzN4TjlXNnNSd0V3QXBaYWdOYmRiODU0SlFHaVJUX0Y2eUY4WVhvTF9rTGliVmNWaW1rN0xkbDBsSG94UXhhVm1sSXBnUEpqaW0tSExfZnphSWJMV3YxajlmbS1xeklHcHhhSEtMRmNvRmZuZ2ZBdld4ZmdKS2hsNGhtQ256QQ?oc=5",
+      "publicado": "Tue, 21 Jul 2026 13:54:38 GMT",
+      "geo": "US",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "Latest Updates: Iran launches new attacks on U.S. allies after 3 American troops killed in escalating war",
+      "fonte": "CBS News",
+      "categoria": "Geral",
+      "link": "https://news.google.com/rss/articles/CBMikwFBVV95cUxPTnl2blBxN3hkcHpRclhTUVh1aEtCSDRKcTBPQXV3UmZFTExfVnExVEcxTW5uZlVRcEQyZDg1MXJ4SXNVUTl6cEdjR2Fla1pRQ1dzSWhoa1dJSlVtell4TXZ2YXNGbFRYRXFsc3hReHJDS0d6V0Q4Yk9KdkRMTEJWVk1OTWR4QWJRVVEtTldRZjBkRGM?oc=5",
+      "publicado": "Tue, 21 Jul 2026 17:10:00 GMT",
       "geo": "US",
       "volume": "Trending"
     },
@@ -579,38 +435,47 @@
       "volume": "Trending"
     },
     {
-      "titulo": "ASEAN top diplomats meet, voice 'serious concern' over Middle East hostilities",
-      "fonte": "Reuters",
-      "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMingFBVV95cUxOTUk5MFphUndRWUE2X3NSdURrVDQzSlc5VThFNjd2bUNfRnR6YW9OMVFiU3NCbENieUhISnZWblNWQXktMFVWWWRleUJaNThta2hDMDdBeGZiMmpramRSdDl6U0M1VkF5a2hNdWI0N2RpQ21HTkQwZ2gxMHdoVmd6aXhBeEtzWHVucjJFMFBRTW1NQnZCQkZZRll1X1Zidw?oc=5",
-      "publicado": "Mon, 20 Jul 2026 22:03:00 GMT",
+      "titulo": "France becomes the first EU country to ban social media for children",
+      "fonte": "CNN",
+      "categoria": "Tecnologia",
+      "link": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxNR0VQSkw3UXcyQUoydE5aSmFhZS1Id2liOU9ISGFjUVNuVHRweGhrNUVHMF9zcDQ5bk56TGhVaU1ERDd6YnJ3SF9NLXYyQ3FuMmFoRGtwdV9XRThUTVp0N3kxZmVUbWZqOWZTdERwUFpaYjFiTnVjT200ZTRTbDVLMjB6U25hSkZhU2I2cmtFa2Vnc3JLOEllQUotMlltb0tXdmt2WDM1aGk?oc=5",
+      "publicado": "Tue, 21 Jul 2026 18:05:04 GMT",
       "geo": "US",
       "volume": "Trending"
     },
     {
-      "titulo": "Ortega insists no more elections for Nicaragua",
-      "fonte": "Al Jazeera",
+      "titulo": "Healthy diet too expensive for one in three people globally, UN report finds",
+      "fonte": "The Guardian",
       "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMikAFBVV95cUxNTXplRk5DM0FsVjJXRGpqQW5Qa25SV19FajhhN096Z1FrZ3FUNHVlN1hrZ3lnTmtiRUpjRmlDMTVSOU1SVnRvdXNwcEVtdnd0cU9lcGIyQ0ZoejZCbnpyZWFCNjFKVWZNQksyMHhTcmtBM29wWDJUNFUwZ3N6eTUwcjZYV0Q4dGNoRzNhSHM4T0PSAZYBQVVfeXFMTVR4cFhlYjB1MTFyUGVaZ1dhOEFOYTBXMGlTTjJNOEpzaUxtcjZtRlVzUEdpZnZxYktvYjU1NXhTYUxwRkNlZTg4ZkhncHhBUTVFYnV1ZHE2Rk9yQXhEYjUyYVlRSVdUTFY3RUJHRHh6LUJ1bmJ4Zzg4ZU50SFJjVTlKa0FVLVpKMVlvWFU1elhraDRoc2ln?oc=5",
-      "publicado": "Mon, 20 Jul 2026 20:58:33 GMT",
+      "link": "https://news.google.com/rss/articles/CBMizwFBVV95cUxPNWZ4YTZpOVc4eG5ldFg1clAyUXd4cW9tRnFYUVFmdjgwUEx1X29zU2QtTnhsbWRVTExUQ3JxSDgwMVp3NUU1RzQ0dFpEZkFLVEFhVGpoUG9OZC01ZkZsNXFmOHItUzl5RVJ6U0E3R0NNVmIwY3JjX1BLNkFUbkRiM3BZLU03Ykg4TndtY3I2bURmUlQ5ZzFya2Z0U1lnMjFKQlN2MUFGYlBUeTIyb3pZZFg5aVdPLS1tQy1lcmZ2Y0RlRDBVT21EcVNwd2FHaWc?oc=5",
+      "publicado": "Tue, 21 Jul 2026 10:01:00 GMT",
       "geo": "US",
       "volume": "Trending"
     },
     {
-      "titulo": "Why Andy Burnham will find it so tricky to unite Britain",
+      "titulo": "Australian Woman Gives Birth to ‘Miracle’ Identical Quadruplets",
+      "fonte": "The New York Times",
+      "categoria": "Geral",
+      "link": "https://news.google.com/rss/articles/CBMimAFBVV95cUxPTVNhMTV6UHRMSHJuajRUbEZfN0NUVWNBbmxISERXcktnZUdIZjBiZk9xLXBpeFoyYjNkQmRIVXNPdGxhbm1WS20zdnRvMFNEb0hlMnlQeTF4aDhTa3NEaWJLVmM5bE02dXFCSHlQZjBWZVE4OUQyMDZOa1BfRDRVZEgtcU1EdHpsckp6LVRucHJVdW5tZmlxMA?oc=5",
+      "publicado": "Tue, 21 Jul 2026 07:57:53 GMT",
+      "geo": "US",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "Britain’s New Leader Starts With Electricity Tax Cut",
+      "fonte": "The New York Times",
+      "categoria": "Geral",
+      "link": "https://news.google.com/rss/articles/CBMikgFBVV95cUxNN1hGSUcwYmp4Y1dlQ080WFptOGhIZmdYMUFXWlRxMEdHNEh2MXhLVVJLbU5teXE0b1lSRDYtWU9DNVpLYlFWTFJoZ1A0QWgwdU9FV054SmM1NEphLTV1QjgtcVFGSzNoakdESFRkSGtqT2lIeGV6R2VGZzNTRlpuR0tWbmpzcXJwVHlveUtqRzRVUQ?oc=5",
+      "publicado": "Tue, 21 Jul 2026 08:22:36 GMT",
+      "geo": "US",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "Israeli air strike in Gaza City kills family of six, medics say",
       "fonte": "BBC",
-      "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMiWkFVX3lxTFBVeHNPaTZZcEUyc1ZfcGlJZlBRa19vVGlHNmZZT05ORWt0ZVAxTnlKYkdCdThpSXI5blZsNTA1T0pNcUJLXzFFTXNPRUs4MG1Sb3N0YjdHWVMzQQ?oc=5",
-      "publicado": "Mon, 20 Jul 2026 23:49:02 GMT",
-      "geo": "US",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "Russian President Putin meets with North Korean foreign minister in latest high-level diplomacy",
-      "fonte": "AP News",
-      "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMinAFBVV95cUxOU2hmdF83T1YtSFB5VXB0ZTJLS01yY3RWREZiN28tMWhYUGhvRUY5MzBZQXpVZmRlWWdfMzNQemk3eVpYREVhLUx5QV9RMDZsWkVrMUZIY3NmbzAyQm5QUGRxOXFyQnlTdWt5QVlJdGdPLWJ5WTgtOWlwTGM5RFBrb050Q1ZYcjhhSHpUVTZmTVpMYjZ1NE1wV1NTUFE?oc=5",
-      "publicado": "Tue, 21 Jul 2026 00:15:00 GMT",
+      "categoria": "Mundo",
+      "link": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE9hTklHYUduV1I5VVlMS0p6VEpJdm9uN0RHZmF1bFJMRm45aUFVYmYwamJValZNak51cTd4ajhMZ0RJcXE0WW9IRVhfVi1KX0xRTzdWc2ZxVkNQQQ?oc=5",
+      "publicado": "Tue, 21 Jul 2026 14:47:41 GMT",
       "geo": "US",
       "volume": "Trending"
     },
@@ -624,146 +489,83 @@
       "volume": "Trending"
     },
     {
-      "titulo": "India's Gen Z 'Cockroach People's Party' started as satire but is serious about change",
-      "fonte": "NPR",
-      "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxNVm94Y28yY1lzdGlTTHlJQ0lCcHVaOFZrM2Fsb21IYkR4R1Y2bkw0ZVVaRG85Z0ZBbzlqYWh4Ui1PQXMwbDBaQUZSTmgyeF82OVpVM2V1M2xEdmkyNGExQzNEejFFNjN2amRleVZOQmZpYzVMYy12aXNsSWZZYkJ6alNFRllxYmR0?oc=5",
-      "publicado": "Mon, 20 Jul 2026 16:36:04 GMT",
-      "geo": "US",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "The U.S. Saw an Investment Boom in Venezuela. Now It’s a $37 Billion Problem.",
-      "fonte": "WSJ",
-      "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMitwFBVV95cUxObHh4Tzc2dWlQTXdhT3J1VWdMcFRnUzFzSV9xbTBKQ3NCaE1KbEY4V0g4aFoyeDlqMGJZNnRpY2dBaktfLXF1cWp5bE9Zb3lLX0NyTjREN3JMbkZ6MFQzdW5teFpWSUJMSm1nQW9Lb3IxOFQ3U3pobzAwVXQyVXFiUk0xeVBsYnVwbmZMS1h5WXRWZ0JpWEplVnBibXVEMEN6RUF6cXhqUko1UF9tdktmY1RjcExuWUU?oc=5",
-      "publicado": "Sun, 19 Jul 2026 11:00:00 GMT",
-      "geo": "US",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "Philippine Sailor Injured in Violent Clash with China Coast Guard off Second Thomas Shoal",
-      "fonte": "USNI News",
-      "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMivwFBVV95cUxQdTg1NkVrcVBScXZta2tiVlo1c3d4NzAxV1BwckliWjZHakdzbXlhenV5dWFsXzJyX3VTWFdVVE9iaVotd2YtXzU5LXhKbG0xZFQta0pwMEFwQVA1VndmVktubXZlbW50OE5Ndi1HeHIzQnZYR29paFU2OTdVMGtFekhvb205YVVvZ0RoVF9PZWNlNW43MGk0NEJiRTh3aVFPZmk1VTRZbWNfRGllYk54ZVlJbVVEQVJ3VzNSLVZMVQ?oc=5",
-      "publicado": "Mon, 20 Jul 2026 12:06:00 GMT",
-      "geo": "US",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "Japan protests Chinese live-fire drill in nearby waters",
+      "titulo": "ASEAN top diplomats meet, voice 'serious concern' over Middle East hostilities",
       "fonte": "Reuters",
       "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMirAFBVV95cUxPYmIxbjdDQ0txTmw5SzlweXpoNXBFU2pIS1NGU2N0VGwxVlNGV05kU0N2TEtwRnhPU0lqNFJWbmtycFhsR3owd25BTTlheklQVXpkLWFRNk1KRFBlcGpkNV9Nei1yclI2clA4MU5TcTl5TVpjTkxQQ1BGaGJpa2Vnc2tDbWVLSldNQ3Rfa3d2NGFhMHkyVDdfRFBWS0xVN0dwb0lWUjBqenR0VmM4?oc=5",
-      "publicado": "Tue, 21 Jul 2026 00:43:00 GMT",
+      "link": "https://news.google.com/rss/articles/CBMingFBVV95cUxOTUk5MFphUndRWUE2X3NSdURrVDQzSlc5VThFNjd2bUNfRnR6YW9OMVFiU3NCbENieUhISnZWblNWQXktMFVWWWRleUJaNThta2hDMDdBeGZiMmpramRSdDl6U0M1VkF5a2hNdWI0N2RpQ21HTkQwZ2gxMHdoVmd6aXhBeEtzWHVucjJFMFBRTW1NQnZCQkZZRll1X1Zidw?oc=5",
+      "publicado": "Mon, 20 Jul 2026 22:03:00 GMT",
       "geo": "US",
       "volume": "Trending"
     },
     {
-      "titulo": "Suspect charged in fatal attack on UK politician Ann Widdecombe",
-      "fonte": "Al Jazeera",
+      "titulo": "Philippines, China summon each other's envoys over South China Sea incident",
+      "fonte": "Reuters",
       "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMipwFBVV95cUxNMGJBWEZYTjdjUnI0dDZMN1hkZGxNMVRXRGlXNklLSXZkQVRUVTkzOWZsaURmU3c5MFFMSjhLMExOTnRlekkwN29QaTNxeGU3ZmI5a1ZRYWpsZXRKSTFxU0VBLWlCTHVRY3NBUlIxb1lPTURXY0kyTjVHclJvamlOc0RnNHphWWlHLWtDNkRmY0RQTk5UN1RMZUNWclBndXRVUENsWHBNVdIBrAFBVV95cUxPT3Qwc25aS1ZiZkRYUFptQ3hydkZZZmIxeUlyNE5Ib1BRdG5qbU95UXAtczFYSXFId3pZMWtibEpRQjRnQkk1VWU5aXM1ejByRXNtYnRmWWYyOGdJQlpPVHc3X2FLZUhnUVRCN0ZKd1BaalFfdHBKbFpjNHlNczRCanI2b2dSd0lKZUZ5eE54cWpLbFZiMUJNTmsyd2tEcGM3QXFXdTdKLWtmaUJo?oc=5",
-      "publicado": "Mon, 20 Jul 2026 23:22:11 GMT",
+      "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxNU1JrWlBzY2hhTkQ5dlhFNkhEamdNSW1rUGFmNEJPQzdLVHZxaTVrdE5zSzVKSnl5MG1Nckx0UWVxZmd1RUh1ZlNsU0RoQ2xsNGhwT2FDRGNFUDJuWllrNzFjRXhBLWFiaU12eHpFUVBNUW5oMEdQMjRjekg4VmtkMVphU0hjOFhOQUU4NEhkX09mZWRQOGM4ZE9LTjJiN29fcDJtRVhMSXBmc1ZLSGp0c3dhcFQ?oc=5",
+      "publicado": "Tue, 21 Jul 2026 04:57:00 GMT",
       "geo": "US",
       "volume": "Trending"
     },
     {
-      "titulo": "Ten killed as Russian attacks on merchant ships in Black Sea intensify",
+      "titulo": "Israel is building a miles-long earthen barrier inside Gaza, entrenching its division",
+      "fonte": "AP News",
+      "categoria": "Mundo",
+      "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxPQnFjRG9PSm5GWnF5QTZ5WjJuaTVVYmRLanZNMElEUzZjT2xGSjJNZE5QS3hoRC1OMldqOVNWOTFWRkgxazY0NmNHN1FhX0RBV2ZNNHdJNk4wUUJBNHlySm83WkY1MUhZZ2NlS1JQU1dKUWh5VDZXRDd4eDVCYkZyVTh2SjJfNGMtc25zRk90R3ZKc3h1bTNJd1JWenM1UUl5QWpV?oc=5",
+      "publicado": "Tue, 21 Jul 2026 11:11:00 GMT",
+      "geo": "US",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "Four drone strikes in four days hit tankers carrying Kazakhstan's oil",
+      "fonte": "Euronews.com",
+      "categoria": "Mundo",
+      "link": "https://news.google.com/rss/articles/CBMipwFBVV95cUxPN1JHdlB5RFQxS09fZEw3SUhPWmN1bEN3YjdVbXVfdHpsSlFkbDNidTdOUGxsd2YycTBzRlNKeU9Tdl9wVTBreHNBNnJFSU1rQVdJcmwzd29TeGU1MWxvaU9nS2xneEVNd0ZJVnBwV3JiR1hUcE1ZOWxyY0NzYjhEVFdpQVVTY0ZMQmMyeU9LV09jLVBrLTF2ektOaGdlWU1ZTmU3X3RyNA?oc=5",
+      "publicado": "Tue, 21 Jul 2026 12:08:41 GMT",
+      "geo": "US",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "Fox News pundits urge Trump to get out of Iran war",
+      "fonte": "The Hill",
+      "categoria": "Mundo",
+      "link": "https://news.google.com/rss/articles/CBMikwFBVV95cUxObkhwTWJ1Y0tMTmhQTWZMRUNTZzFUem9JU2stb1pWQnFINmMxdGN0V0ctQXY5QnVHVjlrVXZ3eGFvLVgwRVYzalBxRERfVUZxb3dyRVpUT1RBY1Qzcy05bjN2bmdZVGJZc0hzYzFNM3JGQlgyeXlFYkxOUm45WjBncXAtU2doM0o4OEwwbXduanZDb3PSAZgBQVVfeXFMTld3djlldHQyUk9IanJmSG5uYkFzaXhWTEIyQjk1a3M3Ny0yNHBlLVRvQk50N2ZtNG9GTlhVYmhpdGoxckQ0RU0xMDQwY3dNTlVHNVhpMUhZdG1jWExLOUZudmlzTXVFNUFKMXE2dVFHTTZNV1N4a25tMlVmVVppbW5VWkdoZzdsSzJHbGdERHBJbTRXcDJtc3E?oc=5",
+      "publicado": "Tue, 21 Jul 2026 13:28:00 GMT",
+      "geo": "US",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "Who is new chancellor John Healey? Labour veteran who quit as defence secretary",
       "fonte": "BBC",
       "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE5wdWlnZ2d3SEhzOG9QWWF3S3J4SWVqczNWM1JmRWNpS1FQb2JVVzZaN01mZ2dzN3dMalJhT0docVk5eklEZ0lYMmppRWs4aV9URV9rMjlSWjI0dw?oc=5",
-      "publicado": "Mon, 20 Jul 2026 16:10:38 GMT",
+      "link": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE9EX3hBOXFLSmIwcng5TGhlWEJvYVZjUWM2TTBQZzB3ZXFpQWp3cGQ5eXVsdWlDd2w3bndReEpHZFYzbGxqanJ5VUxFclFvX19yU1h3LVlwckRKQQ?oc=5",
+      "publicado": "Mon, 20 Jul 2026 18:44:55 GMT",
       "geo": "US",
       "volume": "Trending"
     },
     {
-      "titulo": "Russia’s Belgorod Reservoir dam damaged in suspected Ukrainian strike, satellite images show",
-      "fonte": "Meduza",
+      "titulo": "Shanghai science forum photos show China’s AI and robotics advances in rivalry with US",
+      "fonte": "AP News",
       "categoria": "Entretenimento",
-      "link": "https://news.google.com/rss/articles/CBMixwFBVV95cUxObzdiZXZMb0VIekRtVEIzeFJUN3MwZzB0NDhEc3lTc2tNdGpyWThZTTBrVDJFQ1pCbzA1akx6VjdFYVJHWXdQYUpJdmx5NExST1F2WkgzUXhuM3pZU0V2M0YtbE9sYkdEYkQ4Z2t2TVJKRktQcjlHaDNpM0FyYlRDb1gwVThRWnR1YVJ6dEQteHJsc3gzT1QyOHI2b2E2Z2gxLVp4WUZIRjlhWVBWYkYzUmRYX3RTeGRtSThIMk5PNFMxa1lzcnJn0gHMAUFVX3lxTFBLNGJMd0NyM05pOVZhdUUwVEFERm50eTFZcW5Ma0dDRkhWT1llUjBaTjBrRWp5RE1RTUF1LW1uR3F1WHR3VUlJYy1IdlFMWXZEQ0tVSDFpSXNOcG03ZXNJOWZqTFlxNjVUcUtoOE9DbURLYzJzWFZaRGhSbnVMem5JdTl5anR6RHNFdFN4ZlpfYmxudDAyckQ1cm5TLUFaWDdra1dnUGQ5SmkxUXR0UFFNQURXQ2ZBRW5sUjlDejlPbWVfREtHb1VES19ocA?oc=5",
-      "publicado": "Mon, 20 Jul 2026 21:12:00 GMT",
+      "link": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxPLXFVYU9Rc2tQWlBSZEF6UEtGRlZGQUdqN2JieEVWdXFFa2VrbnQyRHUxNmc3WEM3QTE2SDh6NlR4ZHVSLUFOMnF1VDNUMjlGSFYwUlJLNEtKWERYTWFUSFNaWk1uazBZUHRnNW5MMUZybjhRcVU1czRWNkx4aVJVVXMzWE13cEdUdlNDallIWDVUbjM2aEE4Ui1abkhnZmMyMEhELUpKUmFNYnc?oc=5",
+      "publicado": "Tue, 21 Jul 2026 01:30:00 GMT",
       "geo": "US",
       "volume": "Trending"
     },
     {
-      "titulo": "Lockheed Martin announces cheaper Patriot interceptor missile",
-      "fonte": "Defense News",
+      "titulo": "Burnham Picks Narayan as First UK AI Minister to Attend Cabinet",
+      "fonte": "Bloomberg.com",
       "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMivAFBVV95cUxNLUxGVmJhUXk3eGNLNnl1a29pek5jVENXR0FzZHlROWw5NWRPN0lrT1dCSzVYWWU4SGpHNS1pZXlpV0tnOThDdy1DeDZwZXhlX0I2eDlkNGdqTXJxVnZHb2JKa1RNemVQMzFqR2x3MTM3R3NjczZvTDdOVi1iSEtISHgwNzJvN3JuVlV1MTEyUlJzWkpqYmhXSWdQX0I4RWp3bHVqMVktWVM1VVRFRTdiUm16Yml6bzNhbWNoeQ?oc=5",
-      "publicado": "Mon, 20 Jul 2026 14:44:54 GMT",
+      "link": "https://news.google.com/rss/articles/CBMiswFBVV95cUxONnJiMFdGZG9saldfY2RyMWloOUk5S1VzOGdILUZyT05zT19vWU1BYUx5a0FGMy1vM04xOGwtLVhxbEtuZ0cwcFNINXp5NlFPZUpHT1NoTlNlQWhnQlE1WF9YUkxsdVdyd2lnWUptNmxyal9PdlVYSk5Db1R6ZlpPQXJRSDZSYWY1RlZybnNvLVRFQXBGYV9QTHp0LTl2SjNrQW5UY2hjZmlnVFQwQ0VsS2hyYw?oc=5",
+      "publicado": "Mon, 20 Jul 2026 22:55:39 GMT",
       "geo": "US",
       "volume": "Trending"
     },
     {
-      "titulo": "Ontario wildfires expand as smoke lingers in parts of the US",
-      "fonte": "Reuters",
-      "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMipwFBVV95cUxNUEdiVTZiVm9PMW91U0NzOXpSSERZOTNfU0E5eVF1cHhjUmpXVDRFMlRjbkc2S1BQQlpwUDdWb25fWnRHa284R0RzWGhDMkNlNkFsR1FNblBDMHRnU2NObk5lcG5KcnQ0U0V3bmNTSEVHaTluSkxBX1ZxdnlYbEJmTnRLeVNNZFVFVHVCdHN2YWV4ckxjcUd5U2wzWEFIZnZVZHhHbHNLdw?oc=5",
-      "publicado": "Mon, 20 Jul 2026 19:45:00 GMT",
-      "geo": "US",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "5.5 magnitude earthquake hits Peru’s Andes region and kills at least 6 people",
+      "titulo": "A blast in a tunnel at an Indian hydropower project leaves 12 dead and 13 missing",
       "fonte": "AP News",
       "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNS0tZTmxiOXpOU2dVZ2xQTUJEMUxBN0RkU1paeHhNOUFkQUI1bE5Wc1pfYXdtSGxZZTlHeVFnUV9uenhvNlJva2dOcjZnOVBHU0RkRlkyc3FZdDZtbmhXU1NwaFRGOXJ6UVBvRTdWOGhvSWN0bTBEMjNkcEkxSGFFV09NYmVrY19ETkpRakF0bmRfOEhvLVY1QUgwRzhlNFFxTmpZ?oc=5",
-      "publicado": "Sun, 19 Jul 2026 20:21:00 GMT",
-      "geo": "US",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "Judit Polgar, Tapped As Next President Of Hungary, Declines",
-      "fonte": "Chess.com",
-      "categoria": "Tecnologia",
-      "link": "https://news.google.com/rss/articles/CBMif0FVX3lxTE1OeE02THlLMXc4elpUTFowV0llYWZiR2hQTnpEMFJFci1USmlzZ1BrMUdwUUFDN2haNGluLWNWRi1IYlh1TDlhaGlCdjJ0ZURtU2pCdWlmNG9QcWlVZW1kdHNZdW9lTUNnUGR6ZE1sNURaRXQxeUFrXzJGeDZZMlE?oc=5",
-      "publicado": "Mon, 20 Jul 2026 19:14:00 GMT",
-      "geo": "US",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "What does Khalil al-Hayya’s election win mean for Gaza?",
-      "fonte": "Al Jazeera",
-      "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMimgFBVV95cUxNclRqaVVwbnBydlE3b1NXRmg5TlZZNWhHWUJ0UzNMa3RhN1gySGk0UkxpM0tQU1VhM1piN3dJSVRWMUdfeVYycDN4U3pZcVVUdzRFeEN1V2tNRm90c0xxZkhOVVZoYWU2YzhZRGhIMFV1YUhfcE9BSGYzSnI2YTVLSFZ1V1lYZHhXMEdEVEUyS3VmMjZFMGxoX3FB0gGfAUFVX3lxTE1ZeVBOVFZUajJTOVdjLUpLTjZZN2dIcUlzdGtNS3dMdDk1b2ZMZHhlTloyWDBMM0tWWVZKdjhFVU1KRGhyUUIyb0U5NWNEM2NFdVNtY0JFTlJ1UGh0VTVxeFpHWE1BU2I1NmNpUFpaNThJb2x2cU9wcFVfbHFDdVRVNFo2UWVsNUJNZ1FQVTJkejFBUWhlUWcxamMtcnllWQ?oc=5",
-      "publicado": "Mon, 20 Jul 2026 19:48:38 GMT",
-      "geo": "US",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "Larry the Cat welcomes Andy Burnham, his 7th British prime minister, to Downing Street: A look back at the feline's 15 years of service in photos",
-      "fonte": "Yahoo",
-      "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMiowJBVV95cUxNWXZZRi0xM1c4S0lGZElDcENwai1tRFkzVlNtaFVPcF9zR2k3Nnl5a3dPMWZ3NmtFTFItc3J1Z1dKd2F3WGhlcmJBNTBmMFVtTUsxRHlSczdSdkpZTkppS1Q1Ni0wMFlubEZheDczTWlCWWhIbGRQOFJrSDhobkI2TUZIREZ4YWcxRXhKbFJhMFZmRUFhYjJ1VGtMYXk4ak14ZTVDZWZPTGxKNlN4eUpEcG1vbUxNMXRmblplc0NSb0pSOXA3aTFYNmd6Y1VZdzZmTmRycm1NQlMxSE1XaE1oVFlUQnVSckVBdjV4Q1RGdC00OW9NZF9wU1VYV05lZEtCMnBENXpCUjVxcWRoTjk4STlMcmV6dURNcEpubHM2SnJwNUE?oc=5",
-      "publicado": "Mon, 20 Jul 2026 17:56:26 GMT",
-      "geo": "US",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "Russia pounds Kyiv as NATO military chief warns Moscow would 'lose a lot' by attacking Baltics",
-      "fonte": "CNBC",
-      "categoria": "Mundo",
-      "link": "https://news.google.com/rss/articles/CBMinwFBVV95cUxQSV9ZLXBFVld4Q0JLYnBMTTBrSkZYOS1PZFBrTldWc3JENlNvXzA3bFplTG1PRm1HRWxMXzVLcWRkbl9xMVh6bUlaSl9jcmZ3MlBuWHVmbS13QzcyYnpfT09lYUJQVzIwSXJoXzdKZXhQaUtDWjBoT1lDd3NtWFlfNDQ4aEpBZUVTUUV0NEplenhYdmxiTXJoRjFhQVFVakXSAaQBQVVfeXFMUERRS2NSQnhNNjB2RjYxSklLVU1fNV9hQjhPZEJOODUyTndGRHIxZldBek5MUzdONUpHX3lWcVpyNmM3ZGdjdlp1ZUx2Ri1FV1hqSWJVNzg0RWxWY1Q5VHdsSVBIYmM0am5IZ0J4NEhmN2dvMFBSSm9UcE5QbFhyUFByaHduQUNtQTNzZ3ZYQWNtSTJSNEhGaDhfdmdZeXZTb3ZpM0M?oc=5",
-      "publicado": "Mon, 20 Jul 2026 04:48:36 GMT",
-      "geo": "US",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "Rare identical quadruplets born in Australia",
-      "fonte": "BBC",
-      "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE4tSDBEWV84LWlxcVR1Y2xrdDVId2JSTUNFS1luR3JSc2FZNnJmVUEyNjhTR2xGMi1UVEV3OVU2azJQVXZlQVBOTC1mYXJRcFFhVHh3QmJ2RXR1dw?oc=5",
-      "publicado": "Mon, 20 Jul 2026 12:57:32 GMT",
-      "geo": "US",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "Where Are The Aircraft Carriers: July 20, 2026",
-      "fonte": "TWZ",
-      "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMid0FVX3lxTE1WelgxRlI4R3BkYm8xSmZWSi1nWVRwUE9DODh5MHZuWDlNb010NG8ybUJTdnJGekp1emRYLW1GVERmaFRPZUR4eE1CYjZaelMyeXBsRlVqYmU1Ri03QjNIUFNmeW9UbDN3V3NyYUZaVmZ1NG5Ka3dn?oc=5",
-      "publicado": "Mon, 20 Jul 2026 22:36:32 GMT",
+      "link": "https://news.google.com/rss/articles/CBMinwFBVV95cUxPY3ZnQjhycGI3cENWVWlBU1BiSHNnbnllRWktWGlmTHR1NFZkcmVqTm1zbUtBdmNMajgzOEtNYVVYd2VPbTJqSFVOWXRCcHhDRUhPYUhhT2RMamQzMll4MWFpanlYX0I5MkhfMmgxMms0aTBYbkY4blpranZsSFluVGJUYkpaMFBseWVTbXlUSHFTZVFWR0gwYThRcGVDVlE?oc=5",
+      "publicado": "Tue, 21 Jul 2026 16:15:00 GMT",
       "geo": "US",
       "volume": "Trending"
     },
@@ -777,56 +579,47 @@
       "volume": "Trending"
     },
     {
-      "titulo": "Iran: 2 oil tankers in Strait of Hormuz have exploded",
-      "fonte": "The Hill",
+      "titulo": "Japan protests Chinese live-fire drill in nearby waters",
+      "fonte": "Reuters",
       "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMiggFBVV95cUxNS0xHeEJHSTQ2MjA3N1htcDR3WS11Y0U2QjNXUHU4Zkd6Z0lNNXNKYmcxM2VEaVR3ejV1YkhNVXZqdC1kY2p3eUxHamJ5RmljQzZRRlc5bmlHM2RTdDc5R0VDcEp2QTVsQ2JPN0xqX01rNkUzMVlkMkZ5dTNlZ3IwY3dn0gGHAUFVX3lxTE5kQlpxOGp1NDdZbmJqdW15T0VhZ2JKRGtZSUtURVlmV1B4YldxQUFhckxNcU5YUjRKVkJaaGtsZzFDMk0zVXA5ZF9idV9JOUtJeVJ5MVJWLVpBV2xWMkY3Z3NUQkpVVEpBdEhiZ1I3V25PM192aHd6NzM5SmhsMnZod1F2ZTRzMA?oc=5",
-      "publicado": "Mon, 20 Jul 2026 13:58:00 GMT",
+      "link": "https://news.google.com/rss/articles/CBMirAFBVV95cUxPYmIxbjdDQ0txTmw5SzlweXpoNXBFU2pIS1NGU2N0VGwxVlNGV05kU0N2TEtwRnhPU0lqNFJWbmtycFhsR3owd25BTTlheklQVXpkLWFRNk1KRFBlcGpkNV9Nei1yclI2clA4MU5TcTl5TVpjTkxQQ1BGaGJpa2Vnc2tDbWVLSldNQ3Rfa3d2NGFhMHkyVDdfRFBWS0xVN0dwb0lWUjBqenR0VmM4?oc=5",
+      "publicado": "Tue, 21 Jul 2026 00:43:00 GMT",
       "geo": "US",
       "volume": "Trending"
     },
     {
-      "titulo": "Ukraine’s Overnight Drone Campaign Extends Beyond Moscow to Crimea, Air Base, Shadow Fleet",
-      "fonte": "Kyiv Post",
+      "titulo": "Russia pounds Kyiv as NATO military chief warns Moscow would 'lose a lot' by attacking Baltics",
+      "fonte": "CNBC",
       "categoria": "Mundo",
-      "link": "https://news.google.com/rss/articles/CBMiS0FVX3lxTE16S0V6d0NZbk9CV01uT0lYT3Rzb2RZTFhiWE0yTGxKMVoyM3Jvd0dvb09YdDR4WUk1WWJwcmpTYXdFOHZ3RkNYUy1xQQ?oc=5",
-      "publicado": "Mon, 20 Jul 2026 10:14:53 GMT",
+      "link": "https://news.google.com/rss/articles/CBMinwFBVV95cUxQSV9ZLXBFVld4Q0JLYnBMTTBrSkZYOS1PZFBrTldWc3JENlNvXzA3bFplTG1PRm1HRWxMXzVLcWRkbl9xMVh6bUlaSl9jcmZ3MlBuWHVmbS13QzcyYnpfT09lYUJQVzIwSXJoXzdKZXhQaUtDWjBoT1lDd3NtWFlfNDQ4aEpBZUVTUUV0NEplenhYdmxiTXJoRjFhQVFVakXSAaQBQVVfeXFMUERRS2NSQnhNNjB2RjYxSklLVU1fNV9hQjhPZEJOODUyTndGRHIxZldBek5MUzdONUpHX3lWcVpyNmM3ZGdjdlp1ZUx2Ri1FV1hqSWJVNzg0RWxWY1Q5VHdsSVBIYmM0am5IZ0J4NEhmN2dvMFBSSm9UcE5QbFhyUFByaHduQUNtQTNzZ3ZYQWNtSTJSNEhGaDhfdmdZeXZTb3ZpM0M?oc=5",
+      "publicado": "Mon, 20 Jul 2026 04:48:36 GMT",
       "geo": "US",
       "volume": "Trending"
     },
     {
-      "titulo": "Russia thought its supply roads 100 miles from the front were safe. Ukrainian operators can 'free hunt' with new drones.",
-      "fonte": "Yahoo",
-      "categoria": "Mundo",
-      "link": "https://news.google.com/rss/articles/CBMikgFBVV95cUxOa0cweFNMUWFMcUZVZ3NoaVU2em8wMllSQUEyZ3ZwbFVHR3BFbEx3NGQtbmVXM2U3a0JuSzdPRWxSOXNRXzc3YUQteDNpM0djRWZ2RjUzTnV0VWZob21wemNfNFlCaEh4eElWV045aVdFaU1zb0pxU2RuYWV3d0pvNXVlMzlTaEItTDduUTU4Y3h3Zw?oc=5",
-      "publicado": "Mon, 20 Jul 2026 16:22:44 GMT",
+      "titulo": "Ontario wildfires expand as smoke lingers in parts of the US",
+      "fonte": "Reuters",
+      "categoria": "Geral",
+      "link": "https://news.google.com/rss/articles/CBMipwFBVV95cUxNUEdiVTZiVm9PMW91U0NzOXpSSERZOTNfU0E5eVF1cHhjUmpXVDRFMlRjbkc2S1BQQlpwUDdWb25fWnRHa284R0RzWGhDMkNlNkFsR1FNblBDMHRnU2NObk5lcG5KcnQ0U0V3bmNTSEVHaTluSkxBX1ZxdnlYbEJmTnRLeVNNZFVFVHVCdHN2YWV4ckxjcUd5U2wzWEFIZnZVZHhHbHNLdw?oc=5",
+      "publicado": "Mon, 20 Jul 2026 19:45:00 GMT",
       "geo": "US",
       "volume": "Trending"
     },
     {
-      "titulo": "India police use tear gas to stop march on Parliament by Cockroach movement supporters",
-      "fonte": "AP News",
-      "categoria": "Tecnologia",
-      "link": "https://news.google.com/rss/articles/CBMitwFBVV95cUxQUm03WGJ4dXBXemV0VkZrdVotZHNnYU5NZXpNMUNrcXExUHh2SGRfOC1UNWo5ZmNWWG9lVk82ZmZmVWpMNTRfaDR4YmpSU1BFbm1UZl9GR0tHbEJvdXhVWXBQcWhYaTg4dlVCeHBVZG1yamNVOTgwTXNrMXlVZ1U4RVlxZnhuQ3VXYmxsdG94ZHBnZFM5TGxfazRrRDJESjRwZEFFamdKWGMzN3puaXZjTDhKTTl3Vk0?oc=5",
-      "publicado": "Mon, 20 Jul 2026 12:16:00 GMT",
+      "titulo": "One cannabis mistake at airport could bring 10 years in prison and $15,000 fine",
+      "fonte": "Fox News",
+      "categoria": "Geral",
+      "link": "https://news.google.com/rss/articles/CBMimgFBVV95cUxPOTM4QzB5Y2NKdjg1bDlLOUt4NU50clpCVkZ6YV81WUo3NE94eVZMT3pXOHVDZFZDZHB0SGl5WTNVQW9EZ2ZVRGNNa1JQUnl3TnFka3YyNW94T2dYR0sxZEZWeGhCVzNDc1NxMTY5ZU9McHBwWWlnU1FOeGxYemFWbDBfZmktZTg2ZUlDcGRHYlREMlRiRkk0b0RB0gGfAUFVX3lxTE5DTDRWbUc1aU5Dc2hQcllPUnFrM2pmamtaN1hDbmJtQmwzdF9CVW1uMGNwcW5qbV9KOHRvbWxWVUpteHM3bjNvcUJKajd4bzF1LUhydmZ6dUhUbXhwblp3dlVsOXpVRnJqbTVLTEtwanloazJlV2JWQWt5cGtuVVNpQmMyVFRhaTI2QkhuZFp4UjZEN21ZLU40bnNaMGhpMA?oc=5",
+      "publicado": "Mon, 20 Jul 2026 23:48:15 GMT",
       "geo": "US",
       "volume": "Trending"
     },
     {
-      "titulo": "Another tanker attacked in Strait of Hormuz as US strikes Iran for 10th consecutive night",
+      "titulo": "Attacks between US and Iran across Mideast overshadow efforts to keep diplomacy alive",
       "fonte": "AP News",
       "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMinwFBVV95cUxQajNHTE9aUmxpa2RIMy1jNjZ4RmgzZlk2OXE3ZXBtRzdxaUpnQldzeUtxaHh6Z3VTQzZMUGNtZ1oxNE5lQzZwLVhnX3BTZWk1OVBVT1ZiNFFtMnoyRDhHbFBnV0pFdTdNcnBKdWVuT0RidVJoWXFCYkdlNDE2V1hmZ1VhUlZhLXExZTZjOHo1YmRYMm5ra1U4RE9DU29CMVU?oc=5",
-      "publicado": "Tue, 21 Jul 2026 04:30:00 GMT",
-      "geo": "US",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "US launches 10th round of strikes as Iran says it is in ‘full-scale war’",
-      "fonte": "The Guardian",
-      "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMikwFBVV95cUxNR2lqYURIaDAySDVzVnJYZ2kzMVN5WjJLeUNxc3NKZmNRWS1NZGZ2RVp3Vkt3VWxBMFpDb1RoV1YzTWxsQ2RoVWN0UUhfQ09oQkM0T00zbElUV0tWbVNQVDVoNGo4TGZCeEt4Y1c5T2pwcFFKcEJUeVA3eGJNRnNLMDJqLW8xR1ZwcGV4dXdWSExpa3M?oc=5",
-      "publicado": "Mon, 20 Jul 2026 02:01:00 GMT",
+      "link": "https://news.google.com/rss/articles/CBMinwFBVV95cUxPR3ByTjM2MjQxUW43TEtOc0JJNXpDYmNxdDNYRlNXMk0yZUNlYnMwVXlrZUxyMlF3UlZjMk9IOFpzVjl6TzI3Q0JPQ0hkazlZSDFHeWpHYTN1RVp0QjNYQTlYX3g4TlVBZmlEV0VIT1ZXaG1nUTFnYnRGTGhDOFZrWFVWc1B4LUI3Q0JhQjlvMkgyTk1HU09UcG9TNDN4M0E?oc=5",
+      "publicado": "Tue, 21 Jul 2026 19:20:00 GMT",
       "geo": "US",
       "volume": "Trending"
     }
