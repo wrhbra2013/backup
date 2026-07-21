@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Configuracao do Instagram Graph API - Guia Completo</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    h1 {
+      color: #E1306C;
+      border-bottom: 3px solid #E1306C;
+      padding-bottom: 10px;
+    }
+    h2 {
+      color: #833AB4;
+      margin-top: 30px;
+      border-left: 4px solid #833AB4;
+      padding-left: 10px;
+    }
+    h3 {
+      color: #F77737;
+    }
+    code {
+      background: #f4f4f4;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-family: 'Consolas', monospace;
+      font-size: 0.9em;
+    }
+    pre {
+      background: #f4f4f4;
+      padding: 15px;
+      border-radius: 5px;
+      overflow-x: auto;
+      border-left: 4px solid #E1306C;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 15px 0;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background: #E1306C;
+      color: white;
+    }
+    tr:nth-child(even) {
+      background: #f9f9f9;
+    }
+    .warning {
+      background: #fff3cd;
+      border: 1px solid #ffc107;
+      padding: 15px;
+      border-radius: 5px;
+      margin: 15px 0;
+    }
+    .important {
+      background: #d4edda;
+      border: 1px solid #28a745;
+      padding: 15px;
+      border-radius: 5px;
+      margin: 15px 0;
+    }
+    .error {
+      background: #f8d7da;
+      border: 1px solid #dc3545;
+      padding: 15px;
+      border-radius: 5px;
+      margin: 15px 0;
+    }
+    ul, ol {
+      margin: 10px 0;
+      padding-left: 25px;
+    }
+    li {
+      margin: 5px 0;
+    }
+    a {
+      color: #E1306C;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    .step-number {
+      background: #E1306C;
+      color: white;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      margin-right: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Configuracao do Instagram Graph API</h1>
+<h2>Guia Completo para Corrigir Permissoes</h2>
+
+<div class="error">
+  <strong>Problemas Comuns:</strong>
+  <ul>
+    <li><code>This endpoint requires the 'pages_read_engagement' permission</code></li>
+    <li><code>Invalid Scopes</code></li>
+    <li><code>Nenhuma pagina com IG Business encontrada</code></li>
+  </ul>
+  <p>Se voce esta vendo algum desses erros, siga os passos abaixo.</p>
+</div>
+
+<h2><span class="step-number">1</span> Criar App no Facebook Developer</h2>
+<ol>
+  <li>Acesse: <a href="https://developers.facebook.com/">https://developers.facebook.com/</a></li>
+  <li>Clique em <strong>"Meus Apps"</strong> → <strong>"Criar App"</strong></li>
+  <li>Escolha o tipo <strong>"Business"</strong></li>
+  <li>De um nome ao app (ex: "Instagram Feed")</li>
+  <li>Clique em <strong>"Criar App"</strong></li>
+</ol>
+
+<h2><span class="step-number">2</span> Adicionar Instagram Graph API</h2>
+<ol>
+  <li>No painel do app, menu lateral: <strong>"Instagram"</strong></li>
+  <li>Clique em <strong>"Configurar"</strong></li>
+  <li>Conecte uma conta Instagram Business/Creator</li>
+</ol>
+
+<h2><span class="step-number">3</span> Configurar Permissoes (OBRIGATORIO)</h2>
+<ol>
+  <li>Menu lateral: <strong>"App Review"</strong> → <strong>"Permissions and Features"</strong></li>
+  <li>Busque e ative as permissoes:</li>
+</ol>
+
+<table>
+  <tr>
+    <th>Permissao</th>
+    <th>Descricao</th>
+  </tr>
+  <tr>
+    <td><code>instagram_basic</code></td>
+    <td>Dados basicos do Instagram</td>
+  </tr>
+  <tr>
+    <td><code>pages_show_list</code></td>
+    <td>Listar paginas Facebook</td>
+  </tr>
+  <tr>
+    <td><code>pages_read_engagement</code></td>
+    <td>Ler engajamento dos posts</td>
+  </tr>
+</table>
+
+<ol start="3">
+  <li>Clique em <strong>"Start a test"</strong> ou <strong>"Request"</strong> para cada uma</li>
+</ol>
+
+<div class="warning">
+  <strong>IMPORTANTE:</strong> Para apps em modo desenvolvimento (sem revisao), as permissoes so funcionam para usuarios <strong>Administradores</strong> do app.
+</div>
+
+<h2><span class="step-number">4</span> Adicionar Usuario como Administrador</h2>
+<ol>
+  <li>Menu lateral: <strong>"Settings"</strong> → <strong>"Roles"</strong></li>
+  <li>Clique em <strong>"Admins"</strong> → <strong>"Add"</strong></li>
+  <li>Digite o email ou nome da conta Facebook</li>
+  <li>Confirme</li>
+</ol>
+
+<div class="important">
+  <strong>Dica:</strong> Isso permite que voce teste o app sem precisar enviar para revisao.
+</div>
+
+<h2><span class="step-number">5</span> Configurar Facebook Login</h2>
+<ol>
+  <li>Menu lateral: <strong>"Facebook Login"</strong> → <strong>"Settings"</strong></li>
+  <li>Em <strong>"Valid OAuth redirect URIs"</strong>, adicione:</li>
+</ol>
+
+<pre>http://localhost:18923/callback</pre>
+
+<ol start="3">
+  <li>Clique em <strong>"Save"</strong></li>
+</ol>
+
+<h2><span class="step-number">6</span> Copiar App ID e App Secret</h2>
+<ol>
+  <li>Menu lateral: <strong>"Settings"</strong> → <strong>"Basic"</strong></li>
+  <li>Copie o <strong>App ID</strong></li>
+  <li>Clique em <strong>"Show"</strong> ao lado do <strong>App Secret</strong> e copie</li>
+</ol>
+
+<h2><span class="step-number">7</span> Converter Conta Instagram para Business</h2>
+
+<p>Se sua conta Instagram nao for Business/Creator:</p>
+
+<ol>
+  <li>Abra o app Instagram</li>
+  <li>Va em <strong>Configuracoes</strong> → <strong>Conta</strong></li>
+  <li>Toque em <strong>"Mudar para Conta Profissional"</strong></li>
+  <li>Escolha <strong>"Negocio"</strong> ou <strong>"Criador"</strong></li>
+  <li>Siga as instrucoes</li>
+</ol>
+
+<h2><span class="step-number">8</span> Vincular Instagram a Pagina Facebook</h2>
+<ol>
+  <li>No Facebook, acesse sua Pagina</li>
+  <li>Va em <strong>Configuracoes da Pagina</strong></li>
+  <li>Clique em <strong>"Contas Profissionais"</strong></li>
+  <li>Clique em <strong>"Conectar conta"</strong></li>
+  <li>Selecione sua conta Instagram</li>
+  <li>Autorize o vinculo</li>
+</ol>
+
+<h2><span class="step-number">9</span> Testar o Script</h2>
+
+<pre>node instagram-feed.js</pre>
+
+<p>O script deve:</p>
+<ol>
+  <li>Detectar as credenciais salvas em <code>.env</code></li>
+  <li>Autenticar via navegador</li>
+  <li>Verificar permissoes</li>
+  <li>Encontrar paginas com Instagram Business</li>
+  <li>Permitir buscar perfis</li>
+</ol>
+
+<h2>Troubleshooting (Solucao de Problemas)</h2>
+
+<h3>Erro: "pages_read_engagement permission"</h3>
+<ul>
+  <li>Verifique se a permissao esta ativa em <strong>App Review → Permissions and Features</strong></li>
+  <li>Adicione seu usuario como Administrador em <strong>Settings → Roles</strong></li>
+</ul>
+
+<h3>Erro: "Nenhuma pagina com IG Business"</h3>
+<ul>
+  <li>Verifique se sua conta Instagram e Business/Creator</li>
+  <li>Verifique se esta vinculada a uma Pagina Facebook</li>
+  <li>A vinculacao e feita em: Configuracoes da Pagina → Contas Profissionais</li>
+</ul>
+
+<h3>Erro: "Invalid Scopes"</h3>
+<ul>
+  <li>Remova permissoes que nao existem da URL OAuth</li>
+  <li>Use apenas: <code>instagram_basic</code>, <code>pages_show_list</code>, <code>pages_read_engagement</code></li>
+</ul>
+
+<h3>Busca nao encontra perfis</h3>
+<ul>
+  <li>A busca usa a API do Facebook para encontrar <strong>Paginas</strong> com Instagram vinculado</li>
+  <li>Nao busca perfis pessoais do Instagram</li>
+  <li>Use o nome da <strong>Pagina Facebook</strong> (nao o @ do Instagram)</li>
+</ul>
+
+<h2>URLs Uteis</h2>
+<ul>
+  <li><strong>Facebook Developer:</strong> <a href="https://developers.facebook.com/">https://developers.facebook.com/</a></li>
+  <li><strong>Seus Apps:</strong> <a href="https://developers.facebook.com/apps/">https://developers.facebook.com/apps/</a></li>
+  <li><strong>Graph API Explorer:</strong> <a href="https://developers.facebook.com/tools/explorer/">https://developers.facebook.com/tools/explorer/</a></li>
+  <li><strong>Documentacao Instagram:</strong> <a href="https://developers.facebook.com/docs/instagram-api/">https://developers.facebook.com/docs/instagram-api/</a></li>
+</ul>
+
+<h2>Configuracao Automatica</h2>
+
+<p>O script <code>instagram-feed.js</code> salva as credenciais automaticamente no arquivo <code>.env</code>:</p>
+
+<pre>FB_APP_ID=seu_app_id
+FB_APP_SECRET=seu_app_secret
+FB_ACCESS_TOKEN=seu_token</pre>
+
+<p>Na proxima execucao, as credenciais sao reaproveitadas automaticamente.</p>
+
+<hr>
+
+<p><em>Guia atualizado em: Janeiro 2026</em></p>
+
+</body>
+</html>

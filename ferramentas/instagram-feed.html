@@ -601,6 +601,27 @@
           </div>
         </div>
 
+        <div id="tokenHelp" style="display:none;background:rgba(225,48,108,0.04);border:1px solid rgba(225,48,108,0.12);border-radius:8px;padding:14px 16px;">
+          <div style="font-size:0.82rem;color:var(--text-muted);margin-bottom:8px;font-weight:600;">Nao tem um Access Token?</div>
+          <div style="font-size:0.75rem;color:var(--text-dim);line-height:1.6;margin-bottom:10px;">
+            Voce precisa criar um app no Facebook Developers e gerar um token via Graph API Explorer.
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <a href="https://developers.facebook.com/" target="_blank" style="font-size:0.78rem;color:var(--accent);text-decoration:none;font-weight:600;">
+              1. Acesse developers.facebook.com → Criar App
+            </a>
+            <a href="https://developers.facebook.com/tools/explorer/" target="_blank" style="font-size:0.78rem;color:var(--accent);text-decoration:none;font-weight:600;">
+              2. Abra o Graph API Explorer → Gerar Token
+            </a>
+            <a href="https://developers.facebook.com/docs/instagram-api/getting-started" target="_blank" style="font-size:0.78rem;color:var(--accent);text-decoration:none;font-weight:600;">
+              3. Veja a documentacao oficial do Instagram Graph API
+            </a>
+          </div>
+          <div style="font-size:0.7rem;color:#aaa;margin-top:8px;">
+            Permisoes necessarias: instagram_basic, pages_show_list, pages_read_engagement
+          </div>
+        </div>
+
         <div>
           <label>Instagram Business Account ID (auto-detecta se vazio)</label>
           <input type="text" id="userIdInput" placeholder="Detectado automaticamente via Pagina Facebook" spellcheck="false">
@@ -1049,10 +1070,17 @@
     // Restore token from localStorage
     const saved = localStorage.getItem('ig_token');
     if (saved) document.getElementById('tokenInput').value = saved;
+    toggleTokenHelp();
 
     document.getElementById('tokenInput').addEventListener('input', function() {
       localStorage.setItem('ig_token', this.value);
+      toggleTokenHelp();
     });
+
+    function toggleTokenHelp() {
+      const token = document.getElementById('tokenInput').value.trim();
+      document.getElementById('tokenHelp').style.display = token ? 'none' : 'block';
+    }
 
     async function downloadProfileSummary() {
       const token = document.getElementById('tokenInput').value.trim();
