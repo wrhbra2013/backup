@@ -7,536 +7,1320 @@
 <link rel="icon" href="/favicon.ico" sizes="any">
 <title>Backup Scripts — Dashboard</title>
 <style>
+:root {
+  --primary: #2563eb;
+  --primary-dark: #1d4ed8;
+  --primary-light: #dbeafe;
+  --accent: #7c3aed;
+  --accent-light: #ede9fe;
+  --teal: #0d9488;
+  --teal-light: #ccfbf1;
+  --orange: #ea580c;
+  --orange-light: #fff7ed;
+  --green: #16a34a;
+  --green-light: #f0fdf4;
+  --rose: #e11d48;
+  --rose-light: #fff1f2;
+  --slate-50: #f8fafc;
+  --slate-100: #f1f5f9;
+  --slate-200: #e2e8f0;
+  --slate-300: #cbd5e1;
+  --slate-400: #94a3b8;
+  --slate-500: #64748b;
+  --slate-600: #475569;
+  --slate-700: #334155;
+  --slate-800: #1e293b;
+  --slate-900: #0f172a;
+  --radius: 12px;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+  --shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
+  --shadow-md: 0 4px 6px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.06);
+  --shadow-lg: 0 10px 15px rgba(0,0,0,0.1), 0 4px 6px rgba(0,0,0,0.05);
+  --shadow-xl: 0 20px 25px rgba(0,0,0,0.1), 0 8px 10px rgba(0,0,0,0.04);
+}
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, monospace; background: #f5f5f5; color: #1a1a1a; line-height: 1.6; }
-.container { max-width: 1200px; margin: 0 auto; padding: 20px; }
-h1 { font-size: 1.8rem; margin-bottom: 8px; }
-h2 { font-size: 1.3rem; margin: 24px 0 12px; color: #2563eb; border-bottom: 2px solid #e5e7eb; padding-bottom: 6px; }
-h3 { font-size: 1rem; margin: 16px 0 8px; color: #374151; }
-.subtitle { color: #6b7280; margin-bottom: 20px; font-size: 0.95rem; }
-a { color: #2563eb; text-decoration: none; }
-a:hover { text-decoration: underline; }
-.header-bar { background: #1e293b; color: #fff; padding: 16px 0; margin-bottom: 24px; }
-.header-bar .container { display: flex; justify-content: space-between; align-items: center; }
-.header-bar h1 { margin: 0; font-size: 1.3rem; }
-.header-bar h1 a { color: #fff; }
-.header-bar h1 a:hover { text-decoration: none; }
-.header-bar .nav a { color: #93c5fd; margin-left: 16px; font-size: 0.9rem; }
-.search-box { width: 100%; padding: 10px 14px; border: 2px solid #d1d5db; border-radius: 8px; font-size: 0.95rem; margin-bottom: 20px; outline: none; transition: border-color 0.2s; }
-.search-box:focus { border-color: #2563eb; }
-table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-th, td { padding: 10px 14px; text-align: left; font-size: 0.9rem; }
-th { background: #f8fafc; font-weight: 600; color: #374151; border-bottom: 2px solid #e5e7eb; }
-td { border-bottom: 1px solid #f0f0f0; }
-tr:hover td { background: #f8fafc; }
-.badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; margin: 1px 2px; }
-.badge-pkg { background: #dcfce7; color: #166534; }
-.badge-cmd { background: #dbeafe; color: #1e40af; }
-.badge-func { background: #fef3c7; color: #92400e; }
-.badge-dir { background: #e5e7eb; color: #374151; }
-.tag { display: inline-block; padding: 2px 6px; border-radius: 3px; font-size: 0.7rem; font-weight: 600; background: #e5e7eb; color: #374151; margin: 1px; }
-.tag-category { background: #ede9fe; color: #5b21b6; }
-.cmd-count { font-size: 0.8rem; color: #6b7280; }
-.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 24px; }
-.stat-card { background: #fff; border-radius: 8px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); text-align: center; }
-.stat-card .num { font-size: 1.8rem; font-weight: 700; color: #2563eb; }
-.stat-card .label { font-size: 0.8rem; color: #6b7280; margin-top: 4px; }
-.script-page { max-width: 960px; margin: 0 auto; }
-.meta-table { width: 100%; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 20px; }
-.meta-table td { padding: 8px 14px; border-bottom: 1px solid #f0f0f0; }
-.meta-table td:first-child { font-weight: 600; color: #374151; width: 140px; background: #f8fafc; }
-.cmd-group { margin-bottom: 16px; }
-.cmd-group-title { font-size: 0.85rem; font-weight: 600; color: #5b21b6; margin-bottom: 6px; }
-.cmd-list { display: flex; flex-wrap: wrap; gap: 4px; }
-.source-box { margin: 12px 0; }
-.source-box textarea { width: 100%; padding: 12px; border: 2px solid #d1d5db; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 0.8rem; line-height: 1.4; background: #1e293b; color: #e5e7eb; resize: vertical; outline: none; }
-.source-box textarea:focus { border-color: #2563eb; }
-.copy-btn { display: inline-block; padding: 8px 16px; background: #2563eb; color: #fff; border: none; border-radius: 6px; font-size: 0.85rem; cursor: pointer; margin: 8px 4px 4px 0; transition: background 0.2s; }
-.copy-btn:hover { background: #1d4ed8; }
-.copy-btn.copied { background: #16a34a; }
-.download-btn { display: inline-block; padding: 8px 16px; background: #374151; color: #fff; border: none; border-radius: 6px; font-size: 0.85rem; cursor: pointer; margin: 8px 4px 4px 0; transition: background 0.2s; text-decoration: none; }
-.download-btn:hover { background: #1f2937; text-decoration: none; }
-.func-list { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
-.func-item { background: #fef3c7; color: #92400e; padding: 3px 10px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 0.8rem; }
-.var-list { display: flex; flex-wrap: wrap; gap: 6px; }
-.var-item { background: #f0fdf4; color: #166534; padding: 3px 10px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 0.78rem; }
-.var-item code { font-size: 0.78rem; }
-.back-link { display: inline-block; margin-bottom: 16px; color: #2563eb; font-size: 0.9rem; }
-.back-link:before { content: "← "; }
-.stat-line { font-size: 0.8rem; color: #6b7280; margin-bottom: 12px; }
-.layout { display: flex; gap: 24px; align-items: flex-start; }
-.sidebar { width: 260px; flex-shrink: 0; background: #fff; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); overflow: hidden; position: sticky; top: 20px; max-height: calc(100vh - 80px); overflow-y: auto; }
-.sidebar-title { padding: 12px 16px; font-weight: 700; font-size: 0.85rem; color: #1e293b; background: #f8fafc; border-bottom: 1px solid #e5e7eb; text-transform: uppercase; letter-spacing: 0.5px; }
-.sidebar a { display: block; padding: 8px 16px; color: #374151; text-decoration: none; font-size: 0.82rem; border-left: 3px solid transparent; transition: all 0.15s; }
-.sidebar a:hover { background: #f1f5f9; border-left-color: #93c5fd; }
-.sidebar a.active { background: #eff6ff; border-left-color: #2563eb; color: #1e40af; font-weight: 600; }
-.sidebar-group { border-top: 1px solid #f0f0f0; }
-.sidebar-group-label { padding: 6px 16px; font-size: 0.7rem; font-weight: 600; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.3px; }
-.sidebar a .s-badge { float: right; background: #e5e7eb; color: #374151; padding: 0 6px; border-radius: 3px; font-size: 0.65rem; font-weight: 600; line-height: 1.6; }
-.main-content { flex: 1; min-width: 0; }
-.tool-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin: 16px 0 28px; }
-.tool-card { display: flex; flex-direction: column; background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); overflow: hidden; text-decoration: none; color: inherit; transition: transform 0.2s, box-shadow 0.2s; position: relative; }
-.tool-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.12); }
-.tool-banner { height: 100px; display: flex; align-items: center; justify-content: center; }
-.tool-emoji { font-size: 3rem; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.3)); }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--slate-50); color: var(--slate-800); line-height: 1.6; overflow-x: hidden; }
+a { color: var(--primary); text-decoration: none; transition: color 0.2s; }
+a:hover { color: var(--primary-dark); }
+
+/* ── Hero ── */
+.hero {
+  background: linear-gradient(135deg, var(--slate-900) 0%, #1a1a2e 40%, #16213e 100%);
+  color: white;
+  padding: 5rem 0 4rem;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(37,99,235,0.15) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -30%;
+  left: -10%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(124,58,237,0.1) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.hero-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  position: relative;
+  z-index: 1;
+}
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.15);
+  padding: 6px 14px;
+  border-radius: 50px;
+  font-size: 0.8rem;
+  color: var(--slate-300);
+  margin-bottom: 1.5rem;
+  backdrop-filter: blur(10px);
+}
+.hero-badge .dot {
+  width: 6px;
+  height: 6px;
+  background: #22c55e;
+  border-radius: 50%;
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.5); }
+}
+.hero h1 {
+  font-size: clamp(2.2rem, 5vw, 3.5rem);
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 1rem;
+  letter-spacing: -0.02em;
+}
+.hero h1 .gradient-text {
+  background: linear-gradient(135deg, #60a5fa, #a78bfa, #34d399);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-subtitle {
+  font-size: 1.15rem;
+  color: var(--slate-400);
+  max-width: 600px;
+  margin-bottom: 2.5rem;
+  line-height: 1.7;
+}
+.hero-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.btn-hero {
+  padding: 12px 28px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  border: none;
+  transition: all 0.25s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn-hero-primary {
+  background: var(--primary);
+  color: white;
+  box-shadow: 0 4px 14px rgba(37,99,235,0.4);
+}
+.btn-hero-primary:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(37,99,235,0.5);
+  color: white;
+}
+.btn-hero-outline {
+  background: transparent;
+  color: white;
+  border: 1.5px solid rgba(255,255,255,0.25);
+}
+.btn-hero-outline:hover {
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(255,255,255,0.4);
+  color: white;
+}
+
+/* ── Stats bar ── */
+.stats-bar {
+  max-width: 1200px;
+  margin: -2.5rem auto 0;
+  padding: 0 2rem;
+  position: relative;
+  z-index: 2;
+}
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  background: white;
+  border-radius: var(--radius);
+  padding: 24px 32px;
+  box-shadow: var(--shadow-xl);
+}
+.stat-item {
+  text-align: center;
+  padding: 8px 0;
+  position: relative;
+}
+.stat-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 10%;
+  height: 80%;
+  width: 1px;
+  background: var(--slate-200);
+}
+.stat-num {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--primary);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.stat-label {
+  font-size: 0.8rem;
+  color: var(--slate-500);
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+/* ── Sections ── */
+.section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+}
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.section-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--slate-900);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.section-title .icon {
+  font-size: 1.3rem;
+}
+
+/* ── Category cards ── */
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+  margin-bottom: 2rem;
+}
+.category-card {
+  background: white;
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--slate-200);
+  cursor: pointer;
+  transition: all 0.25s;
+  position: relative;
+  overflow: hidden;
+}
+.category-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--cat-color, var(--primary));
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+.category-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--cat-color, var(--primary));
+}
+.category-card:hover::before { opacity: 1; }
+.category-card.active {
+  border-color: var(--cat-color, var(--primary));
+  background: var(--cat-bg, var(--primary-light));
+}
+.category-card.active::before { opacity: 1; }
+.cat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.cat-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  background: var(--cat-bg, var(--primary-light));
+  color: var(--cat-color, var(--primary));
+}
+.cat-count {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--cat-color, var(--primary));
+  background: var(--cat-bg, var(--primary-light));
+  padding: 2px 10px;
+  border-radius: 50px;
+}
+.cat-name {
+  font-weight: 600;
+  color: var(--slate-800);
+  font-size: 0.95rem;
+  margin-bottom: 4px;
+}
+.cat-desc {
+  font-size: 0.8rem;
+  color: var(--slate-500);
+}
+
+/* ── Tools grid ── */
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+  margin-bottom: 2rem;
+}
+.tool-card {
+  display: flex;
+  flex-direction: column;
+  background: white;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.25s;
+  border: 1px solid var(--slate-200);
+}
+.tool-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-xl);
+  color: inherit;
+}
+.tool-banner {
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.tool-emoji { font-size: 2.5rem; filter: drop-shadow(0 2px 8px rgba(0,0,0,0.3)); }
 .tool-body { padding: 16px; flex: 1; }
-.tool-body h3 { font-size: 1rem; color: #1e293b; margin-bottom: 6px; }
-.tool-body p { font-size: 0.82rem; color: #6b7280; line-height: 1.4; margin-bottom: 8px; }
-.tool-tags { display: flex; flex-wrap: wrap; gap: 4px; }
-.tool-arrow { position: absolute; top: 16px; right: 16px; font-size: 1.2rem; color: #9ca3af; transition: color 0.2s; }
-.tool-card:hover .tool-arrow { color: #2563eb; }
-@media (max-width: 800px) { .layout { flex-direction: column; } .sidebar { width: 100%; position: static; max-height: none; } }
+.tool-body h3 { font-size: 0.95rem; color: var(--slate-800); margin-bottom: 4px; font-weight: 600; }
+.tool-body p { font-size: 0.8rem; color: var(--slate-500); line-height: 1.4; }
+.tool-arrow {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  font-size: 1.1rem;
+  color: var(--slate-400);
+  transition: all 0.2s;
+}
+.tool-card:hover .tool-arrow { color: var(--primary); transform: translateX(3px); }
+
+/* ── Search ── */
+.search-wrapper {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+.search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--slate-400);
+  font-size: 1rem;
+  pointer-events: none;
+}
+.search-box {
+  width: 100%;
+  padding: 12px 14px 12px 42px;
+  border: 2px solid var(--slate-200);
+  border-radius: var(--radius);
+  font-size: 0.95rem;
+  outline: none;
+  transition: all 0.25s;
+  background: white;
+  font-family: inherit;
+}
+.search-box:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+}
+.search-box::placeholder { color: var(--slate-400); }
+
+/* ── Filter chips ── */
+.filter-chips {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+.chip {
+  padding: 6px 14px;
+  border-radius: 50px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1.5px solid var(--slate-200);
+  background: white;
+  color: var(--slate-600);
+  transition: all 0.2s;
+  user-select: none;
+}
+.chip:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: var(--primary-light);
+}
+.chip.active {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+/* ── Script cards ── */
+.scripts-grid {
+  display: grid;
+  gap: 10px;
+}
+.script-card {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 16px;
+  align-items: center;
+  background: white;
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--slate-200);
+  transition: all 0.2s;
+}
+.script-card:hover {
+  border-color: var(--primary);
+  box-shadow: var(--shadow-md);
+  transform: translateX(3px);
+}
+.script-info { min-width: 0; }
+.script-name {
+  font-weight: 700;
+  color: var(--slate-900);
+  font-size: 0.95rem;
+  margin-bottom: 2px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.script-name a { color: inherit; }
+.script-name a:hover { color: var(--primary); }
+.script-desc {
+  font-size: 0.82rem;
+  color: var(--slate-500);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 500px;
+}
+.script-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+  flex-wrap: wrap;
+}
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+.badge-cmd { background: var(--primary-light); color: var(--primary-dark); }
+.badge-pkg { background: var(--green-light); color: var(--green); }
+.badge-fn { background: var(--accent-light); color: var(--accent); }
+.badge-dir { background: var(--slate-100); color: var(--slate-600); }
+.script-stats {
+  font-size: 0.75rem;
+  color: var(--slate-400);
+  white-space: nowrap;
+}
+.script-actions {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.script-actions .tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--slate-100);
+  color: var(--slate-600);
+  text-decoration: none;
+  font-size: 0.85rem;
+  transition: all 0.2s;
+}
+.script-actions .tag:hover {
+  background: var(--primary);
+  color: white;
+}
+.script-hidden { display: none !important; }
+
+/* ── Empty state ── */
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--slate-400);
+}
+.empty-state .icon { font-size: 2.5rem; margin-bottom: 8px; }
+.empty-state p { font-size: 0.95rem; }
+
+/* ── Footer ── */
+.footer {
+  border-top: 1px solid var(--slate-200);
+  padding: 2rem;
+  text-align: center;
+  color: var(--slate-400);
+  font-size: 0.8rem;
+}
+.footer a { color: var(--slate-500); }
+.footer a:hover { color: var(--primary); }
+
+/* ── Scroll animations ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .hero { padding: 3.5rem 0 3rem; }
+  .hero h1 { font-size: 1.8rem; }
+  .hero-subtitle { font-size: 1rem; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); padding: 20px; }
+  .stat-item:nth-child(2)::after { display: none; }
+  .stat-num { font-size: 1.6rem; }
+  .category-grid { grid-template-columns: repeat(2, 1fr); }
+  .script-card { grid-template-columns: 1fr; gap: 10px; }
+  .script-desc { max-width: none; }
+  .script-actions { justify-content: flex-start; }
+}
+@media (max-width: 480px) {
+  .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .category-grid { grid-template-columns: 1fr; }
+  .hero-actions { flex-direction: column; }
+  .btn-hero { justify-content: center; }
+}
 </style>
 </head>
 <body>
-<div class="header-bar">
-  <div class="container">
-    <h1><a href="index.html">📜 Backup Scripts</a></h1>
-    <div class="nav">
-      <a href="index.html">Dashboard</a>
+
+<!-- ═══════ HERO ═══════ -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge"><span class="dot"></span> Repositório público de automação Linux</div>
+    <h1>Scripts de<br><span class="gradient-text">Backup & Automação</span></h1>
+    <p class="hero-subtitle">
+      Coleção de scripts para Linux LiveCD, configuração de servidores Oracle,
+      gerenciamento de pacotes e automação de sistemas. Pronto para usar.
+    </p>
+    <div class="hero-actions">
+      <a href="#scripts" class="btn-hero btn-hero-primary">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        Explorar Scripts
+      </a>
+      <a href="https://github.com" class="btn-hero btn-hero-outline" target="_blank">
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+        GitHub
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ STATS ═══════ -->
+<div class="stats-bar">
+  <div class="stats-grid">
+    <div class="stat-item">
+      <div class="stat-num" data-target="38">0</div>
+      <div class="stat-label">Scripts</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" data-target="347">0</div>
+      <div class="stat-label">Comandos</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" data-target="222">0</div>
+      <div class="stat-label">Funções</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" data-target="9677">0</div>
+      <div class="stat-label">Linhas de código</div>
     </div>
   </div>
 </div>
-<div class="container">
-  <h1>Dashboard de Scripts</h1>
-  <p class="subtitle">Repositório público de scripts de Linux LiveCD e automação</p>
 
-  <div class="stat-grid">
-    <div class="stat-card"><div class="num">38</div><div class="label">Scripts</div></div>
-    <div class="stat-card"><div class="num">347</div><div class="label">Comandos</div></div>
-    <div class="stat-card"><div class="num">222</div><div class="label">Funções</div></div>
-    <div class="stat-card"><div class="num">9,677</div><div class="label">Linhas de código</div></div>
+<!-- ═══════ CATEGORIES ═══════ -->
+<div class="section reveal">
+  <div class="section-header">
+    <h2 class="section-title"><span class="icon">📂</span> Categorias</h2>
   </div>
-
-  <h2 style="margin-top:2rem">🧰 Ferramentas HTML</h2><div class="tool-grid"><a href="ferramentas/configurar-instagram-graph-api.html" class="tool-card">
-  <div class="tool-banner" style="background: linear-gradient(135deg, #4f46e5, #7c3aed, #22d3ee)">
-    <span class="tool-emoji">🔧</span>
-  </div>
-  <div class="tool-body">
-    <h3>Configurar Instagram Graph Api</h3>
-    <p></p>
-    <div class="tool-tags"></div>
-  </div>
-  <span class="tool-arrow">→</span>
-</a><a href="ferramentas/instagram-feed.html" class="tool-card">
-  <div class="tool-banner" style="background: linear-gradient(135deg, #4f46e5, #7c3aed, #22d3ee)">
-    <span class="tool-emoji">🔧</span>
-  </div>
-  <div class="tool-body">
-    <h3>Instagram Feed</h3>
-    <p></p>
-    <div class="tool-tags"></div>
-  </div>
-  <span class="tool-arrow">→</span>
-</a></div>
-
-  <div class="layout">
-    <div class="sidebar">
-      <div class="sidebar-title">📂 Navegação</div><a href="index.html" class="active">📊 Dashboard</a><div class="sidebar-group"><div class="sidebar-group-label">Raiz</div><a href="scripts/build-iso.html">build_iso.sh <span class="s-badge">13</span></a><a href="scripts/build-iso-completa.html">build_iso_completa.sh <span class="s-badge">24</span></a><a href="scripts/build-offline-from-boot.html">build_offline_from_boot.sh <span class="s-badge">26</span></a><a href="scripts/build-offline-ol9.html">build_offline_ol9.sh <span class="s-badge">26</span></a><a href="scripts/create-rpm.html">create_rpm.sh <span class="s-badge">9</span></a><a href="scripts/debian.html">debian.sh <span class="s-badge">4</span></a><a href="scripts/fix-repos-ol9.html">fix-repos-ol9.sh <span class="s-badge">9</span></a><a href="scripts/git-sync.html">git-sync.sh <span class="s-badge">1</span></a><a href="scripts/oracle.html">oracle.sh <span class="s-badge">19</span></a><a href="scripts/update-appimages.html">update-appimages.sh <span class="s-badge">11</span></a><a href="scripts/update-docs.html">update-docs.sh <span class="s-badge">2</span></a></div><div class="sidebar-group"><div class="sidebar-group-label">System Scripts</div><a href="scripts/appimage2rpm.html">appimage2rpm.sh <span class="s-badge">9</span></a><a href="scripts/atualizar.html">atualizar.sh <span class="s-badge">2</span></a><a href="scripts/auto-fix-powerprofiles-selinux.html">auto_fix_powerprofiles_selinux.sh <span class="s-badge">2</span></a><a href="scripts/build-backup.html">build_backup.sh <span class="s-badge">16</span></a><a href="scripts/build-iso.html">build_iso.sh <span class="s-badge">15</span></a><a href="scripts/create-iso.html">create_iso.sh <span class="s-badge">13</span></a><a href="scripts/fix-repos-ol9.html">fix-repos-ol9.sh <span class="s-badge">9</span></a><a href="scripts/gerar-iso.html">gerar_iso.sh <span class="s-badge">2</span></a><a href="scripts/gerar-iso-ol10.html">gerar_iso_ol10.sh <span class="s-badge">12</span></a><a href="scripts/gerar-iso-ol9.html">gerar_iso_ol9.sh <span class="s-badge">13</span></a><a href="scripts/manager-repo-sh.html">manager_repo_sh <span class="s-badge">3</span></a><a href="scripts/manut.html">manut.sh <span class="s-badge">4</span></a><a href="scripts/node.html">node.sh <span class="s-badge">12</span></a><a href="scripts/ol9-audit-otimizar.html">ol9-audit-otimizar.sh <span class="s-badge">14</span></a><a href="scripts/ol9-full-setup.html">ol9-full-setup.sh <span class="s-badge">12</span></a><a href="scripts/oracle-config.html">oracle_config.sh <span class="s-badge">2</span></a><a href="scripts/otimizar-gnome.html">otimizar-gnome.sh <span class="s-badge">3</span></a><a href="scripts/otimizar-xfce.html">otimizar-xfce.sh <span class="s-badge">15</span></a><a href="scripts/remove-old-kernels.html">remove_old_kernels.sh <span class="s-badge">4</span></a><a href="scripts/setup-xfce-tiling.html">setup-xfce-tiling.sh <span class="s-badge">7</span></a><a href="scripts/setup-zram.html">setup-zram.sh <span class="s-badge">3</span></a><a href="scripts/xrandr-config.html">xrandr-config.sh <span class="s-badge">7</span></a></div><div class="sidebar-group"><div class="sidebar-group-label">VM Scripts</div><a href="scripts/control.html">control.sh <span class="s-badge">8</span></a><a href="scripts/restore-snapshot-disable-ufw.html">restore-snapshot-disable-ufw.sh <span class="s-badge">1</span></a><a href="scripts/setup-api-debian.html">setup-api-debian.sh <span class="s-badge">13</span></a></div><div class="sidebar-group"><div class="sidebar-group-label">Bluetooth</div><a href="scripts/bt-auto.html">bt-auto.sh <span class="s-badge">1</span></a><a href="scripts/bt-ctl.html">bt-ctl.sh <span class="s-badge">1</span></a></div><div class="sidebar-group"><div class="sidebar-group-label">🧰 Ferramentas</div><a href="ferramentas/configurar-instagram-graph-api.html">🔧 Configurar Instagram Graph Api</a><a href="ferramentas/instagram-feed.html">🔧 Instagram Feed</a></div>
+  <div class="category-grid" id="categoryGrid">
+    <div class="category-card active" data-cat="all" style="--cat-color:#2563eb;--cat-bg:#dbeafe" onclick="filterByCategory('all')">
+      <div class="cat-header">
+        <div class="cat-icon" style="background:#dbeafe;color:#2563eb;">📋</div>
+        <div class="cat-count">38</div>
+      </div>
+      <div class="cat-name">Todos os Scripts</div>
+      <div class="cat-desc">Visualizar completa da coleção</div>
     </div>
-    <div class="main-content">
-      <p class="stat-line">Categorias: <span class="badge badge-dir">Bluetooth (2)</span> <span class="badge badge-dir">Raiz (11)</span> <span class="badge badge-dir">System Scripts (22)</span> <span class="badge badge-dir">VM Scripts (3)</span> </p>
-
-      <input type="text" class="search-box" id="search" placeholder="Pesquisar scripts, comandos, descrições..." oninput="filterTable()">
-
-      <table id="script-table">
-        <thead><tr><th>Script</th><th>Descrição</th><th>Diretório</th><th>Comandos / Pacotes</th><th>Info</th><th>Ações</th></tr></thead>
-        <tbody><tr>
-  <td><a href="scripts/bt-auto.html"><strong>bt-auto.sh</strong></a></td>
-  <td>bt-auto.sh</td>
-  <td><span class="badge badge-dir">bluetooth</span></td>
-  <td><span class="badge badge-cmd">systemctl</span></td>
-  <td class="cmd-count">1 cmd · 0 fn · 21 lin</td>
-  <td>
-    <a href="scripts/bt-auto.desktop" download class="tag" title="Download .desktop">🖥️</a>
-    <a href="scripts/bt-auto.html" class="tag" title="Abrir página">📄</a>
-  </td>
-</tr><tr>
-  <td><a href="scripts/bt-ctl.html"><strong>bt-ctl.sh</strong></a></td>
-  <td>============================================</td>
-  <td><span class="badge badge-dir">bluetooth</span></td>
-  <td><span class="badge badge-cmd">tee</span></td>
-  <td class="cmd-count">1 cmd · 24 fn · 322 lin</td>
-  <td>
-    <a href="scripts/bt-ctl.desktop" download class="tag" title="Download .desktop">🖥️</a>
-    <a href="scripts/bt-ctl.html" class="tag" title="Abrir página">📄</a>
-  </td>
-</tr><tr>
-  <td><a href="scripts/build-iso.html"><strong>build_iso.sh</strong></a></td>
-  <td>==============================================================================</td>
-  <td><span class="badge badge-dir">root</span></td>
-  <td><span class="badge badge-cmd">dnf</span><span class="badge badge-cmd">rpm</span><span class="badge badge-cmd">mount</span><span class="badge badge-cmd">umount</span><span class="badge badge-cmd">rsync</span><span class="tag">+7 mais</span></td>
-  <td class="cmd-count">13 cmd · 0 fn · 192 lin</td>
-  <td>
-    <a href="scripts/build-iso.desktop" download class="tag" title="Download .desktop">🖥️</a>
-    <a href="scripts/build-iso.html" class="tag" title="Abrir página">📄</a>
-  </td>
-</tr><tr>
-  <td><a href="scripts/build-iso-completa.html"><strong>build_iso_completa.sh</strong></a></td>
-  <td>==============================================================================</td>
-  <td><span class="badge badge-dir">root</span></td>
-  <td><span class="badge badge-cmd">dnf</span><span class="badge badge-cmd">rpm</span><span class="badge badge-cmd">systemctl</span><span class="badge badge-cmd">mount</span><span class="badge badge-cmd">umount</span><span class="tag">+18 mais</span></td>
-  <td class="cmd-count">24 cmd · 9 fn · 629 lin</td>
-  <td>
-    <a href="scripts/build-iso-completa.desktop" download class="tag" title="Download .desktop">🖥️</a>
-    <a href="scripts/build-iso-completa.html" class="tag" title="Abrir página">📄</a>
-  </td>
-</tr><tr>
-  <td><a href="scripts/build-offline-from-boot.html"><strong>build_offline_from_boot.sh</strong></a></td>
-  <td>==============================================================================</td>
-  <td><span class="badge badge-dir">root</span></td>
-  <td><span class="badge badge-cmd">dnf</span><span class="badge badge-cmd">rpm</span><span class="badge badge-cmd">systemctl</span><span class="badge badge-cmd">mount</span><span class="badge badge-cmd">umount</span><span class="tag">+20 mais</span></td>
-  <td class="cmd-count">26 cmd · 8 fn · 622 lin</td>
-  <td>
-    <a href="scripts/build-offline-from-boot.desktop" download class="tag" title="Download .desktop">🖥️</a>
-    <a href="scripts/build-offline-from-boot.html" class="tag" title="Abrir página">📄</a>
-  </td>
-</tr><tr>
-  <td><a href="scripts/build-offline-ol9.html"><strong>build_offline_ol9.sh</strong></a></td>
-  <td>==============================================================================</td>
-  <td><span class="badge badge-dir">root</span></td>
-  <td><span class="badge badge-cmd">dnf</span><span class="badge badge-cmd">rpm</span><span class="badge badge-cmd">systemctl</span><span class="badge badge-cmd">mount</span><span class="badge badge-cmd">umount</span><span class="tag">+20 mais</span></td>
-  <td class="cmd-count">26 cmd · 12 fn · 768 lin</td>
-  <td>
-    <a href="scripts/build-offline-ol9.desktop" download class="tag" title="Download .desktop">🖥️</a>
-    <a href="scripts/build-offline-ol9.html" class="tag" title="Abrir página">📄</a>
-  </td>
-</tr><tr>
-  <td><a href="scripts/create-rpm.html"><strong>create_rpm.sh</strong></a></td>
-  <td>==============================================================================</td>
-  <td><span class="badge badge-dir">root</span></td>
-  <td><span class="badge badge-cmd">dnf</span><span class="badge badge-cmd">rpm</span><span class="badge badge-cmd">grep</span><span class="badge badge-cmd">cp</span><span class="badge badge-cmd">mkdir</span><span class="tag">+3 mais</span><span class="badge badge-pkg">1</span></td>
-  <td class="cmd-count">9 cmd · 8 fn · 351 lin</td>
-  <td>
-    <a href="scripts/create-rpm.desktop" download class="tag" title="Download .desktop">🖥️</a>
-    <a href="scripts/create-rpm.html" class="tag" title="Abrir página">📄</a>
-  </td>
-</tr><tr>
-  <td><a href="scripts/debian.html"><strong>debian.sh</strong></a></td>
-  <td>1. Definir o nome da pasta de trabalho (ao lado deste script)</td>
-  <td><span class="badge badge-dir">root</span></td>
-  <td><span class="badge badge-cmd">mkdir</span><span class="badge badge-cmd">chmod</span><span class="badge badge-cmd">npm</span></td>
-  <td class="cmd-count">4 cmd · 0 fn · 60 lin</td>
-  <td>
-    <a href="scripts/debian.desktop" download class="tag" title="Download .desktop">🖥️</a>
-    <a href="scripts/debian.html" class="tag" title="Abrir página">📄</a>
-  </td>
-</tr><tr>
-  <td><a href="scripts/fix-repos-ol9.html"><strong>fix-repos-ol9.sh</strong></a></td>
-  <td>fix-repos-ol9.sh</td>
-  <td><span class="badge badge-dir">root</span></td>
-  <td><span class="badge badge-cmd">dnf</span><span class="badge badge-cmd">rpm</span><span class="badge badge-cmd">curl</span><span class="badge badge-cmd">grep</span><span class="badge badge-cmd">sed</span><span class="tag">+3 mais</span><span class="badge badge-pkg">1</span></td>
-  <td class="cmd-count">9 cmd · 4 fn · 244 lin</td>
-  <td>
-    <a href="scripts/fix-repos-ol9.desktop" download class="tag" title="Download .desktop">🖥️</a>
-    <a href="scripts/fix-repos-ol9.html" class="tag" title="Abrir página">📄</a>
-  </td>
-</tr><tr>
-  <td><a href="scripts/git-sync.html"><strong>git-sync.sh</strong></a></td>
-  <td>Script para Git: commit, pull, push e listar commits</td>
-  <td><span class="badge badge-dir">root</span></td>
-  <td><span class="badge badge-cmd">git</span></td>
-  <td class="cmd-count">1 cmd · 3 fn · 109 lin</td>
-  <td>
-    <a href="scripts/git-sync.desktop" download class="tag" title="Download .desktop">🖥️</a>
-    <a href="scripts/git-sync.html" class="tag" title="Abrir página">📄</a>
-  </td>
-</tr><tr>
-  <td><a href="scripts/oracle.html"><strong>oracle.sh</strong></a></td>
-  <td>==============================================================================</td>
-  <td><span class="badge badge-dir">root</span></td>
-  <td><span class="badge badge-cmd">dnf</span><span class="badge badge-cmd">rpm</span><span class="badge badge-cmd">systemctl</span><span class="badge badge-cmd">mount</span><span class="badge badge-cmd">umount</span><span class="tag">+13 mais</span><span class="badge badge-pkg">1</span></td>
-  <td class="cmd-count">19 cmd · 12 fn · 549 lin</td>
-  <td>
-    <a href="scripts/oracle.desktop" download class="tag" title="Download .desktop">🖥️</a>
-    <a href="scripts/oracle.html" class="tag" title="Abrir página">📄</a>
-  </td>
-</tr><tr>
-  <td><a href="scripts/appimage2rpm.html"><strong>appimage2rpm.sh</strong></a></td>
-  <td>Derive name + version from filename if not provided</td>
-  <td><span class="badge badge-dir">system_scripts</span></td>
-  <td><span class="badge badge-cmd">dnf</span><span class="badge badge-cmd">rpm</span><span class="badge badge-cmd">grep</span><span class="badge badge-cmd">cp</span><span class="badge badge-cmd">ln</span><span class="tag">+3 mais</span></td>
-  <td class="cmd-count">9 cmd · 1 fn · 302 lin</td>
-  <td>
-    <a href="scripts/appimage2rpm.desktop" download class="tag" title="Download .desktop">🖥️</a>
-    <a href="scripts/appimage2rpm.html" class="tag" title="Abrir página">📄</a>
-  </td>
-</tr><tr>
-  <td><a href="scripts/atualizar.html"><strong>atualizar.sh</strong></a></td>
-  <td>Script de atualização do repositório Amor Animal Marília</td>
-  <td><span class="badge badge-dir">system_scripts</span></td>
-  <td><span class="badge badge-cmd">git</span><span class="badge badge-cmd">rm</span></td>
-  <td class="cmd-count">2 cmd · 0 fn · 25 lin</td>
-  <td>
-    <a href="scripts/atualizar.desktop" download class="tag" title="Download .desktop">🖥️</a>
-    <a href="scripts/atualizar.html" class="tag" title="Abrir página">📄</a>
-  </td>
-</tr><tr>
-  <td><a href="scripts/auto-fix-powerprofiles-selinux.html"><strong>auto_fix_powerprofiles_selinux.sh</strong></a></td>
-  <td>auto_fix_powerprofiles_selinux.sh</td>
-  <td><span class="badge badge-dir">system_scripts</span></td>
-  <td><span class="badge badge-cmd">audit2allow</span><span class="badge badge-cmd">semodule</span></td>
-  <td class="cmd-count">2 cmd · 0 fn · 32 lin</td>
-  <td>
-    <a href="scripts/auto-fix-powerprofiles-selinux.desktop" download class="tag" title="Download .desktop">🖥️</a>
-    <a href="scripts/auto-fix-powerprofiles-selinux.html" class="tag" title="Abrir página">📄</a>
-  </td>
-</tr><tr>
-  <td><a href="scripts/build-backup.html"><strong>build_backup.sh</strong></a></td>
-  <td>==============================================================================</td>
-  <td><span class="badge badge-dir">system_scripts</span></td>
-  <td><span class="badge badge-cmd">dnf</span><span class="badge badge-cmd">rpm</span><span class="badge badge-cmd">mount</span><span class="badge badge-cmd">umount</span><span class="badge badge-cmd">curl</span><span class="badge badge-cmd">wget</span><span class="tag">+10 mais</span><span class="badge badge-pkg">6</span></td>
-  <td class="cmd-count">16 cmd · 0 fn · 210 lin</td>
-  <td>
-    <a href="scripts/build-backup.desktop" download class="tag" title="Download .desktop">🖥️</a>
-    <a href="scripts/build-backup.html" class="tag" title="Abrir página">📄</a>
-  </td>
-</tr><tr>
-  <td><a href="scripts/build-iso.html"><strong>build_iso.sh</strong></a></td>
-  <td>==============================</td>
-  <td><span class="badge badge-dir">system_scripts</span></td>
-  <td><span class="badge badge-cmd">dnf</span><span class="badge badge-cmd">rpm</span><span class="badge badge-cmd">mount</span><span class="badge badge-cmd">umount</span><span class="badge badge-cmd">awk</span><span class="badge badge-cmd">grep</span><span class="tag">+9 mais</span><span class="badge badge-pkg">1</span></td>
-  <td class="cmd-count">15 cmd · 6 fn · 300 lin</td>
-  <td>
-    <a href="scripts/build-iso.desktop" download class="tag" title="Download .desktop">🖥️</a>
-    <a href="scripts/build-iso.html" class="tag" title="Abrir página">📄</a>
-  </td>
-</tr><tr>
-  <td><a href="scripts/create-iso.html"><strong>create_iso.sh</strong></a></td>
-  <td>==============================================================================</td>
-  <td><span class="badge badge-dir">system_scripts</span></td>
-  <td><span class="badge badge-cmd">dnf</span><span class="badge badge-cmd">rpm</span><span class="badge badge-cmd">mount</span><span class="badge badge-cmd">umount</span><span class="badge badge-cmd">awk</span><span class="tag">+7 mais</span><span class="badge badge-pkg">1</span></td>
-  <td class="cmd-count">13 cmd · 17 fn · 364 lin</td>
-  <td>
-    <a href="scripts/create-iso.desktop" download class="tag" title="Download .desktop">🖥️</a>
-    <a href="scripts/create-iso.html" class="tag" title="Abrir página">📄</a>
-  </td>
-</tr><tr>
-  <td><a href="scripts/fix-repos-ol9.html"><strong>fix-repos-ol9.sh</strong></a></td>
-  <td>fix-repos-ol9.sh</td>
-  <td><span class="badge badge-dir">system_scripts</span></td>
-  <td><span class="badge badge-cmd">dnf</span><span class="badge badge-cmd">rpm</span><span class="badge badge-cmd">curl</span><span class="badge badge-cmd">grep</span><span class="badge badge-cmd">sed</span><span class="tag">+3 mais</span><span class="badge badge-pkg">1</span></td>
-  <td class="cmd-count">9 cmd · 4 fn · 202 lin</td>
-  <td>
-    <a href="scripts/fix-repos-ol9.desktop" download class="tag" title="Download .desktop">🖥️</a>
-    <a href="scripts/fix-repos-ol9.html" class="tag" title="Abrir página">📄</a>
-  </td>
-</tr><tr>
-  <td><a href="scripts/gerar-iso.html"><strong>gerar_iso.sh</strong></a></td>
-  <td>Este script configura repositórios adicionais no Oracle Linux 10 (OL10)</td>
-  <td><span class="badge badge-dir">system_scripts</span></td>
-  <td><span class="badge badge-cmd">dnf</span><span class="badge badge-cmd">rpm</span></td>
-  <td class="cmd-count">2 cmd · 0 fn · 50 lin</td>
-  <td>
-    <a href="scripts/gerar-iso.desktop" download class="tag" title="Download .desktop">🖥️</a>
-    <a href="scripts/gerar-iso.html" class="tag" title="Abrir página">📄</a>
-  </td>
-</tr><tr>
-  <td><a href="scripts/gerar-iso-ol10.html"><strong>gerar_iso_ol10.sh</strong></a></td>
-  <td>==============================================================================</td>
-  <td><span class="badge badge-dir">system_scripts</span></td>
-  <td><span class="badge badge-cmd">dnf</span><span class="badge badge-cmd">rpm</span><span class="badge badge-cmd">mount</span><span class="badge badge-cmd">umount</span><span class="badge badge-cmd">awk</span><span class="tag">+6 mais</span><span class="badge badge-pkg">1</span></td>
-  <td class="cmd-count">12 cmd · 14 fn · 330 lin</td>
-  <td>
-    <a href="scripts/gerar-iso-ol10.desktop" download class="tag" title="Download .desktop">🖥️</a>
-    <a href="scripts/gerar-iso-ol10.html" class="tag" title="Abrir página">📄</a>
-  </td>
-</tr><tr>
-  <td><a href="scripts/gerar-iso-ol9.html"><strong>gerar_iso_ol9.sh</strong></a></td>
-  <td>----------------------------------------------------</td>
-  <td><span class="badge badge-dir">system_scripts</span></td>
-  <td><span class="badge badge-cmd">dnf</span><span class="badge badge-cmd">rpm</span><span class="badge badge-cmd">mount</span><span class="badge badge-cmd">umount</span><span class="badge badge-cmd">cp</span><span class="badge badge-cmd">mkdir</span><span class="tag">+7 mais</span><span class="badge badge-pkg">1</span></td>
-  <td class="cmd-count">13 cmd · 7 fn · 359 lin</td>
-  <td>
-    <a href="scripts/gerar-iso-ol9.desktop" download class="tag" title="Download .desktop">🖥️</a>
-    <a href="scripts/gerar-iso-ol9.html" class="tag" title="Abrir página">📄</a>
-  </td>
-</tr><tr>
-  <td><a href="scripts/manager-repo-sh.html"><strong>manager_repo_sh</strong></a></td>
-  <td>manager_repo_sh</td>
-  <td><span class="badge badge-dir">system_scripts</span></td>
-  <td><span class="badge badge-cmd">dnf</span><span class="badge badge-cmd">yum</span><span class="badge badge-cmd">rm</span></td>
-  <td class="cmd-count">3 cmd · 0 fn · 53 lin</td>
-  <td>
-    <a href="scripts/manager-repo-sh.desktop" download class="tag" title="Download .desktop">🖥️</a>
-    <a href="scripts/manager-repo-sh.html" class="tag" title="Abrir página">📄</a>
-  </td>
-</tr><tr>
-  <td><a href="scripts/manut.html"><strong>manut.sh</strong></a></td>
-  <td>--- Configurações ---</td>
-  <td><span class="badge badge-dir">system_scripts</span></td>
-  <td><span class="badge badge-cmd">systemctl</span><span class="badge badge-cmd">npm</span><span class="badge badge-cmd">pm2</span><span class="badge badge-cmd">nginx</span></td>
-  <td class="cmd-count">4 cmd · 0 fn · 50 lin</td>
-  <td>
-    <a href="scripts/manut.desktop" download class="tag" title="Download .desktop">🖥️</a>
-    <a href="scripts/manut.html" class="tag" title="Abrir página">📄</a>
-  </td>
-</tr><tr>
-  <td><a href="scripts/node.html"><strong>node.sh</strong></a></td>
-  <td>=====================================================================</td>
-  <td><span class="badge badge-dir">system_scripts</span></td>
-  <td><span class="badge badge-cmd">systemctl</span><span class="badge badge-cmd">git</span><span class="badge badge-cmd">curl</span><span class="badge badge-cmd">wget</span><span class="tag">+6 mais</span></td>
-  <td class="cmd-count">12 cmd · 3 fn · 199 lin</td>
-  <td>
-    <a href="scripts/node.desktop" download class="tag" title="Download .desktop">🖥️</a>
-    <a href="scripts/node.html" class="tag" title="Abrir página">📄</a>
-  </td>
-</tr><tr>
-  <td><a href="scripts/ol9-audit-otimizar.html"><strong>ol9-audit-otimizar.sh</strong></a></td>
-  <td>Auditoria + Otimizacao Oracle Linux 9 + XFCE4</td>
-  <td><span class="badge badge-dir">system_scripts</span></td>
-  <td><span class="badge badge-cmd">dnf</span><span class="badge badge-cmd">systemctl</span><span class="badge badge-cmd">journalctl</span><span class="tag">+8 mais</span></td>
-  <td class="cmd-count">14 cmd · 8 fn · 341 lin</td>
-  <td>
-    <a href="scripts/ol9-audit-otimizar.desktop" download class="tag" title="Download .desktop">🖥️</a>
-    <a href="scripts/ol9-audit-otimizar.html" class="tag" title="Abrir página">📄</a>
-  </td>
-</tr><tr>
-  <td><a href="scripts/ol9-full-setup.html"><strong>ol9-full-setup.sh</strong></a></td>
-  <td>Configuracao completa: Oracle Linux 9 + EPEL + RPM Fusion + XFCE + LibreOffice +...</td>
-  <td><span class="badge badge-dir">system_scripts</span></td>
-  <td><span class="badge badge-cmd">dnf</span><span class="badge badge-cmd">rpm</span><span class="badge badge-cmd">git</span><span class="badge badge-cmd">curl</span><span class="badge badge-cmd">wget</span><span class="tag">+6 mais</span><span class="badge badge-pkg">1</span></td>
-  <td class="cmd-count">12 cmd · 4 fn · 181 lin</td>
-  <td>
-    <a href="scripts/ol9-full-setup.desktop" download class="tag" title="Download .desktop">🖥️</a>
-    <a href="scripts/ol9-full-setup.html" class="tag" title="Abrir página">📄</a>
-  </td>
-</tr><tr>
-  <td><a href="scripts/oracle-config.html"><strong>oracle_config.sh</strong></a></td>
-  <td>Nome do script: config_ol9.sh</td>
-  <td><span class="badge badge-dir">system_scripts</span></td>
-  <td><span class="badge badge-cmd">dnf</span><span class="badge badge-cmd">rpm</span><span class="badge badge-pkg">1</span></td>
-  <td class="cmd-count">2 cmd · 0 fn · 66 lin</td>
-  <td>
-    <a href="scripts/oracle-config.desktop" download class="tag" title="Download .desktop">🖥️</a>
-    <a href="scripts/oracle-config.html" class="tag" title="Abrir página">📄</a>
-  </td>
-</tr><tr>
-  <td><a href="scripts/otimizar-gnome.html"><strong>otimizar-gnome.sh</strong></a></td>
-  <td>gnome-manager-full.sh — Oracle Linux 9.7</td>
-  <td><span class="badge badge-dir">system_scripts</span></td>
-  <td><span class="badge badge-cmd">systemctl</span><span class="badge badge-cmd">mkdir</span><span class="badge badge-cmd">mv</span></td>
-  <td class="cmd-count">3 cmd · 5 fn · 102 lin</td>
-  <td>
-    <a href="scripts/otimizar-gnome.desktop" download class="tag" title="Download .desktop">🖥️</a>
-    <a href="scripts/otimizar-gnome.html" class="tag" title="Abrir página">📄</a>
-  </td>
-</tr><tr>
-  <td><a href="scripts/otimizar-xfce.html"><strong>otimizar-xfce.sh</strong></a></td>
-  <td>otimizar-xfce.sh — Otimiza XFCE + sistema completo (Oracle Linux 9)</td>
-  <td><span class="badge badge-dir">system_scripts</span></td>
-  <td><span class="badge badge-cmd">dnf</span><span class="badge badge-cmd">rpm</span><span class="badge badge-cmd">systemctl</span><span class="badge badge-cmd">journalctl</span><span class="tag">+9 mais</span></td>
-  <td class="cmd-count">15 cmd · 11 fn · 727 lin</td>
-  <td>
-    <a href="scripts/otimizar-xfce.desktop" download class="tag" title="Download .desktop">🖥️</a>
-    <a href="scripts/otimizar-xfce.html" class="tag" title="Abrir página">📄</a>
-  </td>
-</tr><tr>
-  <td><a href="scripts/remove-old-kernels.html"><strong>remove_old_kernels.sh</strong></a></td>
-  <td>remove-old-kernels.sh</td>
-  <td><span class="badge badge-dir">system_scripts</span></td>
-  <td><span class="badge badge-cmd">dnf</span><span class="badge badge-cmd">rpm</span><span class="badge badge-cmd">grep</span><span class="badge badge-cmd">rm</span><span class="badge badge-pkg">1</span></td>
-  <td class="cmd-count">4 cmd · 0 fn · 25 lin</td>
-  <td>
-    <a href="scripts/remove-old-kernels.desktop" download class="tag" title="Download .desktop">🖥️</a>
-    <a href="scripts/remove-old-kernels.html" class="tag" title="Abrir página">📄</a>
-  </td>
-</tr><tr>
-  <td><a href="scripts/setup-xfce-tiling.html"><strong>setup-xfce-tiling.sh</strong></a></td>
-  <td>Ativa window tiling no XFCE4 (mouse + teclado)</td>
-  <td><span class="badge badge-dir">system_scripts</span></td>
-  <td><span class="badge badge-cmd">awk</span><span class="badge badge-cmd">grep</span><span class="badge badge-cmd">xrandr</span><span class="badge badge-cmd">mkdir</span><span class="tag">+1 mais</span></td>
-  <td class="cmd-count">7 cmd · 0 fn · 152 lin</td>
-  <td>
-    <a href="scripts/setup-xfce-tiling.desktop" download class="tag" title="Download .desktop">🖥️</a>
-    <a href="scripts/setup-xfce-tiling.html" class="tag" title="Abrir página">📄</a>
-  </td>
-</tr><tr>
-  <td><a href="scripts/setup-zram.html"><strong>setup-zram.sh</strong></a></td>
-  <td>setup-zram.sh</td>
-  <td><span class="badge badge-dir">system_scripts</span></td>
-  <td><span class="badge badge-cmd">systemctl</span><span class="badge badge-cmd">sed</span><span class="badge badge-cmd">sysctl</span></td>
-  <td class="cmd-count">3 cmd · 0 fn · 31 lin</td>
-  <td>
-    <a href="scripts/setup-zram.desktop" download class="tag" title="Download .desktop">🖥️</a>
-    <a href="scripts/setup-zram.html" class="tag" title="Abrir página">📄</a>
-  </td>
-</tr><tr>
-  <td><a href="scripts/xrandr-config.html"><strong>xrandr-config.sh</strong></a></td>
-  <td>xrandr-config.sh</td>
-  <td><span class="badge badge-dir">system_scripts</span></td>
-  <td><span class="badge badge-cmd">dnf</span><span class="badge badge-cmd">awk</span><span class="badge badge-cmd">grep</span><span class="badge badge-cmd">xrandr</span><span class="tag">+1 mais</span></td>
-  <td class="cmd-count">7 cmd · 25 fn · 369 lin</td>
-  <td>
-    <a href="scripts/xrandr-config.desktop" download class="tag" title="Download .desktop">🖥️</a>
-    <a href="scripts/xrandr-config.html" class="tag" title="Abrir página">📄</a>
-  </td>
-</tr><tr>
-  <td><a href="scripts/update-appimages.html"><strong>update-appimages.sh</strong></a></td>
-  <td>Apps data: repo|filter|filename|label|desktop|icon|mime|icon_url</td>
-  <td><span class="badge badge-dir">root</span></td>
-  <td><span class="badge badge-cmd">curl</span><span class="badge badge-cmd">awk</span><span class="badge badge-cmd">grep</span><span class="badge badge-cmd">cp</span><span class="badge badge-cmd">mkdir</span><span class="tag">+5 mais</span></td>
-  <td class="cmd-count">11 cmd · 14 fn · 469 lin</td>
-  <td>
-    <a href="scripts/update-appimages.desktop" download class="tag" title="Download .desktop">🖥️</a>
-    <a href="scripts/update-appimages.html" class="tag" title="Abrir página">📄</a>
-  </td>
-</tr><tr>
-  <td><a href="scripts/update-docs.html"><strong>update-docs.sh</strong></a></td>
-  <td>update-docs.sh — Regenera a documentacao e opcionalmente faz commit</td>
-  <td><span class="badge badge-dir">root</span></td>
-  <td><span class="badge badge-cmd">git</span><span class="badge badge-cmd">python3</span></td>
-  <td class="cmd-count">2 cmd · 0 fn · 50 lin</td>
-  <td>
-    <a href="scripts/update-docs.desktop" download class="tag" title="Download .desktop">🖥️</a>
-    <a href="scripts/update-docs.html" class="tag" title="Abrir página">📄</a>
-  </td>
-</tr><tr>
-  <td><a href="scripts/control.html"><strong>control.sh</strong></a></td>
-  <td>--- Configurações ---</td>
-  <td><span class="badge badge-dir">vm_scripts</span></td>
-  <td><span class="badge badge-cmd">systemctl</span><span class="badge badge-cmd">git</span><span class="badge badge-cmd">grep</span><span class="tag">+2 mais</span></td>
-  <td class="cmd-count">8 cmd · 8 fn · 131 lin</td>
-  <td>
-    <a href="scripts/control.desktop" download class="tag" title="Download .desktop">🖥️</a>
-    <a href="scripts/control.html" class="tag" title="Abrir página">📄</a>
-  </td>
-</tr><tr>
-  <td><a href="scripts/restore-snapshot-disable-ufw.html"><strong>restore-snapshot-disable-ufw.sh</strong></a></td>
-  <td>restore-snapshot-disable-ufw.sh</td>
-  <td><span class="badge badge-dir">vm_scripts</span></td>
-  <td><span class="badge badge-cmd">ufw</span></td>
-  <td class="cmd-count">1 cmd · 0 fn · 79 lin</td>
-  <td>
-    <a href="scripts/restore-snapshot-disable-ufw.desktop" download class="tag" title="Download .desktop">🖥️</a>
-    <a href="scripts/restore-snapshot-disable-ufw.html" class="tag" title="Abrir página">📄</a>
-  </td>
-</tr><tr>
-  <td><a href="scripts/setup-api-debian.html"><strong>setup-api-debian.sh</strong></a></td>
-  <td>setup-api-debian.sh</td>
-  <td><span class="badge badge-dir">vm_scripts</span></td>
-  <td><span class="badge badge-cmd">systemctl</span><span class="badge badge-cmd">curl</span><span class="badge badge-cmd">grep</span><span class="badge badge-cmd">sed</span><span class="tag">+7 mais</span></td>
-  <td class="cmd-count">13 cmd · 15 fn · 611 lin</td>
-  <td>
-    <a href="scripts/setup-api-debian.desktop" download class="tag" title="Download .desktop">🖥️</a>
-    <a href="scripts/setup-api-debian.html" class="tag" title="Abrir página">📄</a>
-  </td>
-</tr></tbody>
-      </table>
+    <div class="category-card" data-cat="bluetooth" style="--cat-color:#7c3aed;--cat-bg:#ede9fe" onclick="filterByCategory('bluetooth')">
+      <div class="cat-header">
+        <div class="cat-icon" style="background:#ede9fe;color:#7c3aed;">🔵</div>
+        <div class="cat-count">2</div>
+      </div>
+      <div class="cat-name">Bluetooth</div>
+      <div class="cat-desc">Controle e automação Bluetooth</div>
+    </div>
+    <div class="category-card" data-cat="root" style="--cat-color:#ea580c;--cat-bg:#fff7ed" onclick="filterByCategory('root')">
+      <div class="cat-header">
+        <div class="cat-icon" style="background:#fff7ed;color:#ea580c;">📦</div>
+        <div class="cat-count">11</div>
+      </div>
+      <div class="cat-name">Raiz</div>
+      <div class="cat-desc">Scripts de build, ISO e sistema</div>
+    </div>
+    <div class="category-card" data-cat="system_scripts" style="--cat-color:#0d9488;--cat-bg:#ccfbf1" onclick="filterByCategory('system_scripts')">
+      <div class="cat-header">
+        <div class="cat-icon" style="background:#ccfbf1;color:#0d9488;">⚙️</div>
+        <div class="cat-count">22</div>
+      </div>
+      <div class="cat-name">System Scripts</div>
+      <div class="cat-desc">Configuração e otimização do sistema</div>
+    </div>
+    <div class="category-card" data-cat="vm_scripts" style="--cat-color:#e11d48;--cat-bg:#fff1f2" onclick="filterByCategory('vm_scripts')">
+      <div class="cat-header">
+        <div class="cat-icon" style="background:#fff1f2;color:#e11d48;">🖥️</div>
+        <div class="cat-count">3</div>
+      </div>
+      <div class="cat-name">VM Scripts</div>
+      <div class="cat-desc">Scripts para máquinas virtuais</div>
     </div>
   </div>
 </div>
+
+<!-- ═══════ TOOLS ═══════ -->
+<div class="section reveal">
+  <div class="section-header">
+    <h2 class="section-title"><span class="icon">🧰</span> Ferramentas HTML</h2>
+  </div>
+  <div class="tools-grid">
+    <a href="ferramentas/configurar-instagram-graph-api.html" class="tool-card" style="position:relative">
+      <div class="tool-banner" style="background: linear-gradient(135deg, #4f46e5, #7c3aed, #22d3ee)">
+        <span class="tool-emoji">🔧</span>
+      </div>
+      <div class="tool-body">
+        <h3>Configurar Instagram Graph API</h3>
+        <p>Setup interativo para API do Instagram via Facebook Developer</p>
+      </div>
+      <span class="tool-arrow">→</span>
+    </a>
+    <a href="ferramentas/instagram-feed.html" class="tool-card" style="position:relative">
+      <div class="tool-banner" style="background: linear-gradient(135deg, #e11d48, #f97316, #eab308)">
+        <span class="tool-emoji">📸</span>
+      </div>
+      <div class="tool-body">
+        <h3>Instagram Feed</h3>
+        <p>Baixe e visualize posts de perfis do Instagram</p>
+      </div>
+      <span class="tool-arrow">→</span>
+    </a>
+  </div>
+</div>
+
+<!-- ═══════ SCRIPTS ═══════ -->
+<div class="section reveal" id="scripts">
+  <div class="section-header">
+    <h2 class="section-title"><span class="icon">📜</span> Scripts</h2>
+    <span id="scriptCount" style="font-size:0.85rem;color:var(--slate-500);font-weight:500;">38 scripts</span>
+  </div>
+
+  <div class="search-wrapper">
+    <span class="search-icon">🔍</span>
+    <input type="text" class="search-box" id="search" placeholder="Pesquisar scripts, comandos, descrições..." oninput="filterScripts()">
+  </div>
+
+  <div class="scripts-grid" id="scriptsGrid">
+    <div class="script-card" data-cat="bluetooth" data-search="bt-auto bt-auto.sh systemctl bluetooth">
+      <div class="script-info">
+        <div class="script-name"><a href="scripts/bt-auto.html">bt-auto.sh</a></div>
+        <div class="script-desc">bt-auto.sh</div>
+        <div class="script-meta">
+          <span class="badge badge-cmd">systemctl</span>
+          <span class="badge badge-dir">bluetooth</span>
+        </div>
+      </div>
+      <div class="script-actions">
+        <span class="script-stats">1 cmd · 0 fn · 21 lin</span>
+        <a href="scripts/bt-auto.desktop" download class="tag" title="Download .desktop">🖥️</a>
+        <a href="scripts/bt-auto.html" class="tag" title="Abrir página">📄</a>
+      </div>
+    </div>
+    <div class="script-card" data-cat="bluetooth" data-search="bt-ctl bt-ctl.sh tee bluetooth">
+      <div class="script-info">
+        <div class="script-name"><a href="scripts/bt-ctl.html">bt-ctl.sh</a></div>
+        <div class="script-desc">Controle de Bluetooth</div>
+        <div class="script-meta">
+          <span class="badge badge-cmd">tee</span>
+          <span class="badge badge-dir">bluetooth</span>
+        </div>
+      </div>
+      <div class="script-actions">
+        <span class="script-stats">1 cmd · 24 fn · 322 lin</span>
+        <a href="scripts/bt-ctl.desktop" download class="tag" title="Download .desktop">🖥️</a>
+        <a href="scripts/bt-ctl.html" class="tag" title="Abrir página">📄</a>
+      </div>
+    </div>
+    <div class="script-card" data-cat="root" data-search="build_iso build_iso.sh dnf rpm mount umount rsync iso linux livecd">
+      <div class="script-info">
+        <div class="script-name"><a href="scripts/build-iso.html">build_iso.sh</a></div>
+        <div class="script-desc">Geração de ISO Linux LiveCD</div>
+        <div class="script-meta">
+          <span class="badge badge-cmd">dnf</span><span class="badge badge-cmd">rpm</span><span class="badge badge-cmd">mount</span><span class="badge badge-cmd">umount</span><span class="badge badge-cmd">rsync</span><span class="badge" style="background:var(--slate-100);color:var(--slate-500);font-size:0.65rem;">+7</span>
+        </div>
+      </div>
+      <div class="script-actions">
+        <span class="script-stats">13 cmd · 0 fn · 192 lin</span>
+        <a href="scripts/build-iso.desktop" download class="tag" title="Download .desktop">🖥️</a>
+        <a href="scripts/build-iso.html" class="tag" title="Abrir página">📄</a>
+      </div>
+    </div>
+    <div class="script-card" data-cat="root" data-search="build_iso_completa build_iso_completa.sh dnf rpm systemctl mount umount iso livecd completo">
+      <div class="script-info">
+        <div class="script-name"><a href="scripts/build-iso-completa.html">build_iso_completa.sh</a></div>
+        <div class="script-desc">ISO LiveCD completa com todas as configs</div>
+        <div class="script-meta">
+          <span class="badge badge-cmd">dnf</span><span class="badge badge-cmd">rpm</span><span class="badge badge-cmd">systemctl</span><span class="badge badge-cmd">mount</span><span class="badge badge-cmd">umount</span><span class="badge" style="background:var(--slate-100);color:var(--slate-500);font-size:0.65rem;">+18</span>
+        </div>
+      </div>
+      <div class="script-actions">
+        <span class="script-stats">24 cmd · 9 fn · 629 lin</span>
+        <a href="scripts/build-iso-completa.desktop" download class="tag" title="Download .desktop">🖥️</a>
+        <a href="scripts/build-iso-completa.html" class="tag" title="Abrir página">📄</a>
+      </div>
+    </div>
+    <div class="script-card" data-cat="root" data-search="build_offline_from_boot build_offline_from_boot.sh dnf rpm systemctl mount umount offline boot">
+      <div class="script-info">
+        <div class="script-name"><a href="scripts/build-offline-from-boot.html">build_offline_from_boot.sh</a></div>
+        <div class="script-desc">Build offline a partir do boot</div>
+        <div class="script-meta">
+          <span class="badge badge-cmd">dnf</span><span class="badge badge-cmd">rpm</span><span class="badge badge-cmd">systemctl</span><span class="badge badge-cmd">mount</span><span class="badge badge-cmd">umount</span><span class="badge" style="background:var(--slate-100);color:var(--slate-500);font-size:0.65rem;">+20</span>
+        </div>
+      </div>
+      <div class="script-actions">
+        <span class="script-stats">26 cmd · 8 fn · 622 lin</span>
+        <a href="scripts/build-offline-from-boot.desktop" download class="tag" title="Download .desktop">🖥️</a>
+        <a href="scripts/build-offline-from-boot.html" class="tag" title="Abrir página">📄</a>
+      </div>
+    </div>
+    <div class="script-card" data-cat="root" data-search="build_offline_ol9 build_offline_ol9.sh dnf rpm systemctl mount umount offline oracle linux 9">
+      <div class="script-info">
+        <div class="script-name"><a href="scripts/build-offline-ol9.html">build_offline_ol9.sh</a></div>
+        <div class="script-desc">Build offline Oracle Linux 9</div>
+        <div class="script-meta">
+          <span class="badge badge-cmd">dnf</span><span class="badge badge-cmd">rpm</span><span class="badge badge-cmd">systemctl</span><span class="badge badge-cmd">mount</span><span class="badge badge-cmd">umount</span><span class="badge" style="background:var(--slate-100);color:var(--slate-500);font-size:0.65rem;">+20</span>
+        </div>
+      </div>
+      <div class="script-actions">
+        <span class="script-stats">26 cmd · 12 fn · 768 lin</span>
+        <a href="scripts/build-offline-ol9.desktop" download class="tag" title="Download .desktop">🖥️</a>
+        <a href="scripts/build-offline-ol9.html" class="tag" title="Abrir página">📄</a>
+      </div>
+    </div>
+    <div class="script-card" data-cat="root" data-search="create_rpm create_rpm.sh dnf rpm grep cp mkdir rpm pacote">
+      <div class="script-info">
+        <div class="script-name"><a href="scripts/create-rpm.html">create_rpm.sh</a></div>
+        <div class="script-desc">Criacao de pacotes RPM</div>
+        <div class="script-meta">
+          <span class="badge badge-cmd">dnf</span><span class="badge badge-cmd">rpm</span><span class="badge badge-cmd">grep</span><span class="badge badge-cmd">cp</span><span class="badge badge-cmd">mkdir</span><span class="badge" style="background:var(--slate-100);color:var(--slate-500);font-size:0.65rem;">+3</span>
+        </div>
+      </div>
+      <div class="script-actions">
+        <span class="script-stats">9 cmd · 8 fn · 351 lin</span>
+        <a href="scripts/create-rpm.desktop" download class="tag" title="Download .desktop">🖥️</a>
+        <a href="scripts/create-rpm.html" class="tag" title="Abrir página">📄</a>
+      </div>
+    </div>
+    <div class="script-card" data-cat="root" data-search="debian debian.sh mkdir chmod npm node debian setup">
+      <div class="script-info">
+        <div class="script-name"><a href="scripts/debian.html">debian.sh</a></div>
+        <div class="script-desc">Setup de ambiente Debian</div>
+        <div class="script-meta">
+          <span class="badge badge-cmd">mkdir</span><span class="badge badge-cmd">chmod</span><span class="badge badge-cmd">npm</span>
+          <span class="badge badge-dir">root</span>
+        </div>
+      </div>
+      <div class="script-actions">
+        <span class="script-stats">4 cmd · 0 fn · 60 lin</span>
+        <a href="scripts/debian.desktop" download class="tag" title="Download .desktop">🖥️</a>
+        <a href="scripts/debian.html" class="tag" title="Abrir página">📄</a>
+      </div>
+    </div>
+    <div class="script-card" data-cat="root" data-search="fix-repos-ol9 fix-repos-ol9.sh dnf rpm curl grep sed oracle linux 9 repositorios">
+      <div class="script-info">
+        <div class="script-name"><a href="scripts/fix-repos-ol9.html">fix-repos-ol9.sh</a></div>
+        <div class="script-desc">Correção de repositórios Oracle Linux 9</div>
+        <div class="script-meta">
+          <span class="badge badge-cmd">dnf</span><span class="badge badge-cmd">rpm</span><span class="badge badge-cmd">curl</span><span class="badge badge-cmd">grep</span><span class="badge badge-cmd">sed</span><span class="badge" style="background:var(--slate-100);color:var(--slate-500);font-size:0.65rem;">+3</span>
+        </div>
+      </div>
+      <div class="script-actions">
+        <span class="script-stats">9 cmd · 4 fn · 244 lin</span>
+        <a href="scripts/fix-repos-ol9.desktop" download class="tag" title="Download .desktop">🖥️</a>
+        <a href="scripts/fix-repos-ol9.html" class="tag" title="Abrir página">📄</a>
+      </div>
+    </div>
+    <div class="script-card" data-cat="root" data-search="git-sync git-sync.sh git commit pull push sync">
+      <div class="script-info">
+        <div class="script-name"><a href="scripts/git-sync.html">git-sync.sh</a></div>
+        <div class="script-desc">Script para Git: commit, pull, push e listar commits</div>
+        <div class="script-meta">
+          <span class="badge badge-cmd">git</span>
+          <span class="badge badge-dir">root</span>
+        </div>
+      </div>
+      <div class="script-actions">
+        <span class="script-stats">1 cmd · 3 fn · 109 lin</span>
+        <a href="scripts/git-sync.desktop" download class="tag" title="Download .desktop">🖥️</a>
+        <a href="scripts/git-sync.html" class="tag" title="Abrir página">📄</a>
+      </div>
+    </div>
+    <div class="script-card" data-cat="root" data-search="oracle oracle.sh dnf rpm systemctl mount umount oracle linux setup">
+      <div class="script-info">
+        <div class="script-name"><a href="scripts/oracle.html">oracle.sh</a></div>
+        <div class="script-desc">Configuração completa Oracle Linux</div>
+        <div class="script-meta">
+          <span class="badge badge-cmd">dnf</span><span class="badge badge-cmd">rpm</span><span class="badge badge-cmd">systemctl</span><span class="badge badge-cmd">mount</span><span class="badge badge-cmd">umount</span><span class="badge" style="background:var(--slate-100);color:var(--slate-500);font-size:0.65rem;">+13</span>
+        </div>
+      </div>
+      <div class="script-actions">
+        <span class="script-stats">19 cmd · 12 fn · 549 lin</span>
+        <a href="scripts/oracle.desktop" download class="tag" title="Download .desktop">🖥️</a>
+        <a href="scripts/oracle.html" class="tag" title="Abrir página">📄</a>
+      </div>
+    </div>
+    <div class="script-card" data-cat="root" data-search="update-appimages update-appimages.sh curl awk grep cp mkdir appimage apps">
+      <div class="script-info">
+        <div class="script-name"><a href="scripts/update-appimages.html">update-appimages.sh</a></div>
+        <div class="script-desc">Atualização de AppImages</div>
+        <div class="script-meta">
+          <span class="badge badge-cmd">curl</span><span class="badge badge-cmd">awk</span><span class="badge badge-cmd">grep</span><span class="badge badge-cmd">cp</span><span class="badge badge-cmd">mkdir</span><span class="badge" style="background:var(--slate-100);color:var(--slate-500);font-size:0.65rem;">+5</span>
+        </div>
+      </div>
+      <div class="script-actions">
+        <span class="script-stats">11 cmd · 14 fn · 469 lin</span>
+        <a href="scripts/update-appimages.desktop" download class="tag" title="Download .desktop">🖥️</a>
+        <a href="scripts/update-appimages.html" class="tag" title="Abrir página">📄</a>
+      </div>
+    </div>
+    <div class="script-card" data-cat="root" data-search="update-docs update-docs.sh git python3 docs documentacao">
+      <div class="script-info">
+        <div class="script-name"><a href="scripts/update-docs.html">update-docs.sh</a></div>
+        <div class="script-desc">Regenera a documentação e opcionalmente faz commit</div>
+        <div class="script-meta">
+          <span class="badge badge-cmd">git</span><span class="badge badge-cmd">python3</span>
+          <span class="badge badge-dir">root</span>
+        </div>
+      </div>
+      <div class="script-actions">
+        <span class="script-stats">2 cmd · 0 fn · 50 lin</span>
+        <a href="scripts/update-docs.desktop" download class="tag" title="Download .desktop">🖥️</a>
+        <a href="scripts/update-docs.html" class="tag" title="Abrir página">📄</a>
+      </div>
+    </div>
+    <div class="script-card" data-cat="system_scripts" data-search="appimage2rpm appimage2rpm.sh dnf rpm grep cp ln appimage rpm conversao">
+      <div class="script-info">
+        <div class="script-name"><a href="scripts/appimage2rpm.html">appimage2rpm.sh</a></div>
+        <div class="script-desc">Conversão de AppImage para RPM</div>
+        <div class="script-meta">
+          <span class="badge badge-cmd">dnf</span><span class="badge badge-cmd">rpm</span><span class="badge badge-cmd">grep</span><span class="badge badge-cmd">cp</span><span class="badge badge-cmd">ln</span><span class="badge" style="background:var(--slate-100);color:var(--slate-500);font-size:0.65rem;">+3</span>
+        </div>
+      </div>
+      <div class="script-actions">
+        <span class="script-stats">9 cmd · 1 fn · 302 lin</span>
+        <a href="scripts/appimage2rpm.desktop" download class="tag" title="Download .desktop">🖥️</a>
+        <a href="scripts/appimage2rpm.html" class="tag" title="Abrir página">📄</a>
+      </div>
+    </div>
+    <div class="script-card" data-cat="system_scripts" data-search="atualizar atualizar.sh git rm atualizacao repositorio amor animal">
+      <div class="script-info">
+        <div class="script-name"><a href="scripts/atualizar.html">atualizar.sh</a></div>
+        <div class="script-desc">Script de atualização do repositório Amor Animal Marília</div>
+        <div class="script-meta">
+          <span class="badge badge-cmd">git</span><span class="badge badge-cmd">rm</span>
+          <span class="badge badge-dir">system_scripts</span>
+        </div>
+      </div>
+      <div class="script-actions">
+        <span class="script-stats">2 cmd · 0 fn · 25 lin</span>
+        <a href="scripts/atualizar.desktop" download class="tag" title="Download .desktop">🖥️</a>
+        <a href="scripts/atualizar.html" class="tag" title="Abrir página">📄</a>
+      </div>
+    </div>
+    <div class="script-card" data-cat="system_scripts" data-search="auto_fix_powerprofiles_selinux auto_fix_powerprofiles_selinux.sh audit2allow semodule selinux">
+      <div class="script-info">
+        <div class="script-name"><a href="scripts/auto-fix-powerprofiles-selinux.html">auto_fix_powerprofiles_selinux.sh</a></div>
+        <div class="script-desc">Correção automática SELinux para powerprofiles</div>
+        <div class="script-meta">
+          <span class="badge badge-cmd">audit2allow</span><span class="badge badge-cmd">semodule</span>
+          <span class="badge badge-dir">system_scripts</span>
+        </div>
+      </div>
+      <div class="script-actions">
+        <span class="script-stats">2 cmd · 0 fn · 32 lin</span>
+        <a href="scripts/auto-fix-powerprofiles-selinux.desktop" download class="tag" title="Download .desktop">🖥️</a>
+        <a href="scripts/auto-fix-powerprofiles-selinux.html" class="tag" title="Abrir página">📄</a>
+      </div>
+    </div>
+    <div class="script-card" data-cat="system_scripts" data-search="build_backup build_backup.sh dnf rpm mount umount curl wget backup">
+      <div class="script-info">
+        <div class="script-name"><a href="scripts/build-backup.html">build_backup.sh</a></div>
+        <div class="script-desc">Construção de backup do sistema</div>
+        <div class="script-meta">
+          <span class="badge badge-cmd">dnf</span><span class="badge badge-cmd">rpm</span><span class="badge badge-cmd">mount</span><span class="badge badge-cmd">umount</span><span class="badge badge-cmd">curl</span><span class="badge" style="background:var(--slate-100);color:var(--slate-500);font-size:0.65rem;">+10</span>
+        </div>
+      </div>
+      <div class="script-actions">
+        <span class="script-stats">16 cmd · 0 fn · 210 lin</span>
+        <a href="scripts/build-backup.desktop" download class="tag" title="Download .desktop">🖥️</a>
+        <a href="scripts/build-backup.html" class="tag" title="Abrir página">📄</a>
+      </div>
+    </div>
+    <div class="script-card" data-cat="system_scripts" data-search="build-iso build_iso.sh dnf rpm mount umount awk grep iso livecd system">
+      <div class="script-info">
+        <div class="script-name"><a href="scripts/build-iso.html">build_iso.sh</a></div>
+        <div class="script-desc">Build de ISO Linux (system scripts)</div>
+        <div class="script-meta">
+          <span class="badge badge-cmd">dnf</span><span class="badge badge-cmd">rpm</span><span class="badge badge-cmd">mount</span><span class="badge badge-cmd">umount</span><span class="badge badge-cmd">awk</span><span class="badge" style="background:var(--slate-100);color:var(--slate-500);font-size:0.65rem;">+9</span>
+        </div>
+      </div>
+      <div class="script-actions">
+        <span class="script-stats">15 cmd · 6 fn · 300 lin</span>
+        <a href="scripts/build-iso.desktop" download class="tag" title="Download .desktop">🖥️</a>
+        <a href="scripts/build-iso.html" class="tag" title="Abrir página">📄</a>
+      </div>
+    </div>
+    <div class="script-card" data-cat="system_scripts" data-search="create-iso create_iso.sh dnf rpm mount umount awk iso livecd criacao">
+      <div class="script-info">
+        <div class="script-name"><a href="scripts/create-iso.html">create_iso.sh</a></div>
+        <div class="script-desc">Criação de ISO Linux personalizada</div>
+        <div class="script-meta">
+          <span class="badge badge-cmd">dnf</span><span class="badge badge-cmd">rpm</span><span class="badge badge-cmd">mount</span><span class="badge badge-cmd">umount</span><span class="badge badge-cmd">awk</span><span class="badge" style="background:var(--slate-100);color:var(--slate-500);font-size:0.65rem;">+7</span>
+        </div>
+      </div>
+      <div class="script-actions">
+        <span class="script-stats">13 cmd · 17 fn · 364 lin</span>
+        <a href="scripts/create-iso.desktop" download class="tag" title="Download .desktop">🖥️</a>
+        <a href="scripts/create-iso.html" class="tag" title="Abrir página">📄</a>
+      </div>
+    </div>
+    <div class="script-card" data-cat="system_scripts" data-search="fix-repos-ol9 fix-repos-ol9.sh dnf rpm curl grep sed oracle linux 9 repositorios system">
+      <div class="script-info">
+        <div class="script-name"><a href="scripts/fix-repos-ol9.html">fix-repos-ol9.sh</a></div>
+        <div class="script-desc">Correção de repositórios OL9 (system)</div>
+        <div class="script-meta">
+          <span class="badge badge-cmd">dnf</span><span class="badge badge-cmd">rpm</span><span class="badge badge-cmd">curl</span><span class="badge badge-cmd">grep</span><span class="badge badge-cmd">sed</span><span class="badge" style="background:var(--slate-100);color:var(--slate-500);font-size:0.65rem;">+3</span>
+        </div>
+      </div>
+      <div class="script-actions">
+        <span class="script-stats">9 cmd · 4 fn · 202 lin</span>
+        <a href="scripts/fix-repos-ol9.desktop" download class="tag" title="Download .desktop">🖥️</a>
+        <a href="scripts/fix-repos-ol9.html" class="tag" title="Abrir página">📄</a>
+      </div>
+    </div>
+    <div class="script-card" data-cat="system_scripts" data-search="gerar-iso gerar_iso.sh dnf rpm oracle linux 10 gerar iso">
+      <div class="script-info">
+        <div class="script-name"><a href="scripts/gerar-iso.html">gerar_iso.sh</a></div>
+        <div class="script-desc">Configura repositórios adicionais no Oracle Linux 10</div>
+        <div class="script-meta">
+          <span class="badge badge-cmd">dnf</span><span class="badge badge-cmd">rpm</span>
+          <span class="badge badge-dir">system_scripts</span>
+        </div>
+      </div>
+      <div class="script-actions">
+        <span class="script-stats">2 cmd · 0 fn · 50 lin</span>
+        <a href="scripts/gerar-iso.desktop" download class="tag" title="Download .desktop">🖥️</a>
+        <a href="scripts/gerar-iso.html" class="tag" title="Abrir página">📄</a>
+      </div>
+    </div>
+    <div class="script-card" data-cat="system_scripts" data-search="gerar_iso_ol10 gerar_iso_ol10.sh dnf rpm mount umount awk oracle linux 10 iso">
+      <div class="script-info">
+        <div class="script-name"><a href="scripts/gerar-iso-ol10.html">gerar_iso_ol10.sh</a></div>
+        <div class="script-desc">Geração de ISO Oracle Linux 10</div>
+        <div class="script-meta">
+          <span class="badge badge-cmd">dnf</span><span class="badge badge-cmd">rpm</span><span class="badge badge-cmd">mount</span><span class="badge badge-cmd">umount</span><span class="badge badge-cmd">awk</span><span class="badge" style="background:var(--slate-100);color:var(--slate-500);font-size:0.65rem;">+6</span>
+        </div>
+      </div>
+      <div class="script-actions">
+        <span class="script-stats">12 cmd · 14 fn · 330 lin</span>
+        <a href="scripts/gerar-iso-ol10.desktop" download class="tag" title="Download .desktop">🖥️</a>
+        <a href="scripts/gerar-iso-ol10.html" class="tag" title="Abrir página">📄</a>
+      </div>
+    </div>
+    <div class="script-card" data-cat="system_scripts" data-search="gerar_iso_ol9 gerar_iso_ol9.sh dnf rpm mount umount cp mkdir oracle linux 9 iso">
+      <div class="script-info">
+        <div class="script-name"><a href="scripts/gerar-iso-ol9.html">gerar_iso_ol9.sh</a></div>
+        <div class="script-desc">Geração de ISO Oracle Linux 9</div>
+        <div class="script-meta">
+          <span class="badge badge-cmd">dnf</span><span class="badge badge-cmd">rpm</span><span class="badge badge-cmd">mount</span><span class="badge badge-cmd">umount</span><span class="badge badge-cmd">cp</span><span class="badge" style="background:var(--slate-100);color:var(--slate-500);font-size:0.65rem;">+7</span>
+        </div>
+      </div>
+      <div class="script-actions">
+        <span class="script-stats">13 cmd · 7 fn · 359 lin</span>
+        <a href="scripts/gerar-iso-ol9.desktop" download class="tag" title="Download .desktop">🖥️</a>
+        <a href="scripts/gerar-iso-ol9.html" class="tag" title="Abrir página">📄</a>
+      </div>
+    </div>
+    <div class="script-card" data-cat="system_scripts" data-search="manager_repo_sh manager_repo_sh dnf yum rm gerenciador repositorio">
+      <div class="script-info">
+        <div class="script-name"><a href="scripts/manager-repo-sh.html">manager_repo_sh</a></div>
+        <div class="script-desc">Gerenciador de repositórios</div>
+        <div class="script-meta">
+          <span class="badge badge-cmd">dnf</span><span class="badge badge-cmd">yum</span><span class="badge badge-cmd">rm</span>
+          <span class="badge badge-dir">system_scripts</span>
+        </div>
+      </div>
+      <div class="script-actions">
+        <span class="script-stats">3 cmd · 0 fn · 53 lin</span>
+        <a href="scripts/manager-repo-sh.desktop" download class="tag" title="Download .desktop">🖥️</a>
+        <a href="scripts/manager-repo-sh.html" class="tag" title="Abrir página">📄</a>
+      </div>
+    </div>
+    <div class="script-card" data-cat="system_scripts" data-search="manut manut.sh systemctl npm pm2 nginx manutencao servidor">
+      <div class="script-info">
+        <div class="script-name"><a href="scripts/manut.html">manut.sh</a></div>
+        <div class="script-desc">Manutenção do servidor (nginx, pm2, node)</div>
+        <div class="script-meta">
+          <span class="badge badge-cmd">systemctl</span><span class="badge badge-cmd">npm</span><span class="badge badge-cmd">pm2</span><span class="badge badge-cmd">nginx</span>
+          <span class="badge badge-dir">system_scripts</span>
+        </div>
+      </div>
+      <div class="script-actions">
+        <span class="script-stats">4 cmd · 0 fn · 50 lin</span>
+        <a href="scripts/manut.desktop" download class="tag" title="Download .desktop">🖥️</a>
+        <a href="scripts/manut.html" class="tag" title="Abrir página">📄</a>
+      </div>
+    </div>
+    <div class="script-card" data-cat="system_scripts" data-search="node node.sh systemctl git curl wget nodejs npm install setup">
+      <div class="script-info">
+        <div class="script-name"><a href="scripts/node.html">node.sh</a></div>
+        <div class="script-desc">Instalação e configuração do Node.js</div>
+        <div class="script-meta">
+          <span class="badge badge-cmd">systemctl</span><span class="badge badge-cmd">git</span><span class="badge badge-cmd">curl</span><span class="badge badge-cmd">wget</span><span class="badge" style="background:var(--slate-100);color:var(--slate-500);font-size:0.65rem;">+6</span>
+        </div>
+      </div>
+      <div class="script-actions">
+        <span class="script-stats">12 cmd · 3 fn · 199 lin</span>
+        <a href="scripts/node.desktop" download class="tag" title="Download .desktop">🖥️</a>
+        <a href="scripts/node.html" class="tag" title="Abrir página">📄</a>
+      </div>
+    </div>
+    <div class="script-card" data-cat="system_scripts" data-search="ol9-audit-otimizar ol9-audit-otimizar.sh dnf systemctl journalctl auditoria oracle linux 9 otimizacao xfce4">
+      <div class="script-info">
+        <div class="script-name"><a href="scripts/ol9-audit-otimizar.html">ol9-audit-otimizar.sh</a></div>
+        <div class="script-desc">Auditoria + Otimização Oracle Linux 9 + XFCE4</div>
+        <div class="script-meta">
+          <span class="badge badge-cmd">dnf</span><span class="badge badge-cmd">systemctl</span><span class="badge badge-cmd">journalctl</span><span class="badge" style="background:var(--slate-100);color:var(--slate-500);font-size:0.65rem;">+8</span>
+        </div>
+      </div>
+      <div class="script-actions">
+        <span class="script-stats">14 cmd · 8 fn · 341 lin</span>
+        <a href="scripts/ol9-audit-otimizar.desktop" download class="tag" title="Download .desktop">🖥️</a>
+        <a href="scripts/ol9-audit-otimizar.html" class="tag" title="Abrir página">📄</a>
+      </div>
+    </div>
+    <div class="script-card" data-cat="system_scripts" data-search="ol9-full-setup ol9-full-setup.sh dnf rpm git curl wget oracle linux 9 setup completo xfce libreoffice">
+      <div class="script-info">
+        <div class="script-name"><a href="scripts/ol9-full-setup.html">ol9-full-setup.sh</a></div>
+        <div class="script-desc">Configuração completa: OL9 + EPEL + RPM Fusion + XFCE + LibreOffice</div>
+        <div class="script-meta">
+          <span class="badge badge-cmd">dnf</span><span class="badge badge-cmd">rpm</span><span class="badge badge-cmd">git</span><span class="badge badge-cmd">curl</span><span class="badge badge-cmd">wget</span><span class="badge" style="background:var(--slate-100);color:var(--slate-500);font-size:0.65rem;">+6</span>
+        </div>
+      </div>
+      <div class="script-actions">
+        <span class="script-stats">12 cmd · 4 fn · 181 lin</span>
+        <a href="scripts/ol9-full-setup.desktop" download class="tag" title="Download .desktop">🖥️</a>
+        <a href="scripts/ol9-full-setup.html" class="tag" title="Abrir página">📄</a>
+      </div>
+    </div>
+    <div class="script-card" data-cat="system_scripts" data-search="oracle_config oracle_config.sh dnf rpm configuracao oracle">
+      <div class="script-info">
+        <div class="script-name"><a href="scripts/oracle-config.html">oracle_config.sh</a></div>
+        <div class="script-desc">Configuração Oracle Linux</div>
+        <div class="script-meta">
+          <span class="badge badge-cmd">dnf</span><span class="badge badge-cmd">rpm</span>
+          <span class="badge badge-dir">system_scripts</span>
+        </div>
+      </div>
+      <div class="script-actions">
+        <span class="script-stats">2 cmd · 0 fn · 66 lin</span>
+        <a href="scripts/oracle-config.desktop" download class="tag" title="Download .desktop">🖥️</a>
+        <a href="scripts/oracle-config.html" class="tag" title="Abrir página">📄</a>
+      </div>
+    </div>
+    <div class="script-card" data-cat="system_scripts" data-search="otimizar-gnome otimizar-gnome.sh systemctl mkdir mv gnome oracle linux 9 otimizacao">
+      <div class="script-info">
+        <div class="script-name"><a href="scripts/otimizar-gnome.html">otimizar-gnome.sh</a></div>
+        <div class="script-desc">Otimização GNOME — Oracle Linux 9.7</div>
+        <div class="script-meta">
+          <span class="badge badge-cmd">systemctl</span><span class="badge badge-cmd">mkdir</span><span class="badge badge-cmd">mv</span>
+          <span class="badge badge-dir">system_scripts</span>
+        </div>
+      </div>
+      <div class="script-actions">
+        <span class="script-stats">3 cmd · 5 fn · 102 lin</span>
+        <a href="scripts/otimizar-gnome.desktop" download class="tag" title="Download .desktop">🖥️</a>
+        <a href="scripts/otimizar-gnome.html" class="tag" title="Abrir página">📄</a>
+      </div>
+    </div>
+    <div class="script-card" data-cat="system_scripts" data-search="otimizar-xfce otimizar-xfce.sh dnf rpm systemctl journalctl xfce oracle linux 9 otimizacao desktop">
+      <div class="script-info">
+        <div class="script-name"><a href="scripts/otimizar-xfce.html">otimizar-xfce.sh</a></div>
+        <div class="script-desc">Otimiza XFCE + sistema completo (Oracle Linux 9)</div>
+        <div class="script-meta">
+          <span class="badge badge-cmd">dnf</span><span class="badge badge-cmd">rpm</span><span class="badge badge-cmd">systemctl</span><span class="badge badge-cmd">journalctl</span><span class="badge" style="background:var(--slate-100);color:var(--slate-500);font-size:0.65rem;">+9</span>
+        </div>
+      </div>
+      <div class="script-actions">
+        <span class="script-stats">15 cmd · 11 fn · 727 lin</span>
+        <a href="scripts/otimizar-xfce.desktop" download class="tag" title="Download .desktop">🖥️</a>
+        <a href="scripts/otimizar-xfce.html" class="tag" title="Abrir página">📄</a>
+      </div>
+    </div>
+    <div class="script-card" data-cat="system_scripts" data-search="remove_old_kernels remove_old_kernels.sh dnf rpm grep rm kernel limpeza">
+      <div class="script-info">
+        <div class="script-name"><a href="scripts/remove-old-kernels.html">remove_old_kernels.sh</a></div>
+        <div class="script-desc">Remoção de kernels antigos</div>
+        <div class="script-meta">
+          <span class="badge badge-cmd">dnf</span><span class="badge badge-cmd">rpm</span><span class="badge badge-cmd">grep</span><span class="badge badge-cmd">rm</span>
+          <span class="badge badge-dir">system_scripts</span>
+        </div>
+      </div>
+      <div class="script-actions">
+        <span class="script-stats">4 cmd · 0 fn · 25 lin</span>
+        <a href="scripts/remove-old-kernels.desktop" download class="tag" title="Download .desktop">🖥️</a>
+        <a href="scripts/remove-old-kernels.html" class="tag" title="Abrir página">📄</a>
+      </div>
+    </div>
+    <div class="script-card" data-cat="system_scripts" data-search="setup-xfce-tiling setup-xfce-tiling.sh awk grep xrandr mkdir xfce tiling janela layout">
+      <div class="script-info">
+        <div class="script-name"><a href="scripts/setup-xfce-tiling.html">setup-xfce-tiling.sh</a></div>
+        <div class="script-desc">Ativa window tiling no XFCE4 (mouse + teclado)</div>
+        <div class="script-meta">
+          <span class="badge badge-cmd">awk</span><span class="badge badge-cmd">grep</span><span class="badge badge-cmd">xrandr</span><span class="badge badge-cmd">mkdir</span><span class="badge" style="background:var(--slate-100);color:var(--slate-500);font-size:0.65rem;">+1</span>
+        </div>
+      </div>
+      <div class="script-actions">
+        <span class="script-stats">7 cmd · 0 fn · 152 lin</span>
+        <a href="scripts/setup-xfce-tiling.desktop" download class="tag" title="Download .desktop">🖥️</a>
+        <a href="scripts/setup-xfce-tiling.html" class="tag" title="Abrir página">📄</a>
+      </div>
+    </div>
+    <div class="script-card" data-cat="system_scripts" data-search="setup-zram setup-zram.sh systemctl sed sysctl zram compressao memoria swap">
+      <div class="script-info">
+        <div class="script-name"><a href="scripts/setup-zram.html">setup-zram.sh</a></div>
+        <div class="script-desc">Configuração de ZRAM para compressão de memória</div>
+        <div class="script-meta">
+          <span class="badge badge-cmd">systemctl</span><span class="badge badge-cmd">sed</span><span class="badge badge-cmd">sysctl</span>
+          <span class="badge badge-dir">system_scripts</span>
+        </div>
+      </div>
+      <div class="script-actions">
+        <span class="script-stats">3 cmd · 0 fn · 31 lin</span>
+        <a href="scripts/setup-zram.desktop" download class="tag" title="Download .desktop">🖥️</a>
+        <a href="scripts/setup-zram.html" class="tag" title="Abrir página">📄</a>
+      </div>
+    </div>
+    <div class="script-card" data-cat="system_scripts" data-search="xrandr-config xrandr-config.sh dnf awk grep xrandr display monitor resolucao tela">
+      <div class="script-info">
+        <div class="script-name"><a href="scripts/xrandr-config.html">xrandr-config.sh</a></div>
+        <div class="script-desc">Configuração de display via xrandr</div>
+        <div class="script-meta">
+          <span class="badge badge-cmd">dnf</span><span class="badge badge-cmd">awk</span><span class="badge badge-cmd">grep</span><span class="badge badge-cmd">xrandr</span><span class="badge" style="background:var(--slate-100);color:var(--slate-500);font-size:0.65rem;">+1</span>
+        </div>
+      </div>
+      <div class="script-actions">
+        <span class="script-stats">7 cmd · 25 fn · 369 lin</span>
+        <a href="scripts/xrandr-config.desktop" download class="tag" title="Download .desktop">🖥️</a>
+        <a href="scripts/xrandr-config.html" class="tag" title="Abrir página">📄</a>
+      </div>
+    </div>
+    <div class="script-card" data-cat="vm_scripts" data-search="control control.sh systemctl git grep vm virtual machine controle">
+      <div class="script-info">
+        <div class="script-name"><a href="scripts/control.html">control.sh</a></div>
+        <div class="script-desc">Controle de máquinas virtuais</div>
+        <div class="script-meta">
+          <span class="badge badge-cmd">systemctl</span><span class="badge badge-cmd">git</span><span class="badge badge-cmd">grep</span><span class="badge" style="background:var(--slate-100);color:var(--slate-500);font-size:0.65rem;">+2</span>
+        </div>
+      </div>
+      <div class="script-actions">
+        <span class="script-stats">8 cmd · 8 fn · 131 lin</span>
+        <a href="scripts/control.desktop" download class="tag" title="Download .desktop">🖥️</a>
+        <a href="scripts/control.html" class="tag" title="Abrir página">📄</a>
+      </div>
+    </div>
+    <div class="script-card" data-cat="vm_scripts" data-search="restore-snapshot-disable-ufw restore-snapshot-disable-ufw.sh ufw snapshot restore firewall">
+      <div class="script-info">
+        <div class="script-name"><a href="scripts/restore-snapshot-disable-ufw.html">restore-snapshot-disable-ufw.sh</a></div>
+        <div class="script-desc">Restaurar snapshot e desabilitar UFW</div>
+        <div class="script-meta">
+          <span class="badge badge-cmd">ufw</span>
+          <span class="badge badge-dir">vm_scripts</span>
+        </div>
+      </div>
+      <div class="script-actions">
+        <span class="script-stats">1 cmd · 0 fn · 79 lin</span>
+        <a href="scripts/restore-snapshot-disable-ufw.desktop" download class="tag" title="Download .desktop">🖥️</a>
+        <a href="scripts/restore-snapshot-disable-ufw.html" class="tag" title="Abrir página">📄</a>
+      </div>
+    </div>
+    <div class="script-card" data-cat="vm_scripts" data-search="setup-api-debian setup-api-debian.sh systemctl curl grep sed debian api node setup servidor">
+      <div class="script-info">
+        <div class="script-name"><a href="scripts/setup-api-debian.html">setup-api-debian.sh</a></div>
+        <div class="script-desc">Setup de API em Debian (Node.js + Nginx)</div>
+        <div class="script-meta">
+          <span class="badge badge-cmd">systemctl</span><span class="badge badge-cmd">curl</span><span class="badge badge-cmd">grep</span><span class="badge badge-cmd">sed</span><span class="badge" style="background:var(--slate-100);color:var(--slate-500);font-size:0.65rem;">+7</span>
+        </div>
+      </div>
+      <div class="script-actions">
+        <span class="script-stats">13 cmd · 15 fn · 611 lin</span>
+        <a href="scripts/setup-api-debian.desktop" download class="tag" title="Download .desktop">🖥️</a>
+        <a href="scripts/setup-api-debian.html" class="tag" title="Abrir página">📄</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="empty-state" id="emptyState" style="display:none;">
+    <div class="icon">🔍</div>
+    <p>Nenhum script encontrado para essa busca.</p>
+  </div>
+</div>
+
+<!-- ═══════ FOOTER ═══════ -->
+<footer class="footer">
+  <p>Backup Scripts — Repositório público de automação Linux · <a href="https://github.com">GitHub</a></p>
+</footer>
 
 <script>
-function filterTable() {
-  var input = document.getElementById('search');
-  var filter = input.value.toLowerCase();
-  var rows = document.querySelectorAll('#script-table tbody tr');
-  for (var i = 0; i < rows.length; i++) {
-    var text = rows[i].textContent.toLowerCase();
-    rows[i].style.display = text.indexOf(filter) > -1 ? '' : 'none';
-  }
+/* ── Animated counters ── */
+function animateCounters() {
+  document.querySelectorAll('.stat-num[data-target]').forEach(function(el) {
+    var target = parseInt(el.getAttribute('data-target'));
+    var duration = 1200;
+    var start = 0;
+    var startTime = null;
+    function step(ts) {
+      if (!startTime) startTime = ts;
+      var progress = Math.min((ts - startTime) / duration, 1);
+      var eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.floor(eased * target).toLocaleString('pt-BR');
+      if (progress < 1) requestAnimationFrame(step);
+      else el.textContent = target.toLocaleString('pt-BR');
+    }
+    requestAnimationFrame(step);
+  });
 }
+
+/* ── Scroll reveal ── */
+function initReveal() {
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(function(el) { observer.observe(el); });
+}
+
+/* ── Category filter ── */
+var activeCategory = 'all';
+function filterByCategory(cat) {
+  activeCategory = cat;
+  document.querySelectorAll('.category-card').forEach(function(c) {
+    c.classList.toggle('active', c.getAttribute('data-cat') === cat);
+  });
+  filterScripts();
+}
+
+/* ── Search + filter ── */
+function filterScripts() {
+  var query = document.getElementById('search').value.toLowerCase();
+  var cards = document.querySelectorAll('.script-card');
+  var visible = 0;
+  cards.forEach(function(card) {
+    var cardCat = card.getAttribute('data-cat');
+    var cardSearch = (card.getAttribute('data-search') || '').toLowerCase();
+    var cardText = card.textContent.toLowerCase();
+    var matchCat = activeCategory === 'all' || cardCat === activeCategory;
+    var matchSearch = !query || cardSearch.indexOf(query) > -1 || cardText.indexOf(query) > -1;
+    if (matchCat && matchSearch) {
+      card.classList.remove('script-hidden');
+      visible++;
+    } else {
+      card.classList.add('script-hidden');
+    }
+  });
+  document.getElementById('scriptCount').textContent = visible + ' script' + (visible !== 1 ? 's' : '');
+  document.getElementById('emptyState').style.display = visible === 0 ? '' : 'none';
+}
+
+/* ── Init ── */
+document.addEventListener('DOMContentLoaded', function() {
+  setTimeout(animateCounters, 300);
+  initReveal();
+});
 </script>
 </body>
 </html>
