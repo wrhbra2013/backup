@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<title>Bluetooth — Backup Scripts</title>
+<style>
+:root { --primary:#2563eb; --primary-dark:#1d4ed8; --primary-light:#dbeafe; --accent:#7c3aed; --accent-light:#ede9fe; --teal:#0d9488; --slate-50:#f8fafc; --slate-100:#f1f5f9; --slate-200:#e2e8f0; --slate-300:#cbd5e1; --slate-400:#94a3b8; --slate-500:#64748b; --slate-600:#475569; --slate-700:#334155; --slate-800:#1e293b; --slate-900:#0f172a; --radius:12px; --shadow-sm:0 1px 2px rgba(0,0,0,0.05); --shadow:0 1px 3px rgba(0,0,0,0.1),0 1px 2px rgba(0,0,0,0.06); --shadow-md:0 4px 6px rgba(0,0,0,0.07),0 2px 4px rgba(0,0,0,0.06); --shadow-lg:0 10px 15px rgba(0,0,0,0.1),0 4px 6px rgba(0,0,0,0.05); --shadow-xl:0 20px 25px rgba(0,0,0,0.1),0 8px 10px rgba(0,0,0,0.04); }
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--slate-50);color:var(--slate-800);line-height:1.6}
+a{color:var(--primary);text-decoration:none;transition:color .2s}a:hover{color:var(--primary-dark)}
+
+.hero{background:linear-gradient(135deg,#7c3aed 0%,#4f46e5 50%,#2563eb 100%);color:#fff;padding:4rem 0 3rem;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-40%;right:-15%;width:500px;height:500px;background:radial-gradient(circle,rgba(255,255,255,0.08) 0%,transparent 70%);border-radius:50%}
+.hero-inner{max-width:1200px;margin:0 auto;padding:0 2rem;position:relative;z-index:1}
+.back-link{display:inline-flex;align-items:center;gap:6px;color:rgba(255,255,255,0.7);font-size:0.85rem;margin-bottom:1.5rem;transition:color .2s}.back-link:hover{color:#fff;text-decoration:none}
+.hero h1{font-size:clamp(2rem,4vw,3rem);font-weight:800;line-height:1.1;margin-bottom:.5rem}
+.hero-subtitle{font-size:1.1rem;color:rgba(255,255,255,0.8);max-width:600px}
+.hero-stats{display:flex;gap:2rem;margin-top:2rem}
+.hero-stat{text-align:center}
+.hero-stat .num{font-size:2rem;font-weight:800;line-height:1}
+.hero-stat .label{font-size:0.8rem;color:rgba(255,255,255,0.7);margin-top:4px}
+
+.section{max-width:1200px;margin:0 auto;padding:2.5rem 2rem}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:12px}
+.section-title{font-size:1.4rem;font-weight:700;color:var(--slate-900);display:flex;align-items:center;gap:10px}
+.search-wrapper{position:relative;margin-bottom:1.5rem}
+.search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--slate-400);font-size:1rem;pointer-events:none}
+.search-box{width:100%;padding:12px 14px 12px 42px;border:2px solid var(--slate-200);border-radius:var(--radius);font-size:0.95rem;outline:none;transition:all .25s;background:#fff;font-family:inherit}
+.search-box:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(37,99,235,0.1)}
+.search-box::placeholder{color:var(--slate-400)}
+
+.scripts-grid{display:grid;gap:10px}
+.script-card{display:grid;grid-template-columns:1fr auto;gap:16px;align-items:center;background:#fff;border-radius:var(--radius);padding:16px 20px;box-shadow:var(--shadow-sm);border:1px solid var(--slate-200);transition:all .2s}
+.script-card:hover{border-color:var(--primary);box-shadow:var(--shadow-md);transform:translateX(3px)}
+.script-info{min-width:0}
+.script-name{font-weight:700;color:var(--slate-900);font-size:0.95rem;margin-bottom:2px}
+.script-name a{color:inherit}.script-name a:hover{color:var(--primary)}
+.script-desc{font-size:0.82rem;color:var(--slate-500);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:500px}
+.script-meta{display:flex;align-items:center;gap:6px;margin-top:6px;flex-wrap:wrap}
+.badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:0.7rem;font-weight:600}
+.badge-cmd{background:var(--primary-light);color:var(--primary-dark)}
+.badge-pkg{background:#f0fdf4;color:#16a34a}
+.badge-dir{background:var(--slate-100);color:var(--slate-600)}
+.script-stats{font-size:0.75rem;color:var(--slate-400);white-space:nowrap}
+.script-actions{display:flex;gap:6px;align-items:center}
+.script-actions .tag{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:8px;background:var(--slate-100);color:var(--slate-600);text-decoration:none;font-size:0.85rem;transition:all .2s}
+.script-actions .tag:hover{background:var(--primary);color:#fff}
+.script-hidden{display:none !important}
+.empty-state{text-align:center;padding:3rem 1rem;color:var(--slate-400)}.empty-state .icon{font-size:2.5rem;margin-bottom:8px}
+
+.footer{border-top:1px solid var(--slate-200);padding:2rem;text-align:center;color:var(--slate-400);font-size:0.8rem}
+.footer a{color:var(--slate-500)}.footer a:hover{color:var(--primary)}
+
+@media(max-width:768px){.script-card{grid-template-columns:1fr;gap:10px}.script-desc{max-width:none}.hero-stats{flex-wrap:wrap;gap:1rem}}
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-inner">
+    <a href="../index.html" class="back-link">← Voltar ao Dashboard</a>
+    <h1>🔵 Bluetooth</h1>
+    <p class="hero-subtitle">Scripts para controle e automação de dispositivos Bluetooth</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="num">2</div><div class="label">Scripts</div></div>
+      <div class="hero-stat"><div class="num">2</div><div class="label">Comandos</div></div>
+      <div class="hero-stat"><div class="num">24</div><div class="label">Funções</div></div>
+      <div class="hero-stat"><div class="num">343</div><div class="label">Linhas</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="section">
+  <div class="section-header">
+    <h2 class="section-title">Scripts Bluetooth</h2>
+    <span id="scriptCount" style="font-size:0.85rem;color:var(--slate-500);font-weight:500">2 scripts</span>
+  </div>
+  <div class="search-wrapper">
+    <span class="search-icon">🔍</span>
+    <input type="text" class="search-box" id="search" placeholder="Pesquisar scripts..." oninput="filterScripts()">
+  </div>
+  <div class="scripts-grid" id="scriptsGrid">
+    <div class="script-card" data-search="bt-auto bt-auto.sh systemctl bluetooth auto">
+      <div class="script-info">
+        <div class="script-name"><a href="../scripts/bt-auto.html">bt-auto.sh</a></div>
+        <div class="script-desc">Automação de Bluetooth</div>
+        <div class="script-meta">
+          <span class="badge badge-cmd">systemctl</span>
+          <span class="badge badge-dir">bluetooth</span>
+        </div>
+      </div>
+      <div class="script-actions">
+        <span class="script-stats">1 cmd · 0 fn · 21 lin</span>
+        <a href="../scripts/bt-auto.desktop" download class="tag" title="Download .desktop">🖥️</a>
+        <a href="../scripts/bt-auto.html" class="tag" title="Abrir página">📄</a>
+      </div>
+    </div>
+    <div class="script-card" data-search="bt-ctl bt-ctl.sh tee bluetooth controle">
+      <div class="script-info">
+        <div class="script-name"><a href="../scripts/bt-ctl.html">bt-ctl.sh</a></div>
+        <div class="script-desc">Controle de Bluetooth</div>
+        <div class="script-meta">
+          <span class="badge badge-cmd">tee</span>
+          <span class="badge badge-dir">bluetooth</span>
+        </div>
+      </div>
+      <div class="script-actions">
+        <span class="script-stats">1 cmd · 24 fn · 322 lin</span>
+        <a href="../scripts/bt-ctl.desktop" download class="tag" title="Download .desktop">🖥️</a>
+        <a href="../scripts/bt-ctl.html" class="tag" title="Abrir página">📄</a>
+      </div>
+    </div>
+  </div>
+  <div class="empty-state" id="emptyState" style="display:none">
+    <div class="icon">🔍</div>
+    <p>Nenhum script encontrado.</p>
+  </div>
+</div>
+
+<footer class="footer">
+  <p>Backup Scripts — <a href="../index.html">Dashboard</a></p>
+</footer>
+
+<script>
+function filterScripts(){
+  var q=document.getElementById('search').value.toLowerCase();
+  var cards=document.querySelectorAll('.script-card');
+  var v=0;
+  cards.forEach(function(c){
+    var s=(c.getAttribute('data-search')||'').toLowerCase();
+    var t=c.textContent.toLowerCase();
+    if(!q||s.indexOf(q)>-1||t.indexOf(q)>-1){c.classList.remove('script-hidden');v++}else{c.classList.add('script-hidden')}
+  });
+  document.getElementById('scriptCount').textContent=v+' script'+(v!==1?'s':'');
+  document.getElementById('emptyState').style.display=v===0?'':'none';
+}
+</script>
+</body>
+</html>
