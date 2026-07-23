@@ -1,112 +1,67 @@
 {
-  "updated": "2026-07-23T08:34:52.990313Z",
+  "updated": "2026-07-23T19:22:32.088150Z",
   "source": "google_news_rss",
   "terms": [
     {
-      "titulo": "EUA lançam nova onda de ataques contra o Irã",
-      "fonte": "CNN Brasil",
-      "categoria": "Mundo",
-      "link": "https://news.google.com/rss/articles/CBMikgFBVV95cUxQRVFSWEkta01BckR4dl8wbVFNS1MtSTJMaG9ucVE1X3B1dGtjcnRrSDRNdndIVTFrNE96VVNMOTNVUzNBYTJpSld5aVcwaDRGc1VFNXozX2RBSThhTW54VnpNWk5BeGY2QkNwVXRrU01IRFMtaE0zSTZuNEtNQUtQRlZ2eVh6SE0zVlBSeUg2QnctUQ?oc=5",
-      "publicado": "Wed, 22 Jul 2026 22:34:58 GMT",
-      "geo": "BR",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "Acordo EUA e Arábia Saudita: por que assinatura desperta receio de uma corrida nuclear no Oriente Médio",
+      "titulo": "Arábia Saudita precisa reconhecer Israel como condição para acordo nuclear, diz Trump",
       "fonte": "BBC",
       "categoria": "Mundo",
-      "link": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE1TSHRnc2U2ZlNTVFVrdUdOaXVZV1p3REhZWFJuT2FSWHBPcXJaOGpDcmN2TTczcXdCWGRsMUNKYUZ6NjVHMHctLVB2S2Q1STloTmZFTFNoNEs5NFNZZ3F0aFdB0gFnQVVfeXFMUEtLTWdCcF9jUDMweVdFNHY4dkxjSU9JT0szME9lRmx3c0lhcXAtc2NXNmhjcUpFYTZuMjFPRnpENm5KZnB0cXMzU1c2aDhlam9hcDB1REdyZWtrOWFXVXdaMnFsbUF2aw?oc=5",
-      "publicado": "Thu, 23 Jul 2026 03:38:51 GMT",
+      "link": "https://news.google.com/rss/articles/CBMiYkFVX3lxTFBEOGRSZkFLTlRCWHZFWFZOcVR3OHZ3eXJWWXpRelY5TnBVNWRvNVh6X0FvcEZqREo0ODNXTXFuRzhfUWVXYUNGVDh4ejZVbkVmUkR6UmYwLW01WEI1MnBVTUdB0gFnQVVfeXFMUFM3ZGx2NTB3YjJUQzVWNEw4bG5yNVhNczhUM2JrNDI3bnhBN0lTYjlwT25zM0Vxa25MTlFONS1IM3BlMnhjbkNsQm9hQWR4VEZMTU1EeHNwMWZpcFlkYjlFRDRUUWZVWQ?oc=5",
+      "publicado": "Thu, 23 Jul 2026 14:11:22 GMT",
       "geo": "BR",
       "volume": "Trending"
     },
     {
-      "titulo": "Pan Am encontrado no fundo do mar: por que avião demorou 74 anos para ser descoberto?",
+      "titulo": "Trump ameaça intensificar ataques contra o Irã após repatriação de corpos de soldados americanos",
       "fonte": "G1",
-      "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxPWkZJUkdTVEVlTUdtZGhwdVc3ei04aG1tTFIwX2NNUzZpZ29aY29FSGZzMTFmOWIza1N3MlNyb3RrMkpad29EMUlwZl9mc1BJc2lkOFlEX01VSElpYldXVnFfdjBaXzgxQ2kyVVZKTThWQXFGQmRIRWtLY3AycXZrUF9ubU5EZUJxQ2M3WFdyN2hGQkIyYXB1cWpRRXg3cHNSVFlIWmNuUy1QX1RCWERlRFRoeDBzbmpYZWFRczVENmhyYVVnTlFXRG9FU3RvSDFQ0gHfAUFVX3lxTE1YdEtiY3l4VjdMOFVWdE9ZbFFQSEZWOHQySS1XVVNqM00zTjR4a2NIeGxOUmE1elZFTldaM3A3N2dkYlJnRG0xczFjemJ6eFpQLWlVNFZPRWNNZzBHUUxVbXFKLUVETmdKTHhCUnFIVlVwX1c1dDFNbmJNMHNMdzNDakpvNUFod3ZQY1RBUm5pWmI4N1VhZ0FKUWZBRUJFaUZnaHZrdzVxeC1KSVF0a3FFbG05Wm81VmtLanI1a3ItSHBpMmNCSEd4eEF3OE9oam1VaXVuRWpCSXAtLVRtSjg?oc=5",
-      "publicado": "Thu, 23 Jul 2026 03:00:40 GMT",
+      "categoria": "Mundo",
+      "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxNYUxtYi1nby1xZXFNUjJ6X3ZYWVhuUWxMSHRSQW1uWmFvQ2lQTVRrbENmLUVQRkJyUGxaSnA5a3MxVU84WVZMRl9hOUFqZEFWb1lHTHdEX05Ed0c1LTB1cEE0bFBXN2RqeHJsRDhtVTV2UjU1RjE5ZTBERkZEbmwwOEJ6X0VFUHFUcnpSdm9raTgwSTdOUktwRFZmdXQtUmZmdXJ2MDlFWHFaN2dCYUY00gG-AUFVX3lxTE1tWWZORmM3UDEyZXlPWTczM2JmTGYwbXBPYVJYSXNVbmV2eE5PQ3N2b2RpMlhzR1Ztd3FrNnlTSnpLUUp0SnJLZHRhVHRudk5sWUlwNlhZZHFQUGVfZzJYV2dMaFVLN2o0Q08tNElqOW00bTJuTnozXzE4NldBNXdvUXVJVHFJQkxyZ1JGWGVwZXBkQmw4c2NkcjA2NUh6QzJFY01FcHoyZUNCaTIybDBRUk4zdVdPMERPR2lmUnc?oc=5",
+      "publicado": "Thu, 23 Jul 2026 15:40:47 GMT",
       "geo": "BR",
       "volume": "Trending"
     },
     {
-      "titulo": "Câmara dos EUA aprova orçamento de US$ 95 bilhões para guerra contra o Irã",
+      "titulo": "Trump diz que EUA responsabilizarão Irã por ataques dos Houthis",
       "fonte": "CNN Brasil",
       "categoria": "Mundo",
-      "link": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxPMWxvSnRibDUwdEFGbHJwNzJMZTV3NTRUR2UwQ2dSVjNBZTJpbm5RcHBQazVjM3lRT3dkcjFoSm9Qdi03STFvd1RsT3FDU0tfV2o1V2ltWk9GY2RDZTY0ZHhBT3hkbTlvdVJFWGtEVnlabzdvV3cySy1ZYzFvcXRWQm1xclR1YjMzaDQxLURPazQ1NWNOVVhmclVIZW51cFJSRExCNUU4SFdOblhUVFhIcGxaaS1CbnBO?oc=5",
-      "publicado": "Thu, 23 Jul 2026 01:38:45 GMT",
+      "link": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxQUTVRSXZwQ08tR1ZCWmFsNktqTG5wbEFjSTd0OGFKdm1KMXJxX3djMlc2WTItQU1BR0g0Y0NyTndUSWhEVWxKQ3Q2dWYxallsNDlSWnZLbzBJbHROQ0ZEYXJSaE5oek4tZFJGR3BMSWRUTkh4UFl1ZUs3Qml6ZzhZVFpzQUx2RmRFSHVRcXZiZS1wZ3ctODB1aS1UVWYxaFRaSVItN1dKbXVWMWs?oc=5",
+      "publicado": "Thu, 23 Jul 2026 12:40:30 GMT",
       "geo": "BR",
       "volume": "Trending"
     },
     {
-      "titulo": "Congresso da Nicarágua inicia processo para abolir eleições",
-      "fonte": "Poder360",
-      "categoria": "Política",
-      "link": "https://news.google.com/rss/articles/CBMirAFBVV95cUxNWGxVdHQzWDl1NmhJNWFwS2gxZTNxY1JuVHJoQzY3Snk5LUpPMmdkOFptN2t1SmNObmh2UGZIdUdqQ1d1V3l5VUd1bnNxNl9xRzFSbTRzU2FrTjdJNUFTa2dWbEJZNFo0Zl90cmlOYWRwQ25RMFlDd293MDBDRi1ybXJoT2hOdUx2Q05uTzdCWWhYbkdMMzVyYVNHVW5aVTVsYVR6NmNQN0lBS0xp?oc=5",
-      "publicado": "Wed, 22 Jul 2026 15:15:12 GMT",
-      "geo": "BR",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "Entenda por que Zelensky trocou o comandante das Forças Armadas em meio aos avanços da Ucrânia",
-      "fonte": "Terra",
-      "categoria": "Mundo",
-      "link": "https://news.google.com/rss/articles/CBMijAJBVV95cUxPeUtkaEVzcEU5cVRVd3lYRUhrV3BKNS12ZUtJSU9tWVc1NTFVT2VCR0NiV2FCYXNTd2hNd3hqNU45b0kwa0ZMVXJuMEpDTHFKTlZnQk5TcWNuX1RCOFFNbF9TOEpoMkV5Y3QzMTdKcDJXNFhPWmhpWk9tYUlMREpVRDVhbHlaVHJLNVJxUXc1NnNPS1o4QTcxOXVOZFVWcUpxcFpHVGtKbGVyUWR5LXNYVVpJZElESDc4eUZxLVlyVW5iVjJmSFFJWmFXOWpPRXpzeUxpYlBSOVllNzAwRm1ZakFNZm9DN1M3Y3Z3bE5SZ0oxVzRwa3FxbER1N0lHd3RNODZRbXlNLWV4Y0dw?oc=5",
-      "publicado": "Wed, 22 Jul 2026 09:52:00 GMT",
-      "geo": "BR",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "Petroleiro pega fogo após ataque na costa da Arábia Saudita; Houthis reivindicam autoria",
+      "titulo": "Câmara dos EUA aprova impedimento a guerra contra o Irã em repreensão simbólica a Trump",
       "fonte": "G1",
       "categoria": "Mundo",
-      "link": "https://news.google.com/rss/articles/CBMisgFBVV95cUxPWDVsd0FOU3JoZnVyUXYybFJwQmFacG42SVJvSGhMcDYzckhKWW1UTFlFaXZzYzFGa1FNblkwWWxweTcwd0x4eU5GaTVKZzRvYjdSNmJQdUVtcV83MDYxY09oeElxM3FzRlJFVDV0T0VDV0hQQVR5MkpLcXBVRlhZa3VOSU5QdGhFczFaOS1qU1FYNDBoNTdkWk5IVnM0dFNXZTVYaTdoa0N6RUFsc2p5Z2tB0gHAAUFVX3lxTE5qbWVWN1pQSUJseHlFZkYyVFJhLWN2SlJUazBsNEQ5ZDBIS20yd2RQeExFZ2hSdktVWGxZb28wZkE2N3F6VTAtVGlwazN0UDN3TUlIRlczenhORFlIaTZlZGlzc2dnanlDaWxkcC1scEptOUpWYklpM0JVVG5kYU1jbTJoc2dpTmlZVzJXNlR6ZFhMZUxaaUl0Wkt2X0c5YlAyU1FPY1cxd3BOQkFNa3ZyMHowOWNmNjR2M0dlY2RrZQ?oc=5",
-      "publicado": "Wed, 22 Jul 2026 21:33:15 GMT",
+      "link": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxQZWJfSEZkQUdQT3F4QzlTZ3V4Nm95UC0wR2hIbG0tWVNZN1dfN2dsZE1tbDdzS2NZTW52VjJuN2tFZlpKQ05NWnRLS1RtemJZSVhWU19Gb0R6QlZLOG1tTHpnWlNOYWRuOWJ2X2dpUUVONjBzWnVLMmV4U21rTkUydU1ubDVZQUFhQy0wV3dGT3dZRGdXZmh6cmJydUtQa1djd2lVVnZyQnBtdkhyQjd5NmpnWnY3XzRfeVJWTG1GRWpPSnJETndtX1hlZ1pkc1dvYWJnQlRR0gHkAUFVX3lxTE53Sk1wbWVLREZWeGtPVGMwWGpKNkpELXRndTQ2dFREWWpOcXB4MHNzX09LVGFoUjZGYjNXTy00OS1VS2k1UlVRRlZRQkdKdlQyQTcwb29pdUpBU3U2UEtlWk8wZkpUVVFLRkJTWGw0V0lqTTNlQ1dJOFhnSHpNUUdRS3h1aVhQQk94c3I4cG12Rkd2N3E1Ylk0LVdjQUJZUHAxUGhKcEEyRXlzdE10VVcyZlZIdW5FTlo3dTVZRnR1dnFlOTczSEdVY3lPQS1UTkpKMVBkdEhGR0YxdDIzWHpuXzh5aA?oc=5",
+      "publicado": "Thu, 23 Jul 2026 16:55:04 GMT",
       "geo": "BR",
       "volume": "Trending"
     },
     {
-      "titulo": "Canadá cancela inauguração conjunta de ponte com os EUA após tarifaço de Trump",
-      "fonte": "G1",
+      "titulo": "Influenciadora mexicana Adriana Garcia morre aos 30 anos após passar por cirurgia plástica",
+      "fonte": "O GLOBO",
+      "categoria": "Tecnologia",
+      "link": "https://news.google.com/rss/articles/CBMi5wFBVV95cUxOTmpCY0JOVFFfM2hJdHRMRWFyZnNacUF3eVpVY3Z6a3RJR0dqR3dudUdLcmptR3hyWXprbUp2cUVicjFNM054X213NTBMSUFiX1YtaUU0WjNoclNMNG1uS1A2djlUWWVwVTJweF85R0s3UEF3YW90TVB4TTFSZEtsTzdwNzhVT2F2bndld2Fsa2phT1FPaVRzOW1CM1lBRjNpbWlqcXpUdHI1NWxrdEs4U29sNW42WHc1RWY4V2VRaTVldTFwWFFMTVlrTFdRcGRVMTk2ZXg1QUdXQk5qSzU2ZEJ1VVYteXfSAfYBQVVfeXFMTkliSWs0eHBNVEdvSVFlRUM5YmFLSDRTWDJwRGJ6N2pBbUJmQkt5TVBlX2hfVUlpZW51ZU5hQnFrZHJUVlRldnVVbnd6d0U5U3lHS3dsNWctQVlCWjlvR1o5VHVFdWRMcXlyYXFfZ3lOM1J4azZiaFhFTExUYlNWWG9EVzFCU3lDaTJsdzVDUDRlM0FxN3c5a2xiWTFVRno1TlRQZ0tYLXVzTU43MUJ3X29nY2duU0lGVnNJMGp4UmFvQy1fUnNla3BlVnpDZ0tGQXdXdnAxNXlacVJiVndMMU1zdG43YXBhVmR0d1ZoYUxiampXWXJB?oc=5",
+      "publicado": "Thu, 23 Jul 2026 08:38:54 GMT",
+      "geo": "BR",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "Governo Trump avalia realizar ataques no Mali, diz jornal",
+      "fonte": "CNN Brasil",
       "categoria": "Mundo",
-      "link": "https://news.google.com/rss/articles/CBMiygFBVV95cUxPODRoS0Ewek83dlduelg5T2Q3VGJzUUV2MHFZbk96ZTBfYjRZUjItYl9LYnpPOWwwYlhUTjJkbEQ3VjVQLVN5OGxiOHZGNncwM3BTZ0hhOTNmbExldDA2V1NUZTUxTHNXZzNOaUJoTjJEaldHb1dOYTA3VnIxNFdGYzJ0QUtlRGVwdVRPeDhfTHdfRE5PX0x3VnNERWtzSmJmSW1BWGhiWV9nY2U3TFpiNVBSbnYwTzBjUTN1UHc3QnowT1NTa18yczJB0gHYAUFVX3lxTE1GQjhIb05fTjNrZkh3MFRVZ1g1Wl9CWDRQNlgwdExackxjTWZkSElfZXpFRy0xR0Fxc1dYTjIxY1dVNW1CTVhRVEhjVGNvekY5TGRSUUZocXBzVEVYTEtfSS1JSV94OEJIVkpCSXZQTlRNa1ozSFlFS1dJSVhEZXBiRmVBSjRKYkVYRHNtQlZHZ2p6bzBRMzNlMG5sUi04aWM3djJxa05GTkxOek81ekNFY3RyM0V4Y0VBWHF3dU9qMmVFY3ZVUGlLbzZ4X290WUhCaWRtVVQ4ZQ?oc=5",
-      "publicado": "Wed, 22 Jul 2026 16:48:24 GMT",
+      "link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxNWUFfbk9GUXpmVnM1X2Y3aUdva05hOXl5WUFiOFRVcURBLTBfbTlqdVBTMzRiSFdtNzE3MUNTYk80Rl9GN3FXUWZZM3VVZDdUYUNaZWt6ajJMZU9CbXZmOC1YUW96NlBucEUtQUhuNFA1SDd4cUVjY2xVa0JkNVItUnB2bGlNUVZOWlVoX0p5SEFEVWFSZWstNEJpVUM0WnRrNmc?oc=5",
+      "publicado": "Thu, 23 Jul 2026 15:54:41 GMT",
       "geo": "BR",
       "volume": "Trending"
     },
     {
-      "titulo": "Quem era Daniel Siad, recrutador de modelos de Epstein encontrado morto antes de ser interrogado",
-      "fonte": "BBC",
-      "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMiYkFVX3lxTFBVZVZ3VmtMYkpfdFdpTDY0RFVpZ1lpVVFoWWFtV2Z2OF9jTUk4V0tLMGMzVTFSUTg5bnhRZjBrYldya084REM2U2RFMFhHZEJ1UDNxZ081SE84Nlp6eVFvZ0VB0gFnQVVfeXFMTVpnQmllZWptRkFpSFFoZU5ZUEpydktKY3lUZEY4MkxVN2FnZHVqZTlyM1lkQ3RXekdqclNYa2FpRXRYUGhjbjhsc0hZUFJjbXduRWkydHJNcjVTRjJCRl8xOXBzcGhtRQ?oc=5",
-      "publicado": "Wed, 22 Jul 2026 22:31:18 GMT",
-      "geo": "BR",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "Precedente de 100 anos pode provocar reviravolta no julgamento de Maduro",
-      "fonte": "Estadão",
-      "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxOYjlMZTVzQXNIMEJ4d0xsV2tEb0g4ZlNkajNzTk9yZllDNUFIVmp2N3cyWWRheTVuS0RQRmFaWkVpRU9zYWd0R2RZY2J4MmJWalBvc3o1dDB0TWpUblJrQUtiT2VyUTVpM1R1bUd4LUVjdHpOVllwZkxlT1JYTE83ZWw1YVNnV0IwUmp4aXpPVnhLSThOWGplS3Rhck5CS2RpWGNubkQ3YndCNlhPa2piNHhoOFc?oc=5",
-      "publicado": "Wed, 22 Jul 2026 08:30:00 GMT",
-      "geo": "BR",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "França aprova proibição de redes sociais para menores de 15 anos",
-      "fonte": "Migalhas",
-      "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxONHRDLWhwRVZQYkpDRktCRVFPVHFNMmJqeWhEakpsSW1nUGFNbnVFM2w0UEJYVVhwZkhldWpKeU5oZV9kaXIzT2dTSV94X2l1TGtZZUx3ZDNJTEgtS3BQa0w4QVRPbkNVN1d4UTdJSVU5RUY4Zi12QnNmakZ1aTVWa3hJYWQwdURPR2t1bkIydU9QOXBSU05GNHBFbEtDdldtTUNPSS16X29DTTA?oc=5",
-      "publicado": "Tue, 21 Jul 2026 20:59:58 GMT",
-      "geo": "BR",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "Itamaraty pede a brasileiros que evitem viagens para o Oriente Médio",
-      "fonte": "O Dia",
-      "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxQbjB3QlFTOG03dTNhNjdTdUl5MkJPWnlXUHFKRk5yR2JLRW9zVFJhQlNNWTBqM1hmek5GZnBZTXpQME1Oak1LQmRDXzVwQUtXRmFjQ0lNTUJqVW4waU9BTjlyd2NRcEVlLS1zVW9XMHRBWnJkNzhTVEZqRmJzY1R6WlktNlJ3aklMUjdVd0tIOFExRWVPdjhxSGZGWDZ3WUVKR2xwM3lHTGFpbHVVeGNJOHBQTXpRb0d5emlz?oc=5",
-      "publicado": "Wed, 22 Jul 2026 10:11:00 GMT",
+      "titulo": "Quem é Mykhailo Drapatyi, o novo comandante das Forças Armadas da Ucrânia",
+      "fonte": "R7",
+      "categoria": "Mundo",
+      "link": "https://news.google.com/rss/articles/CBMivAFBVV95cUxNU2N1YmJGRmNKeGd3ak5NYmI4WXdsWkp2MVc1ZVlMWnFnNF8wM1lMZnpRZHhVYTJCbWNiQ0xxVnBaMW1YLVVpWFlEX0ZpaFktZVJoMTgzUWFXZEdlSFhlcWRGbjNFa0JEUFVzVWROaU56bnlkYUR2THBKM3NJNjFaSUpfNXlvVnlrUkhkV2xJbmJFMWlFQWNLUkZBYW5rM1VSejFNZVFJeW83UHZ6X2kzeTlxVmR2SDhUbVA5Rg?oc=5",
+      "publicado": "Thu, 23 Jul 2026 05:00:01 GMT",
       "geo": "BR",
       "volume": "Trending"
     },
@@ -120,29 +75,92 @@
       "volume": "Trending"
     },
     {
-      "titulo": "Drones da Ucrânia atingem 13 embarcações russas no Mar Negro",
-      "fonte": "Revista Oeste",
+      "titulo": "Rubio diz que EUA estão comprometidos em ajudar a pôr fim à guerra na Ucrânia",
+      "fonte": "UOL Notícias",
       "categoria": "Mundo",
-      "link": "https://news.google.com/rss/articles/CBMilwFBVV95cUxOSjFHbmVqSEQ0RTl3RUJMVDB6TzlQLWhsVnZ2YkpBN292MWpVMzZHQU5yYkJQZ2dHbEM1djBMd0puY2FtM1lPMmhlU0RwN2NjR25oVF9lbklVckJ5SXRRVVhNWGRlMlh2dUNYeWxaWEN0cjlRdXZSUUNhaWNWamVDaGI0RllSZmhBUWg2dzEteC0zTFItUkxZ?oc=5",
-      "publicado": "Wed, 22 Jul 2026 12:28:56 GMT",
+      "link": "https://news.google.com/rss/articles/CBMi_gFBVV95cUxNSGpaMTZpMFUyYVo3c2s1SHI4QU5TckpKMnBxMGNfSW5xcEhqZ05mRi1kNkJ6N3lfekVrbWtBUjc5NlZwUnJha2RlYnh0V0NJY0JNVTJpaGpUVzl6SDVlZVNKX1A2dWJJNEl2c3pEcnZRdTkyS3dhb19OLVFUMW84cHpMaml2enNRSnhCd2RJWEFrRlBtZjVzRjVFWGVYbW9aaGlVM0xZRnMxUWVHQnAzZFNWTnhDQWhFaG05ZnAtXzNEcUZ5UVZLZ0ZHZEhrd0JMa3FGRWZLUkxtTmtMbnA0eVJuc19lcVFBV2pEcVBWR09veUdES2VGOUFGRlg3Zw?oc=5",
+      "publicado": "Thu, 23 Jul 2026 11:44:08 GMT",
       "geo": "BR",
       "volume": "Trending"
     },
     {
-      "titulo": "Prefeito de Nova York diz que não pode executar mandado de prisão contra Netanyahu; veja por quê",
-      "fonte": "O GLOBO",
-      "categoria": "Mundo",
-      "link": "https://news.google.com/rss/articles/CBMi5gFBVV95cUxQZDNtQ2d5YnNRSWllbjM1bHJ2YTROSDRJVlVkaVR3M3JLM05pZ25WaDQyb2UxSXZBWE1mTjQxMGdxUEVxNWhTUWllOWp6Y1htMVNfNkxyWHh0aDZ2TS1yNjVOdTBDVm96UGdrREJxSVV1Rl8xTndwSzNxU2dWNl93VWprV2Y2QlJSeXlfTGowRGRnLWFpdXI1TDJjS2pwRUc4UG9MajRRNXdnM3BwMHh3QkJQeXRLTzduT00xYWZkMEV2cXNXZnhMTUZVaVpOZlFSMmdPZ0JJa2pna3NNSVd5dHJkR1BrZ9IB9AFBVV95cUxOaWgyY3pfSXRLeW93eGZjUm85TkRBY25aUk1lcFkwYUczYm1KajU5YW55MnYweWpTYU1iUE0yMGY3MDBvMkh1RzZUbzNKRXFfZl85cURwa19ucWk1Q3lNc3lpUDktMHJjejZ6V0V4eUlpM3NaYXNzX2VjOGlYcGthaVhTZl8xR2ZCZ3dQU2ozNXZXQUNZMFJmZjIybV9md3dhcEdybjJrZUFhQnk1T3FCVnV2Ukp4MlVjejhGNWpsTHhLWDhRckcwTjQwSTRoaTJxZDBLSmZSeFZLancwN0R2aWpIM0RxLVVNdEdsQVJnODhZNkJk?oc=5",
-      "publicado": "Wed, 22 Jul 2026 06:36:59 GMT",
+      "titulo": "Dona de terminal em Santos construirá porto para contornar Ormuz",
+      "fonte": "Poder360",
+      "categoria": "Geral",
+      "link": "https://news.google.com/rss/articles/CBMiswFBVV95cUxQcXNtZkpQMExUWjcxZnBtVHhjc0hIdmoxMWpQTTZQMGk0WGx5akQ3Y3Q0RUJ0THV2MUlyUzNlc2UwSTRXOUdKSFVjc2tuMjZPakFKUnRXQUs2dzl1YjRLUFF3UFVuNERTdzVmMW5FWTRsRmFYZkpVMnFkOEhjRVZpRG1wUEk5NEtzLUVVVzVxU1F6QS1zQi1HQzh5ZjhNMlRnTmRidUNBMElTVzdVVzZEaFNlRQ?oc=5",
+      "publicado": "Thu, 23 Jul 2026 00:05:26 GMT",
       "geo": "BR",
       "volume": "Trending"
     },
     {
-      "titulo": "Áustria transforma casa de Hitler em delegacia por conta de 'peregrinação neonazista'; VÍDEO",
+      "titulo": "SUS: comitê de negociação de preço de medicamentos pode reduzir custos",
+      "fonte": "Agencia Brasil",
+      "categoria": "Geral",
+      "link": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxNdGVnZWhGVWQzNHNKendGMEQ2N2lhTk5KSk9Ld2diVUJOUEdWS29YMk1JYXZjVWZ2MzNJc3pSLWdhcFRESUNLc1k0VjRmTjhGVy0yM1Y2MnRXNi1mUTY5N0VzX2V2a3NfSERZcEhqcVNQRVZxanVzUkhlUXVjTnA4Q256Q2g4bWhFU3pzeWxuRGtHU3haWjJnRm5CR2Zyb0MwYUxIcTBBVWo1QVBXc0pmWDZGMTR5cHMwYkcyVThwYTZGUQ?oc=5",
+      "publicado": "Thu, 23 Jul 2026 13:22:00 GMT",
+      "geo": "BR",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "Chef de restaurante premiado na Coreia do Sul pode pegar 1 ano de prisão por servir formigas em sobremesa",
       "fonte": "G1",
       "categoria": "Tecnologia",
-      "link": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxQcnpCUkV1VUhCMFY0UjFIbGRCUjJJX3JSUnJZUkdnVG5tTmxyY3BLQ2lBWVpBNzZob1NWeUFMcEE1a1N6VkJWQWoyWmtlUnM2TlJaRHVYZER3cFZfQkFDUmFzRE5BQ080TlU2VFhnVUVmdzc1X0hHeDdZcHo3Y2dOS0o1YWowdE12RFdWbktUZk5fR0VBd1NLaVZYbmNFWUVrZ25iTExzdzdzbDjSAboBQVVfeXFMUF9KTndEeWtGWUVxZ0NGbmJ0a0NmdEw4UzdtczVLQm9XbU9iZWxocEUtMUprOWVDd21sdjUyODlVa3hDNk9DS1haWndRS3E2MUV6bFlBbUkwUVc4OG5BTGlsLUdvQWE1dUlwVlRkY0dYMV9oT3YtRFF6VFdFQ09pamdXcVUtRXlyOUVTU2RDTm83akNYSnNvZ1lVT0dEcjYzMGREOFlKZWV5aWhhWjRUREpZNURIa0hsUFp3?oc=5",
-      "publicado": "Wed, 22 Jul 2026 13:04:35 GMT",
+      "link": "https://news.google.com/rss/articles/CBMi7gFBVV95cUxOd196U0lyVlFfMC1hdWxDZ2Z6UHhBemlodkVjYUFhOGxsUDdfN1JMdkFlcjZfS1NPWnRRZS1tODU4NHZnSUwybDdDTEFraUNCbktibDBTVkZwTG9pTUo0YkxMaW92TnV2dHRIUzJleHgwUHdIQXRMYzJOSjVQSjNCeDZ1MEx3MjdiUzNjZjU5cDQxeW5tYTZ3UDdwNWlBZldraHBsMEFqS1dVUjR5SHdDOHBDc1pDNDZrQTJDdzUyZjBZdDVXejktWVFhdC1HUWpESHZLQ3ZBT2oyTHR2Tm1meUJHMHlyLW96cU15N1hR0gH8AUFVX3lxTE1vQUtsQ2ZVOVk3b3VJOFN1VWswV3NOdVZaQ2hUMEJVN2hBYW1TZG9ZZ0tMb0xhN0IzMzJxd21mMnZWSDZLalpNT3c0aWFiSzFJUG5kLWY0RnlrenhUSENJaVo0dUV0NDNIdklYbXRGU2ZMS2JVekp5TVdmWW1EMDVNUXNQdWpHYTB1XzJYRWkzejV4Tko4TXZjYUJKMklhS2JRdWZOUmloYTVVSXFBT1Uzc1JDT0huNUdMdEtqNHlEdkRmTUhVbkc5OXd4aFNIX1dJRWt1TkY1SFFOdVUtbDIydkJJZkpaazhXMUlTYWtFTzVCeUdWc3ZhaEdvZw?oc=5",
+      "publicado": "Wed, 22 Jul 2026 21:31:39 GMT",
+      "geo": "BR",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "Ataques da Ucrânia deixam mortos e feridos em diferentes regiões da Rússia",
+      "fonte": "CNN Brasil",
+      "categoria": "Mundo",
+      "link": "https://news.google.com/rss/articles/CBMiugFBVV95cUxNbXNFNkpwa0hpdm5acUZQNlFoLVgzUlpCZjhUVmhaN3Jrb1dvb01oZGs1bi1VNTB0cFVsWFcyOE1FMjd4ZnoxLXBkT2xUS0g3TkNETFFtbTJIMEswb1h1ejAtc05SX092OUNIUG5ZLTczM0E5ckRYM0JrSEhLLWJ2OTg2UU40dUY1N2Q0VkhMSloxMkYzblZDckc2dXZ2MloxOXdzZWVsSnhXa3lYVzM5cWtmb05BcERVMHc?oc=5",
+      "publicado": "Thu, 23 Jul 2026 13:38:43 GMT",
+      "geo": "BR",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "Ministra da França pede demissão e volta atrás por crise com pesticidas",
+      "fonte": "CNN Brasil",
+      "categoria": "Geral",
+      "link": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxOUmZJYkpDRllmZ1o2blR5d2U2OFZYSGdkaW1uZGhuaGNZcERvLV9jYk90ZlJnbTNBOUxBVkdvdXVGX1NIb2FEYW5TWE9VQXMwdjQzamlob3VGYXFhd0Z1bFd6enBVX25EcldRWld5eGkwU2hhbUcyTEgwVm1iWTVsWFUtQUNYTjlIb09vM2JLRW1XUlRWOU9TdmpqT0JpdjlyWG5INlRHX3NBUQ?oc=5",
+      "publicado": "Thu, 23 Jul 2026 13:52:01 GMT",
+      "geo": "BR",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "Irã enviou em segredo militares e armamentos aos Houthis, diz agência",
+      "fonte": "G1",
+      "categoria": "Mundo",
+      "link": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxQMWpjVmxRQjhKX3NKXzVLcTVudnNtcWxGYTlETjE0T2xfYU9JbWxQM1pPWG9nWTRzdnl3dnFPQWdUMnhkVDA3STlfLTVmZGdCWmlXb085VkVtUTQ0SVd5XzNHVGNLcWtGcEdid2pick5SQ0V4SXMyM0hQbkFfVWUxaGszdnpQTFJLYk1DN1lVQU5xdU9kNXItZl9tUjJvXzJOU3Bpd3k5bGhpWldyQ1g4MTZwcWNYYWZMVDRR?oc=5",
+      "publicado": "Thu, 23 Jul 2026 14:26:49 GMT",
+      "geo": "BR",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "Irã ataca fronteira entre o Kuwait e o Iraque após bombardeios dos EUA",
+      "fonte": "CNN Brasil",
+      "categoria": "Mundo",
+      "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxPb1VjM0pzZmZHUVVwOFByWmRTOUpOT0NkRWpiWnhwQVBLM0xtSHZsb3lnYjVkT3VBOWJ0dGRPbDFWRWE5cXpWOEJMbEZ1Q2JQNGVjNWF2dWUzUjlUc2hwcWVXOGc2aXlqcEREWDNMTnJXSUNHbnp3cTBzTUdlcWFQRDdTRUJ5dy1sOU5yZmFkZ2RWc3FqWE5VYWd3M09kTWpaRHozRmVaS0gyR2N2REtNNmJDNDE?oc=5",
+      "publicado": "Thu, 23 Jul 2026 14:02:25 GMT",
+      "geo": "BR",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "Cidadania italiana: Justiça da Itália consulta tribunal da UE sobre novas restrições e abre brecha para reviravolta",
+      "fonte": "G1",
+      "categoria": "Tecnologia",
+      "link": "https://news.google.com/rss/articles/CBMijAJBVV95cUxNcDktdDBsR0V4WTd3czdWMFhDSTYwcGhDdEd4YldLOTBOWS1DbThnS1ByQWJfN2xVM0hkUUE3TXJNa2gxSHV6Y2dQcDBmVTM0Y1ZuNnVwYXV5TE45N1ZWVHZIdDk0TV9hdEQyTDVoaWpTQWUwUkdWYzgtVC13UVR3QnYzMU0wYkFySl9uU1FkZDFORGxLUl9GQXVyY3Z2XzFHVTltWDhqRXJhS0tOMXE4SXNDd2pLaHZCVkRUUXFMSXdtaG1rYUExSmJBY1h0eTZrbTN5VzQ1R0NGdWYxRmJRRW9ZMUNBcmVUUXVhRTFCaEJ1RjU4bHhaT0U5V0FfQmZHcHNKX2htdHhlM2dO?oc=5",
+      "publicado": "Thu, 23 Jul 2026 15:40:22 GMT",
+      "geo": "BR",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "Orcas 'explodem' peixe-lua de toneladas em técnica de caça; veja VÍDEO",
+      "fonte": "G1",
+      "categoria": "Geral",
+      "link": "https://news.google.com/rss/articles/CBMitwFBVV95cUxPRHlzQ19SQ3BuRW1VbHpUSXBGdG4xNmxyaTRxdE8yT3J3dG9UTE80d1U0eWN1T2FFZElDeVhzaVVjU2RXSjA2NkRuVU5HY2lKbHp0OTZuTTR1ZTlXT0twT2lCby0xSHFEalVEVlJCdzBFTENrNF8yY3M0eEVVeDBzTXc2T0NCdFo4YlY1aWw5M3BFd1haSWtha1VKdHZDamlISzl2TVZFa01FckpiTzdOc2MwUk1WdnfSAcYBQVVfeXFMT3p5VEFSUm0xTHBVMWRIWWk0bFAtM2J1eUl6czEyVkY0QUxPaVRBdWJITjkzRHVZQmhlYVdZVGxaSlhDNkdzSFdkSkxmVlhadTR4Rl9HdDlvYkE4Q19HeXVEaDlGWlNBUW5lNkxFM3ByU2VZVVVIWHFTTnl1a3VtVjJnYVJZSWZwT0tXaXpqcUd6MkUxeDJ3bHJGYzliSmRBU3FvMVhMM21OUllDSjlnVGlwY0d0QjU4RjU4Yk9iUng5bDlBX2VR?oc=5",
+      "publicado": "Thu, 23 Jul 2026 15:28:01 GMT",
       "geo": "BR",
       "volume": "Trending"
     },
@@ -156,6 +174,150 @@
       "volume": "Trending"
     },
     {
+      "titulo": "Congresso da Nicarágua inicia processo para abolir eleições",
+      "fonte": "Poder360",
+      "categoria": "Política",
+      "link": "https://news.google.com/rss/articles/CBMirAFBVV95cUxNWGxVdHQzWDl1NmhJNWFwS2gxZTNxY1JuVHJoQzY3Snk5LUpPMmdkOFptN2t1SmNObmh2UGZIdUdqQ1d1V3l5VUd1bnNxNl9xRzFSbTRzU2FrTjdJNUFTa2dWbEJZNFo0Zl90cmlOYWRwQ25RMFlDd293MDBDRi1ybXJoT2hOdUx2Q05uTzdCWWhYbkdMMzVyYVNHVW5aVTVsYVR6NmNQN0lBS0xp?oc=5",
+      "publicado": "Wed, 22 Jul 2026 15:15:12 GMT",
+      "geo": "BR",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "VÍDEO: jovem zomba e faz caretas durante discurso de Trump em comício nos EUA",
+      "fonte": "G1",
+      "categoria": "Mundo",
+      "link": "https://news.google.com/rss/articles/CBMixwFBVV95cUxPbnBKamo4WVk3NTlTZHpHa2p5SFFhR3piaE4xaGtrU1J3dUVySWJQTURtWWhFeTBWRDVLOEx3N1NEdG5vRXdVRWdwMDNCbXRVWms1TmRwcHczMTlPSHpBTXV4NWhJRE52NVJiTmlwcUw0bVRocURMTEJrM1FxZ254TENRWThIbHgzTHRCcUtfY1V3UzN1UU9tM2VlSm5qWVRIV3VuaHI1aVhVaWlnbnA0Z1FuTk81MkxrUTlMelhuSG03cnl5Q21N0gHWAUFVX3lxTFA1N3BpdUZaNGhITzBSaWtVdE5xSjRRbHZsVWctaTNVSnctREJwYllxWUFjQjZJR3JBX2FWcEMwbXFSRUlnZ0FINWtwbTgwWmZyMDh6aEtKX3hkMGRFWWJfRHZkV3QzVHM3ZnZRelVRaEJmR1FmczdhMWZmYUZhVlRtR2xQbWNsWDV1ZlZUZ3dvNlN0N1B0N2JzWjAtcVM5U1pPd1YzLXN3VjZKZGVSeVUwbDRQT01DS3hYbGpmNzhaNktueVJPOVU3c192MGNnYVNaT0RveVE?oc=5",
+      "publicado": "Thu, 23 Jul 2026 15:41:15 GMT",
+      "geo": "BR",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "Precedente de 100 anos pode provocar reviravolta no julgamento de Maduro",
+      "fonte": "Estadão",
+      "categoria": "Geral",
+      "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxOYjlMZTVzQXNIMEJ4d0xsV2tEb0g4ZlNkajNzTk9yZllDNUFIVmp2N3cyWWRheTVuS0RQRmFaWkVpRU9zYWd0R2RZY2J4MmJWalBvc3o1dDB0TWpUblJrQUtiT2VyUTVpM1R1bUd4LUVjdHpOVllwZkxlT1JYTE83ZWw1YVNnV0IwUmp4aXpPVnhLSThOWGplS3Rhck5CS2RpWGNubkQ3YndCNlhPa2piNHhoOFc?oc=5",
+      "publicado": "Wed, 22 Jul 2026 08:30:00 GMT",
+      "geo": "BR",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "Local de nascimento de Hitler na Áustria é transformado em delegacia por temor de neonazistas",
+      "fonte": "BBC",
+      "categoria": "Tecnologia",
+      "link": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE5tYjFJMFF2MDZULVF5cVQ0YVQyellneVJFdlFiVmNFb21FQmJnZDYxX3FFRmxJTXBOTjZhU1BXMHhhUjIxZTNQcFpVcUM5VW9vZGtQZnBoa0JSLXJ0X1EwQ1ZR0gFnQVVfeXFMUDdxVlFiLXdzTnVFN0xaYmJYTTJHOUVvdGJ5eUJZV284QVdkaDdyUHliUHE0MjlXTlZaQ3k4c0RXQjJYNUtRNmE2YVgyUkRxLXlNc2xXQ1c0MlBraEpTNWFNSUE0d3ZoUQ?oc=5",
+      "publicado": "Thu, 23 Jul 2026 13:44:02 GMT",
+      "geo": "BR",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "VÍDEO: Mulher sofre lesão genital durante salto em cruzeiro no Caribe e tem de pagar R$ 250 mil por socorro",
+      "fonte": "G1",
+      "categoria": "Geral",
+      "link": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxNS1RzSEs4RHdxc2E3Y2N6QzloSkp1a1lESWZCQTZRZjBfbE5jYlhMd0VZWDNUYmE5OUZjVnZCWnI4WGMxa2x6ckkxZHd3VGdhUmVHaWJQaEs1ZXVNNkZQS0swa0p6TmtUTWZ1RC1sQmFwU3Y5Vm5sMnVtM213aHRGZFNYblRfa3c3VnBFbzBoMXZkZVdMckhWVE9oQmk3LVQ4QjlrTE95d2s4Z1VNQzhNbHlGNGkxamgzX2NhemhacXo3WUx0b1pDMjhjREFjdTZNSWpmeTR3X0_SAecBQVVfeXFMTTFwTTl3Qy0tT0kzMFVRTmJ0ZDN6dURldjNVVzhrSlFtNjhkZGlYbWhlemJkUTlYZ1ZoeHl4UjNmRjMxOHRlb3VFVndGbmZyeDNrbGc3S2hjbmZSWWYtLThrTlNWaXYtZFJQaTBKcmZ0dUtzQUxSQlpXMjc1UklKNU9CeUp2WXNZblhNZTExYWxyNmg4WEtsUnFzV2wydHc0dFB5Tmc1NDR6WTRjaGQzQnhxNUtsMzBuTXVUT0hoRkpfQWhrMzlob2sxNHc4Wk90QVRtU2djSi00YUpCVDhrZWMySzdYRVE4?oc=5",
+      "publicado": "Thu, 23 Jul 2026 10:59:33 GMT",
+      "geo": "BR",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "Passaporte do Brasil se mantém entre os 20 mais fortes do mundo; veja índice",
+      "fonte": "InfoMoney",
+      "categoria": "Geral",
+      "link": "https://news.google.com/rss/articles/CBMisAFBVV95cUxQdlZYOXVtQXhOdE5GdGNBa20tdUJLNW9xQ0Q0dE9hQXcwb0p3cVJwejIwdzVGMHpnT3VoUXphZS1KYzhpMFd4VS0xLUYzMjRFc0lsdUFVdXk0dTNFSTB0aEl5RmVHcmc4My1KbEZQZDhIT3dudGF2R0d1ck44VWpPcC1NQURQbG9OZTc0TEJVSWNuTGhRVmtaY0I5TUlkR0ZNSFhlRVJPSE02ZGVsMzhwS9IBtgFBVV95cUxQWnh6R040V2RNTnlETF9VMWQ4Tkh0SXU0Nmh0Wmw4RHpCUXBqRFhJTnByU3VsVURGUzhMclVoWjdudklyVWtBRS1yMnpxWHhyMExvYTk0cHA0a1h1QkZ3c3ZCQzY3czJBejY4TXBROE1oV09JbEVZeEdsTzQtS01GZjRfUkJGNzN3RWhaZDRkdTNtMjhjQ3lTY1lNMGt3TV9ldWlIbU5sZG52bHBjYkNLeUpONHQ5dw?oc=5",
+      "publicado": "Wed, 22 Jul 2026 17:45:12 GMT",
+      "geo": "BR",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "Governo brasileiro divulga novo alerta consular contra viagens ao Oriente Médio",
+      "fonte": "Passageiro de Primeira",
+      "categoria": "Política",
+      "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxORUZ1LThMOHRvdzhIa3dUajFXZEhDQkZ2bUd4TWsxWVNuaGdOMUE4b2tud3ZQcDNoTW1wVmIzbWVaS2pDRnBaSk40Z1Y5blFIdm5rX2N5RjVscHM5WURhVHJsaUhhc3dkTTJJOHptdS1XX0g0aEhCVnk3N2FpUHNoZ2Vhb0RPWTJ0ak1mTVRiaGI1RUZmZkRmaWNEZkxLelpRdEYtY0JseWRmamlFMldZ?oc=5",
+      "publicado": "Wed, 22 Jul 2026 21:29:18 GMT",
+      "geo": "BR",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "Como uma equipe localizou avião desaparecido há 74 anos no fundo do mar",
+      "fonte": "R7",
+      "categoria": "Geral",
+      "link": "https://news.google.com/rss/articles/CBMizAFBVV95cUxQekxXMzVqUFhkTG9zNzljU0JnY0hqSERxUHg0czd5YnBRYjdCTHVldEJ4NDVUbUUxUlZuUmIyZjdTelJpUVlnSkFqUEdrZjZtdmhkUTN5T0YxbkFlUTBaMU5MOTBPbWZZREp3b1kwdFZHVHpwMWdNeFBuY2tFa09ER2pYamY0a0w0ZUhyeFpwYnF6enNiekZVZl9kWGRlYWl4V0U1eU1fYUFFa3RSdTZMQ0NLR0I3Rk5UcS1TN29TcWJlN3J0VnZqMWQzbUM?oc=5",
+      "publicado": "Thu, 23 Jul 2026 05:00:01 GMT",
+      "geo": "BR",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "Jornalista é morto a tiros no México enquanto comia em barraca de lanches",
+      "fonte": "Terra",
+      "categoria": "Tecnologia",
+      "link": "https://news.google.com/rss/articles/CBMi8AFBVV95cUxQRUlFZmh6d295Z0lZT1VJRXhCc3E0MHowVkxmNmV0RElWVFhGWENwMGVic2tXaElsX0V3ZzZSbkdYd3N5RmNCSVplWTlUSEpRZ1VsMl9xZmhPOEV1R3J6Y2k4cVlHXzE5dm54QTRCX0MxZERROEJ5TG90S0Vaa2pEYVBSVGFoS0JOR0RmbGZaMFpfQTVFUlVTYTJDaE9pX3I2YWk4NF8xamZraG5ydWtJZXhYdnlHZmVpTDBOUUZiTEV0TlZHdWl5NDVQOFRYYzJ0aWNyVnU0SW90MmZCaUVhZ0lCTERELW1USjhpUWVfNzA?oc=5",
+      "publicado": "Thu, 23 Jul 2026 10:27:00 GMT",
+      "geo": "BR",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "Opinião - Lúcia Guimarães: Canadá não tem um 'tariflávio' em campanha para sabotar sua economia",
+      "fonte": "Folha de S.Paulo",
+      "categoria": "Economia",
+      "link": "https://news.google.com/rss/articles/CBMizwFBVV95cUxOVnlUQkp3dnVwMmxRRUF1TmhTaUpHUmRYYUFMQXpGRS1jQTFqMkw4YVVjcjFQZ2g2VFgxeXF2YVBfNUp6c0tyQ0RzUFpqQmxQNVRCUVlQZUROX1llMGJ4bDZ3MTZUdWZJWk55NlBGXzZGZlN6ejMzZ0VBQUpuNUxBN09wWFhkeXdtcWtGVDJ3Zk9SWEtkMzA5c29SYUpkTVhfTHZTeS13MkhlMWVKNDRpbENlampVVmVUZlk5Vk5hWElwQi1mOVhKcWhyVHJyckE?oc=5",
+      "publicado": "Thu, 23 Jul 2026 02:00:00 GMT",
+      "geo": "BR",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "Rubio: 'Irã implora todos os dias' por acordo e continuará 'pagando preço'",
+      "fonte": "G1",
+      "categoria": "Mundo",
+      "link": "https://news.google.com/rss/articles/CBMivgFBVV95cUxOcjJqZ3B3SFYzLUN1ay1mRlNDcG1wQXB0TW5LSk5mVS1GSE1vTzBoUnN1cjdKZ05waW9xcUFqaUNHWTFYQ3ZQUjRNZE43R2NpMmZMRFg1UktaSEVzVjZGZklOeXctSk5VLTh0dmZnT2x6U0JVZXBhMENsbkRoYWpMSHVSV2JlUkFrRm45NlF5OGdiN0tYcEZHVDAzQzkxalhQd0ZNdlBvRV9Gay1iaUwtUHZ6OGVkc1BBaHBvNHpB0gHMAUFVX3lxTE5KblBfMTB0OGtHcEw5cVVTWVNjVFotWjZPRTRMS1dROVE3dldFTkJ3SFM0UEY0ZUFGLXR5MkFiN1M2bktVLUo4MmIzd04yeERWMEtudkJBWHJFT1N6Mk9vZWh2RWV2NjlXZ2FTX2s3cGkxd1ZvTVZnVGtLd253M2drZ2FHY1lQTWVlRGN4bkJhb2FOYU91SXRUZUlYRzdFbVptMXA0RzNldmdEUm4zVTlUT2M3SkVsdVU5bzV4cmpZVmVEX2hMTHpVQW9CRg?oc=5",
+      "publicado": "Thu, 23 Jul 2026 10:07:45 GMT",
+      "geo": "BR",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "O recrutador de modelos de Epstein encontrado morto antes de ser interrogado; quem era Daniel Siad",
+      "fonte": "BBC",
+      "categoria": "Geral",
+      "link": "https://news.google.com/rss/articles/CBMiYkFVX3lxTFBVZVZ3VmtMYkpfdFdpTDY0RFVpZ1lpVVFoWWFtV2Z2OF9jTUk4V0tLMGMzVTFSUTg5bnhRZjBrYldya084REM2U2RFMFhHZEJ1UDNxZ081SE84Nlp6eVFvZ0VB0gFnQVVfeXFMTVpnQmllZWptRkFpSFFoZU5ZUEpydktKY3lUZEY4MkxVN2FnZHVqZTlyM1lkQ3RXekdqclNYa2FpRXRYUGhjbjhsc0hZUFJjbXduRWkydHJNcjVTRjJCRl8xOXBzcGhtRQ?oc=5",
+      "publicado": "Wed, 22 Jul 2026 22:31:18 GMT",
+      "geo": "BR",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "Chuva de quatro anos em quatros dia na região mais seca do mundo",
+      "fonte": "MetSul Meteorologia",
+      "categoria": "Tecnologia",
+      "link": "https://news.google.com/rss/articles/CBMijAFBVV95cUxNQmdHZlhPNXBUdWFoZWRqQkI5TElKRzBiZEkxZlhZQzhVNTh2bFpseGVnanZBSWJqOFM4N1VLTWE3d2h3YnJKN0M4RDZMS1VCc0xZbXQtT3FGa3EzYWVWSU1UOGpVc2F2N3plbGZRRWpyTDJfYW9zT1hyT0VqOFBhcUdoWFNNdWtRTlNGYw?oc=5",
+      "publicado": "Thu, 23 Jul 2026 10:32:06 GMT",
+      "geo": "BR",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "Por que o prefeito de Nova York não pode prender Netanyahu",
+      "fonte": "R7",
+      "categoria": "Mundo",
+      "link": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxPbWNld0xsOGNxZ2I2azNoQWNMcDRDbEt4MElxNVFXWlZNODRXcGQ3anBEWEFUOVRubW5qWFJ6b01sSXB6eDdhSUJMWnAyX2p0RjZ5ekRSNG1TTV9KOUxvNWh5OGRZQXFqX0lpMXJkaDUzU0kzdm5iVFB1c1FCdFVTRWhFb3p4Z2F1TndGdmNjQ0RTY3I4MzdvTXM0RGNfeU1DMEdoaTFTay0ydw?oc=5",
+      "publicado": "Wed, 22 Jul 2026 23:00:36 GMT",
+      "geo": "BR",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "Brasileiros são presos em operação contra golpes online no Laos",
+      "fonte": "Folha de S.Paulo",
+      "categoria": "Esportes",
+      "link": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxONnR4NTctZHZSMmFiMUNSOFRWQVZNNEFxUjJmUFoweTdYdzktYTBUb18tdzdmd01EdWZ1bVgtYjNjeGtJQWdtb280OTF3Mm1EMVZyeXdENXh0SDFyN25HVWdPaUhwMFE5X0RscU1KTDhRM3VsSXpqdHNBb190QVZqUW1WUFFlNk9OdnN2NG9BMXZLc0VIaEtlZ2lzN1J4ZzR1eXBoaWhXcjE2ZWtOY3AtNVpIN0FqNnhG?oc=5",
+      "publicado": "Thu, 23 Jul 2026 05:30:00 GMT",
+      "geo": "BR",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "Trump quer presidente da Fifa para comandar a ONU, afirma jornal americano",
+      "fonte": "Terra",
+      "categoria": "Mundo",
+      "link": "https://news.google.com/rss/articles/CBMi8AFBVV95cUxQUUQyYmlMbjhiVkQxTWVNMzNocXRBT1U2WEYzZ0gyeUNDUUxHaWhPUm80dGw0Vmh0blpxMkg5amRhWms4ZW9yT0U3dE92Q19jeTdQaW1vMGpPallhMTlkc18ybkhaM1oxUVUtNndFLUhVZlNhOFdlQUE3NmxFY0JOcmdsX1N4N2xDVG1vN3czaDNaMW9TV1hkY2ZmaV9GTnFYdVZXdzFVLTBKdmJVX09rZUVpcWkzRjF4WWNiZnhZMExQTmY2dFd3OXRxOGFDZTF3SFRGUENEd3ZTU0RLSU5VNjFJVm5yTUQ1T0d0OExFd3o?oc=5",
+      "publicado": "Wed, 22 Jul 2026 01:22:00 GMT",
+      "geo": "BR",
+      "volume": "Trending"
+    },
+    {
       "titulo": "OMS confirma mais de mil mortes por Ebola no Congo e em Uganda e diz que surto se espalha em ritmo recorde",
       "fonte": "G1",
       "categoria": "Geral",
@@ -165,83 +327,38 @@
       "volume": "Trending"
     },
     {
-      "titulo": "Qual país tem o passaporte mais poderoso do mundo? Veja o ranking",
-      "fonte": "O GLOBO",
-      "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMitwFBVV95cUxONmVJaWFrQUxTVy1hM2F5MFVLWHVMOXNyVWtnLURXOVc3UGE5eG91OXpXbUZWMzRHZUN2YjJqVXhfc1NBZ0JIcnQtNjM3bTdDZ2hkUlhuMmQ3THdGWUEtVkhlYTI5MWNRa2FQbmVlclh6VElRRjJlRWFpUU9GZFZfd3dwN3c0Y0ZhWG45NjFlTjBtMkQ0SENxbFdETnlXUWNQUE9qSUpZcHV2WVg3REtSQU5uSjhsQUnSAcYBQVVfeXFMTm5iZWNZTDNCUUdKZzZfNzA5QU13VEVnZERPeUw2S0Q4a1d1anMzbm9ZeUZ5dGRjcUxSaEZKZTh1Y1pzS2RDS2RQbTdlbmUxVzc5MzFvTTc0cXFXUkUyS2JrT3lQdVpnSEMxRW53YXN5VjBrMGl4aTh1Mnpnb2VkY3RZNWNBSjBHSW0yWVNkWEZwdHhqRkRnTm5BY3gyUW05ZTBJVmhVSTlmaU9pNEVaS29iX0p6Z0ZycXBGZkNfX0NvX0NiRWpn?oc=5",
-      "publicado": "Tue, 21 Jul 2026 18:23:44 GMT",
-      "geo": "BR",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "Por que o Irã está arriscando tanto por causa do Estreito de Ormuz",
-      "fonte": "Terra",
+      "titulo": "VÍDEO: Cadela enfrenta urso e impede ataque a menino de 6 anos nos EUA",
+      "fonte": "Diário do Centro do Mundo",
       "categoria": "Mundo",
-      "link": "https://news.google.com/rss/articles/CBMi5wFBVV95cUxNZ2ZGQVlqcFcyUHkwdEw4MjJNMkNIazNpOHFwZEhNMk9Oa1VkMzFpLUl4QmlySFh4RGlKZlB2eTR6OTBxYmFic04yYlZfRWUxQUhZX2JWaU5RTVVfekh5WlpMM1BUUDVEVVJBUm1NTy1UTlB2N2RNSE1aVkRQUzZXWGdUMDBSZDdRWXFvVUNUZVJaOFdrbmJJZGZjOEsyLTQ3ZG90aEdfanktZHpjZlVHWkdjQmlLMlpsRmNFQW1GMzVabjFad05Id212SHhvRG5heGJENlhVVEZXVHhyd3VLWkI3NEloTjA?oc=5",
-      "publicado": "Wed, 22 Jul 2026 08:09:00 GMT",
+      "link": "https://news.google.com/rss/articles/CBMilgFBVV95cUxPWU41MG0zZ1lRWTEwTG1jWG00RXc0OG5JTVRHSHpaMlp3UlBibUVabUZTcmFtYk5jc1F2QzJURHNYMEFMSU5nQlJzaG5lMEpxb01jSmxHY2dRUUZ1OW1ET1ZPdGZUSmtuSkV4Yzlqbk5kNktTbWF3ejlKOXBUUkJpbkdVMHRpUElVSE5IQjJ3Q01SRjlGZnc?oc=5",
+      "publicado": "Thu, 23 Jul 2026 11:11:43 GMT",
       "geo": "BR",
       "volume": "Trending"
     },
     {
-      "titulo": "Donald Trump quer presidente da Fifa no comando das Nações Unidas",
-      "fonte": "Correio Braziliense",
-      "categoria": "Mundo",
-      "link": "https://news.google.com/rss/articles/CBMizgFBVV95cUxPaG9MbDVwWkd0dk1rbzJVZ3lackJhdjVjeVZ2ekdDcEVmSU5VMFNkbjE2OVZwVHJhUGJ3VXNkajUtTGVUSVJrbmg4STlZS1NOZG9mQ0pwZU1tZHlXZDk4LVJuN1N6aVZJTWpWcWFzZkNPcVl3UG9XcEdncFVtejgtMU9qdTlDd1hEbExRd2hUUVpCSEczTEpfangzbHBWVEJtYmw0NndtOUhjd202YXpta3RIOW1qencxVlhmOE5rQURZaWJiQS1mb2YyY25uQdIB0wFBVV95cUxOT0NkbzB4ZUl4bGk0T0hBWHZCLS1SaXd1VW5SWDZHSllnYmJLZ21pUExoU2Rld2RPaDhSTDA2V2pCWXVkMWxUNG95R3FDekFhVUN2LTZFcTJ6YjZyemJnTHBxcGVNa3hRYW9qRG44S2RMTnZPT3FMWjRQdVVPQ2FOSXlxeW9PSGFRODVZSnk1bWhmcUU2dlhway14LUw2WG5BM01yZDd0MUhXcno1bjBabm1LT3ZFY0VaZ2FCb2t2dE04dWpHakpNNVJ6MGdfMEZMRWdJ?oc=5",
-      "publicado": "Wed, 22 Jul 2026 10:12:00 GMT",
-      "geo": "BR",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "Trump avalia ação militar no Mali, diz jornal",
+      "titulo": "Seis candidatos disputam comando da ONU, que vive crise profunda; debates começam hoje",
       "fonte": "G1",
-      "categoria": "Mundo",
-      "link": "https://news.google.com/rss/articles/CBMinAFBVV95cUxQcEZIWkVwdTAzd2xXODJ0clduUGdvZE9HZDY4OC14amk1bE9WS29lZjlLUDVrSXZQSDVwelhZa3dqSlAxZ3ZCTm5fYzlEVDZpOGlMVk1nSXU1WFkyN1pWaEtjTndIdGhfZXFvNm8za2o3ZVdFTzRHd0hRV3pJSzRKV0E0dC0yakxlM0ljclJmMFNXTTZjbWxqeHlaRFTSAasBQVVfeXFMT2hjVEN5cGZYTjlDTE11VFYxZ2VkdW9UTkFvSXNsSXhnOEJkZV9fQTFGZHkxYXk3ZHBycmFIV28zMXlwTF8xSTVVZ1NnbUdHUFpHMnY2clpLU1ZZVUM4d3pUQjl6a0RSOFZyYjVDa0xkdGdqZVBPNkNYdm5tcGhJLTlxRldZMTVueUJaYktsMm94MG1ibW9FdU9xek1UbkpqN19fNDdOMFV1R2lz?oc=5",
-      "publicado": "Thu, 23 Jul 2026 01:31:40 GMT",
-      "geo": "BR",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "'Assédio por pelos': entenda polêmica após Japão liberar bermuda na firma",
-      "fonte": "UOL Notícias",
-      "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMi3gFBVV95cUxQMmkweVZFUWxWNVh3M1lCRmsxejBfQmRNZTZyT3I3djVTcFVWOVZ6ckdGbThBWV9zYjBIa3VtaTFNWjFCVVB3cndVRWZaU1lCLXlrdnhSSHRZYU1fWllPUzJZZzd4cFJfcVNHd0ExeUJtQjVkWGVfd2VlTVp2WjFud1RoUWtBZS1YQWF0OEFyM1NoMTVFNmVMeEM5Sk8tUWhzSGQtTGkzMVJpZVVUandFWHp1LWtaUUxDT3F3V2tRMnBUN0cwbl95V0dSeWNZNHJOZVFDZjR6WkQ3OGJqUFE?oc=5",
-      "publicado": "Wed, 22 Jul 2026 16:28:33 GMT",
-      "geo": "BR",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "Nem atum nem pescada: o peixe rico em proteínas que ajuda a equilibrar o colesterol e a saúde cerebral",
-      "fonte": "O GLOBO",
-      "categoria": "Ciência",
-      "link": "https://news.google.com/rss/articles/CBMi7gFBVV95cUxOakJ5d0VqcEJrOHVQRzR4TVRpMnZwZUUyT1pfS2x4aFcxUDQ4eGljczNhMHpndHI3WG1vTmVkRjhWM2x6THVsc1dBOUNKQXFreDRDaVhTcFRCMm13ZjBhOWk2MkVOS3hTTmpwZlNtVVJGcTg1Sll5QUluV1pVb0dmTzRUN2dYTjZ4cGxPQmxMbUtJbDRXYWc5aWtHMGdYWlE5QlJlVndNeEhBeXJ3RGh6NW5vQ0RFc2RIdVBtWGIxaHo4ZG0tWmN2elVVc2daakh2b3JPZnNvU091Q3VvLVozQUJ6dHdXY3hheEFzbnln0gH8AUFVX3lxTE9ja29qOHpfVUJpeWF2ZXgwUHVwdElaNFlZS1dxWkRReUFmZjRBd1BNRjBCYUpKYkFwSk1yU2ZhaTkxRzVOVmJtY05ORDcwa3JLZlZqY1k3Q3N0VkstNG5VY2FZYTJNUHM5ZGl1ejRuUnk4R0lZMG1Nb3NUcVJDUHZnYXBlTk1GTnpUR1ZjYV9nSnI0N3NJTnE1aWhjQ05HcXVMMURlNm1lXzdfNGhfTDlEdWdSc0xhM2tCazhCMFJTSGpHM3ZvdDU5NFhxZjV1RlNjbFVsS0F4WkNydjZhVE51bElzQ2NyUUhEbjM1RmpWYUtEVk9sSThMeUFqTQ?oc=5",
-      "publicado": "Wed, 22 Jul 2026 15:43:18 GMT",
-      "geo": "BR",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "Flávio Bolsonaro copia vídeo de Neymar com IA e promove encontro do 'eu criança' com 'eu presidente'",
-      "fonte": "Terra",
       "categoria": "Política",
-      "link": "https://news.google.com/rss/articles/CBMikwJBVV95cUxNb00tQWJZZm9nY0JCNFp2NHJZUnIyQmVsZ0ptQUZ2SkYtWHJSeTczZWZFNVhERVVkMnVGQWptOWR2Z1EwVENWYURkT1RpX0o3b2VYUkJYbllucDBlVC1pMm5CMTMzNG9xRlBjNXdQelBlMmVHOEJXQkwwcXpEZXdwYXVub0xYYktiM01IOWlobGNzYVpMS1ZTaTJ4aktCdkZLV3pOTUhHU1NwY1hORTc5UjJiUDZFdXJNM0dRbGxWcjE1X2MxWXVJMkZIbVVlMEwyZkd2eUo1a1hURHdrTFgxWjJZTGhjU05mdVpWYW92WXdMWi1ZVkR3YmVuNEYxd3R1OUUzaE9MbURBZV9qYTgybWlxdw?oc=5",
-      "publicado": "Wed, 22 Jul 2026 15:54:00 GMT",
+      "link": "https://news.google.com/rss/articles/CBMizwFBVV95cUxOZVJLNjVDU3BrUndzQXBRWDZ0QlpiQ3FGNEFZVFY5c3Y0VDFjR2YxcmNRblE5SVlTc0VMNmgwZ0lxNDFKazVVNVYzUkRocE8xLUVOOEhJLXZLTjFlVE9QcWhpSWZHclNLTTVnWXo4VU1YbkZNN1Brb21DcjF2M0VnZkxvSG5BZW95MXdmZEo3MTFHamc2RU5ESmlpQjZyeFBjRktGUWt6TmhlY3ROQ1o0Q2FQVUpXOFJCX3U2czVtYmV0N0lTZW1QRWhYdkVfUHfSAd4BQVVfeXFMT3k5YW9UaGJnX3l4YXM1cFExOUc1ZDFmTDljd2V5RmdpM0gycUIyV2hFTi1YV1RRRVZ6d3Z4UHhnSFBvcHRiV0YxQjh2eGFydnJMZEw4eXpCRkhFcTVjUkY5YS1YRndiYTJ1MHNJLVo2ekxJT291TjZJR3Q3M2ZTLWJXN1dyVXdSN2x0cHdHTkg5Wk96U3dVaGVWLXhHVWphdUprdzJLbC1wRmRsUkp5b0FnaDQ0WkllanEycmoxV3JsbS1JdUFrQU84UldCOFRRU3d0QTQ1QnlCVzVUM3Jn?oc=5",
+      "publicado": "Thu, 23 Jul 2026 12:06:15 GMT",
       "geo": "BR",
       "volume": "Trending"
     },
     {
-      "titulo": "Trump ameaça impor tarifas sobre medicamentos genéricos a partir de 2028",
+      "titulo": "Minha vida na 'seita' de Jeffrey Epstein: controle, ameaças e cirurgia",
+      "fonte": "BBC",
+      "categoria": "Geral",
+      "link": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE14OWg3SThQUTJteUpHRW1jaGN0eUhaODlROHlkOE56enpDMGNRT2lXYmxiYUdqRk5qcjg3aVZweHZCNlliVElydERtNHhjdmExeFdzazlQVlY4YUZxYmZ4UllR0gFnQVVfeXFMT1FqWmdGVzB2WGNDdUIyVHl4MS1vbktjbjRFQnY5MWtxN2RwMEdVZFVVZ05tWW1xOGh5RHBlSUpzV2I4R21rMWdwY1ZVcUhPN3N4VFpEVlZHcm0tbTJWWF9zb01QeHcxbw?oc=5",
+      "publicado": "Thu, 23 Jul 2026 11:03:06 GMT",
+      "geo": "BR",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "Análise: Por que os EUA não tratam a Nicarágua como tratam Cuba e Venezuela",
       "fonte": "CNN Brasil",
       "categoria": "Mundo",
-      "link": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxOSy1KbHpzakdnUktmMlJLN3VUZXpUbXhvTmJaSmdBNEhYQ2xVQnRWU0pid0hhUWxHMWd0RmVuV3JwZ0N0QVAtbVl4WWdKYXdrb3d0YmRlRDM4NXlfQjVaSHhjdFhtX0RoVmlqZWdzSlFNSk43QXV6MEFhbU9hNF9JVnJXYThpdWwzWDRqX2REeEcyYkg4TFNncnRvczYzSmVPNHJSMVZZbzZJUEFSVmRPZGprUzl6X2prZHFrSlh5Sm5kMUk?oc=5",
-      "publicado": "Wed, 22 Jul 2026 12:07:46 GMT",
-      "geo": "BR",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "Mulher sofre grave lesão íntima em balanço de corda e gasta R$ 250 mil em cirurgias",
-      "fonte": "R7",
-      "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMiygFBVV95cUxNaGNOQVlhSkRrNjB1SnVNMm9YcFdFMTZBMjlES05STnc3MTBpV2FxQ1FLdzdVZTNsR0dPZlR2ZXdNMzc0WWtFX0FYcnBkOUpXWThZN1Zzd3laeWo4RTlBUS13V0ZlS1VhQ0x3aHI0bDlNVWR6S1ZhTjFtVDYxVDRiLW14QjYyZi16ZDU3WmZNUUJnNzJ3Y0RoSHhvWkFCSmdsaWpvTUlCZ2VhLVlTbFl3ZVVkandmTHhoVGRYMVowUmo4aFZQMjMyOGhR?oc=5",
-      "publicado": "Wed, 22 Jul 2026 18:32:47 GMT",
+      "link": "https://news.google.com/rss/articles/CBMiugFBVV95cUxPd1dVWTg1Vk5FOUJRQXNHQjg0eExuVEE0eFpNblVzeGtqOTFiaDlDTTZYaC1zWWJDMW43S2ZWT1E4S0VpcE54YkNwU3F4RTNNV1czc19pNXhsOUxPeW1IalVDLTdDTTEwNUFqZDlHY1k3cXk2NkdqQ0pBNU55bUIteXR6Y1ZoSEVFWkFkUG9XWFhyLUpIS01HZ05HNml3eXQ3LVF2TFVDMjFKU0Y0ckxIa2RBWG1EckFjR2c?oc=5",
+      "publicado": "Thu, 23 Jul 2026 08:00:16 GMT",
       "geo": "BR",
       "volume": "Trending"
     },
@@ -255,6 +372,42 @@
       "volume": "Trending"
     },
     {
+      "titulo": "FT: Onde estão os US$ 13 bilhões que os EUA arrecadaram com o petróleo da Venezuela?",
+      "fonte": "Valor Econômico",
+      "categoria": "Mundo",
+      "link": "https://news.google.com/rss/articles/CBMizgFBVV95cUxQeHdDNlgwT0VRU0dwZEtkNFdUeGtPdTllbGN0c2VGeXFMSlpVUU5CdVMwYXpFQ2c3MENlRTNvaGVfTTVQQlZqUTVNRXdmMUExXzZBQjdkQnJlaVBQR2dSZG41SUdtMXRGQlZQVFhaUWdwQS1jUVozUzM3NmppQ1NTZTRXODg5dG5JQmhyZzczaWhZTEp5WHo5S3JJeFI5UUlTd2NFMHdsQlpfcE1XZ08wSEZpbWxKSWVyR0FaVE5QaDZjWjZtOVB4OF9sazNid9IB3AFBVV95cUxOS012cXBqWW9sTTFpQWJGV1R1X3BvV2RxRzY2ZzJFVjNhWTVaZjRwYllLWVJteUhPVEhUekRTRlJYS2JDRXM0ek8yM1hqVEhKdDRmeE5XT0NVOThSTFNpUG95UEVadE4yTnVzSWlWLTFZblh6dGtzOG9Id2NiOUVwN3hERkRQZE9Zamp5OUpCX1k2RjQ3dUdMWTgxSXJRMGlTb3IzSTNoTEZrTEJnSEt0TTRiUVRIZjdKbVlUbFJtaFZqZnBNMWt1Njl3MUljOW1NWVRUbDJINmtoZE5u?oc=5",
+      "publicado": "Wed, 22 Jul 2026 15:04:21 GMT",
+      "geo": "BR",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "Petro denuncia ataque a site com indícios de fraude eleitoral",
+      "fonte": "Brasil 247",
+      "categoria": "Mundo",
+      "link": "https://news.google.com/rss/articles/CBMipgFBVV95cUxPaF9xODNBenloMGt4aXg5WlgtdlJMVUNPajhTdzlZUnZhNHhBbmFlZHl4eWZEa3loV1FtMFZ3OXFJX0hobXV5YnRvTkRUX0ZZX1JtR2RGV0pJa0NqU3czNHViUmUxNXA0WHE3XzBlVml0M3QzaHQwV2Y0N01sXzNhMFEzUGllNnktX1FYalQzaWxBSUgzTnNtYldmYWJVN0VWLWZ1OWpB?oc=5",
+      "publicado": "Thu, 23 Jul 2026 07:48:00 GMT",
+      "geo": "BR",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "Empresas de ultraprocessados movem 235 ações contra políticas de saúde",
+      "fonte": "UOL Notícias",
+      "categoria": "Economia",
+      "link": "https://news.google.com/rss/articles/CBMi2gFBVV95cUxQZG5hTUdlZnhfQWFTNTBsOEtuQ2pSUmFFaG1WeWZOY28xV09hS1RaWVd5STd5aVpPTXEwbV9KRC03emxvT0JxNElRVHcyTWJZQVpsWmV3NTRwem1UdXpzcjA5azVOV2RSbjhDbW5OX1JFVEhyZ1BGVFhBNExzRXFnMjB5dmhGM1JOZ0VTUXZxdUZ4bXFFd1lycWQ1WmVkNUNwZHkyUktVNm9XLW1Bb3doYS16akcwVW1ENEJaTl81a1VKaVVjZWY4OF82SzdNOXB5cGNlbTliMFBVZw?oc=5",
+      "publicado": "Wed, 22 Jul 2026 10:52:31 GMT",
+      "geo": "BR",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "Homem processa ChatGPT após suposto erro de diagnóstico e conselho médico",
+      "fonte": "TecMundo",
+      "categoria": "Ciência",
+      "link": "https://news.google.com/rss/articles/CBMivAFBVV95cUxQX29hai05TE82X1FyQWR5U2ZuZ2JjaDlZbWdvc205cFhpdWVfT3ZkUXBSRzNTSV9XU0pBczVqY0cyMk5QSXBia1RGUDBZQUZfWUNfV0hSU21SeERLeDdGc0F3RmtMMDQwMnJvOGd0ejZDMnhQZTVwTm1UY3BxdlFWdnJhaXR4NUFjVWpVZGNWN1BMdUpNeHROVzA5TGp3ajQ0WDJJYjdDQ29jeVNCWTJyQ3NrME54eWhZTHBqdA?oc=5",
+      "publicado": "Wed, 22 Jul 2026 19:00:00 GMT",
+      "geo": "BR",
+      "volume": "Trending"
+    },
+    {
       "titulo": "Dilma defende retorno da Argentina aos BRICS e pede governança global para a inteligência artificial",
       "fonte": "Brasil 247",
       "categoria": "Tecnologia",
@@ -264,92 +417,20 @@
       "volume": "Trending"
     },
     {
-      "titulo": "Juiz barra deportação de testemunha de morte causada por agentes do ICE",
-      "fonte": "Diário do Centro do Mundo",
-      "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMivgFBVV95cUxORmR1OEZjTWhSNGhCb0RsbkJjdDBWMjQ1d3YtWUI1NVp2cmdFaHFKYzdMTXMyUlRTUzVfWXh3dVFfYmFaQTdfU1VrdlRuR0dWWmM2RERIZlI0VEFBZVZSSnowVTJDOVJCNUp3ZG96YzFIM3E0bG9XR3J4cFNHeWNZcDJQSncyNnRCTGhLQW9rQWpwYlpHR0NQZ1hxa3ZmMEFzNTJNYTlpWDlvclg1R0dpQ0htLTJkT3R1RlpQMkF3?oc=5",
-      "publicado": "Wed, 22 Jul 2026 02:16:34 GMT",
-      "geo": "BR",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "Petróleo brent sobe a US$ 95 após Rubio afirmar que Irã não leva negociações a sério",
-      "fonte": "InfoMoney",
+      "titulo": "EUA investigam se Rússia auxiliou Irã em ataques à CIA, diz agência",
+      "fonte": "Poder360",
       "categoria": "Mundo",
-      "link": "https://news.google.com/rss/articles/CBMijAFBVV95cUxOUVZ4bVRSZVRHYXFLdWxmVGM4ZThobDd5dWZ2UHotUk9JTTkzWGlXdXdmRC1DNGdhaWFFNWpVdkU0aVpqcEdVbk14T0JOc1BHQUZTQVZ4VnFoRmdCcEJ0Qm9kQzdlVHZQUGx5WkNzMko4RmJDVFMwR1JzTWU5RE9nc0Y4SlNpOHhydUZRNdIBkgFBVV95cUxNVTJROTRTWHlkUTBxZnBXNHdUOUVUeDhPWUxvNmN2SlBMRHJyYjZ4T0dlb2ZDSHh5dGR6WlVvVTg0Z3NnUFJFeDJGZ0lCY2U3U0g3ampWaEIzMkpqOHlZcndzWUlIanF0M2RudWg2X1J4SUJfcEdXLVA5cGVtdThlcG1lNGhKcTZZb3hsdko0c21VQQ?oc=5",
-      "publicado": "Wed, 22 Jul 2026 10:49:43 GMT",
+      "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxORTd2OEZrSS1ZSXFteHY5T21OYTVrNi01N3dvZ1l5cjY0TE4xbFlKalF5UFc0dmxTdXVtaTZ6V0o0ZnpnLWdkSlhFb0EyWHp0ZzN5MUt1ZFBzN09zWmxBNTlLM284a0szblNIX3BmRDBXR2tsUmd2djVCWF91RjEtMnQzcFlMTVkydlVBV3RUNDdKbGJ2bTZnQ2VES1d6UkhfLVRHZTdkUno3cnQ3bnJsRXNTVUpkdw?oc=5",
+      "publicado": "Wed, 22 Jul 2026 23:55:22 GMT",
       "geo": "BR",
       "volume": "Trending"
     },
     {
-      "titulo": "Naufrágio de balsa na Guiana deixa 41 mortos e Roraima manifesta solidariedade após tragédia",
-      "fonte": "Folha BV",
-      "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMizwFBVV95cUxPOHVCTWJ5YVhIN0Z4NDl4XzBmVFRFeVRUWXBrUmdjZnBzcHo5UXBfc1JqSG5aSWhIM1lNcGlWNDc5QVphSHh1Z2pYOTYxZWxJcW40eGV6VmdSRWpaVkxqbnh1NExfOE1DRFZYSG5IdFRQSkJfVnRBWjltZXFpZHllMWlVbF91QWtrSWhWOGItcC1KZ05UamNCX2ZqQ2hsYnB0bTZxWFkzOFhGdXI5S29sS21FMlcwRFpIUWVISG1uOE12MjlLcWNzdG1wbU9GWVk?oc=5",
-      "publicado": "Tue, 21 Jul 2026 21:25:44 GMT",
-      "geo": "BR",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "Ex-ministra britânica foi assassinada com 21 marteladas, diz Promotoria",
-      "fonte": "Folha de S.Paulo",
-      "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMivAFBVV95cUxQWlAwdlVFRGcwT3FXMEc1N2NtcGRlSTNsZHZYR2tNeVlFVVhFNGQ0MWRPQUhLS0lFa0N0TVU5Yk9QVWhlTlRQbWpZcDUwUU1tYmE4b1BXaFZucVYtT0F6SkFZcDZ1UnNvVmN5eEl1TG9vODJuVXRKa0F5bWRKdWdVODBUcGFlTEpVaWJWY0xiTGFfZnVnOU9YWlpDNDRudHZzQkZKQW5scklNb0JfZFJjbG9BeFJLYmlJeTFySQ?oc=5",
-      "publicado": "Wed, 22 Jul 2026 00:21:00 GMT",
-      "geo": "BR",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "Interpol desmantela delegacia falsa da PF na África em operação global",
-      "fonte": "Correio Braziliense",
-      "categoria": "Tecnologia",
-      "link": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxPekZFWHJFdy1tbWFjdjFPUDNRaDJNamV0R3MySWJRcmFZZHlDQmF2emJ2azRKNW82WmtlUi02MEo4ODgwbXUwcHFoUlVZSGw5eVcyeXpFU0o0bEx5UUV3ZXNONmxWTzBSbmVpQzF4YmtwdEdFOW1MMWNkWmdBQWJabTFCWXp4d083RUN5dV9mWE91ZGN2ZlZuVDVIczN1MDZrTFVFSHRPZFZmR2Z0WjVPODRaYThBSVl1a3YxbnlMMjJsTWhyQTZXSlVOaUlRSTlYQVHSAdcBQVVfeXFMTWZPNjdqc3N1MHVPLXhNUjg4SDl2blJlcjZGZUo5QmxRcE1BbzRETDRnTUxYWms3Rk92YlRiV2drT1ZqYl9DeVN4eUJIZFU0Q1BNYTJKM3RuQkJ1bXFSS05fV01VS0xDRmRfdVM2cmt5dGRoZE8yd0Jwc3RBX0dVNmQ3VlZnTEw0b0pLZDdseTRCelJNUUdPOGNrUHV5SmYxOGRYcXFCazFkUzUyamxQWXA3Wjh6S0RuYTRCQ3p0ZjRjd3U4NjZHZ2pFZ1VGNjVsSkNhOS1leGc?oc=5",
-      "publicado": "Wed, 22 Jul 2026 14:45:00 GMT",
-      "geo": "BR",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "Níveis de testosterona: por que o hormônio não faz soldados melhores",
-      "fonte": "G1",
-      "categoria": "Tecnologia",
-      "link": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxPYWp3SzItQ2VLSm9aLXFVTldneGlVbkNOSi1La0Z2NWhja0RZTk9jSF94VUVJZ2ZUMjFRU1pud0FsNkxZUm9DZEpNeWMydzZCQ3RMWld5Q3FIaUFMamR4NDM3V25iNWxTdmJwVHU3dG91VXlnR3dNOG1FNFBTd05nSl9iR3Z3ZVlEbFI3VVc0T05HbFVYVFFpS2lGTW1GMDkwS0pzcVRzNk94dzIydU1rYzl5cGxlcDJVRFkzNHhDdjVqTWE4SThQSw?oc=5",
-      "publicado": "Thu, 23 Jul 2026 05:00:11 GMT",
-      "geo": "BR",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "Homem sobrevive ao cair de prédio e matar pedestre na calçada",
-      "fonte": "Correio Braziliense",
-      "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMixAFBVV95cUxQZlVYOHRaQkdDcVFualFHNVFOcS0xaXVxS05TQTE3OGRzYkNzUUlHVE1GV2dkWlpEQzJMOFFyU3FSYnQySjZ2SmJlWVc4VGt6Q0hycldGdFkxRWp6dkRLTGVkaWt2NUk5RElfU25kTndBN1hPYkdfbkQzZzhJY2pQV2h1TnFtZHdvMmZjQUZzR3ZibTdXeXFaaDc3SmhGejd2VGNnd0Z0RFk2YWJ4UnJuRndpdlBhUGpnWlZDb2U5ZVp6d2tm0gHKAUFVX3lxTFA5bDdka2hQQkpUM0hFTHRsSFN5R1VuUmpFclc3b0NWV05Xb2tOUWt5d05sUjhHVVppeUFQeTdGWjE5ZXktNTdadXpHOHhOa0RsR1pNZmFfV3dyVDVOcFVmenpyYzRuYlNGSm1fTG5FZ3J0QzFJTjB3RjBwaUYtV0xZTW42T2pNSTgwQnRIUm9QYVJHMlkwSkh1THBCd2JLWFRra2szR3h6V1E0S2QzM1AyZk5sZVJtS2tOS1F3alRCWUV6bWY3a3Y2bGc?oc=5",
-      "publicado": "Wed, 22 Jul 2026 21:22:00 GMT",
-      "geo": "BR",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "Irã atinge bases da CIA e EUA questionam participação da Rússia",
-      "fonte": "CNN Brasil",
+      "titulo": "Trump anuncia tarifa de até 200% sobre medicamentos genéricos",
+      "fonte": "iG Economia",
       "categoria": "Mundo",
-      "link": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxNZzdteDNXZ2M2bjVaeXdPajNVLTAxYVBKWE5sYS1uSkJvUTRLVzd1eC1LZkI2aUNmNWFHNVpVUUhtM0ZvRFlOU3UzRW5qaGRRYTVlWElhS1dqVWJSQzdQaExYajJhWE9ySEVYQ3YzdzNxS0FESjJtRmxtODNaNFZPZnBldy0yQTkyd3Etby1PanhsTG5XRjJQRGxxUU9SZVo3MVM1bEdwM0ZPWTQ?oc=5",
-      "publicado": "Wed, 22 Jul 2026 20:14:31 GMT",
-      "geo": "BR",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "Sumba, a ilha paradisíaca onde homens e mulheres vivem como escravizados",
-      "fonte": "G1",
-      "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxPRzV3enZxekJvRG43a1VTcDRTZnJ0UjFmeVlXckxUdkpYSEx2RnRHTlp3bWo2WEk1Mk9kYkRaX2NRc2wxbEhET29NV3htT0lsTkFra2tpWnotSk1CcU1GNDdkOXNmc2ZJMndZN1BIbjNCcGlxRDRRMDcyOV9FdWVpZXNuQjhXY3VnVHRNdFhKbThvbTQ5RG1xcGJhNVY1RzJBa3gzR2FaX0dqaWZZc1lpQlpvMTdITGtmZG1vTlF3eC3SAc8BQVVfeXFMT25xNmdKTnhmaEZTR0t2OGVZQThkNERYT3NoYlZUUTVLMDZmOWZwcW5jbGdna3V1dFltOV83Tk5ZeldCSU4zM3hoc3ktTXBVUWVkZU85RHNldTM4ZDA4SG5DdlpwVmJyY2dtMDNpVHU5YlZESmduVm5KSXprS3M1Z1JnRFpOZVdrY2c4RVljdUduT2x1TkR6QThXSE5fVEhFbVZfcHdKdXZBanZjd2MyVmtDcHFBSFZjU1ZhQUlQN3AtN2ZCTV90UXRSQVJMU1E4?oc=5",
-      "publicado": "Wed, 22 Jul 2026 08:03:29 GMT",
-      "geo": "BR",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "Câmara dos EUA aprova financiamento do governo federal para evitar shutdown",
-      "fonte": "CNN Brasil",
-      "categoria": "Mundo",
-      "link": "https://news.google.com/rss/articles/CBMixwFBVV95cUxQRkp5LW9Na1J5bDFTbmtaeDJiUGhaQWNjMnlWT29PelZHQi10RTY5ZnZoQzRaY25Kdi15NFREaGdDRnFDTHZmZUVieTd0VnZ4dExwOG5JYnhENEtjX00wUnlBRUlBSU1jRGlnbElTRVhSeTlMSjl2LVlvdnRKRlAtYzZrZ0VLZGZGTkItWTNwc3JIbklvdGtCbFREcjdfSWZHQTljQzlKVXJlaXB2T2JVcUR1aWl1N3N5Tl90WXlYYUkzMF9vZmFN?oc=5",
-      "publicado": "Wed, 22 Jul 2026 14:35:41 GMT",
+      "link": "https://news.google.com/rss/articles/CBMipwFBVV95cUxPcFN2SWlYYWhhZ3JVdUVScGlNLUNCamgtQngyYi1jbDBRN050aDlfYnAxYWVTUGxNZDJBczFmNWkzRGw4ckNUbDZOdVBpSWlESXRKWTQ3eXZsU05lQXZocUdDZDBEWEFXZFJqa3YwTGZLc2pRUXhWclphMVNnci1SMi1pd29hb3hWT1BkamctRzdRUGZXVXRNV29sSUN5WEV3Z2V1eGpoZw?oc=5",
+      "publicado": "Wed, 22 Jul 2026 15:10:00 GMT",
       "geo": "BR",
       "volume": "Trending"
     },
@@ -363,38 +444,38 @@
       "volume": "Trending"
     },
     {
-      "titulo": "Empresário americano afirma ter criado 'clone' de si mesmo em laboratório",
+      "titulo": "Interpol desmantela delegacia falsa da PF na África em operação global",
+      "fonte": "Correio Braziliense",
+      "categoria": "Tecnologia",
+      "link": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxPekZFWHJFdy1tbWFjdjFPUDNRaDJNamV0R3MySWJRcmFZZHlDQmF2emJ2azRKNW82WmtlUi02MEo4ODgwbXUwcHFoUlVZSGw5eVcyeXpFU0o0bEx5UUV3ZXNONmxWTzBSbmVpQzF4YmtwdEdFOW1MMWNkWmdBQWJabTFCWXp4d083RUN5dV9mWE91ZGN2ZlZuVDVIczN1MDZrTFVFSHRPZFZmR2Z0WjVPODRaYThBSVl1a3YxbnlMMjJsTWhyQTZXSlVOaUlRSTlYQVHSAdcBQVVfeXFMTWZPNjdqc3N1MHVPLXhNUjg4SDl2blJlcjZGZUo5QmxRcE1BbzRETDRnTUxYWms3Rk92YlRiV2drT1ZqYl9DeVN4eUJIZFU0Q1BNYTJKM3RuQkJ1bXFSS05fV01VS0xDRmRfdVM2cmt5dGRoZE8yd0Jwc3RBX0dVNmQ3VlZnTEw0b0pLZDdseTRCelJNUUdPOGNrUHV5SmYxOGRYcXFCazFkUzUyamxQWXA3Wjh6S0RuYTRCQ3p0ZjRjd3U4NjZHZ2pFZ1VGNjVsSkNhOS1leGc?oc=5",
+      "publicado": "Wed, 22 Jul 2026 14:45:00 GMT",
+      "geo": "BR",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "Homem sobrevive ao cair de prédio e matar pedestre na calçada",
+      "fonte": "Correio Braziliense",
+      "categoria": "Geral",
+      "link": "https://news.google.com/rss/articles/CBMixAFBVV95cUxQZlVYOHRaQkdDcVFualFHNVFOcS0xaXVxS05TQTE3OGRzYkNzUUlHVE1GV2dkWlpEQzJMOFFyU3FSYnQySjZ2SmJlWVc4VGt6Q0hycldGdFkxRWp6dkRLTGVkaWt2NUk5RElfU25kTndBN1hPYkdfbkQzZzhJY2pQV2h1TnFtZHdvMmZjQUZzR3ZibTdXeXFaaDc3SmhGejd2VGNnd0Z0RFk2YWJ4UnJuRndpdlBhUGpnWlZDb2U5ZVp6d2tm0gHKAUFVX3lxTFA5bDdka2hQQkpUM0hFTHRsSFN5R1VuUmpFclc3b0NWV05Xb2tOUWt5d05sUjhHVVppeUFQeTdGWjE5ZXktNTdadXpHOHhOa0RsR1pNZmFfV3dyVDVOcFVmenpyYzRuYlNGSm1fTG5FZ3J0QzFJTjB3RjBwaUYtV0xZTW42T2pNSTgwQnRIUm9QYVJHMlkwSkh1THBCd2JLWFRra2szR3h6V1E0S2QzM1AyZk5sZVJtS2tOS1F3alRCWUV6bWY3a3Y2bGc?oc=5",
+      "publicado": "Wed, 22 Jul 2026 21:22:00 GMT",
+      "geo": "BR",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "Brasileiro vive mais, mas passa 12,5 anos da vida com alguma doença, aponta estudo mundial",
       "fonte": "G1",
       "categoria": "Ciência",
-      "link": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxQZzFzb2sxQ1dkTlRLZ2Q5Z1RROGRQcXlsUUg2aHpiZ2kwbmpjVktUOE41TGp0cnozc2ZfZFNmZVlsaFdJbjctaEtMVDR6UGFkeTI0VS04Q3kwemxpcTQzNGxfcmd0ZzMtMFZvZlp1REJnbVNtSGJORFNsNTVlMnVHSmlkdmdlU0xuY2lmT05ROHQtWnVOM2Zsb0RMSkVBdWtvVGU3dWhKVVg2VG5EQXNvMUlBanBSYnFHNi1kUnlIR1bSAc8BQVVfeXFMUDF6VGRoa0tNSXVhUmpNZlFTSWE0UmtCRWdtQzhtNVhoSG5CSVQ0SFBqOFkxdmpnQ21hbEtFelVDR2dLTjFHNjM0ZTM0R0JIVmpuQVNIUUhwVjk1LXV4aEFOTHR5ZU5LbmpPRXNtQ091SVlHUkhHbTBiXzRPZm1JWUJpSjM1azdXbmRaWF9uVTByem45Ri1YUUdBeFZOcmlDb3BmbUdac0hETnd6V25pNWJrUmt4Y3Y4YnpCdmd1SktHZkxhVFVHaG9NZkxrRHVR?oc=5",
-      "publicado": "Wed, 22 Jul 2026 11:52:39 GMT",
+      "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxOOTY1WHkzejRhcVlkRjhwX2kxbEFJc0xtUHh1SS1mNVBZQTNJQ1hFRF9obXdBMk9aNGF0Q202YWVsSjNNa1A0Z2FBdXd4cHV4a05OUjd3U01jVWNZamswNUtMUEVJa3hza01HcDRQYTVpZ3VyLTc1LVR6djNjcmRGaGl1R03SAZMBQVVfeXFMTkZtQ216N0laci11eFZhVkZ4NFl4TlF3N0cwejJPeXpaZEFCZEJuME5BdjJ2Q0JybXJDSFBpSjdLNkE3aFY2a1AwMkZ2Y1dTdjMySlBiaUVzLS1UYl9CTS05Y2VtdFVTMXYydUY2Smo0Szlrc0ExY0VkcVhVRUF3MFNOeVV6WnNQa3AwcHk1WVUxNUln?oc=5",
+      "publicado": "Wed, 22 Jul 2026 13:15:04 GMT",
       "geo": "BR",
       "volume": "Trending"
     },
     {
-      "titulo": "'Casa cheia': Mulher cede a própria sala de jantar para acolher 24 filhotes abandonados de uma só vez",
-      "fonte": "Amo Meu Pet",
-      "categoria": "Tecnologia",
-      "link": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxNSXRXSEduV2puR29rZTFHWHRkaFBVMGdZQXpIVVdmVU1IMVhrdE1JRUxral9qX1FVYzZJWnhWMjhRUUl6a2xYcV9OYWdJbkZaOG1ZTVpwUE50TVVqTS1Da3VtVTRtVjliS1V0RWtZdzJ2NHl3cmZ5NXMwV3g0bmRpVk5BNlhHelQxSXc3ejZjeGxfTjFELXR5MnkzQUJYc1lGSGhXWTRsZHlvVi1NQzd4ci1mZzF6MTVSdTF0NGo2SnkzcXR1dXVRRjJIaGdMZTBkTUszbFBB0gHbAUFVX3lxTE0wLWhSRHV6VFdWZGtsNDluNTdGTGdoYXplTGt4cENyclZacVNQeEV6Z1loQkdVZUZodXIyVXBfSTFrVlp1ek5XaHpCajAyNW51a2pMMzk3VDhQSlY4QzZWc2pnY1ZaZVRxcEp0YVdhYzZzeV93Sk82NXFzYU1lYkUzZWVoM1R2S3ZjWWV1c1VOaHFzYlBHMXMxV1lnUWZ3Q3MyYUhOMkxHWVNhR09rRzQ4Vm05MkMxaElzd3E2RVBqbTJGeWREdENPeWVFeTVnSHpIMWpWNWdNUUhZTQ?oc=5",
-      "publicado": "Wed, 22 Jul 2026 12:06:00 GMT",
-      "geo": "BR",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "'Não conseguia aceitar que nunca encontrariam minha amiga desaparecida, então fui para o outro lado do planeta procurá-la'",
+      "titulo": "Tecnologia: 'Meu app de atividade física soube que eu estava grávida antes de mim'",
       "fonte": "BBC",
       "categoria": "Tecnologia",
-      "link": "https://news.google.com/rss/articles/CBMiYkFVX3lxTFAtQ2pBMDFOSS15SW56VnZ4a3pfNUVHXzVqYmtVa0hqOFhtR2w2LXk0NVdjTFRIQUExcWlPSFRXb1VaTGpSWDJMTFBTU3VmNklqd1ZoVzc1cDR6LTd2cEVESnJR0gFnQVVfeXFMT0dJUjdmSzFRX2c0cFZJS2wwUnp3Q1RSQ1FoMGdxOUwyVHRRMUZnTnJ6TVVwZWdpV2xwdUcwRWdZTDVjTnRxNGhkblM0TDg5Z1NKbmtfcVcybDJUSnlGNUhmVnJsVks4cw?oc=5",
-      "publicado": "Tue, 21 Jul 2026 19:43:05 GMT",
-      "geo": "BR",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "Do Pacífico ao Atlântico: nova jornada de Tamara Klink pode ser acompanhada em “tempo real”",
-      "fonte": "nautica.com.br",
-      "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMikwFBVV95cUxPYS1EbTF1S0dYUC00bTBhMUk4RnMtLXRVZ0VTSEdKTnFxV2RHa05NSXc5NTVaOUlXMXgtelRKUTNiSjZEZlRROFNBNGF3MmxpY3BOVW9CbnluSXhDemZnWmdPcElaMGdRdGNXUWxYT05oaUktWDliZktSSWpCRE9tWUxrT1AzS3ZwM2J1akx5TmNpZEU?oc=5",
-      "publicado": "Tue, 21 Jul 2026 12:02:17 GMT",
+      "link": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE03bVdRVlpnRGlIbVJBaWdzdHVrTVZUTkxhaXZiSDVjRWZJRVl6NWpqY2F6WmNjeXpzZzA4aHExNFdVNU5HekRwRE0tdnI4RnBuR3lvdUs3MGNVN1MtaGVHR3Fn0gFnQVVfeXFMUDJrLTVJd3NOeml6Vzk3bjZjaWxOcjB1cEsxbjAzRjRuU2J1aDJuOHJTYU9OeXRMVmI4YkV3UXBBZG82U1N2eDhkbU5Mb1J1TThoWldCMTZSTHp2Mlp0WV9faUhKWFRzZw?oc=5",
+      "publicado": "Wed, 22 Jul 2026 19:35:11 GMT",
       "geo": "BR",
       "volume": "Trending"
     },
@@ -408,70 +489,34 @@
       "volume": "Trending"
     },
     {
-      "titulo": "Iran War Updates: U.S. carries out 12th straight night of strikes as threats to oil trade deepen",
-      "fonte": "CBS News",
-      "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMinAFBVV95cUxQbnFoblVaeW56TWFYUWE1SGl5N0RtX2t1S25oOFprWVlLZjFPa0Nmdm5hWjdzcmNpTGJCejk5OUxnMF9Pbnh0SklXc3BRYlktaVR2cS1Mbk1FNVVhak5QakV0UEh2VXF5UEFJQ2ppWXZ1Um9FX2lYSEpiaUEtT3dFaEQ2N3lRdTRLSjZRTnZGWk1PUk1tWHUwOVdVZjc?oc=5",
-      "publicado": "Thu, 23 Jul 2026 07:34:00 GMT",
-      "geo": "US",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "U.S. signs nuclear deal with Saudi Arabia that gives it path to enriching fuel",
-      "fonte": "The Washington Post",
+      "titulo": "Trump says Saudi Arabia's nuclear deal hinges on the kingdom normalizing Israel ties",
+      "fonte": "NPR",
       "categoria": "Mundo",
-      "link": "https://news.google.com/rss/articles/CBMirAFBVV95cUxQeHgya3BPS203QXhIQVVkOV9JNmZpQ2M4eG1jSjJJZkk2UXY3eV8wVEhKZUZhd3o2TFJJaExWNWVTSUkyTi1QMTBSTkhGTGdTdXhGVEdVbnB0VzFqRzA5Y1JzMDJiNGROU2Q2VktGc2w4T3hoY0M0U3lVY3IybzFsUVdZUTF3aUtsUC1RRFRHcWVYZDV0OW9Yc2psMnctTmw4cU5NTV9weUMxRlBR?oc=5",
-      "publicado": "Thu, 23 Jul 2026 04:43:19 GMT",
+      "link": "https://news.google.com/rss/articles/CBMic0FVX3lxTE82dkFvOGx1UVcwRHJPZ1BjSWNGWktMRWRGUHV3bXZBX3dqeXJHaF9aX1dFdVlqOG5lbGNXMG5oR0RRdDg3Wmk3ME1iNV96bnlhS1BtVTB0UjJJMGpwcWxGcFpzUmswU3FHSFgwSUhjVkNkZ3M?oc=5",
+      "publicado": "Thu, 23 Jul 2026 18:39:18 GMT",
       "geo": "US",
       "volume": "Trending"
     },
     {
-      "titulo": "Top diplomats gather for security forum in Southeast Asia",
-      "fonte": "Reuters",
-      "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMinwFBVV95cUxNVlFUbWJmemtXX2xyMlFhb1lZbTRQQXB0aVNsOFlCN3FKTVlQMGlUcnhWdU02WHItdnZGcU1JUDkteHQ4UUJQTVVKUXNDV2czaWF6czZVdmdZYVl3Rzd2VDBnejJmZkFXalQzZG1mRzlBdjJsendCdElteHMtenlIN1VVbTExSVZyaHlweWgyeHJmVGExWkFxem45dEk2Tm8?oc=5",
-      "publicado": "Thu, 23 Jul 2026 02:13:00 GMT",
-      "geo": "US",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "Dismissal of Ukraine’s defense minister started a sudden transformation of the military",
+      "titulo": "Yemen’s Houthis attack Saudi tankers in the Red Sea, threatening to widen Iran war",
       "fonte": "AP News",
-      "categoria": "Mundo",
-      "link": "https://news.google.com/rss/articles/CBMipAFBVV95cUxPNWREMUJlWDJUVWVqSkVDWlk2MEcxbE9xdVBubkFYNEw0czVhci1EemZjTUEycTFvNmctNDRqX2hBbDFYSG1HOFdyX2FvNktpYllNYmZBMnQzMUtxcjFqWF91OHRZeGRyTXIxdk9IRldPZFBXdVFWSUdMNktBcTZIelFiLXVSWl9jLVFjSUo4clVTV2RWcllxOGN5bzBUX3A5S19YTQ?oc=5",
-      "publicado": "Thu, 23 Jul 2026 06:49:00 GMT",
-      "geo": "US",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "Mexico mayor killed in town hall months after surviving assassination attempt",
-      "fonte": "CBS News",
       "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQcDdrR2tzSlZxaUhaVFdKMlZqWkJoTG1icy15c19RcWE5bUROcE9GN2RsSFZ4cjF5anh6VUQzNnRVYU1pZnJmaVd5VWZ6dHNHLWM5Q3JtWkdMcEZnWVRJYjY1RDhQeHlaMUEzbGVVQ29VSkhyYkN4N3hZY3ZNaFh0TTgxVnJPV1FC?oc=5",
-      "publicado": "Wed, 22 Jul 2026 23:07:30 GMT",
+      "link": "https://news.google.com/rss/articles/CBMijgFBVV95cUxOZHFrc1BFd1MyNGJEdWFibkJiY1dGVjRNY2tOWUNTbEZTaEw5Z3liZFUxOWExS3ZhdExIZGpjRUFsSW9WWVcyZC1aRmdaRWtVSUFyVHBxeU5wOWZfYTBYbFpZZ25uYUVxUE8tRzQ0d2VOYVk2bTZlUW8yY0RZdnFmQnVqQjRkc2RoQ2Nya19n?oc=5",
+      "publicado": "Thu, 23 Jul 2026 18:56:00 GMT",
       "geo": "US",
       "volume": "Trending"
     },
     {
-      "titulo": "Yemen’s Houthis claim attacks on Red Sea tankers as US launches 12th night of strikes on Iran – Middle East crisis live",
-      "fonte": "The Guardian",
+      "titulo": "‘We Will All Die From Ebola Here’: Virus Stalks Crowded Camps in Congo",
+      "fonte": "The New York Times",
       "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxNZF8wUE0tWmJWbUZETktxaXZTbjVDWU1YODRlQ1kwN0JIMk1Lcjd6NHBHZlBpUGhELW9vZS1laWdVTzgtOGttaXg2MHo5SVg0S0cweElyMXBEUEc4ZFJDRVdNODJjTUctc1VLcGZ0RFh0TmxBRjlSbmx2Q2ZnaDRTcjF6VkcxTnpqZjFEOF9SU0Y4WktZdkVxZ1YzcmVLem1GejB4LTlodV95V3ZQTjhaa01YQVlJbnZGaUNMM0hIaGZ2dEJDaU0wSUdhOE10R20yLXdXYmk5Mkh2cE1wcVhnRDh4MA?oc=5",
-      "publicado": "Thu, 23 Jul 2026 07:58:00 GMT",
+      "link": "https://news.google.com/rss/articles/CBMihwFBVV95cUxQclJJN0dQVWhtcEYweFFoZGJEZ2tXSTVrUWNNNDNmSUQ4OTJsS1Y5bHU1NDNQSlFVT2VRZ1AwVHB4bkVlMVJpTlI1bFYwdEFxOXh0UTByTzZJZ0ExMUQzcjFFUkpFb25mTHpHQlE3S2l0RjJKMlhvcVBQbHh4bVhlRnpMb2hEaDQ?oc=5",
+      "publicado": "Thu, 23 Jul 2026 09:00:48 GMT",
       "geo": "US",
       "volume": "Trending"
     },
     {
-      "titulo": "Oil prices climb after tanker struck off Saudi Arabia, Trump escalates Iran threats",
-      "fonte": "CNBC",
-      "categoria": "Mundo",
-      "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxOTmctMzlYU1FiQlBvdGFwemtzeWE4MnZPR3pIeV8zSUYyWG90d2dfdlBKYmFoRjU2TFlKUUhPWklaclgzRWgtZW03Z09fOURWdlEweXNvY3dYdzFYdnY4U182ZW1RZHVweDVTUW9NUE5va00tREQxTHM5Qy1UQ0pSdExsQmpSbFlD0gGOAUFVX3lxTFBrRTdDSTVkeWFvYkd6ZGdfRnNDeUJ1QmE1UjBKUE1QWU01T0hwM2xPTXJMdHRWZTQ2Zzd5cGNFbDFRakVMN0VoQlVsUEd1UlpvMlgzS2JrcDhORVhqb0JIOUpMSmRqZW0zdVZmWGU4c0Vkd2Z5aDBiajh4VHVSajEtT1VBODZaZXNjTGZjQ1E?oc=5",
-      "publicado": "Thu, 23 Jul 2026 00:18:00 GMT",
-      "geo": "US",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "India's Modi promises fast-track courts on exam leaks, protesters want minister to quit",
+      "titulo": "Indian youth protesters call for nationwide rallies as Delhi imposes tough curbs",
       "fonte": "Reuters",
       "categoria": "Geral",
       "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxOeFlRckoyMlBKdGN1aldkbl91Sm13SmtlT3RBdU9MVzhJYXhjSU5SMWRmNXptalZVNkJSbDl6aHVoVW5KOEx3TmhYMlBCQW04Rnl0VXBqNDl0Ymg2ME1Ca3VseVgxSjFhOTM2MXU0UTQ2UGVoa3U5ZEVnOTFTdXk5N0hrQklxUGI1akF4UkRIRm16WDhjNE5HYS1zWjlGSHg1N1BvcG55aFJNSF9oMjlBSGpyMnY?oc=5",
@@ -480,29 +525,128 @@
       "volume": "Trending"
     },
     {
-      "titulo": "UK Politician Was Hit 21 Times With a Hammer: Prosecutors",
-      "fonte": "Newser",
-      "categoria": "Esportes",
-      "link": "https://news.google.com/rss/articles/CBMingFBVV95cUxOYkxwTU9za29hSjcyX3lRaURyT3h5TVR2ZmN5bUVUcWVMMXJaVmVBQzVGM3pPSzl6bHRFYkZuaXlNUWE1WktwaXpUMjRjaWtaaGs3TTRuS19lUEYzM0tzbmU1bzk5RnBmYi0ySVBScXA4cXNnNVk5eHlYTUtZUXZJaVFzRVA0R1hKM2oyeTFnR3RBLTZtVnVLb2RkN2RtZw?oc=5",
-      "publicado": "Tue, 21 Jul 2026 17:30:00 GMT",
-      "geo": "US",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "Russian Offensive Campaign Assessment, July 22, 2026",
-      "fonte": "Institute for the Study of War",
+      "titulo": "Middle East oil producers seek Strait of Hormuz alternatives as the U.S.-Iran war escalates",
+      "fonte": "CBS News",
       "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMipwFBVV95cUxQWEQ1a21yRXJON0gwQTV0OFc0ZlVCdFlLWW51V3pHT1FHM0oxUVFONWN4SjhEVmJnMGxfRjEwd2xIZDIzNFRFNmFsLXQ0aHFJQVp0bTB3MkY4ckttekZ0SDhiNzV6TFlYRlFvT0t2eGFVZVgyanllenJ3blRHT2ZmN1dGVmZkOC1sMTlOazhwY2ZUWkItbzIxZXBVV3hBaWl6T05VbHFJTQ?oc=5",
-      "publicado": "Thu, 23 Jul 2026 01:56:43 GMT",
+      "link": "https://news.google.com/rss/articles/CBMipwFBVV95cUxNdFJSZkxtVzE0eXhsZDFLTXQzS3VfN3JtM3Fnc2hJalVabFBTOFpzRzg4bllIOUtOT3I0Y3JsZmxHUnVtb0txczBlVV9fZWw3Zy1Eem1NNVlud1VNVElCZFp6Q0FYM01MLXlibHBQNzNFVXJsOGZJckpEdkJ6bmFabGN1YVp3ZTNNZHZ0S3pFS0NWVl9NUXdYT1dXZlhlWHRGNXVmNEJMNA?oc=5",
+      "publicado": "Thu, 23 Jul 2026 15:39:00 GMT",
       "geo": "US",
       "volume": "Trending"
     },
     {
-      "titulo": "Britain's new prime minister must solve the old riddle of how to reinvigorate a slow-growing economy",
+      "titulo": "Iran flew Revolutionary Guard commanders, missile gear to Yemen’s Houthis — sources",
+      "fonte": "The Times of Israel",
+      "categoria": "Geral",
+      "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxPOTNkcjlwbkQtTEJTdHBpVmdxSDRDWXV2X3B4dVl2Rm9jN2VCbXl6c0hicE9uVXNpUW9vMTBmT1JzbG5STzd6TjlSLWE4alR5bHJKYkNDemhORGFvQzVkc09sNEs3Vl9Bd2kxeDVSRnJwc0JzTXhFRTNrZGdtLXdVdVoyRWZibkF0QlVTaWZ3N0tWczJ3T2NBd3c4VnJZTmhRRmJOQ2hVWVlRSTlqb3p30gG0AUFVX3lxTE1IM2tETWk4cUMxQzNrTnVMQWM3cjdmM1FvSkJBcEg4dFZRbzZvWVUtSU1aN2lVcHUxWUh1cnpoVjUzVzZqb29jS0VZY09WcHM0cGJrQjc0M0Nybkl3bEt4MkVrbVc5ZzllNXZTUGhKdUpiWlA0NVMzN1V4U2U0enA4Y2FvczBKSlNCU2dMWUt0bXFNQ1ZTd2FaZTVYbE80QnRCRmZMM0V6SG95UEVSR0ZBdmk1Ug?oc=5",
+      "publicado": "Thu, 23 Jul 2026 16:14:16 GMT",
+      "geo": "US",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "US says 12th consecutive night of strikes will 'further degrade' Iran's military capabilities",
+      "fonte": "Fox News",
+      "categoria": "Mundo",
+      "link": "https://news.google.com/rss/articles/CBMigAFBVV95cUxPSkxqUm1DaHVzWGcyVXI0elhTNWRJNksxN0UwZlZ6Y1Y2bFpKTW1lNWgxYUs3bjc5M20zbU4yNDF4c0YxdGxucU1QUVAzRWNkNWhFdk4wVGdmZkZ3Rlp4ZVNKRFl6OVVwZV9KVUlLdEFMRHBvQkt2ZkJPVFpzaGJoNg?oc=5",
+      "publicado": "Thu, 23 Jul 2026 17:28:43 GMT",
+      "geo": "US",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "How protests over a popular minister’s firing sparked Ukraine’s sudden military reset",
+      "fonte": "AP News",
+      "categoria": "Mundo",
+      "link": "https://news.google.com/rss/articles/CBMipAFBVV95cUxPNWREMUJlWDJUVWVqSkVDWlk2MEcxbE9xdVBubkFYNEw0czVhci1EemZjTUEycTFvNmctNDRqX2hBbDFYSG1HOFdyX2FvNktpYllNYmZBMnQzMUtxcjFqWF91OHRZeGRyTXIxdk9IRldPZFBXdVFWSUdMNktBcTZIelFiLXVSWl9jLVFjSUo4clVTV2RWcllxOGN5bzBUX3A5S19YTQ?oc=5",
+      "publicado": "Thu, 23 Jul 2026 11:07:00 GMT",
+      "geo": "US",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "Wildfire spreads near popular French tourist town as thousands are evacuated",
       "fonte": "AP News",
       "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMikAFBVV95cUxOLTZlU0xDNVNBOVRuQWFYanJ2RlBNdnVQeHJKTXZVQWVka2Y1N3pXWUJYbjJCU2wzUkJsQnREOFBYbW9ncTBtVzhPN0lkb1RsVTJyOEN4b3Q3WkVxRXlubVY1aVI1QVlpdzM4bk9RV3JyQ0l6Q09aZmNuZm1WVVV6WkdfWEZmVFBLd0xTNURTa0w?oc=5",
-      "publicado": "Wed, 22 Jul 2026 07:45:00 GMT",
+      "link": "https://news.google.com/rss/articles/CBMiugFBVV95cUxPU1hIQ3NzSkxLSnJ3RDd0T1g5aURHUWJwTC13aUdjM0JLT0xzS2JfbTNteVF2TmNIUVJudkJSRWpITEhQSDRPZVpWYW0tSU9Hc1ZRV0xaMGtWRVVtSEprY3hMLUw4TWZoVEtNMDc2Um5nai1LNTNRZWlyMzRuREV6X21HekhXZmlCZ3Nfc0hnMTZFdlNtOTNKNEtmcnRxX1ZCRHEyMWpqZFZtV3E1VnVuOW51ckFOZVRDVlE?oc=5",
+      "publicado": "Thu, 23 Jul 2026 15:02:00 GMT",
+      "geo": "US",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "Israeli Banks Threaten to Cut Off Palestinian Economy, Deepening Crisis",
+      "fonte": "The New York Times",
+      "categoria": "Mundo",
+      "link": "https://news.google.com/rss/articles/CBMilAFBVV95cUxNdTYwNEJ3SE1Ud3FfbWdmYjc3VkJrdE8ydzR4U1BKSXJOeXdlM1ZuR21DUjRxWm43eWZOeXE1bnBZTzJ6ZTFVZnkyMnhRYWE5TTFkWVZZWjR6NXVSSlhjdGxmMzg5Vnp2bW5POU9JYU5DcFNuTE1qR2dhZDNROGJCZEZYaUw5OUh1ZlhDTTFybVJWT1hF?oc=5",
+      "publicado": "Wed, 22 Jul 2026 18:00:04 GMT",
+      "geo": "US",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "Russia’s Amazon-style retail giant Wildberries is now in Ukraine’s crosshairs. Here's why",
+      "fonte": "CNBC",
+      "categoria": "Geral",
+      "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxPa1FyY1p0cUV0QnlwUlNsa3k1SlNaRjRCR1RqSnRGWXdEY1JNSHpUZ0xIa2JBSHVURXM1VVJWcUV5UE5UVWtGSWJVT1h3clVMZGc0Q2NkLWlTc1E4WHpTWVp4UXlVWGpxTUhWcHhfYVV6dHlOVnU5bzBUbWs3dHdFQ21iR3VpZ2c40gGOAUFVX3lxTE82VkdWcFI1SlZvZHcybkQ1cU5pa1VwZTVJeWQ4N0RvZ21fMzV4WmlwTlRfdWxyTDVLZnlXRlNEQ0p2ZjB1bDlWbkZZY1ZJMmU4Q1ZELU9PNVY0RklScWJnbGxHSmx4NjlUNW1xUUd1R3VmQkJxdklJdEszZldEVWFfcWI4OG1NU3JlSjFpeFE?oc=5",
+      "publicado": "Thu, 23 Jul 2026 09:54:53 GMT",
+      "geo": "US",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "Senate GOP expresses concern over Iran endgame after Hegseth hearing",
+      "fonte": "The Hill",
+      "categoria": "Geral",
+      "link": "https://news.google.com/rss/articles/CBMifkFVX3lxTE1Kcm8xUTFSY1Rvc0J3dmxNak9uUVVFdFMySUQ5X0FsU1Q4YUZVMnpPUldZeHA4dW9NY1JQdzhIQ3NHNDJVVEc0Um5tbHJOaTQzMlRnLVpPUmdtQTNfZ2JvY0F2YlBhZXNLcHloM2lMZ2lPc0QwQVVkR281VVNLUdIBgwFBVV95cUxOTEhDRlBxaFI3WjZnc2lkVWhYYzZrMm5BSUVJRTJSWlc4d0FEYnVDX20yb3NfMmtELV9FY08xQ25MclZBb1hfdXRLTS15RFpxdHJtM3lhbV80YU10NktHR2Z5R3ZxTXZfaHZyaGZKU1BReTlOV0p4azZXdFFYWnpjNG14MA?oc=5",
+      "publicado": "Thu, 23 Jul 2026 10:00:00 GMT",
+      "geo": "US",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "Has Russia helped Iran target CIA sites in the Gulf?",
+      "fonte": "Al Jazeera",
+      "categoria": "Tecnologia",
+      "link": "https://news.google.com/rss/articles/CBMilwFBVV95cUxNZHJ5TDdxMTRwckRJbHh0SDQxQV9MN2VXOGpJX09SRC0ybzZKMEM3YXdRbzRRWXNBbmxKbHVkMjhjQjB5am5HeTJnU19RZEwxWWpwT2RQeXZDQWRfRDFMUHRYcVJoSDdRN01zSFFoOENITWhzdkktTS12RWwtUmFObkdCU1NYczV2VU1lZFIwT2VHcGpPV2xr0gGcAUFVX3lxTFBhdEhhb3pFNlYxZ21BbjJDNkdfaldIUEFzN1lQdGZSU3VWT2ZpQnJVY2VyLXZEeDRjbjU5b0ZOV2g5b3ItdVh2azhuSEF6T296Q2p3VWhYSWphcnRobU1McjlYQzZTaGw2YVFaX1N4ZW9iZmg5UmtjM1N5ZEZmRm1fU21sVHM2RFlQZmUxVWxIQ05RaWxyUXhBampObQ?oc=5",
+      "publicado": "Thu, 23 Jul 2026 14:23:25 GMT",
+      "geo": "US",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "It’s So Hot That Japan Needs a New Word for It",
+      "fonte": "The New York Times",
+      "categoria": "Geral",
+      "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxNejNncWRzU0xaMVFNdTJ6SGNSbHU4X0Jfeklta3NLbEJuY1J6dG55UjhreHR0RlZvLWRlWVVMWGc0VmstY0pVOVNOSXBreldoRE9SWF9IWEVQXzYxOVlFQWp0VVZrWHVRQ0JuRHRNSVpBd3BMM3dBM3dvQTZfZUVvVmVQX3E?oc=5",
+      "publicado": "Thu, 23 Jul 2026 09:16:12 GMT",
+      "geo": "US",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "US is ready to help end the ‘senseless war’ in Ukraine but no quick deal ahead, Rubio says",
+      "fonte": "AP News",
+      "categoria": "Geral",
+      "link": "https://news.google.com/rss/articles/CBMimAFBVV95cUxNeWFkYnFRZ1lKYlVmbi1lS2QyT1BteDg5MHdtQ2NsUnBPY0c1ZXF3TXluc3JLc2FlTENucHNwalh0cHU4emJnSnZkaFJqTDlaQTB3aHB1cm0wM0tKQWlFaTh0RkhleG1qME9SSnhNVlotaWFnU0NYczZaQ2pQSmJkZGtMZF9vclBhOXRmY2lYYTdpS0c4WWRQTg?oc=5",
+      "publicado": "Thu, 23 Jul 2026 13:23:00 GMT",
+      "geo": "US",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "Greek gas concession unlocks EU’s Russia sanctions package",
+      "fonte": "politico.eu",
+      "categoria": "Tecnologia",
+      "link": "https://news.google.com/rss/articles/CBMif0FVX3lxTE9weVZ0NDZqOGhaMjhJMENvaGtGZEw5SUpRVG0xMUFDVGFiblM0dURNYjI5RmY3ZE0tLXMxNEo2MUt6ai1mYl9RZ2NITmFQRzdUWTRfOVdHbWVNRUViMHlLaFFKSnBuT21UU0paLWRZRGx1VmUxZjVndmtwUGtNa2c?oc=5",
+      "publicado": "Thu, 23 Jul 2026 08:33:00 GMT",
+      "geo": "US",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "Israeli security minister joins Jewish extremists as they storm al-Aqsa mosque compound",
+      "fonte": "The Guardian",
+      "categoria": "Mundo",
+      "link": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxQT2paVjNQWGVFdXQzMExtYzMzanM4RnZ2T1ZzUWlGcEdqR1E4LVJJaXUtYUY0ZlQtaXZRMUVsd1dFYklxczVwZ0NwOHdxYkpfb2dIYjBXY28wX0pyMlRWZDhqTmZXSXpNZXVTMkV0ZGFOLWs1cl91cElUZGp5Wi1BcUxuU3VTdUJVemtPQ2ViXzhQWXQxVWY4X2trb1ZlYVowZWh4MkZfTnl1eFNWQ2tTdzJCc3dYZG9JUlNFVC05d2w4YVl4MlUxRFZQS0xSaVRadERILUY3bUxlYkN1?oc=5",
+      "publicado": "Thu, 23 Jul 2026 16:09:00 GMT",
+      "geo": "US",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "Daniel Siad—Model Recruiter With Epstein Ties—Found Dead Amid Investigation",
+      "fonte": "Forbes",
+      "categoria": "Geral",
+      "link": "https://news.google.com/rss/articles/CBMiygFBVV95cUxQSThvM3oyZjJWSFduNnMzcHlZeWpCWmJpOGZ4aHk5anl2ZkFra2luSzNlWXRaQXpGaE03dFNaSzNIWFlfaTh0X2JqbWNDZ3NTYXVuUGRVbEVlb3hLVmtBYkNGdmYtUVR4NXFXeVhiRERVb3d0RGE5M051RDFVMlhPU1pNR3h3c2FNdU5peV9lTGxkV05WWmpJSkpwNVdUQmZ2cXdwMWdNd0ZtdVh3VHlwREVtM3RBQU1hTlp3U3I2SG4taHJKZUgyTS1n?oc=5",
+      "publicado": "Wed, 22 Jul 2026 13:25:13 GMT",
       "geo": "US",
       "volume": "Trending"
     },
@@ -516,11 +660,11 @@
       "volume": "Trending"
     },
     {
-      "titulo": "Modelling scout linked to Epstein found dead in Paris",
-      "fonte": "BBC",
+      "titulo": "China Rewrites the ‘Soft Power’ Playbook for the A.I. Age",
+      "fonte": "The New York Times",
       "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE9BUXZFdGw4WGxzdWY2WFNja2VmRXVNc1c5VjhsYlB0UllyOEhGeGR6NUtaemxBLVhTeDlwME9mT1pqSktLeWdfZEFtNHR6VlVLVzZqcU0wM0x2dw?oc=5",
-      "publicado": "Wed, 22 Jul 2026 18:21:55 GMT",
+      "link": "https://news.google.com/rss/articles/CBMid0FVX3lxTE1xSy1fQ0dfZkpLbjdTRThYMklVNlFrU2NRYVVET2RpMU81MTc4dDZQTlVMd2hWT0J0VW5Nb1lreHhnTWJlcHpQVzlTOFlqMzNBVGhXaU5PdkkyWUl3UmdmTkZzclB6aE1XT3VGRm15SUd6ai1LOUMw?oc=5",
+      "publicado": "Thu, 23 Jul 2026 14:31:20 GMT",
       "geo": "US",
       "volume": "Trending"
     },
@@ -534,56 +678,11 @@
       "volume": "Trending"
     },
     {
-      "titulo": "US Secretary of State say Iran is in ‘a lot of trouble’",
+      "titulo": "Rubio says Iran ‘begging’ for a deal with US but not ready to make one",
       "fonte": "Al Jazeera",
       "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMinAFBVV95cUxPMmphT2VRenVjMVNpVVlkbnVBZk84c1VCd0tPWmstTlphT2kyWDVEc24xa2hxYTZiUWZRbnlkemtRbGQwOG1felpsd1lZVjdxLTBSS2RDU1lOT0pZUnhwMnB1QjZEQ2RpU3J6UlhSWi1pRWhpNHNHR1FZZms5NmNRNkQ1ZHAxSGJFdEw1MEVVQ2JHQ09kY19aZnFnc3HSAaIBQVVfeXFMTl9MQy1Rcm5mNlBGdE9Nd25NX182cGNmdUlnRmhSWWtGZG9ja1ljWFZmMlJXOV9YSldScDNjWWd0U0xraDhYenZ1bXBQejZMNFBmS1I3WjUyOXU1RlpwMjl1cURhSUM1ZkhXdmxSLVhrd1BDTmRDRFZGTkQxNTBnejFsRUpwUHVrLUU1eUhlQ2xiQWZNNDFtdjRIM1hQQl9yWWFR?oc=5",
-      "publicado": "Wed, 22 Jul 2026 11:27:55 GMT",
-      "geo": "US",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "Brontanax Fighter Drone Is The UK’s Big Leap Into Collaborative Combat Aircraft",
-      "fonte": "TWZ",
-      "categoria": "Mundo",
-      "link": "https://news.google.com/rss/articles/CBMipAFBVV95cUxNcFlCMm9XQW0xY095RmJha2xSQng1dXo3SmR2OG9LWnNmakVzTm91SjZCYkJXT3EwTThYSnhEVUpVdGJNTzRfNlJrQjN5MXJQUWxhblV1SzhiQUlCbU1fSjJVd3Q5S00xSGpYblNadkhWY3dQRTM4Rm4zZTNHOFNCWmYzVU9ydnF0bURrcVB5UjNnb1d0MlBBb19kVkt1RWFweVdEeQ?oc=5",
-      "publicado": "Wed, 22 Jul 2026 17:57:20 GMT",
-      "geo": "US",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "Ukraine’s strike on Russian retail giant Wildberries’ warehouses may have cost sellers at least 150 billion rubles",
-      "fonte": "Meduza",
-      "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMi6AFBVV95cUxNN0JXQXJKU2d2Q08wUGVmUktRWDFybW1yeG12c041WGFFUHJldlJybVZJLXRrd0k5cmRGaEtfTU5CdkhfNHpLOXlJbHhKa25QOHA2S2RLS3VMdDlUUnlLYWlaQmp6TzdVbnpGNGtPYXVHY3ZfMS1fR3A3ckxnT2Q0bi1hZFR3MldQTS1OaUNBaFB5aGZkOWZzTEliM0hlMDBfWEQ5UksydEZxRE9waHVwRmVINXR0OFN2MDF6bGNVMEFVMVROMW1JUndRWTJ6OE9MdnZleHVTbEhLUEpkZEt5X21Xa19kTWw00gHuAUFVX3lxTE9QazdLaVpzTVlTeGRRN2dpYnd4RkNSYXJUbkg1R0tsM3dzeThZdFh6cmlJazJZbWRXcGZaS3hIbXR1Y1lGaHFxZ0U0TUt2Q0FTemFTaHB0d3lOeGV2Y1pMVHkzSDNKeXFZbkk2eW5QQm9QajdHMVJ1SWZKcGJscWVNc1ZCNVhaeEVzU1g4bXByTlUzN0txVVlsT01KX0VXQy1xQWE4X2JxQ3p5a1lfWDQ0am0tX19SMW9YOUdrWmNZX1dBWWJJSEFpOURIb3JIQ1FOMnFibjBYSmg3QUJTT1NlMTNScExfQlRFMHVkdHc?oc=5",
-      "publicado": "Wed, 22 Jul 2026 14:34:00 GMT",
-      "geo": "US",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "U.S Passport Power Declines—From No. 1 To No. 10 In 20 Years",
-      "fonte": "Forbes",
-      "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMimgFBVV95cUxPdkNLdUNfVVZBbkI1NEctTjJYZWVzT3ppTWFtUlZBYWliRnFyRWdSMHFDbzQzeUUwSWFBWXhUZzV5VkxONHJvbWpXenA4TUhqNTFvMDQ1MnM5MDRIaGJRSnFxZkJKcWdnbGtqUFQwZnVIVk42RE5VanFTU2dwR1lxU1pYYzFSWXJyYW1WQkdLZTdWR2xhcE1idjRR?oc=5",
-      "publicado": "Tue, 21 Jul 2026 14:51:51 GMT",
-      "geo": "US",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "Adolf Hitler’s birthplace in Austria reopens as a police station to deter Nazi pilgrimages",
-      "fonte": "AP News",
-      "categoria": "Tecnologia",
-      "link": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxNR2pLU19tV0lLNXhMTGtWVVNycVNsMHNSSEtsSEdfTWNpOTVpNDJ5Y2JaUkVQVElGMC14N0YzckJFWVNVcDV5UTFldmkzRXBHWEc1UzViMS1tTFFkWmVGNl9XdW9MNi1vN0tZUTlPTVVqWVVCRlFuNWx2SlF5VjQ0bjlHTTkzS29KNjVIeTZTX2dydkpJYnU4dUx5UG9nTmhsblNwYTYyMUtzdw?oc=5",
-      "publicado": "Wed, 22 Jul 2026 11:29:00 GMT",
-      "geo": "US",
-      "volume": "Trending"
-    },
-    {
-      "titulo": "Iranian strikes on CIA facilities prompt questions about possible Russian role",
-      "fonte": "The Times of Israel",
-      "categoria": "Tecnologia",
-      "link": "https://news.google.com/rss/articles/CBMirgFBVV95cUxNTlNEcmJ3bi1MckgyS0c2eDYzNTljR2dram0tSTh1OHBxUEYzVmZCN0I3MVRKMmFySzRKMEN6aXZHNjhfLUJQY3d3MlVuVmVabWY5d0lZQ2NkcU5WelUxeWRYdWZaVWdNR2pReHJKTktaMjUxZjREMUd4V1c2R09KeWxjSWE0SWRTbmt2Y0w5V09WR05OQ2NWS0k0UW14NFJiQ2ZOS1VJazZQLTF3dEHSAbMBQVVfeXFMTUJlY0FxWE5pQVhJdXNjV3lESDRtZjhSWFNTQUxVc3VpM2RKNVNTc1V1cDIyMlFycUpTZXdzOTZMZkNRbWlKVHhpWTFzUVFHcU05T0gxQlhLYUV0VlhsRFU0UkVzel9lX3FoaWk2U1BMZ0tDX3VqWHd3VGlBRG9EbGg2MVVBVmhpbk5CWnVjM3l4b0FDSFBVYVlRcmp3SmZjaExRZHdyQ3BXbjBRTDBUeTZoVTg?oc=5",
-      "publicado": "Wed, 22 Jul 2026 21:25:19 GMT",
+      "link": "https://news.google.com/rss/articles/CBMirgFBVV95cUxQREV0anROMjgyVGdDaGFBelVVY1h0SFZ6MER4N3UzeVlpZ0FSZTBtU0pQbWo2bGU5ZFFqN08wUnFLeVhvRmFvSUdFTk5rMmdRSVUzUmVWQjB5SHVXREJuTlJzU2xfc0xlQ21mbWR3bjFOS3RzVE5BY2lEV1c1WkthclBFcER0TnN1QWtUOXpCdXd1Ym9zajJ0N1ZIRW5aS01lVVQ3OEMtelVLQ2szWUHSAbMBQVVfeXFMUENxWHo2YW1KWUNnUVJvT0ZjUUpBeldqbWZTanRLc0l5dmpkSU5wOFg2LWZCcU5lbWdJbWJHMHl3dEk3aDVfNXl4NUYxZU1DTk9qSzBXOVdNNmhxZmgzR2ZkOENXNGxVVDQxSlREX2hGMEJRTmRfUTNROGI1TWZXSDFQT2lTbm5OQXQ4Z1NzM09nZkV3amFIMHBtcXlDcHhSaXBFWFZRTGk3WFZMZGlZUlpTa3c?oc=5",
+      "publicado": "Thu, 23 Jul 2026 10:26:40 GMT",
       "geo": "US",
       "volume": "Trending"
     },
@@ -597,29 +696,47 @@
       "volume": "Trending"
     },
     {
-      "titulo": "Trump’s Iran trap",
-      "fonte": "Politico",
+      "titulo": "Russian Offensive Campaign Assessment, July 22, 2026",
+      "fonte": "Institute for the Study of War",
+      "categoria": "Geral",
+      "link": "https://news.google.com/rss/articles/CBMipwFBVV95cUxQWEQ1a21yRXJON0gwQTV0OFc0ZlVCdFlLWW51V3pHT1FHM0oxUVFONWN4SjhEVmJnMGxfRjEwd2xIZDIzNFRFNmFsLXQ0aHFJQVp0bTB3MkY4ckttekZ0SDhiNzV6TFlYRlFvT0t2eGFVZVgyanllenJ3blRHT2ZmN1dGVmZkOC1sMTlOazhwY2ZUWkItbzIxZXBVV3hBaWl6T05VbHFJTQ?oc=5",
+      "publicado": "Thu, 23 Jul 2026 01:56:43 GMT",
+      "geo": "US",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "Trump warns of strikes to infrastructure if Iran targets ships in Strait of Hormuz",
+      "fonte": "The Hill",
       "categoria": "Mundo",
-      "link": "https://news.google.com/rss/articles/CBMiigFBVV95cUxOTk5UTEd3bUpmVUNEcldaZGFKMlMzUThUbjFUNEIyVHNwNUdkSGp5WlBFZE1PeXpQNlRJUFpYNElxRDhsQUg4YU9adzdzSVBxb1dFeUhXM21sXzVIczMzTFBUNEpOZG5tQWs2M1FWc0M3UGFNS0gzaVFWREtSSW1wUkJUT2ZtYlN5QlE?oc=5",
-      "publicado": "Wed, 22 Jul 2026 10:30:55 GMT",
+      "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNc2NrclhEd2dlOS05alNUWkJQOS1wdWRuOTVtZDBVVHZhTUFDanNGNnA5MzdnZzU1MUdBbG96Y1VFMVl1Y1FYM1lBb1dVLWN4TVZxS3R2Y002dV9kc1l5eFZnMF9JSjhZSGJ2WExJLXJqdG12UFMxVFJpcmJvX2F1S09VWTRTcTVZQ1ZSVDRENlpPaWVkenpfcXE0Ykk3SmRUU2w40gGoAUFVX3lxTFB3SVBaZFo1aUp5NVBPUTUzZ29FV1I5cVRfeGppTkx4RlZOTkpEMC1lSGt5YzlwQUZsemQtMjA2Y1c4UUV6Z3N0Ri1DVXlrbEtXWGY3MHl1ZXV0RW9GOHFYTWR4VFF6c2ZjN0Rxd1BpbnpsOFpwODJPMzAxZElNVHloYTNCLUt0ZFgwMkx0UW1SYmhPd1NwN3ZIbG05S25oVGlNNjNHTHgwMw?oc=5",
+      "publicado": "Wed, 22 Jul 2026 13:27:00 GMT",
       "geo": "US",
       "volume": "Trending"
     },
     {
-      "titulo": "An Australian woman gives birth to rare identical quadruplet girls",
-      "fonte": "AP News",
+      "titulo": "What an Italian town’s dress code for tourists reveals about the battle against casual wear",
+      "fonte": "The Globe and Mail",
       "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMiswFBVV95cUxQMlV4bE1qVURWYXBsNTN2UmpqVmFGRlR0eUR6cGNaZDQtci0tZnhURmxCQkVqWGo1SDdIVFBFNmF1ZWJ5aUZWUVo4cVI2aXNrQW9iT25vR2RkZ2JnWHZCUTdrY3BrdXMtYTV0QjVYT0dtcjFKZEV6RXhTQWJRWG9zbHZ4bXJNa01IUldFdjFha0tVbWdhT2loN0I1ODJkcVF2TW9TZDVIMVZzNFpEdUZmVE9BTQ?oc=5",
-      "publicado": "Wed, 22 Jul 2026 07:27:00 GMT",
+      "link": "https://news.google.com/rss/articles/CBMiygFBVV95cUxOQ2pvZkFTbWc3NHNBVm1PelBpNTI3UklYNkVxeTk5cHVsc2lMUFloNlZLQmQwLWdZcDB1ZFdzSzg4eWlMcEZza0xHZmxWaGNnZ2RTcnRUcGJ6UTAzUXpBTnp6N3dZOG1qSGM0NlhuemlQcTlWUEhZaGktanpiNU43cGhfVkUyY2YteUh0UXJERGYyU05ET0dUUUR2RE9VTHdOUzVFd3hqWnpTbHNCWHI2QlBhVnZTVVhCN18wOWZUdzVGUGlBLWp2RURn?oc=5",
+      "publicado": "Tue, 21 Jul 2026 20:00:00 GMT",
       "geo": "US",
       "volume": "Trending"
     },
     {
-      "titulo": "The Iran Cease-Fire Was Doomed to Fail",
-      "fonte": "Foreign Affairs Magazine",
+      "titulo": "What Visuals Show About Recent Damage to U.S. Military Sites in the Middle East",
+      "fonte": "The New York Times",
+      "categoria": "Mundo",
+      "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQMXl6WFJuWGpLVHlzeXFfRnVhcThGeWdVX1J0ZnVLOEZsOEhwMmpreGR3THlHNkZnNTlaeTBQcW4xbG84cmwyQ1hFWmROMEx0bXdqSWJwTzVHcEJaSGpYR1F1amp2WW82MkxnY21Cck1UTmJjcE5qNW1oRHRZUmhoZWo0TmwzalBv?oc=5",
+      "publicado": "Thu, 23 Jul 2026 01:37:39 GMT",
+      "geo": "US",
+      "volume": "Trending"
+    },
+    {
+      "titulo": "Archaeologists uncover 1,700-year-old Christian city hidden beneath Egypt's desert",
+      "fonte": "Fox News",
       "categoria": "Geral",
-      "link": "https://news.google.com/rss/articles/CBMidkFVX3lxTE1NSFc2WnhxRS1UZmJ0TGYxVFJVNGFhN2U4TnpCV19hQk40UFJxV3lfQ0FvZ2JwMFUtRWVaSUQtVTdDVHltbFlURWtiRDlpZFpYeFNSQi1pWUlkSGxNT0NneXVyMkM0eGVUOHEyS1pDcGdJZnZxM1E?oc=5",
-      "publicado": "Wed, 22 Jul 2026 04:00:00 GMT",
+      "link": "https://news.google.com/rss/articles/CBMipgFBVV95cUxQb25xVFJNWWtEVDNiZHJXWjRsRDJJY2V3Y25uTnV5Y1FpZ2dmeW93U1VmTXQ1UzVKY2Vidzd1OFd4OHhHM1d0SDFJdjJOT0JZYWtFc2JlNXBFYk5ZWHgzTmVSUjI4UE01cFBXdDJZTWVJdnhIUVE1bVZHRFFuYVJCbFVhc2kzN3BnUU03OE5MV19VTUFiaTJSWmJoY0xGbnJwWHFFQjNB0gGrAUFVX3lxTE05MzFIeFVKSmVNem9Hc0cwZ2lYZEVjNVBnU1ljSGdDZlZ4azExREdGaE5FUEJvc2ZvZjZ3Z0VYNW5id0JRdG5wQWt3MUg5RUNzZXgxcEwxODJNWkYwVDVGQXkweENWWkdpckwzSkFOanBEVVAzNDdvRzd0V183M0ZtYnE1SWZCeldIaTZteG14U2Mwemt3VlMwZkEweG1rRXFQcHVhWVMwZDlYcw?oc=5",
+      "publicado": "Thu, 23 Jul 2026 12:00:43 GMT",
       "geo": "US",
       "volume": "Trending"
     }
