@@ -41,9 +41,25 @@ fi
 if [ -z "$_token" ]; then
     echo ""
     echo -e "${AM}  GitHub nao aceita mais senha. Necessario token.${R}"
-    echo -e "${A}  Gerar em: https://github.com/settings/tokens${R}"
+    echo -e "${A}  Abrindo navegador para gerar token...${R}"
     echo -e "${A}  Permissoes: repo, read:org, workflow${R}"
     echo ""
+
+    # Abrir navegador no link do token
+    if command -v xdg-open &>/dev/null; then
+        xdg-open "https://github.com/settings/tokens/new?scopes=repo,read:org,workflow&description=git-sync" &
+    elif command -v sensible-browser &>/dev/null; then
+        sensible-browser "https://github.com/settings/tokens/new?scopes=repo,read:org,workflow&description=git-sync" &
+    elif command -v gnome-open &>/dev/null; then
+        gnome-open "https://github.com/settings/tokens/new?scopes=repo,read:org,workflow&description=git-sync" &
+    elif command -v firefox &>/dev/null; then
+        firefox "https://github.com/settings/tokens/new?scopes=repo,read:org,workflow&description=git-sync" &
+    elif command -v chromium-browser &>/dev/null; then
+        chromium-browser "https://github.com/settings/tokens/new?scopes=repo,read:org,workflow&description=git-sync" &
+    elif command -v google-chrome &>/dev/null; then
+        google-chrome "https://github.com/settings/tokens/new?scopes=repo,read:org,workflow&description=git-sync" &
+    fi
+
     echo -ne "${A}  Token GitHub:${R} "
     read -rs _token
     echo ""
