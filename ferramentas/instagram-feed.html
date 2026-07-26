@@ -674,6 +674,30 @@
         </div>
 
         <div style="border-top:1px solid var(--border);padding-top:14px;">
+          <label>Terminal / Logs (tempo real)</label>
+          <div id="terminalBox" style="
+            background: #1a1a2e;
+            border-radius: 8px;
+            padding: 12px;
+            height: 200px;
+            overflow-y: auto;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.72rem;
+            line-height: 1.6;
+            color: #a0e7a0;
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.3);
+          ">
+            <div id="terminalContent" style="white-space:pre-wrap;word-break:break-all;"></div>
+          </div>
+          <div style="display:flex;gap:6px;margin-top:6px;">
+            <button class="btn btn-outline" onclick="clearTerminal()" style="padding:5px 10px;font-size:0.7rem;">Limpar</button>
+            <span id="terminalStatus" style="font-size:0.68rem;color:var(--text-dim);display:flex;align-items:center;gap:4px;">
+              <span class="status-dot" id="terminalDot"></span> Aguardando...
+            </span>
+          </div>
+        </div>
+
+        <div style="border-top:1px solid var(--border);padding-top:14px;">
           <label>Baixar Resumo de Qualquer Perfil</label>
           <div style="font-size:0.72rem;color:var(--text-dim);margin-bottom:8px;">Busca o perfil pelo nome da pagina ou ID numerico e baixa um JSON com dados do perfil + posts recentes.</div>
           <div style="display:flex;gap:8px;">
@@ -724,7 +748,71 @@
 
   <script>
     const API_BASE = 'https://graph.facebook.com/v18.0';
+    const SERVER_BASE = window.location.origin;
     let feedData = [];
+
+    function termLog(msg) {
+      const el = document.getElementById('terminalContent');
+      const ts = new Date().toLocaleTimeString('pt-BR');
+      const line = document.createElement('div');
+      line.textContent = '[' + ts + '] ' + msg;
+      line.style.color = msg.includes('Erro') || msg.includes('error') ? '#ff6b6b' :
+                          msg.includes('ok') || msg.includes('Encontrado') || msg.includes('completo') ? '#a0e7a0' : '#c0d0e0';
+      el.appendChild(line);
+      const box = document.getElementById('terminalBox');
+      box.scrollTop = box.scrollHeight;
+    }
+
+    function termClear() {
+      document.getElementById('terminalContent').innerHTML = '';
+    }
+
+    function clearTerminal() {
+      termClear();
+      document.getElementById('terminalDot').className = 'status-dot';
+      document.getElementById('terminalStatus').querySelector('span:last-child') || null;
+      const spans = document.getElementById('terminalStatus').childNodes;
+      for (const s of spans) { if (s.nodeType === 3) s.textContent = ' Aguardando...'; }
+    }
+
+    function setTerminalState(state, text) {
+      const dot = document.getElementById('terminalDot');
+      dot.className = 'status-dot ' + state;
+      const statusEl = document.getElementById('terminalStatus');
+      const texts = statusEl.childNodes;
+      for (const t of texts) { if (t.nodeType === 3) t.textContent = ' ' + text; }
+    }
+
+    function connectSSE(url, onDone, onError) {
+      const es = new EventSource(url);
+      setTerminalState('loading', 'Conectando...');
+
+      es.addEventListener('log', function(e) {
+        const d = JSON.parse(e.data);
+        termLog(d.message);
+      });
+
+      es.addEventListener('done', function(e) {
+        es.close();
+        setTerminalState('ok', 'Concluido');
+        const data = JSON.parse(e.data);
+        if (onDone) onDone(data);
+      });
+
+      es.addEventListener('error', function(e) {
+        es.close();
+        setTerminalState('err', 'Erro');
+        if (onError) onError('Conexao SSE perdida');
+      });
+
+      es.onerror = function() {
+        es.close();
+        setTerminalState('err', 'Erro de conexao');
+        if (onError) onError('Nao foi possivel conectar ao servidor. Verifique se server.js esta rodando.');
+      };
+
+      return es;
+    }
 
     function setStatus(state, msg) {
       const dot = document.getElementById('statusDot');
@@ -767,60 +855,46 @@
       btn.disabled = true;
       spinner.classList.add('spinner-active');
       label.textContent = '...';
-      setStatus('loading', `Buscando "${query}" nas paginas Facebook...`);
+      setStatus('loading', 'Buscando "' + query + '"...');
+      termClear();
 
-      try {
-        const searchUrl = `${API_BASE}/pages/search?q=${encodeURIComponent(query)}&fields=id,name,instagram_business_account&access_token=${token}`;
-        const res = await fetch(searchUrl);
-        const data = await res.json();
+      const params = new URLSearchParams({ token, q: query });
+      const url = SERVER_BASE + '/api/search?' + params.toString();
 
-        if (data.error) throw new Error(data.error.message);
-
-        const pages = (data.data || []).filter(p => p.instagram_business_account && p.instagram_business_account.id);
-
-        if (!pages.length) {
-          resultsEl.style.display = 'block';
-          listEl.innerHTML = `<div style="font-size:0.78rem;color:var(--text-dim);padding:8px;">Nenhuma pagina com conta Instagram Business vinculada encontrada para "${query}". Tente outro nome.</div>`;
-          setStatus('err', 'Nenhum resultado com IG Business encontrado.');
-          return;
+      connectSSE(url,
+        function onDone(data) {
+          const pages = data.results || [];
+          if (!pages.length) {
+            resultsEl.style.display = 'block';
+            listEl.innerHTML = '<div style="font-size:0.78rem;color:var(--text-dim);padding:8px;">Nenhum resultado para "' + escapeHtml(query) + '".</div>';
+            setStatus('err', 'Nenhum resultado.');
+          } else {
+            setStatus('ok', pages.length + ' resultado(s) encontrado(s).');
+            listEl.innerHTML = pages.map(function(p) {
+              return '<div class="search-item" onclick="selectSearchResult(\'' + p.id + '\', \'' + escapeAttr(p.name) + '\', \'' + (p.pageId || '') + '\')">' +
+                '<div class="search-item-avatar">📸</div>' +
+                '<div class="search-item-info">' +
+                '<div class="search-item-name">' + escapeHtml(p.name) + '</div>' +
+                '<div class="search-item-id">IG: ' + p.id + (p.source ? ' | via ' + p.source : '') + '</div>' +
+                '</div>' +
+                '<div class="search-item-badge">Usar</div>' +
+                '</div>';
+            }).join('');
+            resultsEl.style.display = 'block';
+          }
+          btn.disabled = false;
+          spinner.classList.remove('spinner-active');
+          label.textContent = 'Buscar';
+        },
+        function onError(msg) {
+          setStatus('err', 'Erro: ' + msg);
+          termLog('ERRO: ' + msg);
+          resultsEl.style.display = 'none';
+          btn.disabled = false;
+          spinner.classList.remove('spinner-active');
+          label.textContent = 'Buscar';
         }
-
-        setStatus('ok', `${pages.length} pagina(s) com IG Business encontrada(s).`);
-
-        listEl.innerHTML = pages.map(p => {
-          const igId = p.instagram_business_account.id;
-          const pageId = p.id;
-          return `
-            <div class="search-item" onclick="selectSearchResult('${igId}', '${escapeAttr(p.name)}', '${pageId}')">
-              <div class="search-item-avatar">📸</div>
-              <div class="search-item-info">
-                <div class="search-item-name">${escapeHtml(p.name)}</div>
-                <div class="search-item-id">IG: ${igId} | Page: ${pageId}</div>
-              </div>
-              <div class="search-item-badge">Usar</div>
-            </div>
-          `;
-        }).join('');
-
-        resultsEl.style.display = 'block';
-
-      } catch (err) {
-        const msg = err.message || '';
-        let hint = '';
-        if (msg.includes('pages_read_engagement') || msg.includes('Page Public Content Access')) {
-          hint = '\n\nPara buscar paginas publicas, voce precisa:\n' +
-            '1. No painel do app, vá em Instagram > Configuracoes\n' +
-            '2. Solicite a permissao "Page Public Content Access"\n' +
-            '3. Ou use um token de Pagina que voce gerencia com pages_read_engagement\n\n' +
-            'Alternativa: cole diretamente o Instagram Business Account ID no campo acima.';
-        }
-        setStatus('err', 'Erro: ' + msg + hint);
-        resultsEl.style.display = 'none';
-      } finally {
-        btn.disabled = false;
-        spinner.classList.remove('spinner-active');
-        label.textContent = 'Buscar';
-      }
+      );
     }
 
     function selectSearchResult(igId, pageName, pageId) {
@@ -877,46 +951,38 @@
       btn.disabled = true;
       spinner.classList.add('spinner-active');
       btnLabel.textContent = 'Buscando...';
-      setStatus('loading', 'Conectando a API...');
+      setStatus('loading', 'Conectando ao servidor...');
+      termClear();
 
-      try {
-        let userId = document.getElementById('userIdInput').value.trim();
-        if (userId && !/^\d+$/.test(userId)) {
-          throw new Error(`"${userId}" nao e um ID valido. O Instagram Business Account ID deve ser numerico (ex: 17841400123456789). Nao use o @username. Deixe o campo vazio para auto-deteccao.`);
+      const userId = document.getElementById('userIdInput').value.trim();
+      const limit = document.getElementById('limitInput').value || 12;
+      const fields = document.getElementById('fieldsInput').value || 'id,caption,media_type,media_url,timestamp,like_count,comments_count';
+
+      const params = new URLSearchParams({ token, limit, fields });
+      if (userId) params.set('userId', userId);
+
+      const url = SERVER_BASE + '/api/feed?' + params.toString();
+
+      connectSSE(url,
+        function onDone(data) {
+          feedData = data.posts || [];
+          setStatus('ok', feedData.length + ' posts carregados.');
+          renderCards(feedData);
+          renderRawJson(data);
+          renderResumo(feedData);
+          renderTextareaSummary(data);
+          btn.disabled = false;
+          spinner.classList.remove('spinner-active');
+          btnLabel.textContent = 'Buscar Feed';
+        },
+        function onError(msg) {
+          setStatus('err', 'Erro: ' + msg);
+          termLog('ERRO: ' + msg);
+          btn.disabled = false;
+          spinner.classList.remove('spinner-active');
+          btnLabel.textContent = 'Buscar Feed';
         }
-        if (!userId) {
-          setStatus('loading', 'Detectando User ID via paginas...');
-          userId = await detectUserId(token);
-          document.getElementById('userIdInput').value = userId;
-        }
-
-        const limit = document.getElementById('limitInput').value || 12;
-        const fields = document.getElementById('fieldsInput').value || 'id,caption,media_type,media_url,timestamp,like_count,comments_count';
-
-        setStatus('loading', `Buscando ${limit} posts...`);
-
-        const url = `${API_BASE}/${userId}/media?fields=${fields}&limit=${limit}&access_token=${token}`;
-        const res = await fetch(url);
-        const data = await res.json();
-
-        if (data.error) throw new Error(data.error.message);
-
-        feedData = data.data || [];
-        setStatus('ok', `${feedData.length} posts carregados.`);
-
-        renderCards(feedData);
-        renderRawJson(data);
-        renderResumo(feedData);
-        renderTextareaSummary(feedData);
-
-      } catch (err) {
-        setStatus('err', 'Erro: ' + err.message);
-        document.getElementById('summaryArea').value = 'ERRO: ' + err.message;
-      } finally {
-        btn.disabled = false;
-        spinner.classList.remove('spinner-active');
-        btnLabel.textContent = 'Buscar Feed';
-      }
+      );
     }
 
     function renderCards(posts) {
@@ -1005,21 +1071,37 @@
       document.getElementById('resumoArea').value = txt;
     }
 
-    function renderTextareaSummary(posts) {
-      if (!posts.length) {
-        document.getElementById('summaryArea').value = 'Nenhum post encontrado.';
-        return;
+    function renderTextareaSummary(summary) {
+      if (summary.perfil) {
+        const p = summary.perfil;
+        const e = summary.estatisticas;
+        let txt = 'PERFIL\n';
+        txt += '  Username: @' + (p.username || '?') + '\n';
+        txt += '  Nome: ' + (p.nome || 'N/A') + '\n';
+        txt += '  Bio: ' + (p.bio || 'N/A') + '\n';
+        txt += '  Seguidores: ' + (p.seguidores || 0) + '\n';
+        txt += '  Seguindo: ' + (p.seguindo || 0) + '\n';
+        txt += '  Total posts: ' + (p.total_posts || 0) + '\n\n';
+        txt += 'ESTATISTICAS\n';
+        txt += '  Posts: ' + e.posts_baixados + '\n';
+        txt += '  Likes: ' + e.total_likes + ' total | ' + e.media_likes_por_post + ' media/post\n';
+        txt += '  Comentarios: ' + e.total_comentarios + ' total | ' + e.media_comentarios_por_post + ' media/post\n';
+        document.getElementById('summaryArea').value = txt;
+      } else {
+        const posts = summary;
+        if (!posts || !posts.length) {
+          document.getElementById('summaryArea').value = 'Nenhum post encontrado.';
+          return;
+        }
+        let txt = 'Feed Instagram - ' + posts.length + ' posts\n\n';
+        posts.forEach(function(p, i) {
+          const type = (p.media_type || 'IMAGE').toUpperCase();
+          const date = p.timestamp ? new Date(p.timestamp).toLocaleDateString('pt-BR') : 'N/D';
+          const caption = (p.caption || 'Sem legenda').substring(0, 100);
+          txt += (i+1) + '. [' + type + '] ' + date + ' | ❤' + (p.like_count || 0) + ' 💬' + (p.comments_count || 0) + '\n   ' + caption + '\n\n';
+        });
+        document.getElementById('summaryArea').value = txt;
       }
-
-      let txt = `Feed Instagram - ${posts.length} posts\n\n`;
-      posts.forEach((p, i) => {
-        const type = (p.media_type || 'IMAGE').toUpperCase();
-        const date = p.timestamp ? new Date(p.timestamp).toLocaleDateString('pt-BR') : 'N/D';
-        const caption = (p.caption || 'Sem legenda').substring(0, 100);
-        txt += `${i+1}. [${type}] ${date} | ❤${p.like_count ?? 0} 💬${p.comments_count ?? 0}\n   ${caption}\n\n`;
-      });
-
-      document.getElementById('summaryArea').value = txt;
     }
 
     function exportJSON() {

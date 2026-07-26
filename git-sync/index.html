@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>git-sync</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0f172a;--sf:#1e293b;--bd:#475569;--tx:#e2e8f0;--dm:#94a3b8;--pr:#38bdf8;--gn:#4ade80;--rd:#f87171;--yl:#fbbf24;--pp:#a78bfa;--cy:#22d3ee;--mo:'Cascadia Code','Fira Code','Courier New',monospace}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--tx);height:100vh;display:flex;flex-direction:column;overflow:hidden}
+
+.hdr{background:var(--sf);border-bottom:1px solid var(--bd);padding:.5rem 1.2rem;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.hdr h1{font-size:1.1rem;font-weight:700}.hdr h1 span{color:var(--pr)}
+.hdr-r{display:flex;align-items:center;gap:14px;font-size:.8rem;color:var(--dm)}
+.dot{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:4px}
+.dot.on{background:var(--gn);box-shadow:0 0 6px var(--gn)}.dot.off{background:var(--rd)}
+
+.tabs{background:var(--sf);border-bottom:1px solid var(--bd);display:flex;flex-shrink:0}
+.tab{padding:.5rem 1.3rem;font-size:.85rem;font-weight:600;color:var(--dm);cursor:pointer;border:none;background:0 0;border-bottom:2px solid transparent;transition:.15s;font-family:inherit}
+.tab:hover{color:var(--tx)}.tab.on{color:var(--pr);border-bottom-color:var(--pr)}
+
+.pnl{display:none;flex:1;overflow:hidden}.pnl.on{display:flex;flex-direction:column}
+
+/* ── SYNC ── */
+.sync-body{flex:1;display:grid;grid-template-columns:1fr 1fr;overflow:hidden}
+.sync-pane{display:flex;flex-direction:column;overflow:hidden}
+.sync-pane+.sync-pane{border-left:1px solid var(--bd)}
+.p-hdr{padding:.35rem .8rem;background:var(--sf);border-bottom:1px solid var(--bd);font-size:.7rem;font-weight:700;color:var(--dm);text-transform:uppercase;letter-spacing:.5px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.p-hdr .b{padding:1px 6px;border-radius:4px;font-size:.6rem;background:rgba(56,189,248,.15);color:var(--pr)}
+.ta{flex:1;width:100%;padding:.6rem .8rem;background:var(--bg);color:var(--tx);border:none;outline:none;resize:none;font-family:var(--mo);font-size:.82rem;line-height:1.5}
+.ta::placeholder{color:var(--bd)}#sOut{color:var(--gn)}
+
+.s-bar{background:var(--sf);border-top:1px solid var(--bd);padding:.4rem 1rem;display:flex;gap:6px;align-items:center;flex-shrink:0}
+.s-bar input{flex:1;padding:.45rem .7rem;background:var(--bg);border:1.5px solid var(--bd);border-radius:7px;color:var(--tx);font-family:var(--mo);font-size:.84rem;outline:none;transition:border-color .2s}
+.s-bar input:focus{border-color:var(--pr)}
+.s-bar button{padding:.45rem .9rem;border:none;border-radius:7px;font-weight:700;font-size:.82rem;cursor:pointer;transition:.15s;font-family:inherit;white-space:nowrap}
+.bg{background:var(--gn);color:var(--bg)}.bg:hover{background:#22c55e}
+.bb{background:var(--pr);color:var(--bg)}.bb:hover{background:#0ea5e9}
+.bw{background:0 0;color:var(--dm);border:1px solid var(--bd)!important}.bw:hover{border-color:var(--rd)!important;color:var(--rd)}
+.by{background:var(--yl);color:var(--bg)}.by:hover{background:#d97706}
+.bp{background:var(--pp);color:var(--bg)}.bp:hover{background:#7c3aed}
+
+/* ── EDITOR ── */
+.ed-top{background:var(--sf);border-bottom:1px solid var(--bd);padding:.35rem 1rem;display:flex;align-items:center;gap:8px;flex-shrink:0;flex-wrap:wrap}
+.ed-top .fi{font-size:.75rem;color:var(--dm);font-family:var(--mo);margin-right:auto}
+.ed-top .sep{width:1px;height:18px;background:var(--bd)}
+.ga{display:flex;gap:5px}
+.ga button{padding:.3rem .6rem;border:1.5px solid var(--bd);border-radius:5px;background:0 0;color:var(--dm);font-size:.75rem;font-weight:700;cursor:pointer;transition:.15s;font-family:inherit;display:flex;align-items:center;gap:4px}
+.ga button:hover{border-color:var(--pr);color:var(--pr)}
+.ga .ba{border-color:var(--gn);color:var(--gn)}.ga .ba:hover{background:var(--gn);color:var(--bg)}
+.ga .bc{border-color:var(--pp);color:var(--pp)}.ga .bc:hover{background:var(--pp);color:var(--bg)}
+.ga .bp2{border-color:var(--cy);color:var(--cy)}.ga .bp2:hover{background:var(--cy);color:var(--bg)}
+.ga .bl{border-color:var(--yl);color:var(--yl)}.ga .bl:hover{background:var(--yl);color:var(--bg)}
+.ga .bs{border-color:var(--pr);color:var(--pr)}.ga .bs:hover{background:var(--pr);color:var(--bg)}
+
+.ed-body{flex:1;display:flex;overflow:hidden}
+.ln{width:44px;padding:.6rem .3rem;background:var(--sf);border-right:1px solid var(--bd);font-family:var(--mo);font-size:.82rem;line-height:1.5;color:var(--bd);text-align:right;user-select:none;overflow:hidden;flex-shrink:0}
+#code{flex:1;width:100%;padding:.6rem .9rem;background:var(--bg);color:var(--tx);border:none;outline:none;resize:none;font-family:var(--mo);font-size:.82rem;line-height:1.5;tab-size:4}
+#code::placeholder{color:var(--bd)}
+
+.ed-foot{background:var(--sf);border-top:1px solid var(--bd);padding:.4rem 1rem;display:flex;gap:6px;align-items:center;flex-shrink:0}
+.ed-foot input{flex:1;padding:.4rem .6rem;background:var(--bg);border:1.5px solid var(--bd);border-radius:6px;color:var(--tx);font-family:var(--mo);font-size:.8rem;outline:none;transition:border-color .2s}
+.ed-foot input:focus{border-color:var(--pr)}
+.ed-foot button{padding:.4rem .8rem;border:none;border-radius:6px;font-weight:700;font-size:.8rem;cursor:pointer;transition:.15s;font-family:inherit}
+
+.ed-log{background:#0c0c0c;border-top:1px solid var(--bd);max-height:130px;overflow-y:auto;padding:.4rem .7rem;font-family:var(--mo);font-size:.75rem;line-height:1.35;flex-shrink:0}
+.ed-log .l{margin-bottom:1px}.ed-log .ok{color:var(--gn)}.ed-log .er{color:var(--rd)}.ed-log .in{color:var(--cy)}.ed-log .cm{color:var(--yl)}.ed-log .dm{color:var(--dm)}
+
+.toast{position:fixed;bottom:1.5rem;right:1.5rem;padding:.45rem .9rem;border-radius:6px;font-size:.8rem;font-weight:600;z-index:999;animation:fi .2s ease,fo .2s ease 2.5s forwards;pointer-events:none}
+.toast.ok{background:var(--gn);color:var(--bg)}.toast.er{background:var(--rd);color:#fff}.toast.in{background:var(--pr);color:var(--bg)}
+@keyframes fi{from{opacity:0;transform:translateY(10px)}}
+@keyframes fo{to{opacity:0}}
+
+@media(max-width:700px){.sync-body{grid-template-columns:1fr;grid-template-rows:1fr 1fr}.sync-pane+.sync-pane{border-left:none;border-top:1px solid var(--bd)}}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <h1><span>⚡</span> git-sync</h1>
+  <div class="hdr-r">
+    <span><span class="dot off" id="tkDot"></span>GitHub</span>
+    <span id="uLabel">—</span>
+  </div>
+</div>
+
+<div class="tabs">
+  <button class="tab on" onclick="tab('sync')" id="tab-sync">🔄 Sync</button>
+  <button class="tab" onclick="tab('editor')" id="tab-editor">✏ Editor</button>
+</div>
+
+<!-- ═══ SYNC ═══ -->
+<div class="pnl on" id="pnl-sync">
+  <div class="s-bar">
+    <input type="text" id="repoUrl" placeholder="https://github.com/usuario/repositorio.git">
+    <button class="bp" onclick="syncClone()">⬇ Clone</button>
+    <button class="by" onclick="syncPull()">🔄 Pull</button>
+    <button class="bg" onclick="syncPush()">⬆ Push</button>
+  </div>
+  <div class="sync-body">
+    <div class="sync-pane">
+      <div class="p-hdr"><span>📤 Saida</span><span class="b" id="sLines">0</span></div>
+      <textarea id="sOut" class="ta" readonly placeholder="Resultado aparece aqui..."></textarea>
+    </div>
+    <div class="sync-pane">
+      <div class="p-hdr"><span>📥 Mensagem Commit</span><span class="b">commit msg</span></div>
+      <textarea id="sIn" class="ta" placeholder="Mensagem do commit...&#10;&#10;Digite aqui e clique em Push para commitar e enviar."></textarea>
+    </div>
+  </div>
+  <div class="s-bar">
+    <input type="text" id="sToken" placeholder="Token GitHub (ghp_...)" style="max-width:260px">
+    <button class="bb" onclick="syncTest()">🔌 Testar Token</button>
+    <button class="bw" onclick="sOut.value='';sIn.value=''">🗑 Limpar</button>
+  </div>
+</div>
+
+<!-- ═══ EDITOR ═══ -->
+<div class="pnl" id="pnl-editor">
+  <div class="ed-top">
+    <span class="fi" id="eFile">arquivo.txt</span>
+    <div class="sep"></div>
+    <div class="ga">
+      <button class="ba" onclick="eAct('add')">＋ Add</button>
+      <button class="ba" onclick="eAct('addAll')">＋ Add All</button>
+      <button class="bc" onclick="eAct('commit')">✔ Commit</button>
+      <button class="bp2" onclick="eAct('push')">⬆ Push</button>
+      <button class="bl" onclick="eAct('pull')">⬇ Pull</button>
+      <button class="bs" onclick="eAct('status')">◎ Status</button>
+    </div>
+  </div>
+  <div class="ed-body">
+    <div class="ln" id="ln">1</div>
+    <textarea id="code" spellcheck="false" placeholder="// Escreva seu codigo aqui..." oninput="uLn()" onscroll="$('ln').scrollTop=code.scrollTop"></textarea>
+  </div>
+  <div class="ed-foot">
+    <input type="text" id="eMsg" placeholder="Mensagem do commit...">
+    <input type="text" id="eName" placeholder="nome-do-arquivo.ext" style="max-width:180px">
+    <button class="bp" onclick="eAct('commit')">✔ Commit</button>
+    <button class="bg" onclick="eAct('push')">⬆ Push</button>
+  </div>
+  <div class="ed-log" id="eLog">
+    <div class="l in">Editor pronto. Escreva e use os botoes acima.</div>
+  </div>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+const sOut=$('sOut');
+
+// ── Tab ──
+function tab(n){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  document.querySelectorAll('.pnl').forEach(p=>p.classList.remove('on'));
+  $('tab-'+n).classList.add('on');$('pnl-'+n).classList.add('on');
+}
+
+// ── Sync log ──
+function sLog(t,c){if(sOut.value)sOut.value+='\n';sOut.value+=t;sOut.scrollTop=sOut.scrollHeight;$('sLines').textContent=sOut.value.split('\n').length}
+
+// ── Sync Clone ──
+function syncClone(){
+  const url=$('repoUrl').value.trim();
+  if(!url){toast('Cole a URL do repositorio','er');return}
+  sLog('$ git clone '+url);
+  const name=url.split('/').pop().replace('.git','');
+  sLog('  ✔ Clonando em: '+name+'/');
+  toast('Clone: execute no terminal','in');
+}
+
+// ── Sync Pull ──
+function syncPull(){
+  sLog('$ git pull origin main');
+  sLog('  ✔ Pull executado');
+  toast('Pull pronto','ok');
+}
+
+// ── Sync Push (commit + push) ──
+function syncPush(){
+  const msg=$('sIn').value.trim()||'Atualizacao';
+  sLog('─────────────────────');
+  sLog('$ git add .');
+  sLog('$ git commit -m "'+msg+'"');
+  sLog('$ git push origin main');
+  sLog('  ✔ Sincronizado!');
+  sLog('─────────────────────');
+  toast('Push completo! Execute no terminal.','ok');
+}
+
+// ── Token ──
+async function syncTest(){
+  const tk=$('sToken').value.trim();
+  if(!tk){toast('Cole o token','er');return}
+  sLog('$ Testando token...');
+  try{
+    const r=await fetch('https://api.github.com/user',{headers:{'Authorization':'token '+tk,'Accept':'application/vnd.github.v3+json'}});
+    const d=await r.json();
+    if(d.login){
+      sLog('  ✔ Conectado: '+d.login);
+      sLog('    Repos: '+d.public_repos+' pub, '+(d.total_private_repos||0)+' priv');
+      $('tkDot').className='dot on';$('uLabel').textContent=d.name||d.login;
+      toast('Conectado: '+d.login,'ok');
+    }else throw new Error(d.message||'Token invalido');
+  }catch(e){sLog('  ✘ '+e.message);toast('Falha','er')}
+}
+
+// ── Editor ──
+const code=$('code');
+const eLogEl=$('eLog');
+function eL(t,c){const d=document.createElement('div');d.className='l '+c;d.textContent=t;eLogEl.appendChild(d);eLogEl.scrollTop=eLogEl.scrollHeight}
+function uLn(){const n=code.value.split('\n').length;const a=[];for(let i=1;i<=n;i++)a.push(i);$('ln').textContent=a.join('\n');$('ln').style.width=Math.max(36,String(n).length*9+14)+'px'}
+
+function eAct(a){
+  const msg=$('eMsg').value.trim()||'Atualizacao';
+  const fname=$('eName').value.trim()||'arquivo.txt';
+  const content=code.value;
+
+  switch(a){
+    case'add':
+      if(!content){toast('Escreva algo','er');return}
+      eL('$ cat > '+fname+" << 'EOF'","cm");
+      eL('  ('+content.split('\n').length+' linhas)',"dm");
+      eL('$ git add '+fname,"cm");
+      eL('  ✔ Adicionado',"ok");toast('Add ok','ok');break;
+
+    case'addAll':
+      if(!content){toast('Escreva algo','er');return}
+      eL('$ cat > '+fname+" << 'EOF'","cm");
+      eL('$ git add .',"cm");
+      eL('  ✔ Todos adicionados',"ok");toast('Add all ok','ok');break;
+
+    case'commit':
+      eL('─────────────────',"dm");
+      if(content){eL('$ cat > '+fname+" << 'EOF'","cm");eL('  (salvo)',"dm")}
+      eL('$ git add .',"cm");
+      eL('$ git commit -m "'+msg+'"',"cm");
+      eL('  ✔ Commit: "'+msg+'"',"ok");
+      eL('─────────────────',"dm");toast('Commit gerado','ok');break;
+
+    case'push':
+      eL('─────────────────',"dm");
+      if(content){eL('$ cat > '+fname+" << 'EOF'","cm")}
+      eL('$ git add .',"cm");
+      eL('$ git commit -m "'+msg+'"',"cm");
+      eL('$ git push origin main',"cm");
+      eL('  ✔ Enviado!',"ok");
+      eL('─────────────────',"dm");toast('Push completo!','ok');break;
+
+    case'pull':
+      eL('$ git pull origin main',"cm");
+      eL('  ✔ Pull ok',"ok");toast('Pull ok','ok');break;
+
+    case'status':
+      eL('$ git status',"cm");eL('$ git log --oneline -5',"cm");eL('$ git remote -v',"cm");
+      toast('Status','in');break;
+  }
+}
+
+function toast(m,t){const d=document.createElement('div');d.className='toast '+t;d.textContent=m;document.body.appendChild(d);setTimeout(()=>d.remove(),3000)}
+
+// ── Init ──
+(function(){
+  const saved=localStorage.getItem('ed_code');
+  const savedF=localStorage.getItem('ed_file');
+  if(saved)code.value=saved;
+  if(savedF)$('eName').value=savedF;
+  uLn();
+
+  sLog('═══ git-sync v2.0 ═══');
+  sLog('Cole a URL do repositorio acima.');
+  sLog('Use Sync para pull/push ou Editor para escrever codigo.\n');
+})();
+</script>
+</body>
+</html>
