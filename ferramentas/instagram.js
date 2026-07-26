@@ -614,6 +614,41 @@ async function cmdPerfil() {
     }
   }
 
+  const pasteIdx = process.argv.indexOf('--paste');
+  if (pasteIdx >= 0) {
+    const pasteUser = process.argv[pasteIdx + 1];
+    console.log('\n--- Colar JSON manual ---\n');
+    console.log('Cole o JSON completo (result of the browser command) and press Enter twice:\n');
+
+    const readline = require('readline');
+    const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+    let lines = [];
+
+    return new Promise((resolve) => {
+      rl.on('line', (line) => {
+        if (line.trim() === '' && lines.length > 0 && lines[lines.length - 1].trim() === '') {
+          rl.close();
+          return;
+        }
+        lines.push(line);
+      });
+      rl.on('close', () => {
+        const json = lines.join('\n');
+        try {
+          const data = JSON.parse(json);
+          const userData = data.data?.user || data.user || data;
+          if (!userData.username) { console.error('[erro] Formato invalido: campo username nao encontrado.'); resolve(); return; }
+          const maxPosts = getArg('--posts') ? parseInt(getArg('--posts'), 10) || 25 : 25;
+          processUser(userData, maxPosts);
+          resolve();
+        } catch (err) {
+          console.error(`[erro] JSON invalido: ${err.message}`);
+          resolve();
+        }
+      });
+    });
+  }
+
   const args = getPositionalArgs();
   const usernameIdx = args.indexOf('perfil') >= 0 ? args.indexOf('perfil') + 1 : 1;
   const username = args[usernameIdx] || getArg('perfil');
@@ -1002,6 +1037,30 @@ function startSSE(res) {
 
 async function handleApiPerfil(req, res) {
   const url = new URL(req.url, `http://localhost:${SERVER_PORT}`);
+
+  if (req.method === 'POST') {
+    let body = '';
+    for await (const chunk of req) body += chunk;
+    try {
+      const userData = JSON.parse(body);
+      if (!userData.username) return jsonResponse(res, { error: 'Campo username nao encontrado no JSON' }, 400);
+
+      console.log(`  [api] JSON manual @${userData.username}...`);
+      const summary = buildSummary(userData, 25);
+
+      const filename = `instagram-${summary.perfil.username}-resumo.json`;
+      const htmlFilename = `instagram-${summary.perfil.username}-feed.html`;
+      fs.writeFileSync(path.join(DIR, filename), JSON.stringify(summary, null, 2), 'utf-8');
+      fs.writeFileSync(path.join(DIR, htmlFilename), generateHtml(summary), 'utf-8');
+
+      console.log(`  [api] OK: @${summary.perfil.username}`);
+      jsonResponse(res, { ok: true, summary, files: { json: filename, html: htmlFilename } });
+    } catch (err) {
+      jsonResponse(res, { error: err.message }, 400);
+    }
+    return;
+  }
+
   const username = url.searchParams.get('username');
   const posts = parseInt(url.searchParams.get('posts') || '25', 10);
 
@@ -1161,6 +1220,58 @@ async function handleApiCleanup(req, res) {
   jsonResponse(res, { ok: true, removed, dryRun });
 }
 
+async function handleApiIgProxy(req, res) {
+  const url = new URL(req.url, `http://localhost:${SERVER_PORT}`);
+  const username = url.searchParams.get('username');
+  if (!username) return jsonResponse(res, { error: 'username obrigatorio' }, 400);
+
+  const clean = username.replace(/^@/, '');
+  console.log(`  [api] IG proxy @${clean}...`);
+
+  try {
+    const igRes = await fetch('https://www.instagram.com/api/v1/users/web_profile_info/?username=' + encodeURIComponent(clean), {
+      headers: {
+        'X-IG-App-ID': '936619743392459',
+        'User-Agent': 'Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36',
+      },
+    });
+
+    if (!igRes.ok) return jsonResponse(res, { error: 'Instagram retornou HTTP ' + igRes.status }, 400);
+
+    const data = await igRes.json();
+    const user = data.data?.user;
+    if (!user) return jsonResponse(res, { error: 'Perfil nao encontrado' }, 404);
+
+    const simplified = {
+      username: user.username,
+      full_name: user.full_name,
+      followed_by_viewer_count: user.edge_followed_by?.count,
+      follows_viewer_count: user.edge_follow?.count,
+      profile_pic_url_hd: user.profile_pic_url_hd,
+      is_private: user.is_private,
+      is_verified: user.is_verified,
+      edge_owner_to_timeline_media: {
+        count: user.edge_owner_to_timeline_media?.count,
+        edges: (user.edge_owner_to_timeline_media?.edges || []).map(e => ({
+          node: {
+            shortcode: e.node.shortcode,
+            display_url: e.node.display_url,
+            edge_media_to_caption: e.node.edge_media_to_caption,
+            edge_media_preview_like: e.node.edge_media_preview_like,
+            taken_at_timestamp: e.node.taken_at_timestamp,
+            typename: e.node.__typename,
+          },
+        })),
+      },
+    };
+
+    console.log(`  [api] IG proxy OK: @${clean}`);
+    jsonResponse(res, simplified);
+  } catch (err) {
+    jsonResponse(res, { error: err.message }, 500);
+  }
+}
+
 function startServer() {
   const PORT = parseInt(process.env.INSTAGRAM_PORT || '18925', 10);
 
@@ -1183,6 +1294,7 @@ function startServer() {
     if (pathname === '/api/token-status') return handleApiTokenStatus(req, res);
     if (pathname === '/api/cleanup') return handleApiCleanup(req, res);
     if (pathname === '/api/env') return handleApiEnv(req, res);
+    if (pathname === '/api/ig-proxy') return handleApiIgProxy(req, res);
 
     let filePath = pathname === '/' ? '/instagram-ui.html' : pathname;
     const fullPath = path.join(DIR, filePath);

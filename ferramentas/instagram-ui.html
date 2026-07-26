@@ -516,6 +516,9 @@ input::placeholder { color: #bbb; }
       <button class="nav-item active" onclick="switchTab('perfil', this)">
         <span class="nav-icon">🔍</span> Perfil Publico
       </button>
+      <button class="nav-item" onclick="switchTab('json', this)">
+        <span class="nav-icon">📋</span> JSON Manual
+      </button>
       <button class="nav-item" onclick="switchTab('posts', this)">
         <span class="nav-icon">📷</span> Postagens
       </button>
@@ -574,6 +577,58 @@ input::placeholder { color: #bbb; }
         </div>
 
         <div id="perfilResult"></div>
+      </div>
+
+      <!-- ═══ JSON MANUAL ═══ -->
+      <div class="panel" id="panel-json">
+        <div class="card">
+          <h3>Extrair via JSON Manual</h3>
+          <p style="font-size:0.8rem;color:var(--muted);margin-bottom:14px;">
+            Busque o JSON do perfil automaticamente ou cole manualmente.
+          </p>
+
+          <div class="form-row">
+            <div class="form-group" style="flex:2;">
+              <label>Username do Instagram</label>
+              <input type="text" id="jsonUsername" placeholder="Ex: waroha" oninput="updateJsonCmd()" onkeydown="if(event.key==='Enter')buscarIgJson()">
+            </div>
+            <div class="form-group" style="flex:0 0 auto;display:flex;align-items:flex-end;">
+              <button class="btn btn-primary" id="igFetchBtn" onclick="buscarIgJson()" style="white-space:nowrap;">
+                <span class="spinner" id="igFetchSpinner"></span>
+                📲 Buscar Instagram
+              </button>
+            </div>
+          </div>
+
+          <div id="igFetchStatus" style="margin-bottom:10px;font-size:0.8rem;"></div>
+
+          <details style="margin-bottom:14px;">
+            <summary style="font-size:0.78rem;color:var(--dim);cursor:pointer;">Como funciona (clique para ver)</summary>
+            <div class="card" style="background:#f8f9fa;border:1px solid var(--border);padding:14px;margin-top:8px;">
+              <ol style="font-size:0.8rem;color:var(--muted);padding-left:18px;line-height:1.8;">
+                <li>Clique em <strong>Buscar Instagram</strong> acima</li>
+                <li>O sistema busca o JSON automaticamente</li>
+                <li>Clique em <strong>Processar</strong> abaixo</li>
+              </ol>
+              <p style="font-size:0.75rem;color:var(--dim);margin-top:8px;">Se a busca automatica falhar, voce pode colar o JSON manualmente abaixo.</p>
+            </div>
+          </details>
+
+          <div class="form-group">
+            <label>JSON do perfil</label>
+            <textarea id="jsonInput" placeholder='O JSON sera preenchido automaticamente apos a busca, ou cole manualmente...' style="width:100%;height:180px;padding:10px;font-family:monospace;font-size:0.75rem;border:1px solid var(--border);border-radius:6px;resize:vertical;background:#fafafa;"></textarea>
+          </div>
+
+          <div class="btn-group">
+            <button class="btn btn-primary" id="jsonBtn" onclick="processarJson()">
+              <span class="spinner" id="jsonSpinner"></span>
+              Processar
+            </button>
+            <button class="btn btn-secondary" onclick="document.getElementById('jsonInput').value=''">Limpar</button>
+          </div>
+
+          <div id="jsonResult" style="margin-top:12px;"></div>
+        </div>
       </div>
 
       <!-- ═══ POSTAGENS ═══ -->
@@ -774,6 +829,7 @@ function switchTab(name, el) {
 
   const titles = {
     perfil: 'Perfil Publico',
+    json: 'JSON Manual',
     posts: 'Postagens',
     feed: 'Feed (Graph API)',
     accounts: 'Contas',
@@ -823,27 +879,48 @@ async function buscarPerfil() {
   const posts = document.getElementById('perfilPosts').value || 25;
   if (!username) { setStatus('err', 'Digite um username'); return; }
 
+  const clean = username.replace(/^@/, '');
   setLoading('perfilBtn', 'perfilSpinner', true);
   setStatus('warn', 'Buscando...');
-  term('Buscando perfil @' + username + ' (' + posts + ' posts)...');
+  term('Buscando perfil @' + clean + ' (' + posts + ' posts)...');
 
   try {
-    const res = await fetch(API + '/api/perfil?username=' + encodeURIComponent(username) + '&posts=' + posts);
+    const igRes = await fetch('https://www.instagram.com/api/v1/users/web_profile_info/?username=' + encodeURIComponent(clean), {
+      headers: { 'X-IG-App-ID': '936619743392459' },
+    });
+
+    if (igRes.ok) {
+      const igData = await igRes.json();
+      const userData = igData.data?.user;
+      if (userData) {
+        const summary = buildSummaryClient(userData, parseInt(posts));
+        termOk('OK (client): @' + summary.perfil.username + ' (' + summary.estatisticas.posts_baixados + ' posts)');
+        setStatus('ok', '@' + summary.perfil.username);
+        renderPerfilResult(summary);
+        return;
+      }
+    }
+  } catch {}
+
+  term('API mobile bloqueada. Tentando servidor...');
+  try {
+    const res = await fetch(API + '/api/perfil?username=' + encodeURIComponent(clean) + '&posts=' + posts);
     const data = await res.json();
 
     if (data.error) {
       termErr('Erro: ' + data.error);
       setStatus('err', 'Erro');
-      document.getElementById('perfilResult').innerHTML = '<div class="card"><div class="empty"><div class="icon">⚠️</div><p>' + escapeHtml(data.error) + '</p></div></div>';
+      document.getElementById('perfilResult').innerHTML = '<div class="card"><div class="empty"><div class="icon">⚠️</div><p>' + escapeHtml(data.error) + ' — Use a aba <strong>JSON Manual</strong> para extrair manualmente.</p></div></div>';
     } else {
       const s = data.summary;
-      termOk('OK: @' + s.perfil.username + ' (' + s.estatisticas.posts_baixados + ' posts)');
+      termOk('OK (server): @' + s.perfil.username + ' (' + s.estatisticas.posts_baixados + ' posts)');
       setStatus('ok', '@' + s.perfil.username);
       renderPerfilResult(s, data.files);
     }
   } catch (err) {
-    termErr('Falha: ' + err.message);
-    setStatus('err', 'Erro de conexao');
+    termErr('Servidor indisponivel. Use a aba JSON Manual.');
+    setStatus('err', 'Sem conexao');
+    document.getElementById('perfilResult').innerHTML = '<div class="card"><div class="empty"><div class="icon">⚠️</div><p>Servidor offline e API bloqueada.<br>Use a aba <strong>JSON Manual</strong> para extrair o perfil pelo navegador.</p></div></div>';
   } finally {
     setLoading('perfilBtn', 'perfilSpinner', false);
   }
@@ -923,27 +1000,48 @@ async function buscarPosts() {
   const count = document.getElementById('postsCount').value || 25;
   if (!username) { setStatus('err', 'Digite um username'); return; }
 
+  const clean = username.replace(/^@/, '');
   setLoading('postsBtn', 'postsSpinner', true);
   setStatus('warn', 'Buscando...');
-  term('Buscando postagens de @' + username + ' (' + count + ')...');
+  term('Buscando postagens de @' + clean + ' (' + count + ')...');
 
   try {
-    const res = await fetch(API + '/api/perfil?username=' + encodeURIComponent(username) + '&posts=' + count);
+    const igRes = await fetch('https://www.instagram.com/api/v1/users/web_profile_info/?username=' + encodeURIComponent(clean), {
+      headers: { 'X-IG-App-ID': '936619743392459' },
+    });
+
+    if (igRes.ok) {
+      const igData = await igRes.json();
+      const userData = igData.data?.user;
+      if (userData) {
+        const summary = buildSummaryClient(userData, parseInt(count));
+        termOk('@' + summary.perfil.username + ': ' + summary.posts.length + ' postagens (client)');
+        setStatus('ok', summary.posts.length + ' posts');
+        renderPostsResult(summary.perfil, summary.posts);
+        return;
+      }
+    }
+  } catch {}
+
+  term('API mobile bloqueada. Tentando servidor...');
+  try {
+    const res = await fetch(API + '/api/perfil?username=' + encodeURIComponent(clean) + '&posts=' + count);
     const data = await res.json();
 
     if (data.error) {
       termErr('Erro: ' + data.error);
       setStatus('err', 'Erro');
-      document.getElementById('postsResult').innerHTML = '<div class="card"><div class="empty"><div class="icon">⚠️</div><p>' + escapeHtml(data.error) + '</p></div></div>';
+      document.getElementById('postsResult').innerHTML = '<div class="card"><div class="empty"><div class="icon">⚠️</div><p>' + escapeHtml(data.error) + ' — Use a aba <strong>JSON Manual</strong>.</p></div></div>';
     } else {
       const posts = data.summary.posts || [];
-      termOk('@' + data.summary.perfil.username + ': ' + posts.length + ' postagens');
+      termOk('@' + data.summary.perfil.username + ': ' + posts.length + ' postagens (server)');
       setStatus('ok', posts.length + ' posts');
       renderPostsResult(data.summary.perfil, posts);
     }
   } catch (err) {
-    termErr('Falha: ' + err.message);
-    setStatus('err', 'Erro de conexao');
+    termErr('Servidor indisponivel. Use a aba JSON Manual.');
+    setStatus('err', 'Sem conexao');
+    document.getElementById('postsResult').innerHTML = '<div class="card"><div class="empty"><div class="icon">⚠️</div><p>Use a aba <strong>JSON Manual</strong> para extrair postagens.</p></div></div>';
   } finally {
     setLoading('postsBtn', 'postsSpinner', false);
   }
@@ -1260,19 +1358,131 @@ async function salvarEnv() {
   }
 }
 
+// ─── JSON Manual ─────────────────────────────────────────────────────────────
+
+const JSON_FETCH_CMD = 'fetch("/api/v1/users/web_profile_info/?username=USERNAME", {headers:{"X-IG-App-ID":"936619743392459"}}).then(r=>r.json()).then(d=>{const u=d.data.user;const o={username:u.username,full_name:u.full_name,followed_by_viewer_count:u.edge_followed_by.count,follows_viewer_count:u.edge_follow.count,profile_pic_url_hd:u.profile_pic_url_hd,is_private:u.is_private,is_verified:u.is_verified,edge_owner_to_timeline_media:{count:u.edge_owner_to_timeline_media.count,edges:u.edge_owner_to_timeline_media.edges.map(e=>({node:{shortcode:e.node.shortcode,display_url:e.node.display_url,edge_media_to_caption:{edges:e.node.edge_media_to_caption.edges},edge_media_preview_like:{count:e.node.edge_media_preview_like.count},taken_at_timestamp:e.node.taken_at_timestamp,typename:e.node.__typename}}))}};console.log(JSON.stringify(o,null,2))})';
+
+function updateJsonCmd() {
+  const user = document.getElementById('jsonUsername').value.trim() || 'USERNAME';
+  document.getElementById('jsonStep1').textContent = 'https://www.instagram.com/' + user + '/';
+  document.getElementById('jsonCommand').textContent = JSON_FETCH_CMD.replace(/USERNAME/g, user);
+}
+
+async function copyJsonCmd() {
+  const text = document.getElementById('jsonCommand').textContent;
+  try { await navigator.clipboard.writeText(text); termOk('Comando copiado'); } catch { termErr('Falha ao copiar'); }
+}
+
+function buildSummaryClient(user, maxPosts) {
+  const edgePosts = user.edge_owner_to_timeline_media || user.edge_felix_timeline || { edges: [] };
+  const posts = (edgePosts.edges || []).slice(0, maxPosts).map(e => {
+    const node = e.node || e;
+    const caption = node.edge_media_to_caption?.edges?.[0]?.node?.text || null;
+    return {
+      id: node.id || null,
+      shortcode: node.shortcode || null,
+      data: node.taken_at_timestamp ? new Date(node.taken_at_timestamp * 1000).toISOString() : null,
+      legenda: caption,
+      tipo: node.is_video ? 'VIDEO' : (node.__typename || 'IMAGE'),
+      likes: node.edge_liked_by?.count ?? node.edge_media_preview_like?.count ?? 0,
+      comentarios: node.edge_media_to_comment?.count ?? 0,
+      views: node.video_view_count || null,
+      url: node.shortcode ? 'https://www.instagram.com/p/' + node.shortcode + '/' : null,
+      thumbnail: node.thumbnail_src || node.display_url || null,
+      hashtags: (caption?.match(/#[\w\u00C0-\u024F]+/g) || []),
+      mencoes: (caption?.match(/@[\w.]+/g) || []),
+    };
+  });
+
+  const totalLikes = posts.reduce((s, p) => s + p.likes, 0);
+  const totalComments = posts.reduce((s, p) => s + p.comentarios, 0);
+
+  const allHashtags = {};
+  posts.forEach(p => p.hashtags.forEach(t => { allHashtags[t] = (allHashtags[t] || 0) + 1; }));
+  const topHashtags = Object.entries(allHashtags)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 20)
+    .map(([tag, count]) => ({ tag, vezes: count }));
+
+  return {
+    perfil: {
+      username: user.username,
+      nome: user.full_name || null,
+      bio: user.biography || null,
+      seguidores: user.edge_followed_by?.count ?? user.follower_count ?? null,
+      seguindo: user.edge_follow?.count ?? user.following_count ?? null,
+      total_posts: user.edge_owner_to_timeline_media?.count ?? user.media_count ?? null,
+      eh_business: user.is_business ?? user.is_business_account ?? null,
+      categoria: user.business_category_name || user.category_name || null,
+      url_perfil: user.profile_pic_url_hd || user.profile_pic_url || null,
+      url: 'https://www.instagram.com/' + user.username + '/',
+      verificado: user.is_verified ?? null,
+    },
+    estatisticas: {
+      posts_baixados: posts.length,
+      total_likes: totalLikes,
+      total_comentarios: totalComments,
+      media_likes_por_post: posts.length ? +(totalLikes / posts.length).toFixed(1) : 0,
+      media_comentarios_por_post: posts.length ? +(totalComments / posts.length).toFixed(1) : 0,
+    },
+    hashtags_mais_usadas: topHashtags,
+    posts,
+    buscado_em: new Date().toISOString(),
+  };
+}
+
+function processarJson() {
+  const username = document.getElementById('jsonUsername').value.trim();
+  const raw = document.getElementById('jsonInput').value.trim();
+
+  if (!username) { setStatus('err', 'Digite o username'); return; }
+  if (!raw) { setStatus('err', 'Cole o JSON do console'); return; }
+
+  setLoading('jsonBtn', 'jsonSpinner', true);
+  setStatus('warn', 'Processando...');
+  term('Processando JSON manual de @' + username + '...');
+
+  try {
+    const parsed = JSON.parse(raw);
+    const userData = parsed.data?.user || parsed.user || parsed;
+
+    if (!userData.username) {
+      termErr('JSON invalido: campo username nao encontrado');
+      setStatus('err', 'JSON invalido');
+      return;
+    }
+
+    const summary = buildSummaryClient(userData, 25);
+    termOk('OK: @' + summary.perfil.username + ' (' + summary.estatisticas.posts_baixados + ' posts)');
+    setStatus('ok', '@' + summary.perfil.username);
+    renderPerfilResult(summary);
+    document.getElementById('jsonResult').innerHTML = '<div class="card" style="border:1px solid var(--green);background:rgba(76,175,80,0.04);"><p style="font-size:0.82rem;color:var(--green);">✓ Perfil processado no navegador. Veja os resultados na aba Perfil Publico.</p></div>';
+  } catch (err) {
+    termErr('JSON invalido: ' + err.message);
+    setStatus('err', 'JSON invalido');
+    document.getElementById('jsonResult').innerHTML = '<div class="card"><div class="empty"><div class="icon">⚠️</div><p>JSON invalido. Verifique se copiou o resultado completo.</p></div></div>';
+  } finally {
+    setLoading('jsonBtn', 'jsonSpinner', false);
+  }
+}
+
+updateJsonCmd();
+
 // Server check
 (async () => {
-  if (!isStatic) { termOk('Instagram Tool - Web UI iniciada'); return; }
   try {
-    const res = await fetch(API + '/api/token-status');
+    const res = await fetch((isStatic ? API : '') + '/api/token-status');
     if (res.ok) {
-      termOk('Servidor conectado em ' + API);
+      termOk('Servidor conectado');
       carregarEnv();
     }
   } catch {
-    termErr('Servidor nao encontrado. Execute: node instagram.js server');
-    setStatus('err', 'Sem conexao');
-    document.getElementById('envCurrentData').innerHTML = '<div style="color:var(--orange);font-size:0.82rem;padding:10px;background:rgba(251,140,0,0.08);border-radius:6px;">⚠ Servidor nao encontrado. Execute <code style="background:rgba(0,0,0,0.06);padding:2px 6px;border-radius:3px;">node instagram.js server</code> e recarregue a pagina.</div>';
+    if (isStatic) {
+      termOk('Modo estatico — servidor offline');
+      term('Perfil/Postagens/JSON Manual funcionam no navegador.');
+    } else {
+      termErr('Servidor offline');
+    }
   }
 })();
 </script>

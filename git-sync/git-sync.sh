@@ -6,6 +6,11 @@
 
 set -euo pipefail
 
+# ══════════════════════════════════════════════════════════
+#  .ENV EMBUTIDO
+# ══════════════════════════════════════════════════════════
+GIT_SYNC_TOKEN="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"
+
 V='\033[0;32m'  A='\033[0;34m'  AM='\033[1;33m'
 VM='\033[0;31m'  M='\033[0;35m'  R='\033[0m'  B='\033[1m'
 
@@ -36,11 +41,6 @@ _repo_name=$(basename -s .git "$_remote_url" 2>/dev/null || echo "local")
 # ══════════════════════════════════════════════════════════
 
 _token="${GIT_SYNC_TOKEN:-}"
-_token_file="$HOME/.git-sync-token"
-
-if [ -z "$_token" ] && [ -f "$_token_file" ]; then
-    _token=$(cat "$_token_file" 2>/dev/null || echo "")
-fi
 
 if [ -n "$_token" ]; then
     _token_status="${V}ok${R} (existe)"
@@ -106,55 +106,13 @@ done
 echo ""
 
 # ══════════════════════════════════════════════════════════
-#  SE NAO TEM TOKEN, PEDIR
+#  ATUALIZAR REMOTE COM TOKEN
 # ══════════════════════════════════════════════════════════
 
-if [ -z "$_token" ]; then
-    echo -e "${AM}GitHub nao aceita mais senha. Necessario token.${R}"
-    echo -e "${A}Abrindo navegador para gerar token...${R}"
-    echo -e "${A}Permissoes: repo, read:org, workflow${R}"
-    echo ""
-
-    if command -v xdg-open &>/dev/null; then
-        xdg-open "https://github.com/settings/tokens/new?scopes=repo,read:org,workflow&description=git-sync" &
-    elif command -v sensible-browser &>/dev/null; then
-        sensible-browser "https://github.com/settings/tokens/new?scopes=repo,read:org,workflow&description=git-sync" &
-    elif command -v gnome-open &>/dev/null; then
-        gnome-open "https://github.com/settings/tokens/new?scopes=repo,read:org,workflow&description=git-sync" &
-    elif command -v firefox &>/dev/null; then
-        firefox "https://github.com/settings/tokens/new?scopes=repo,read:org,workflow&description=git-sync" &
-    elif command -v chromium-browser &>/dev/null; then
-        chromium-browser "https://github.com/settings/tokens/new?scopes=repo,read:org,workflow&description=git-sync" &
-    elif command -v google-chrome &>/dev/null; then
-        google-chrome "https://github.com/settings/tokens/new?scopes=repo,read:org,workflow&description=git-sync" &
-    fi
-
-    echo -ne "${A}Token GitHub:${R} "
-    read -rs _token
-    echo ""
-
-    if [ -z "$_token" ]; then
-        echo -e "${VM}Token vazio. Abortado.${R}"
-        exit 1
-    fi
-
-    echo "$_token" > "$_token_file"
-    chmod 600 "$_token_file"
-    echo -e "${V}Token salvo em $_token_file${R}"
-
-    if [ -n "$_remote_url" ]; then
-        _repo_path=$(echo "$_remote_url" | sed -E 's|https?://github.com/||;s|\.git$||;s|\.git/||')
-        _new_url="https://${_token}@github.com/${_repo_path}.git"
-        git remote set-url origin "$_new_url"
-        echo -e "${V}Remote atualizado com token.${R}"
-    fi
-else
-    if [ -n "$_remote_url" ] && [[ "$_remote_url" != *"@"* ]]; then
-        _repo_path=$(echo "$_remote_url" | sed -E 's|https?://github.com/||;s|\.git$||;s|\.git/||')
-        _new_url="https://${_token}@github.com/${_repo_path}.git"
-        git remote set-url origin "$_new_url"
-        echo -e "${V}Remote atualizado com token.${R}"
-    fi
+if [ -n "$_remote_url" ] && [ -n "$_token" ]; then
+    _repo_path=$(echo "$_remote_url" | sed -E 's|https?://github.com/||;s|\.git$||;s|\.git/||')
+    _new_url="https://${_token}@github.com/${_repo_path}.git"
+    git remote set-url origin "$_new_url"
 fi
 
 # ══════════════════════════════════════════════════════════

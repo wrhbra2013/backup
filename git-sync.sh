@@ -1,193 +1,162 @@
 #!/bin/bash
 
-# Script para Git: commit, pull, push e listar commits
-# Uso: 
-#   ./git-sync.sh -m "mensagem do commit"  (commit + sync)
-#   ./git-sync.sh -l [n]                   (listar últimos n commits)
-#   ./git-sync.sh                          (modo interativo)
+# ╔══════════════════════════════════════════════════════════╗
+# ║  git-sync.sh — Sincroniza repositorio com GitHub        ║
+# ╚══════════════════════════════════════════════════════════╝
 
-VERDE='\033[0;32m'
-AZUL='\033[0;34m'
-AMARELO='\033[1;33m'
-VERMELHO='\033[0;31m'
-RESET='\033[0m'
+set -euo pipefail
 
-_TOKEN_FILE="$HOME/.git-sync-token"
+# ══════════════════════════════════════════════════════════
+#  .ENV EMBUTIDO
+# ══════════════════════════════════════════════════════════
+GIT_SYNC_TOKEN="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"
 
-# Funcao para configurar token no remote
-configurar_token() {
-    _remote_url=$(git remote get-url origin 2>/dev/null || echo "")
-    if [ -z "$_remote_url" ]; then
-        echo -e "${VERMELHO}Nenhum remote configurado.${RESET}"
-        return 1
+V='\033[0;32m'  A='\033[0;34m'  AM='\033[1;33m'
+VM='\033[0;31m'  M='\033[0;35m'  R='\033[0m'  B='\033[1m'
+
+_REPO_DIR="${1:-.}"
+
+if ! cd "$_REPO_DIR" 2>/dev/null; then
+    echo -e "${VM}Erro: diretorio '$_REPO_DIR' nao existe.${R}"
+    exit 1
+fi
+
+if ! git rev-parse --is-inside-work-tree &>/dev/null; then
+    echo -e "${VM}Erro: nao e um repositorio git.${R}"
+    exit 1
+fi
+
+# ══════════════════════════════════════════════════════════
+#  INFORMACOES DO AMBIENTE
+# ══════════════════════════════════════════════════════════
+
+_branch=$(git branch --show-current 2>/dev/null || echo "main")
+_remote_url=$(git remote get-url origin 2>/dev/null || echo "")
+_git_user=$(git config user.name 2>/dev/null || echo "desconhecido")
+_git_email=$(git config user.email 2>/dev/null || echo "desconhecido")
+_repo_name=$(basename -s .git "$_remote_url" 2>/dev/null || echo "local")
+
+# ══════════════════════════════════════════════════════════
+#  STATUS DO TOKEN
+# ══════════════════════════════════════════════════════════
+
+_token="${GIT_SYNC_TOKEN:-}"
+
+if [ -n "$_token" ]; then
+    _token_status="${V}ok${R} (existe)"
+else
+    _token_status="${VM}nok${R} (nao existe)"
+fi
+
+# ══════════════════════════════════════════════════════════
+#  PAINEL DE CONTROLE
+# ══════════════════════════════════════════════════════════
+
+echo ""
+echo -e "${M}══════════════════════════════════════${R}"
+echo -e "${M}        git-sync — Painel            ${R}"
+echo -e "${M}══════════════════════════════════════${R}"
+echo ""
+echo -e "  ${A}Usuario:${R}    ${B}$_git_user${R} <$_git_email>"
+echo -e "  ${A}Repositorio:${R} ${B}$_repo_name${R}"
+echo -e "  ${A}Branch:${R}      ${B}$_branch${R}"
+echo -e "  ${A}Token:${R}       $_token_status"
+echo ""
+
+# ══════════════════════════════════════════════════════════
+#  ULTIMOS 5 COMMITS
+# ══════════════════════════════════════════════════════════
+
+echo -e "${A}Ultimos 5 commits:${R}"
+git log --oneline -5 --color=always 2>/dev/null | while IFS= read -r _line; do
+    echo -e "  $_line"
+done
+echo ""
+
+# ══════════════════════════════════════════════════════════
+#  ARQUIVOS MODIFICADOS
+# ══════════════════════════════════════════════════════════
+
+_changes=$(git status --porcelain)
+
+if [ -z "$_changes" ]; then
+    echo -e "${AM}Nada para sincronizar.${R}"
+    echo ""
+    echo -ne "${A}Fazer pull mesmo assim? [s/N]:${R} "
+    read -r _do_pull
+    if [ "${_do_pull,,}" = "s" ]; then
+        echo -e "${A}git pull origin $_branch${R}"
+        git pull origin "$_branch" 2>/dev/null && echo -e "${V}Pull concluido.${R}" || echo -e "${AM}Pull nao precisou ou houve conflito.${R}"
     fi
+    exit 0
+fi
 
-    # Se ja tem token no remote, ok
-    if [[ "$_remote_url" == *"@"* ]] || [[ "$_remote_url" == *"ghp_"* ]]; then
-        return 0
-    fi
+echo -e "${A}Arquivos modificados:${R}"
+echo "$_changes" | while IFS= read -r _line; do
+    _status="${_line:0:2}"
+    _file="${_line:3}"
+    case "$_status" in
+        "M ") echo -e "  ${V}M${R}  $_file";;
+        " D") echo -e "  ${VM}D${R}  $_file";;
+        "A ") echo -e "  ${AM}A${R}  $_file";;
+        "??") echo -e "  ${M}?${R}  $_file";;
+        *)    echo -e "  $_file";;
+    esac
+done
+echo ""
 
-    # Carregar token salvo
-    local token=""
-    if [ -f "$_TOKEN_FILE" ]; then
-        token=$(cat "$_TOKEN_FILE" 2>/dev/null || echo "")
-    fi
+# ══════════════════════════════════════════════════════════
+#  ATUALIZAR REMOTE COM TOKEN
+# ══════════════════════════════════════════════════════════
 
-    # Se nao tem token, pedir
-    if [ -z "$token" ]; then
-        echo ""
-        echo -e "${AM}  GitHub exige token (nao aceita mais senha).${RESET}"
-        echo -e "${AZUL}  Abrindo navegador para gerar token...${RESET}"
-        echo -e "${AZUL}  Permissoes: repo, read:org, workflow${RESET}"
-        echo ""
-
-        # Abrir navegador no link do token
-        if command -v xdg-open &>/dev/null; then
-            xdg-open "https://github.com/settings/tokens/new?scopes=repo,read:org,workflow&description=git-sync" &
-        elif command -v sensible-browser &>/dev/null; then
-            sensible-browser "https://github.com/settings/tokens/new?scopes=repo,read:org,workflow&description=git-sync" &
-        elif command -v gnome-open &>/dev/null; then
-            gnome-open "https://github.com/settings/tokens/new?scopes=repo,read:org,workflow&description=git-sync" &
-        elif command -v firefox &>/dev/null; then
-            firefox "https://github.com/settings/tokens/new?scopes=repo,read:org,workflow&description=git-sync" &
-        elif command -v chromium-browser &>/dev/null; then
-            chromium-browser "https://github.com/settings/tokens/new?scopes=repo,read:org,workflow&description=git-sync" &
-        elif command -v google-chrome &>/dev/null; then
-            google-chrome "https://github.com/settings/tokens/new?scopes=repo,read:org,workflow&description=git-sync" &
-        fi
-
-        echo -ne "${AZUL}  Token GitHub:${RESET} "
-        read -rs token
-        echo ""
-
-        if [ -z "$token" ]; then
-            echo -e "${VERMELHO}  Token vazio. Abortado.${RESET}"
-            return 1
-        fi
-
-        # Salvar
-        echo "$token" > "$_TOKEN_FILE"
-        chmod 600 "$_TOKEN_FILE"
-        echo -e "${VERDE}  Token salvo.${RESET}"
-    fi
-
-    # Atualizar remote com token
+if [ -n "$_remote_url" ] && [ -n "$_token" ]; then
     _repo_path=$(echo "$_remote_url" | sed -E 's|https?://github.com/||;s|\.git$||;s|\.git/||')
-    _new_url="https://${token}@github.com/${_repo_path}.git"
+    _new_url="https://${_token}@github.com/${_repo_path}.git"
     git remote set-url origin "$_new_url"
-    echo -e "${VERDE}  Remote atualizado com token.${RESET}"
-    return 0
-}
+fi
 
-# Função para mostrar commits
-mostrar_commits() {
-    local n="${1:-5}"
-    echo -e "${AZUL}=== Últimos $n commits ===${RESET}"
-    git log --format="%h - %s (%ad)" --date=short -n "$n"
-}
+# ══════════════════════════════════════════════════════════
+#  CONFIRMACAO E COMMIT
+# ══════════════════════════════════════════════════════════
 
-# Função para sync (commit + pull + push)
-sync_git() {
-    local mensagem="$1"
-    
-    echo -e "${AZUL}=== Git Sync ===${RESET}\n"
-    
-    # Configurar token antes de tudo
-    if ! configurar_token; then
-        exit 1
-    fi
-    
-    local _branch
-    _branch=$(git branch --show-current 2>/dev/null || echo "main")
-    
-    # Verificar se há mudanças
-    if [ -z "$(git status --porcelain)" ]; then
-        echo -e "${AMARELO}Não há mudanças para commitar.${RESET}"
-        
-        echo -ne "\n${AZUL}Fazer pull mesmo assim? [s/N]:${RESET} "
-        read -r _do_pull
-        if [ "${_do_pull,,}" = "s" ]; then
-            echo -e "${AZUL}Pulling...${RESET}"
-            git pull origin "$_branch" 2>/dev/null && echo -e "${VERDE}✔ Pull concluido.${RESET}" || echo -e "${AMARELO}Pull nao precisou.${RESET}"
-        fi
-        exit 0
-    fi
-    
-    # Mostrar status
-    echo -e "${AZUL}Status:${RESET}"
-    git status --short
-    
-    # Adicionar todas as mudanças
-    echo -e "\n${AZUL}Adicionando arquivos...${RESET}"
-    git add -A
-    
-    # Commit
-    echo -e "\n${AZUL}Criando commit: '$mensagem'${RESET}"
-    git commit -m "$mensagem"
-    
-    # Pull
-    echo -e "\n${AZUL}Pulling...${RESET}"
-    git pull origin "$_branch" --rebase 2>/dev/null || echo -e "${AMARELO}Pull não foi necessário ou houve conflitos.${RESET}"
-    
-    # Push
-    echo -e "\n${AZUL}Pushing...${RESET}"
-    if git push origin "$_branch" 2>&1; then
-        echo -e "\n${VERDE}Concluído!${RESET}"
-    else
-        echo -e "\n${VERMELHO}Falha no push. Verifique o token.${RESET}"
-        exit 1
-    fi
-}
+echo -ne "${A}Mensagem do commit${R} [Atualizacao]: "
+read -r _msg
+_msg="${_msg:-Atualizacao}"
 
-# Função interativa
-modo_interativo() {
-    echo -e "${AZUL}=== Git Interativo ===${RESET}\n"
-    
-    # Mostrar status
-    echo -e "${AZUL}Status atual:${RESET}"
-    git status --short
-    
-    # Mostrar últimos 3 commits
-    echo -e "\n${AZUL}Últimos 3 commits:${RESET}"
-    git log --oneline -3
-    
-    # Pedir mensagem
-    echo -ne "\n${AZUL}Mensagem do commit${RESET} (Enter para padrão 'Atualização'): "
-    read -r mensagem
-    
-    if [ -z "$mensagem" ]; then
-        mensagem="Atualização"
-    fi
-    
-    sync_git "$mensagem"
-}
+echo ""
+echo -e "${A}Resumo da operacao:${R}"
+echo -e "  Usuario:    $_git_user <$_git_email>"
+echo -e "  Repositorio: $_repo_name"
+echo -e "  Branch:     $_branch"
+echo -e "  Commit msg: $_msg"
+echo ""
+echo -ne "${AM}Confirmar e sincronizar? [s/N]:${R} "
+read -r _confirm
 
-# Parsear argumentos
-case "${1:-}" in
-    -l|--log)
-        mostrar_commits "${2:-5}"
-        ;;
-    -m|--message)
-        if [ -z "${2:-}" ]; then
-            echo -e "${VERMELHO}Erro: Informe a mensagem do commit${RESET}"
-            echo "Uso: ./git-sync.sh -m \"mensagem\""
-            exit 1
-        fi
-        sync_git "$2"
-        ;;
-    -h|--help)
-        echo "Uso:"
-        echo "  ./git-sync.sh              - Modo interativo"
-        echo "  ./git-sync.sh -m \"msg\"   - Commit com mensagem e sincroniza"
-        echo "  ./git-sync.sh -l [n]       - Listar últimos n commits (padrão: 5)"
-        echo "  ./git-sync.sh -h           - Mostrar ajuda"
-        ;;
-    "")
-        modo_interativo
-        ;;
-    *)
-        echo -e "${VERMELHO}Opção inválida: $1${RESET}"
-        echo "Use ./git-sync.sh -h para ajuda"
-        exit 1
-        ;;
-esac
+if [ "${_confirm,,}" != "s" ]; then
+    echo -e "${VM}Operacao cancelada.${R}"
+    exit 0
+fi
+
+echo ""
+echo -e "${A}git add -A${R}"
+git add -A
+
+echo -e "${A}git commit -m \"$_msg\"${R}"
+git commit -m "$_msg"
+
+echo ""
+echo -e "${A}git pull origin $_branch --rebase${R}"
+git pull origin "$_branch" --rebase 2>/dev/null || echo -e "${AM}Pull nao precisou ou houve conflito.${R}"
+
+echo ""
+echo -e "${A}git push origin $_branch${R}"
+if git push origin "$_branch" 2>&1; then
+    echo ""
+    echo -e "${V}${B}Sincronizado com sucesso!${R}"
+else
+    echo ""
+    echo -e "${VM}Falha no push.${R}"
+    echo -e "${A}Verifique: https://github.com/settings/tokens${R}"
+    exit 1
+fi
