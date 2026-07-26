@@ -590,7 +590,7 @@ input::placeholder { color: #bbb; }
           <div class="form-row">
             <div class="form-group" style="flex:2;">
               <label>Username do Instagram</label>
-              <input type="text" id="jsonUsername" placeholder="Ex: waroha" oninput="updateJsonCmd()" onkeydown="if(event.key==='Enter')buscarIgJson()">
+              <input type="text" id="jsonUsername" placeholder="Ex: waroha" onkeydown="if(event.key==='Enter')buscarIgJson()">
             </div>
             <div class="form-group" style="flex:0 0 auto;display:flex;align-items:flex-end;">
               <button class="btn btn-primary" id="igFetchBtn" onclick="buscarIgJson()" style="white-space:nowrap;">
@@ -1360,17 +1360,70 @@ async function salvarEnv() {
 
 // ─── JSON Manual ─────────────────────────────────────────────────────────────
 
-const JSON_FETCH_CMD = 'fetch("/api/v1/users/web_profile_info/?username=USERNAME", {headers:{"X-IG-App-ID":"936619743392459"}}).then(r=>r.json()).then(d=>{const u=d.data.user;const o={username:u.username,full_name:u.full_name,followed_by_viewer_count:u.edge_followed_by.count,follows_viewer_count:u.edge_follow.count,profile_pic_url_hd:u.profile_pic_url_hd,is_private:u.is_private,is_verified:u.is_verified,edge_owner_to_timeline_media:{count:u.edge_owner_to_timeline_media.count,edges:u.edge_owner_to_timeline_media.edges.map(e=>({node:{shortcode:e.node.shortcode,display_url:e.node.display_url,edge_media_to_caption:{edges:e.node.edge_media_to_caption.edges},edge_media_preview_like:{count:e.node.edge_media_preview_like.count},taken_at_timestamp:e.node.taken_at_timestamp,typename:e.node.__typename}}))}};console.log(JSON.stringify(o,null,2))})';
+async function buscarIgJson() {
+  const username = document.getElementById('jsonUsername').value.trim();
+  if (!username) { setStatus('err', 'Digite um username'); return; }
 
-function updateJsonCmd() {
-  const user = document.getElementById('jsonUsername').value.trim() || 'USERNAME';
-  document.getElementById('jsonStep1').textContent = 'https://www.instagram.com/' + user + '/';
-  document.getElementById('jsonCommand').textContent = JSON_FETCH_CMD.replace(/USERNAME/g, user);
-}
+  const clean = username.replace(/^@/, '');
+  setLoading('igFetchBtn', 'igFetchSpinner', true);
+  setStatus('warn', 'Buscando...');
+  term('Buscando JSON de @' + clean + '...');
 
-async function copyJsonCmd() {
-  const text = document.getElementById('jsonCommand').textContent;
-  try { await navigator.clipboard.writeText(text); termOk('Comando copiado'); } catch { termErr('Falha ao copiar'); }
+  const statusEl = document.getElementById('igFetchStatus');
+  statusEl.innerHTML = '<span style="color:var(--orange);">Buscando...</span>';
+
+  // Try client-side first
+  try {
+    const igRes = await fetch('https://www.instagram.com/api/v1/users/web_profile_info/?username=' + encodeURIComponent(clean), {
+      headers: { 'X-IG-App-ID': '936619743392459' },
+    });
+    if (igRes.ok) {
+      const data = await igRes.json();
+      const user = data.data?.user;
+      if (user) {
+        const simplified = {
+          username: user.username, full_name: user.full_name,
+          followed_by_viewer_count: user.edge_followed_by?.count,
+          follows_viewer_count: user.edge_follow?.count,
+          profile_pic_url_hd: user.profile_pic_url_hd,
+          is_private: user.is_private, is_verified: user.is_verified,
+          edge_owner_to_timeline_media: {
+            count: user.edge_owner_to_timeline_media?.count,
+            edges: (user.edge_owner_to_timeline_media?.edges || []).map(e => ({
+              node: { shortcode: e.node.shortcode, display_url: e.node.display_url,
+                edge_media_to_caption: e.node.edge_media_to_caption,
+                edge_media_preview_like: e.node.edge_media_preview_like,
+                taken_at_timestamp: e.node.taken_at_timestamp, typename: e.node.__typename },
+            })),
+          },
+        };
+        document.getElementById('jsonInput').value = JSON.stringify(simplified, null, 2);
+        termOk('JSON obtido via navegador');
+        statusEl.innerHTML = '<span style="color:var(--green);">✓ JSON obtido via navegador</span>';
+        setLoading('igFetchBtn', 'igFetchSpinner', false);
+        return;
+      }
+    }
+  } catch {}
+
+  // Fallback to server proxy
+  try {
+    const res = await fetch(API + '/api/ig-proxy?username=' + encodeURIComponent(clean));
+    const data = await res.json();
+    if (data.error) {
+      termErr('Erro: ' + data.error);
+      statusEl.innerHTML = '<span style="color:var(--red);">✗ ' + escapeHtml(data.error) + '</span>';
+    } else {
+      document.getElementById('jsonInput').value = JSON.stringify(data, null, 2);
+      termOk('JSON obtido via servidor');
+      statusEl.innerHTML = '<span style="color:var(--green);">✓ JSON obtido via servidor</span>';
+    }
+  } catch (err) {
+    termErr('Falha: ' + err.message);
+    statusEl.innerHTML = '<span style="color:var(--red);">✗ Busca falhou. Cole o JSON manualmente.</span>';
+  } finally {
+    setLoading('igFetchBtn', 'igFetchSpinner', false);
+  }
 }
 
 function buildSummaryClient(user, maxPosts) {
@@ -1465,8 +1518,6 @@ function processarJson() {
     setLoading('jsonBtn', 'jsonSpinner', false);
   }
 }
-
-updateJsonCmd();
 
 // Server check
 (async () => {

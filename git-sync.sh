@@ -106,11 +106,25 @@ done
 echo ""
 
 # ══════════════════════════════════════════════════════════
+#  CONTEUDO DA PASTA ATUAL
+# ══════════════════════════════════════════════════════════
+
+echo -e "${A}Conteudo da pasta atual:${R}"
+ls -1 --color=never | while IFS= read -r _item; do
+    if [ -d "$_item" ]; then
+        echo -e "  ${A}$_item/${R}"
+    else
+        echo -e "  $_item"
+    fi
+done
+echo ""
+
+# ══════════════════════════════════════════════════════════
 #  ATUALIZAR REMOTE COM TOKEN
 # ══════════════════════════════════════════════════════════
 
 if [ -n "$_remote_url" ] && [ -n "$_token" ]; then
-    _repo_path=$(echo "$_remote_url" | sed -E 's|https?://github.com/||;s|\.git$||;s|\.git/||')
+    _repo_path=$(echo "$_remote_url" | sed -E 's|https?://[^@]*@github.com/||;s|\.git$||;s|\.git/||')
     _new_url="https://${_token}@github.com/${_repo_path}.git"
     git remote set-url origin "$_new_url"
 fi
