@@ -4,74 +4,185 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>git-sync</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%230f172a'/%3E%3Cpath d='M44 32a12 12 0 0 1-21.5 7.2l-3.2-3.2a1 1 0 0 1 1.4-1.4l3.4 3.4A12 12 0 1 1 44 32zm-12-8a8 8 0 0 1 7 4.1l-7 4.1V24z' fill='%2338bdf8'/%3E%3Cpath d='M20 32a12 12 0 0 1 21.5-7.2l3.2 3.2a1 1 0 0 1-1.4 1.4l-3.4-3.4A12 12 0 1 1 20 32zm12 8a8 8 0 0 1-7-4.1l7-4.1V40z' fill='%234ade80'/%3E%3C/svg%3E">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#0f172a;--sf:#1e293b;--bd:#475569;--tx:#e2e8f0;--dm:#94a3b8;--pr:#38bdf8;--gn:#4ade80;--rd:#f87171;--yl:#fbbf24;--pp:#a78bfa;--cy:#22d3ee;--mo:'Cascadia Code','Fira Code','Courier New',monospace}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--tx);height:100vh;display:flex;flex-direction:column;overflow:hidden}
 
-.hdr{background:var(--sf);border-bottom:1px solid var(--bd);padding:.5rem 1.2rem;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+/* ══════ THEME: Dark (default) ══════ */
+:root,[data-theme="dark"]{
+  --bg:#0f172a;--sf:#1e293b;--bd:#475569;
+  --tx:#e2e8f0;--dm:#94a3b8;
+  --pr:#38bdf8;--gn:#4ade80;--rd:#f87171;--yl:#fbbf24;--pp:#a78bfa;--cy:#22d3ee;
+}
+/* ══════ THEME: Light ══════ */
+[data-theme="light"]{
+  --bg:#f1f5f9;--sf:#ffffff;--bd:#94a3b8;
+  --tx:#0f172a;--dm:#475569;
+  --pr:#1d4ed8;--gn:#15803d;--rd:#b91c1c;--yl:#b45309;--pp:#6d28d9;--cy:#0e7490;
+}
+/* ══════ THEME: Neon ══════ */
+[data-theme="neon"]{
+  --bg:#050505;--sf:#0a0a0a;--bd:#222;
+  --tx:#f5f5f5;--dm:#999;
+  --pr:#00ff88;--gn:#00ff88;--rd:#ff0044;--yl:#ffee00;--pp:#ff00ff;--cy:#00ffff;
+}
+/* ══════ THEME: Ocean ══════ */
+[data-theme="ocean"]{
+  --bg:#0a1929;--sf:#0d2137;--bd:#1a4a6e;
+  --tx:#d6eaf8;--dm:#7fb3d3;
+  --pr:#4fc3f7;--gn:#81c784;--rd:#ef5350;--yl:#ffb74d;--pp:#ce93d8;--cy:#4dd0e1;
+}
+/* ══════ THEME: Sunset ══════ */
+[data-theme="sunset"]{
+  --bg:#1a0f14;--sf:#261520;--bd:#5c3a50;
+  --tx:#f5e0ec;--dm:#b08898;
+  --pr:#ff6b9d;--gn:#d4fc79;--rd:#ff4757;--yl:#ffd32a;--pp:#d4a5ff;--cy:#67e8f9;
+}
+/* ══════ THEME: Forest ══════ */
+[data-theme="forest"]{
+  --bg:#0c1a10;--sf:#132618;--bd:#2d5a35;
+  --tx:#d8f0dc;--dm:#82b88a;
+  --pr:#4ade80;--gn:#34d399;--rd:#f87171;--yl:#facc15;--pp:#c4b5fd;--cy:#22d3ee;
+}
+/* ══════ THEME: Monokai ══════ */
+[data-theme="monokai"]{
+  --bg:#272822;--sf:#3e3d32;--bd:#6b6b60;
+  --tx:#f8f8f2;--dm:#a0a090;
+  --pr:#a6e22e;--gn:#a6e22e;--rd:#f92672;--yl:#e6db74;--pp:#ae81ff;--cy:#66d9ef;
+}
+/* ══════ THEME: Dracula ══════ */
+[data-theme="dracula"]{
+  --bg:#282a36;--sf:#343746;--bd:#6272a4;
+  --tx:#f8f8f2;--dm:#8a8fa8;
+  --pr:#bd93f9;--gn:#50fa7b;--rd:#ff5555;--yl:#f1fa8c;--pp:#ff79c6;--cy:#8be9fd;
+}
+/* ══════ THEME: Nordic ══════ */
+[data-theme="nordic"]{
+  --bg:#2e3440;--sf:#363c48;--bd:#5a6577;
+  --tx:#eceff4;--dm:#9099ab;
+  --pr:#88c0d0;--gn:#a3be8c;--rd:#bf616a;--yl:#ebcb8b;--pp:#b48ead;--cy:#8fbcbb;
+}
+/* ══════ THEME: Tokyo ══════ */
+[data-theme="tokyo"]{
+  --bg:#1a1b26;--sf:#202330;--bd:#4a5072;
+  --tx:#d0d7f5;--dm:#787ca0;
+  --pr:#7aa2f7;--gn:#9ece6a;--rd:#f7768e;--yl:#e0af68;--pp:#bb9af7;--cy:#7dcfff;
+}
+
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--tx);height:100vh;display:flex;flex-direction:column;overflow:hidden;transition:background .3s,color .3s}
+
+.hdr{background:var(--sf);border-bottom:1px solid var(--bd);padding:.5rem 1.2rem;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;transition:background .3s}
 .hdr h1{font-size:1.1rem;font-weight:700}.hdr h1 span{color:var(--pr)}
-.hdr-r{display:flex;align-items:center;gap:14px;font-size:.8rem;color:var(--dm)}
+.hdr-r{display:flex;align-items:center;gap:12px;font-size:.8rem;color:var(--dm)}
 .dot{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:4px}
 .dot.on{background:var(--gn);box-shadow:0 0 6px var(--gn)}.dot.off{background:var(--rd)}
 
-.tabs{background:var(--sf);border-bottom:1px solid var(--bd);display:flex;flex-shrink:0}
+.user-sel{display:flex;align-items:center;gap:5px}
+.user-sel select,.theme-sel{padding:.3rem .5rem;background:var(--bg);border:1.5px solid var(--bd);border-radius:6px;color:var(--tx);font-size:.78rem;font-family:inherit;outline:none;cursor:pointer;transition:border-color .2s,background .3s,color .3s}
+.user-sel select:focus,.theme-sel:focus{border-color:var(--pr)}
+.user-sel button{padding:.3rem .5rem;border:1px solid var(--bd);border-radius:5px;background:0 0;color:var(--dm);font-size:.72rem;cursor:pointer;transition:.15s;font-family:inherit}
+.user-sel button:hover{border-color:var(--pr);color:var(--pr)}
+
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:500;align-items:center;justify-content:center}
+.modal-bg.on{display:flex}
+.modal{background:var(--sf);border:1px solid var(--bd);border-radius:12px;padding:1.5rem;width:420px;max-width:95vw;max-height:85vh;overflow-y:auto;transition:background .3s}
+.modal h2{font-size:1rem;margin-bottom:1rem;display:flex;align-items:center;gap:8px}
+.modal label{display:block;font-size:.75rem;font-weight:600;color:var(--dm);text-transform:uppercase;letter-spacing:.5px;margin-bottom:.25rem;margin-top:.8rem}
+.modal input{width:100%;padding:.5rem .7rem;background:var(--bg);border:1.5px solid var(--bd);border-radius:6px;color:var(--tx);font-family:var(--mo);font-size:.85rem;outline:none;transition:border-color .2s}
+.modal input:focus{border-color:var(--pr)}
+.modal .btns{display:flex;gap:6px;margin-top:1.2rem;justify-content:flex-end}
+.modal .btns button{padding:.45rem 1rem;border:none;border-radius:6px;font-weight:700;font-size:.82rem;cursor:pointer;font-family:inherit;transition:.15s}
+.m-btn-ok{background:var(--gn);color:#fff}.m-btn-ok:hover{filter:brightness(1.1)}
+.m-btn-cancel{background:0 0;color:var(--dm);border:1px solid var(--bd)!important}.m-btn-cancel:hover{border-color:var(--rd)!important;color:var(--rd)}
+.user-list{margin-top:.8rem}
+.user-item{display:flex;align-items:center;justify-content:space-between;padding:.5rem .7rem;border:1px solid var(--bd);border-radius:6px;margin-bottom:4px;cursor:pointer;transition:.15s;position:relative}
+.user-item:hover{border-color:var(--pr)}
+.user-item.current{border-color:var(--gn);background:rgba(74,222,128,.08)}
+.user-item .name{font-weight:600;font-size:.85rem}
+.user-item .email{font-size:.72rem;color:var(--dm)}
+.user-item .has-tk{font-size:.65rem;padding:1px 5px;border-radius:3px;margin-left:6px}
+.user-item .has-tk.yes{background:rgba(74,222,128,.15);color:var(--gn)}
+.user-item .has-tk.no{background:rgba(248,113,113,.15);color:var(--rd)}
+.user-item .del-btn{padding:2px 6px;border:1px solid var(--bd);border-radius:4px;background:0 0;color:var(--rd);cursor:pointer;font-size:.7rem}
+.user-item .del-btn:hover{background:var(--rd);color:#fff}
+
+.tabs{background:var(--sf);border-bottom:1px solid var(--bd);display:flex;flex-shrink:0;transition:background .3s}
 .tab{padding:.5rem 1.3rem;font-size:.85rem;font-weight:600;color:var(--dm);cursor:pointer;border:none;background:0 0;border-bottom:2px solid transparent;transition:.15s;font-family:inherit}
 .tab:hover{color:var(--tx)}.tab.on{color:var(--pr);border-bottom-color:var(--pr)}
 
-.pnl{display:none;flex:1;overflow:hidden}.pnl.on{display:flex;flex-direction:column}
+.about{flex:1;overflow-y:auto;padding:1.5rem 2rem;display:none;flex-direction:column;gap:1.2rem}
+.about.on{display:flex}
+.about h2{color:var(--pr);font-size:1.1rem;border-bottom:1px solid var(--bd);padding-bottom:.4rem}
+.about-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:.8rem}
+.about-card{background:var(--sf);border:1px solid var(--bd);border-radius:8px;padding:.8rem;transition:border-color .2s}
+.about-card:hover{border-color:var(--pr)}
+.about-card h3{color:var(--tx);font-size:.85rem;margin-bottom:.3rem}
+.about-card p{color:var(--dm);font-size:.75rem;line-height:1.4}
+.about-card .icon{font-size:1.2rem;margin-bottom:.3rem}
+.pix-box{display:flex;align-items:center;gap:1.5rem;background:var(--sf);border:1px solid var(--bd);border-radius:10px;padding:1.2rem 1.5rem;margin-top:.5rem}
+.pix-box canvas,.pix-box img{border-radius:8px;border:3px solid var(--bd)}
+.pix-info{display:flex;flex-direction:column;gap:.4rem}
+.pix-info .label{color:var(--dm);font-size:.75rem;text-transform:uppercase;letter-spacing:.5px}
+.pix-info .chave{color:var(--tx);font-size:.95rem;font-weight:700;font-family:monospace}
+.pix-info .msg{color:var(--gn);font-size:.8rem}
 
-/* ── SYNC ── */
-.sync-body{flex:1;display:grid;grid-template-columns:1fr 1fr;overflow:hidden}
-.sync-pane{display:flex;flex-direction:column;overflow:hidden}
-.sync-pane+.sync-pane{border-left:1px solid var(--bd)}
-.p-hdr{padding:.35rem .8rem;background:var(--sf);border-bottom:1px solid var(--bd);font-size:.7rem;font-weight:700;color:var(--dm);text-transform:uppercase;letter-spacing:.5px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
-.p-hdr .b{padding:1px 6px;border-radius:4px;font-size:.6rem;background:rgba(56,189,248,.15);color:var(--pr)}
-.ta{flex:1;width:100%;padding:.6rem .8rem;background:var(--bg);color:var(--tx);border:none;outline:none;resize:none;font-family:var(--mo);font-size:.82rem;line-height:1.5}
+.pnl{display:none;flex:1;overflow:hidden}.pnl.on{display:flex;flex-direction:column}
+.p-hdr{padding:.35rem .8rem;background:var(--sf);border-bottom:1px solid var(--bd);font-size:.7rem;font-weight:700;color:var(--dm);text-transform:uppercase;letter-spacing:.5px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;transition:background .3s}
+.p-hdr .b{padding:1px 6px;border-radius:4px;font-size:.6rem;background:rgba(56,189,248,.12);color:var(--pr)}
+.ta{flex:1;width:100%;padding:.6rem .8rem;background:var(--bg);color:var(--tx);border:none;outline:none;resize:none;font-family:'Cascadia Code','Fira Code','Courier New',monospace;font-size:.82rem;line-height:1.5;transition:background .3s}
 .ta::placeholder{color:var(--bd)}#sOut{color:var(--gn)}
 
-.s-bar{background:var(--sf);border-top:1px solid var(--bd);padding:.4rem 1rem;display:flex;gap:6px;align-items:center;flex-shrink:0}
-.s-bar input{flex:1;padding:.45rem .7rem;background:var(--bg);border:1.5px solid var(--bd);border-radius:7px;color:var(--tx);font-family:var(--mo);font-size:.84rem;outline:none;transition:border-color .2s}
+.sync-layout{flex:1;display:grid;grid-template-columns:220px 1fr;overflow:hidden}
+.sync-repo{display:flex;flex-direction:column;border-right:1px solid var(--bd);overflow:hidden}
+.sync-main{display:flex;flex-direction:column;overflow:hidden}
+.sync-split{flex:1;display:grid;grid-template-columns:1fr 1fr;overflow:hidden}
+.sync-split>.sync-pane+.sync-pane{border-left:1px solid var(--bd)}
+.sync-pane{display:flex;flex-direction:column;overflow:hidden}
+.repo-textarea{flex:1;width:100%;padding:.5rem .6rem;background:var(--bg);color:var(--tx);border:none;outline:none;resize:none;font-family:'Cascadia Code','Fira Code','Courier New',monospace;font-size:.78rem;line-height:1.45;transition:background .3s}
+.repo-textarea::placeholder{color:var(--bd)}
+.repo-bar{background:var(--sf);border-top:1px solid var(--bd);padding:.3rem .5rem;display:flex;gap:4px;flex-shrink:0;transition:background .3s}
+.repo-bar button{padding:.25rem .5rem;border:1px solid var(--bd);border-radius:4px;background:0 0;color:var(--dm);font-size:.7rem;font-weight:600;cursor:pointer;transition:.15s;font-family:inherit}
+.repo-bar button:hover{border-color:var(--pr);color:var(--pr)}
+
+.s-bar{background:var(--sf);border-top:1px solid var(--bd);padding:.4rem 1rem;display:flex;gap:6px;align-items:center;flex-shrink:0;transition:background .3s}
+.s-bar input{flex:1;padding:.45rem .7rem;background:var(--bg);border:1.5px solid var(--bd);border-radius:7px;color:var(--tx);font-family:'Cascadia Code','Fira Code','Courier New',monospace;font-size:.84rem;outline:none;transition:border-color .2s,background .3s}
 .s-bar input:focus{border-color:var(--pr)}
 .s-bar button{padding:.45rem .9rem;border:none;border-radius:7px;font-weight:700;font-size:.82rem;cursor:pointer;transition:.15s;font-family:inherit;white-space:nowrap}
-.bg{background:var(--gn);color:var(--bg)}.bg:hover{background:#22c55e}
-.bb{background:var(--pr);color:var(--bg)}.bb:hover{background:#0ea5e9}
+.bg{background:var(--gn);color:#fff}.bg:hover{filter:brightness(1.1)}
+.bb{background:var(--pr);color:#fff}.bb:hover{filter:brightness(1.1)}
 .bw{background:0 0;color:var(--dm);border:1px solid var(--bd)!important}.bw:hover{border-color:var(--rd)!important;color:var(--rd)}
-.by{background:var(--yl);color:var(--bg)}.by:hover{background:#d97706}
-.bp{background:var(--pp);color:var(--bg)}.bp:hover{background:#7c3aed}
+.by{background:var(--yl);color:#000}.by:hover{filter:brightness(1.1)}
+.bp{background:var(--pp);color:#fff}.bp:hover{filter:brightness(1.1)}
 
-/* ── EDITOR ── */
-.ed-top{background:var(--sf);border-bottom:1px solid var(--bd);padding:.35rem 1rem;display:flex;align-items:center;gap:8px;flex-shrink:0;flex-wrap:wrap}
-.ed-top .fi{font-size:.75rem;color:var(--dm);font-family:var(--mo);margin-right:auto}
+.ed-top{background:var(--sf);border-bottom:1px solid var(--bd);padding:.35rem 1rem;display:flex;align-items:center;gap:8px;flex-shrink:0;flex-wrap:wrap;transition:background .3s}
+.ed-top .fi{font-size:.75rem;color:var(--dm);font-family:'Cascadia Code','Fira Code','Courier New',monospace;margin-right:auto}
 .ed-top .sep{width:1px;height:18px;background:var(--bd)}
 .ga{display:flex;gap:5px}
 .ga button{padding:.3rem .6rem;border:1.5px solid var(--bd);border-radius:5px;background:0 0;color:var(--dm);font-size:.75rem;font-weight:700;cursor:pointer;transition:.15s;font-family:inherit;display:flex;align-items:center;gap:4px}
 .ga button:hover{border-color:var(--pr);color:var(--pr)}
-.ga .ba{border-color:var(--gn);color:var(--gn)}.ga .ba:hover{background:var(--gn);color:var(--bg)}
-.ga .bc{border-color:var(--pp);color:var(--pp)}.ga .bc:hover{background:var(--pp);color:var(--bg)}
-.ga .bp2{border-color:var(--cy);color:var(--cy)}.ga .bp2:hover{background:var(--cy);color:var(--bg)}
-.ga .bl{border-color:var(--yl);color:var(--yl)}.ga .bl:hover{background:var(--yl);color:var(--bg)}
-.ga .bs{border-color:var(--pr);color:var(--pr)}.ga .bs:hover{background:var(--pr);color:var(--bg)}
+.ga .ba{border-color:var(--gn);color:var(--gn)}.ga .ba:hover{background:var(--gn);color:#fff}
+.ga .bc{border-color:var(--pp);color:var(--pp)}.ga .bc:hover{background:var(--pp);color:#fff}
+.ga .bp2{border-color:var(--cy);color:var(--cy)}.ga .bp2:hover{background:var(--cy);color:#000}
+.ga .bl{border-color:var(--yl);color:var(--yl)}.ga .bl:hover{background:var(--yl);color:#000}
+.ga .bs{border-color:var(--pr);color:var(--pr)}.ga .bs:hover{background:var(--pr);color:#fff}
+.ga .bd2{border-color:var(--rd);color:var(--rd)}.ga .bd2:hover{background:var(--rd);color:#fff}
 
 .ed-body{flex:1;display:flex;overflow:hidden}
-.ln{width:44px;padding:.6rem .3rem;background:var(--sf);border-right:1px solid var(--bd);font-family:var(--mo);font-size:.82rem;line-height:1.5;color:var(--bd);text-align:right;user-select:none;overflow:hidden;flex-shrink:0}
-#code{flex:1;width:100%;padding:.6rem .9rem;background:var(--bg);color:var(--tx);border:none;outline:none;resize:none;font-family:var(--mo);font-size:.82rem;line-height:1.5;tab-size:4}
+.ln{width:44px;padding:.6rem .3rem;background:var(--sf);border-right:1px solid var(--bd);font-family:'Cascadia Code','Fira Code','Courier New',monospace;font-size:.82rem;line-height:1.5;color:var(--bd);text-align:right;user-select:none;overflow:hidden;flex-shrink:0;transition:background .3s}
+#code{flex:1;width:100%;padding:.6rem .9rem;background:var(--bg);color:var(--tx);border:none;outline:none;resize:none;font-family:'Cascadia Code','Fira Code','Courier New',monospace;font-size:.82rem;line-height:1.5;tab-size:4;transition:background .3s}
 #code::placeholder{color:var(--bd)}
-
-.ed-foot{background:var(--sf);border-top:1px solid var(--bd);padding:.4rem 1rem;display:flex;gap:6px;align-items:center;flex-shrink:0}
-.ed-foot input{flex:1;padding:.4rem .6rem;background:var(--bg);border:1.5px solid var(--bd);border-radius:6px;color:var(--tx);font-family:var(--mo);font-size:.8rem;outline:none;transition:border-color .2s}
+.ed-foot{background:var(--sf);border-top:1px solid var(--bd);padding:.4rem 1rem;display:flex;gap:6px;align-items:center;flex-shrink:0;transition:background .3s}
+.ed-foot input{flex:1;padding:.4rem .6rem;background:var(--bg);border:1.5px solid var(--bd);border-radius:6px;color:var(--tx);font-family:'Cascadia Code','Fira Code','Courier New',monospace;font-size:.8rem;outline:none;transition:border-color .2s,background .3s}
 .ed-foot input:focus{border-color:var(--pr)}
-.ed-foot button{padding:.4rem .8rem;border:none;border-radius:6px;font-weight:700;font-size:.8rem;cursor:pointer;transition:.15s;font-family:inherit}
-
-.ed-log{background:#0c0c0c;border-top:1px solid var(--bd);max-height:130px;overflow-y:auto;padding:.4rem .7rem;font-family:var(--mo);font-size:.75rem;line-height:1.35;flex-shrink:0}
+.ed-foot button{padding:.4rem .8rem;border:none;border-radius:6px;font-weight:700;font-size:.8rem;cursor:pointer;transition:.15s;font-family:inherit;color:#fff}
+.ed-log{background:var(--bg);border-top:1px solid var(--bd);max-height:130px;overflow-y:auto;padding:.4rem .7rem;font-family:'Cascadia Code','Fira Code','Courier New',monospace;font-size:.75rem;line-height:1.35;flex-shrink:0;transition:background .3s}
 .ed-log .l{margin-bottom:1px}.ed-log .ok{color:var(--gn)}.ed-log .er{color:var(--rd)}.ed-log .in{color:var(--cy)}.ed-log .cm{color:var(--yl)}.ed-log .dm{color:var(--dm)}
 
 .toast{position:fixed;bottom:1.5rem;right:1.5rem;padding:.45rem .9rem;border-radius:6px;font-size:.8rem;font-weight:600;z-index:999;animation:fi .2s ease,fo .2s ease 2.5s forwards;pointer-events:none}
-.toast.ok{background:var(--gn);color:var(--bg)}.toast.er{background:var(--rd);color:#fff}.toast.in{background:var(--pr);color:var(--bg)}
+.toast.ok{background:var(--gn);color:#000}.toast.er{background:var(--rd);color:#fff}.toast.in{background:var(--pr);color:#000}
 @keyframes fi{from{opacity:0;transform:translateY(10px)}}
 @keyframes fo{to{opacity:0}}
-
-@media(max-width:700px){.sync-body{grid-template-columns:1fr;grid-template-rows:1fr 1fr}.sync-pane+.sync-pane{border-left:none;border-top:1px solid var(--bd)}}
+@media(max-width:700px){.sync-layout{grid-template-columns:1fr}.sync-repo{border-right:none;border-bottom:1px solid var(--bd);max-height:120px}.sync-split{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -79,195 +190,485 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 <div class="hdr">
   <h1><span>⚡</span> git-sync</h1>
   <div class="hdr-r">
-    <span><span class="dot off" id="tkDot"></span>GitHub</span>
-    <span id="uLabel">—</span>
+    <select class="theme-sel" id="themeSel" onchange="setTheme(this.value)" title="Tema de cores">
+      <option value="dark">🌑 Dark</option>
+      <option value="light">☀ Light</option>
+      <option value="neon">💚 Neon</option>
+      <option value="ocean">🌊 Ocean</option>
+      <option value="sunset">🌅 Sunset</option>
+      <option value="forest">🌲 Forest</option>
+      <option value="monokai"> Monokai</option>
+      <option value="dracula"> Dracula</option>
+      <option value="nordic">❄ Nordic</option>
+      <option value="tokyo">🌃 Tokyo</option>
+    </select>
+    <div class="user-sel">
+      <select id="userSelect" onchange="switchUser(this.value)"></select>
+      <button onclick="openUserModal()" title="Gerenciar">⚙</button>
+      <button onclick="openUserModal('add')" title="Novo">＋</button>
+      <button onclick="exitUser()" title="Sair" style="color:var(--rd);font-size:.85rem">⏍</button>
+    </div>
+    <span><span class="dot off" id="tkDot"></span><span id="uLabel">—</span></span>
   </div>
 </div>
 
 <div class="tabs">
   <button class="tab on" onclick="tab('sync')" id="tab-sync">🔄 Sync</button>
   <button class="tab" onclick="tab('editor')" id="tab-editor">✏ Editor</button>
+  <button class="tab" onclick="tab('about')" id="tab-about">ℹ Sobre</button>
 </div>
 
 <!-- ═══ SYNC ═══ -->
 <div class="pnl on" id="pnl-sync">
-  <div class="s-bar">
-    <input type="text" id="repoUrl" placeholder="https://github.com/usuario/repositorio.git">
-    <button class="bp" onclick="syncClone()">⬇ Clone</button>
-    <button class="by" onclick="syncPull()">🔄 Pull</button>
-    <button class="bg" onclick="syncPush()">⬆ Push</button>
-  </div>
-  <div class="sync-body">
-    <div class="sync-pane">
-      <div class="p-hdr"><span>📤 Saida</span><span class="b" id="sLines">0</span></div>
-      <textarea id="sOut" class="ta" readonly placeholder="Resultado aparece aqui..."></textarea>
+  <div class="sync-layout">
+    <div class="sync-repo">
+      <div class="p-hdr"><span>📁 Repos</span><span class="b" id="repoCount">0</span></div>
+      <textarea id="repoList" class="repo-textarea" spellcheck="false" placeholder="Um repo por linha:&#10;https://github.com/u/repo1.git&#10;https://github.com/u/repo2.git" oninput="saveRepoList()"></textarea>
+      <div class="repo-bar">
+        <button onclick="addCurrentRepo()">＋ Add</button>
+        <button onclick="openTokenPage()" title="Gerar token GitHub">🔄 GitHub</button>
+        <button onclick="deleteSelectedRepo()" title="Remover selecionado" style="color:var(--rd)">✕</button>
+        <button onclick="clearRepoList()">🗑</button>
+      </div>
     </div>
-    <div class="sync-pane">
-      <div class="p-hdr"><span>📥 Mensagem Commit</span><span class="b">commit msg</span></div>
-      <textarea id="sIn" class="ta" placeholder="Mensagem do commit...&#10;&#10;Digite aqui e clique em Push para commitar e enviar."></textarea>
+    <div class="sync-main">
+      <div class="s-bar">
+        <select id="repoUrl" onchange="syncSelectToInput()" style="flex:1;padding:.4rem .6rem;background:var(--bg);border:1.5px solid var(--bd);border-radius:6px;color:var(--tx);font-size:.8rem;font-family:monospace;outline:none;cursor:pointer;min-width:0">
+          <option value="">— selecione repositorio —</option>
+        </select>
+        <input type="text" id="repoUrlInput" placeholder="Ou cole URL manualmente" style="flex:1;min-width:0">
+        <button class="bp" onclick="syncClone()">⬇ Clone</button>
+        <button class="by" onclick="syncPull()">🔄 Pull</button>
+        <button class="bg" onclick="syncPush()">⬆ Push</button>
+      </div>
+      <div class="sync-split">
+        <div class="sync-pane">
+          <div class="p-hdr"><span>📤 Saida</span><span class="b" id="sLines">0</span></div>
+          <textarea id="sOut" class="ta" readonly placeholder="Resultado..."></textarea>
+        </div>
+        <div class="sync-pane">
+          <div class="p-hdr"><span>📥 Commit Msg</span><span class="b">msg</span></div>
+          <textarea id="sIn" class="ta" placeholder="Mensagem do commit..."></textarea>
+        </div>
+      </div>
+      <div class="s-bar">
+        <input type="text" id="sToken" placeholder="Token GitHub — salvo por usuario" style="max-width:280px">
+        <button class="bb" onclick="saveToken()">💾 Token</button>
+        <button class="bg" onclick="syncTest()">🔌 Testar</button>
+        <button class="bw" onclick="sOut.value='';sIn.value=''">🗑</button>
+      </div>
     </div>
-  </div>
-  <div class="s-bar">
-    <input type="text" id="sToken" placeholder="Token GitHub (ghp_...)" style="max-width:260px">
-    <button class="bb" onclick="syncTest()">🔌 Testar Token</button>
-    <button class="bw" onclick="sOut.value='';sIn.value=''">🗑 Limpar</button>
   </div>
 </div>
 
 <!-- ═══ EDITOR ═══ -->
 <div class="pnl" id="pnl-editor">
   <div class="ed-top">
-    <span class="fi" id="eFile">arquivo.txt</span>
+    <select id="edRepoSelect" onchange="edRepoChanged()" style="padding:.25rem .4rem;background:var(--bg);border:1px solid var(--bd);border-radius:5px;color:var(--tx);font-size:.75rem;font-family:monospace;outline:none;max-width:200px">
+      <option value="">— selecione repositorio —</option>
+    </select>
+    <div class="sep"></div>
+    <span class="fi" id="eFile">novo-arquivo.txt</span>
+    <div class="sep"></div>
+    <select id="fileSelect" onchange="loadFile(this.value)" style="padding:.25rem .4rem;background:var(--bg);border:1px solid var(--bd);border-radius:5px;color:var(--tx);font-size:.75rem;font-family:monospace;outline:none;max-width:160px">
+      <option value="">— arquivos —</option>
+    </select>
+    <button onclick="refreshEdFiles()" title="Atualizar arquivos" style="padding:2px 6px;border:1px solid var(--bd);border-radius:4px;background:0 0;color:var(--dm);cursor:pointer;font-size:.7rem">🔄</button>
     <div class="sep"></div>
     <div class="ga">
+      <button class="ba" onclick="eAct('new')">＋ Novo</button>
+      <button class="ba" onclick="eAct('save')">💾 Salvar</button>
       <button class="ba" onclick="eAct('add')">＋ Add</button>
-      <button class="ba" onclick="eAct('addAll')">＋ Add All</button>
+      <button class="ba" onclick="eAct('addAll')">＋ All</button>
       <button class="bc" onclick="eAct('commit')">✔ Commit</button>
       <button class="bp2" onclick="eAct('push')">⬆ Push</button>
       <button class="bl" onclick="eAct('pull')">⬇ Pull</button>
       <button class="bs" onclick="eAct('status')">◎ Status</button>
+      <button class="bd2" onclick="eAct('delete')">✕</button>
     </div>
   </div>
   <div class="ed-body">
     <div class="ln" id="ln">1</div>
-    <textarea id="code" spellcheck="false" placeholder="// Escreva seu codigo aqui..." oninput="uLn()" onscroll="$('ln').scrollTop=code.scrollTop"></textarea>
+    <textarea id="code" spellcheck="false" placeholder="// Escreva ou edite codigo aqui..." oninput="uLn();autoSave()" onscroll="$('ln').scrollTop=code.scrollTop"></textarea>
   </div>
   <div class="ed-foot">
     <input type="text" id="eMsg" placeholder="Mensagem do commit...">
-    <input type="text" id="eName" placeholder="nome-do-arquivo.ext" style="max-width:180px">
+    <input type="text" id="eName" placeholder="arquivo.ext" style="max-width:180px">
     <button class="bp" onclick="eAct('commit')">✔ Commit</button>
     <button class="bg" onclick="eAct('push')">⬆ Push</button>
   </div>
-  <div class="ed-log" id="eLog">
-    <div class="l in">Editor pronto. Escreva e use os botoes acima.</div>
+  <div class="ed-log" id="eLog"><div class="l in">Editor pronto.</div></div>
+</div>
+
+<!-- ═══ SOBRE ═══ -->
+<div class="pnl about" id="pnl-about">
+  <h2>📋 Resumo de Funcoes</h2>
+  <div class="about-grid">
+    <div class="about-card"><div class="icon">🔄</div><h3>Sincronizacao Git</h3><p>Clone, pull e push de repositorios GitHub com autenticacao por token.</p></div>
+    <div class="about-card"><div class="icon">👥</div><h3>Multi-usuario</h3><p>Crie, troque e gerencie usuarios. Cada um com seu token e repos salvos.</p></div>
+    <div class="about-card"><div class="icon">📁</div><h3>Lista de Repos</h3><p>Importe repos do GitHub automaticamente ou adicione manualmente por URL.</p></div>
+    <div class="about-card"><div class="icon">✏</div><h3>Editor de Codigo</h3><p>Edite arquivos com numeracao de linha, auto-save e acoes git integradas.</p></div>
+    <div class="about-card"><div class="icon">🎨</div><h3>10 Temas</h3><p>Dark, Light, Neon, Ocean, Sunset, Forest, Monokai, Dracula, Nordic e Tokyo.</p></div>
+    <div class="about-card"><div class="icon">💾</div><h3>Persistencia</h3><p>Todos os dados salvos no navegador por usuario (localStorage).</p></div>
+    <div class="about-card"><div class="icon">🔍</div><h3>Teste de Token</h3><p>Valide seu token GitHub com um clique e veja o usuario conectado.</p></div>
+    <div class="about-card"><div class="icon">🚀</div><h3>Shell Script</h3><p>Script bash para sync rapida no terminal com auto-configuracao de token.</p></div>
+  </div>
+
+  <h2>💳 Doe via PIX</h2>
+  <p style="color:var(--dm);font-size:.82rem">Se este projeto te ajudou, considere fazer uma doacao!</p>
+  <div class="pix-box">
+    <div id="pixQr" style="width:160px;height:160px;background:var(--bg);border-radius:8px;border:3px solid var(--bd)"></div>
+    <div class="pix-info">
+      <span class="label">Chave PIX (Telefone)</span>
+      <span class="chave">14981305888</span>
+      <span class="label">Mensagem</span>
+      <span class="msg">Doacao para o projeto git-sync</span>
+    </div>
   </div>
 </div>
 
+<!-- ═══ MODAL ═══ -->
+<div class="modal-bg" id="modalBg" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <h2>👤 Usuarios</h2>
+    <div id="modalAdd" style="display:none">
+      <label>Nome</label><input type="text" id="mUserName" placeholder="wander">
+      <label>Email</label><input type="text" id="mUserEmail" placeholder="wander@email.com">
+      <label>Token</label><input type="password" id="mUserToken" placeholder="ghp_...">
+      <div class="btns">
+        <button class="m-btn-cancel" onclick="closeModal()">Cancelar</button>
+        <button class="m-btn-ok" onclick="addUser()">Salvar</button>
+      </div>
+    </div>
+    <div id="modalList">
+      <div class="user-list" id="userList"></div>
+      <div class="btns" style="margin-top:.8rem">
+        <button class="m-btn-cancel" onclick="closeModal()">Fechar</button>
+        <button class="m-btn-ok" onclick="openUserModal('add')">＋ Novo</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
 const $=id=>document.getElementById(id);
-const sOut=$('sOut');
+const sOut=$('sOut'),code=$('code'),eLogEl=$('eLog');
 
-// ── Tab ──
-function tab(n){
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
-  document.querySelectorAll('.pnl').forEach(p=>p.classList.remove('on'));
-  $('tab-'+n).classList.add('on');$('pnl-'+n).classList.add('on');
+/* ════ THEME ════ */
+function setTheme(t){document.documentElement.setAttribute('data-theme',t);localStorage.setItem('gs_theme',t)}
+  (function(){const s=localStorage.getItem('gs_theme')||'monokai';$('themeSel').value=s;setTheme(s)})();
+
+/* ════ USERS ════ */
+let users=JSON.parse(localStorage.getItem('gs_users')||'[]');
+let currentUser=localStorage.getItem('gs_current')||'';
+function saveUsers(){localStorage.setItem('gs_users',JSON.stringify(users))}
+function saveCurrent(){localStorage.setItem('gs_current',currentUser)}
+
+function populateSelect(){
+  const s=$('userSelect');s.innerHTML='';
+  if(!users.length){s.innerHTML='<option value="">Nenhum</option>';return}
+  users.forEach(u=>{const o=document.createElement('option');o.value=u.name;o.textContent=u.name;if(u.name===currentUser)o.selected=true;s.appendChild(o)});
+}
+function switchUser(n){currentUser=n;saveCurrent();loadUserData();loadRepoList();loadFileList();if(getToken())fetchGithubRepos();else{githubReposCache=[];populateRepoSelect([])}populateSelectFromTextarea()}
+function loadUserData(){
+  const u=users.find(x=>x.name===currentUser);
+  if(u){$('uLabel').textContent=u.name;$('sToken').value=u.token||'';$('tkDot').className=u.token?'dot on':'dot off'}
+  else{$('uLabel').textContent='—';$('sToken').value='';$('tkDot').className='dot off'}
+}
+function openUserModal(m){
+  $('modalBg').classList.add('on');
+  if(m==='add'){$('modalAdd').style.display='block';$('modalList').style.display='none';$('mUserName').value='';$('mUserEmail').value='';$('mUserToken').value='';$('mUserName').focus()}
+  else{$('modalAdd').style.display='none';$('modalList').style.display='block';renderUserList()}
+}
+function closeModal(){$('modalBg').classList.remove('on')}
+function addUser(){
+  const n=$('mUserName').value.trim(),e=$('mUserEmail').value.trim(),t=$('mUserToken').value.trim();
+  if(!n){toast('Nome obrigatorio','er');return}
+  if(users.find(u=>u.name===n)){toast('Ja existe','er');return}
+  users.push({name:n,email:e,token:t,repos:''});saveUsers();currentUser=n;saveCurrent();populateSelect();loadUserData();closeModal();toast(n+' criado!','ok');if(t)fetchGithubRepos();else{githubReposCache=[];populateRepoSelect([])}
+}
+function deleteUser(n){
+  if(!confirm('Excluir '+n+'?'))return;
+  users=users.filter(u=>u.name!==n);saveUsers();
+  if(currentUser===n&&users.length)currentUser=users[0].name;
+  saveCurrent();populateSelect();loadUserData();renderUserList();toast('Removido','in');
+}
+function exitUser(){
+  currentUser='';saveCurrent();
+  $('userSelect').innerHTML='<option value="">Nenhum</option>';
+  $('uLabel').textContent='—';$('sToken').value='';$('tkDot').className='dot off';
+  $('repoList').value='';$('repoCount').textContent='0';
+  githubReposCache=[];populateRepoSelect([]);
+  toast('Saiu da conta','in');
+}
+function selectUserFromList(n){currentUser=n;saveCurrent();populateSelect();loadUserData();loadRepoList();loadFileList();if(getToken())fetchGithubRepos();else{githubReposCache=[];populateRepoSelect([])}populateSelectFromTextarea();closeModal();toast('→ '+n,'ok')}
+function renderUserList(){
+  const el=$('userList');
+  if(!users.length){el.innerHTML='<div style="text-align:center;color:var(--dm);padding:1rem">Nenhum</div>';return}
+  el.innerHTML='';
+  users.forEach(u=>{
+    const d=document.createElement('div');d.className='user-item'+(u.name===currentUser?' current':'');
+    d.innerHTML=`<div><span class="name">${u.name}</span><span class="has-tk ${u.token?'yes':'no'}">${u.token?'tk':'sem'}</span><div class="email">${u.email||''}</div></div>`;
+    d.onclick=()=>selectUserFromList(u.name);
+    const b=document.createElement('button');b.className='del-btn';b.textContent='✕';
+    b.onclick=e=>{e.stopPropagation();deleteUser(u.name)};d.appendChild(b);el.appendChild(d);
+  });
 }
 
-// ── Sync log ──
-function sLog(t,c){if(sOut.value)sOut.value+='\n';sOut.value+=t;sOut.scrollTop=sOut.scrollHeight;$('sLines').textContent=sOut.value.split('\n').length}
+/* ════ TABS ════ */
+function tab(n){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));document.querySelectorAll('.pnl').forEach(p=>p.classList.remove('on'));$('tab-'+n).classList.add('on');$('pnl-'+n).classList.add('on')}
 
-// ── Sync Clone ──
-function syncClone(){
-  const url=$('repoUrl').value.trim();
-  if(!url){toast('Cole a URL do repositorio','er');return}
-  sLog('$ git clone '+url);
-  const name=url.split('/').pop().replace('.git','');
-  sLog('  ✔ Clonando em: '+name+'/');
-  toast('Clone: execute no terminal','in');
+/* ════ REPO LIST ════ */
+function saveRepoList(){const u=users.find(x=>x.name===currentUser);if(u){u.repos=$('repoList').value;saveUsers()}$('repoCount').textContent=$('repoList').value.split('\n').filter(l=>l.trim()).length}
+function loadRepoList(){const u=users.find(x=>x.name===currentUser);$('repoList').value=u?u.repos||'':'';$('repoCount').textContent=$('repoList').value.split('\n').filter(l=>l.trim()).length}
+function addCurrentRepo(){const u=$('repoUrlInput').value.trim()||$('repoUrl').value.trim();if(!u){toast('Cole URL','er');return}const l=$('repoList').value;if(l.includes(u)){toast('Ja existe','in');return}$('repoList').value=l?l+'\n'+u:u;saveRepoList();$('repoUrlInput').value='';toast('Adicionado','ok')}
+function clearRepoList(){$('repoList').value='';saveRepoList();populateRepoSelect([])}
+function deleteSelectedRepo(){
+  const sel=$('repoUrl').value;
+  if(!sel){toast('Selecione um repo','er');return}
+  const name=sel.replace('https://github.com/','').replace('.git','');
+  if(!confirm('Remover '+name+'?\n\nIsso APAGARA o repositorio do GitHub permanentemente!'))return;
+  const tk=getToken();
+  if(!tk){removeFromList(sel);return}
+  sLog('$ Deletando '+name+' no GitHub...');
+  fetch('https://api.github.com/repos/'+name,{method:'DELETE',headers:{'Authorization':'token '+tk,'Accept':'application/vnd.github.v3+json'}})
+  .then(r=>{if(!r.ok)return r.json().then(e=>{throw new Error(e.message||r.statusText)});return null})
+  .then(()=>{sLog('  ✔ Deletado do GitHub');removeFromList(sel);toast('Deletado','ok')})
+  .catch(e=>{sLog('  ✘ '+e.message);toast('Erro: '+e.message,'er')});
+}
+function removeFromList(sel){
+  const lines=$('repoList').value.split('\n').filter(l=>l.trim());
+  const updated=lines.filter(l=>l.trim()!==sel);
+  $('repoList').value=updated.join('\n');saveRepoList();
+  populateRepoSelect(githubReposCache);populateSelectFromTextarea();
+  $('repoUrl').value='';$('repoUrlInput').value='';toast('Removido da lista','in');
+}
+function populateSelectFromTextarea(){
+  const lines=$('repoList').value.split('\n').filter(l=>l.trim());
+  if(!lines.length)return;
+  const s=$('repoUrl');
+  const prev=s.value;
+  s.innerHTML='<option value="">— selecione repositorio —</option>';
+  const existing=new Set();
+  githubReposCache.forEach(r=>{
+    const u='https://github.com/'+r.full_name+'.git';
+    existing.add(u);
+    const o=document.createElement('option');
+    o.value=u;
+    o.textContent=(r.private?'🔒 ':'')+r.full_name+(r.description?' — '+r.description.substring(0,40):'');
+    s.appendChild(o);
+  });
+  lines.forEach(u=>{
+    if(!existing.has(u)){
+      const o=document.createElement('option');
+      o.value=u;
+      o.textContent=u.replace('https://github.com/','').replace('.git','');
+      s.appendChild(o);
+    }
+  });
+  if(prev)s.value=prev;
 }
 
-// ── Sync Pull ──
-function syncPull(){
-  sLog('$ git pull origin main');
-  sLog('  ✔ Pull executado');
-  toast('Pull pronto','ok');
-}
-
-// ── Sync Push (commit + push) ──
-function syncPush(){
-  const msg=$('sIn').value.trim()||'Atualizacao';
-  sLog('─────────────────────');
-  sLog('$ git add .');
-  sLog('$ git commit -m "'+msg+'"');
-  sLog('$ git push origin main');
-  sLog('  ✔ Sincronizado!');
-  sLog('─────────────────────');
-  toast('Push completo! Execute no terminal.','ok');
-}
-
-// ── Token ──
-async function syncTest(){
-  const tk=$('sToken').value.trim();
-  if(!tk){toast('Cole o token','er');return}
-  sLog('$ Testando token...');
+/* ════ GITHUB REPOS SELECT ════ */
+let githubReposCache=[];
+function openTokenPage(){window.open('https://github.com/settings/tokens/new?scopes=repo,read:org,workflow&description=git-sync','_blank');toast('Gere o token e cole no campo Token','in')}
+async function fetchGithubRepos(){
+  const tk=getToken();
+  if(!tk){sLog('  ✘ Sem token configurado');toast('Configure token primeiro','er');return}
+  sLog('$ Buscando repos do GitHub...');
   try{
-    const r=await fetch('https://api.github.com/user',{headers:{'Authorization':'token '+tk,'Accept':'application/vnd.github.v3+json'}});
-    const d=await r.json();
-    if(d.login){
-      sLog('  ✔ Conectado: '+d.login);
-      sLog('    Repos: '+d.public_repos+' pub, '+(d.total_private_repos||0)+' priv');
-      $('tkDot').className='dot on';$('uLabel').textContent=d.name||d.login;
-      toast('Conectado: '+d.login,'ok');
-    }else throw new Error(d.message||'Token invalido');
-  }catch(e){sLog('  ✘ '+e.message);toast('Falha','er')}
+    let all=[],page=1;
+    while(true){
+      const r=await fetch('https://api.github.com/user/repos?per_page=100&page='+page+'&sort=updated',{headers:{'Authorization':'token '+tk,'Accept':'application/vnd.github.v3+json'}});
+      if(!r.ok){const e=await r.json();throw new Error(e.message||r.statusText)}
+      const d=await r.json();if(!Array.isArray(d)||!d.length)break;
+      all=all.concat(d);if(d.length<100)break;page++;
+    }
+    githubReposCache=all;
+    populateRepoSelect(all);
+    let l=$('repoList').value,c=0;
+    all.forEach(r=>{
+      const u='https://github.com/'+r.full_name+'.git';
+      if(!l.includes(u)){l=l?l+'\n'+u:u;c++}
+    });
+    $('repoList').value=l;saveRepoList();
+    sLog('  ✔ '+all.length+' repos ('+c+' novos)');
+    toast(all.length+' repos github','ok');
+  }catch(e){sLog('  ✘ '+e.message);toast('Erro: '+e.message,'er')}
+}
+function populateRepoSelect(repos){
+  const s=$('repoUrl');
+  const prev=s.value;
+  s.innerHTML='<option value="">— selecione repositorio —</option>';
+  repos.forEach(r=>{
+    const o=document.createElement('option');
+    o.value='https://github.com/'+r.full_name+'.git';
+    o.textContent=(r.private?'🔒 ':'')+r.full_name+(r.description?' — '+r.description.substring(0,40):'');
+    s.appendChild(o);
+  });
+  if(prev)s.value=prev;
+}
+function syncSelectToInput(){
+  const v=$('repoUrl').value;
+  if(v)$('repoUrlInput').value=v;
 }
 
-// ── Editor ──
-const code=$('code');
-const eLogEl=$('eLog');
+/* ════ TOKEN ════ */
+function saveToken(){
+  const tk=$('sToken').value.trim();const u=users.find(x=>x.name===currentUser);
+  if(!u){toast('Selecione usuario','er');return}
+  u.token=tk;saveUsers();$('tkDot').className=tk?'dot on':'dot off';
+  toast(tk?'Salvo: '+u.name:'Removido',tk?'ok':'in');
+  if(tk)fetchGithubRepos();else{githubReposCache=[];populateRepoSelect([])}
+}
+function getToken(){const u=users.find(x=>x.name===currentUser);return u?u.token:''}
+
+/* ════ SYNC ════ */
+function sLog(t){if(sOut.value)sOut.value+='\n';sOut.value+=t;sOut.scrollTop=sOut.scrollHeight;$('sLines').textContent=sOut.value.split('\n').length}
+function syncClone(){const u=$('repoUrlInput').value.trim()||$('repoUrl').value.trim();if(!u){toast('Selecione repo','er');return}const tk=getToken();let c=u;if(tk&&u.startsWith('https://github.com')){const p=u.replace('https://github.com/','').replace('.git','');c='https://'+tk+'@github.com/'+p+'.git'}sLog('$ git clone '+c);sLog('  ✔ Clonando...');toast('Execute no terminal','in')}
+function syncPull(){sLog('$ git pull origin main');sLog('  ✔ Pull ok');toast('Pull','ok')}
+function syncPush(){const m=$('sIn').value.trim()||'Atualizacao';sLog('─────────────');sLog('$ git add .');sLog('$ git commit -m "'+m+'"');sLog('$ git push origin main');sLog('  ✔ OK!');sLog('─────────────');toast('Push!','ok')}
+async function syncTest(){const tk=getToken();if(!tk){toast('Salve token','er');return}sLog('$ Testando '+currentUser+'...');try{const r=await fetch('https://api.github.com/user',{headers:{'Authorization':'token '+tk,'Accept':'application/vnd.github.v3+json'}});const d=await r.json();if(d.login){sLog('  ✔ '+d.login);$('tkDot').className='dot on';toast(d.login,'ok')}else throw new Error(d.message)}catch(e){sLog('  ✘ '+e.message);toast('Falha','er')}}
+
+/* ════ EDITOR ════ */
+let files=JSON.parse(localStorage.getItem('gs_files_'+currentUser)||'[]');
+let currentFile='';
+let edRepoFiles=[];
+function saveFiles(){localStorage.setItem('gs_files_'+currentUser,JSON.stringify(files))}
+
+function populateEdRepoSelect(){
+  const s=$('edRepoSelect');const prev=s.value;
+  s.innerHTML='<option value="">— selecione repositorio —</option>';
+  githubReposCache.forEach(r=>{
+    const o=document.createElement('option');
+    o.value=r.full_name;
+    o.textContent=(r.private?'🔒 ':'')+r.full_name;
+    s.appendChild(o);
+  });
+  lines=$('repoList').value.split('\n').filter(l=>l.trim());
+  lines.forEach(u=>{
+    const name=u.replace('https://github.com/','').replace('.git','');
+    if(!githubReposCache.find(r=>r.full_name===name)){
+      const o=document.createElement('option');o.value=name;o.textContent=name;s.appendChild(o);
+    }
+  });
+  if(prev)s.value=prev;
+}
+
+async function edRepoChanged(){
+  const name=$('edRepoSelect').value;
+  if(!name){edRepoFiles=[];return}
+  const tk=getToken();if(!tk){toast('Configure token','er');return}
+  const [owner,repo]=name.split('/');
+  eL('$ Buscando arquivos de '+name+'...','cm');
+  try{
+    let all=[];
+    async function fetchTree(path){
+      const branch='main';
+      const r=await fetch('https://api.github.com/repos/'+owner+'/'+repo+'/contents/'+(path||''),{headers:{'Authorization':'token '+tk,'Accept':'application/vnd.github.v3+json'}});
+      if(!r.ok){const e=await r.json();throw new Error(e.message||r.statusText)}
+      const d=await r.json();
+      if(!Array.isArray(d))return;
+      d.sort((a,b)=>{if(a.type===b.type)return a.name.localeCompare(b.name);return a.type==='dir'?-1:1});
+      for(const item of d){
+        const fullPath=path?path+'/'+item.name:item.name;
+        if(item.type==='dir'){
+          all.push({path:fullPath,type:'dir'});
+          await fetchTree(fullPath);
+        }else{
+          all.push({path:fullPath,type:'file',size:item.size,sha:item.sha});
+        }
+      }
+    }
+    await fetchTree('');
+    edRepoFiles=all;
+    populateEdFileSelect(all);
+    eL('  ✔ '+all.length+' itens','ok');toast(all.length+' arquivos','ok');
+  }catch(e){eL('  ✘ '+e.message,'er');toast('Erro: '+e.message,'er')}
+}
+
+function populateEdFileSelect(items){
+  const s=$('fileSelect');s.innerHTML='<option value="">— arquivos —</option>';
+  const indent=s=>{let d=0;for(const c of s)if(c==='/')d++;return d};
+  items.forEach(f=>{
+    const o=document.createElement('option');
+    o.value=f.path;
+    if(f.type==='dir'){
+      o.textContent='📁 '+f.path;
+      o.style.color='var(--yl)';
+      o.style.fontWeight='700';
+    }else{
+      const pad='  '.repeat(indent(f.path));
+      o.textContent=pad+'📄 '+f.path.split('/').pop();
+      o.style.color='var(--tx)';
+    }
+    s.appendChild(o);
+  });
+}
+
+async function refreshEdFiles(){
+  if($('edRepoSelect').value)await edRepoChanged();
+  else toast('Selecione repositorio','er');
+}
+
+async function loadFile(n){
+  if(!n){currentFile='';code.value='';$('eFile').textContent='novo-arquivo.txt';$('eName').value='';return}
+  const f=files.find(x=>x.name===n);
+  if(f){currentFile=f.name;code.value=f.content;$('eFile').textContent=f.name;$('eName').value=f.name;return}
+  const repoName=$('edRepoSelect').value;
+  if(!repoName)return;
+  const [owner,repo]=repoName.split('/');
+  const tk=getToken();if(!tk){toast('Configure token','er');return}
+  eL('$ Baixando '+n+'...','cm');
+  try{
+    const r=await fetch('https://api.github.com/repos/'+owner+'/'+repo+'/contents/'+n,{headers:{'Authorization':'token '+tk,'Accept':'application/vnd.github.v3+json'}});
+    if(!r.ok){const e=await r.json();throw new Error(e.message||r.statusText)}
+    const d=await r.json();
+    if(d.encoding==='base64'){
+      const content=atob(d.content.replace(/\n/g,''));
+      code.value=content;$('eFile').textContent=n;$('eName').value=n;currentFile=n;
+      files.push({name:n,content});saveFiles();loadFileList();
+      eL('  ✔ Carregado ('+d.size+' bytes)','ok');
+    }
+  }catch(e){eL('  ✘ '+e.message,'er');toast('Erro: '+e.message,'er')}
+}
+function loadFileList(){files=JSON.parse(localStorage.getItem('gs_files_'+currentUser)||'[]');const s=$('fileSelect');s.innerHTML='<option value="">— arquivos —</option>';files.forEach(f=>{const o=document.createElement('option');o.value=f.name;o.textContent='📄 '+f.name;if(f.name===currentFile)o.selected=true;s.appendChild(o)})}
+function autoSave(){if(!currentFile)return;const f=files.find(x=>x.name===currentFile);if(f){f.content=code.value;saveFiles()}}
 function eL(t,c){const d=document.createElement('div');d.className='l '+c;d.textContent=t;eLogEl.appendChild(d);eLogEl.scrollTop=eLogEl.scrollHeight}
 function uLn(){const n=code.value.split('\n').length;const a=[];for(let i=1;i<=n;i++)a.push(i);$('ln').textContent=a.join('\n');$('ln').style.width=Math.max(36,String(n).length*9+14)+'px'}
 
 function eAct(a){
-  const msg=$('eMsg').value.trim()||'Atualizacao';
-  const fname=$('eName').value.trim()||'arquivo.txt';
-  const content=code.value;
-
+  const msg=$('eMsg').value.trim()||'Atualizacao',fname=$('eName').value.trim()||'arquivo.txt',content=code.value;
   switch(a){
-    case'add':
-      if(!content){toast('Escreva algo','er');return}
-      eL('$ cat > '+fname+" << 'EOF'","cm");
-      eL('  ('+content.split('\n').length+' linhas)',"dm");
-      eL('$ git add '+fname,"cm");
-      eL('  ✔ Adicionado',"ok");toast('Add ok','ok');break;
-
-    case'addAll':
-      if(!content){toast('Escreva algo','er');return}
-      eL('$ cat > '+fname+" << 'EOF'","cm");
-      eL('$ git add .',"cm");
-      eL('  ✔ Todos adicionados',"ok");toast('Add all ok','ok');break;
-
-    case'commit':
-      eL('─────────────────',"dm");
-      if(content){eL('$ cat > '+fname+" << 'EOF'","cm");eL('  (salvo)',"dm")}
-      eL('$ git add .',"cm");
-      eL('$ git commit -m "'+msg+'"',"cm");
-      eL('  ✔ Commit: "'+msg+'"',"ok");
-      eL('─────────────────',"dm");toast('Commit gerado','ok');break;
-
-    case'push':
-      eL('─────────────────',"dm");
-      if(content){eL('$ cat > '+fname+" << 'EOF'","cm")}
-      eL('$ git add .',"cm");
-      eL('$ git commit -m "'+msg+'"',"cm");
-      eL('$ git push origin main',"cm");
-      eL('  ✔ Enviado!',"ok");
-      eL('─────────────────',"dm");toast('Push completo!','ok');break;
-
-    case'pull':
-      eL('$ git pull origin main',"cm");
-      eL('  ✔ Pull ok',"ok");toast('Pull ok','ok');break;
-
-    case'status':
-      eL('$ git status',"cm");eL('$ git log --oneline -5',"cm");eL('$ git remote -v',"cm");
-      toast('Status','in');break;
+    case'new':{const n=prompt('Nome:','novo-arquivo.txt');if(!n)return;if(files.find(f=>f.name===n)){toast('Existe','er');return}files.push({name:n,content:''});saveFiles();currentFile=n;code.value='';$('eFile').textContent=n;$('eName').value=n;loadFileList();eL('$ Novo: '+n,'cm');toast(n,'ok');break}
+    case'save':{if(!currentFile){const n2=$('eName').value.trim()||'arquivo.txt';files.push({name:n2,content});currentFile=n2}else{const f=files.find(x=>x.name===currentFile);if(f)f.content=content}saveFiles();loadFileList();eL('  ✔ Salvo','ok');toast('Salvo','ok');break}
+    case'add':eL('$ git add '+(currentFile||fname),'cm');eL('  ✔ Ok','ok');toast('Add','ok');break;
+    case'addAll':eL('$ git add .','cm');eL('  ✔ Ok','ok');toast('Add all','ok');break;
+    case'commit':eL('─────','dm');eL('$ git add .','cm');eL('$ git commit -m "'+msg+'"','cm');eL('  ✔ '+msg,'ok');eL('─────','dm');toast('Commit','ok');break;
+    case'push':eL('─────','dm');eL('$ git add .','cm');eL('$ git commit -m "'+msg+'"','cm');eL('$ git push origin main','cm');eL('  ✔ OK!','ok');eL('─────','dm');toast('Push!','ok');break;
+    case'pull':eL('$ git pull origin main','cm');eL('  ✔ Ok','ok');toast('Pull','ok');break;
+    case'status':eL('$ git status','cm');eL('$ git log --oneline -5','cm');eL('$ git remote -v','cm');toast('Status','in');break;
+    case'delete':{if(!currentFile){toast('Selecione','er');return}if(!confirm('Excluir '+currentFile+'?'))return;files=files.filter(f=>f.name!==currentFile);saveFiles();eL('$ rm '+currentFile,'cm');currentFile='';code.value='';$('eFile').textContent='novo-arquivo.txt';$('eName').value='';loadFileList();toast('Excluido','in');break}
   }
 }
 
 function toast(m,t){const d=document.createElement('div');d.className='toast '+t;d.textContent=m;document.body.appendChild(d);setTimeout(()=>d.remove(),3000)}
 
-// ── Init ──
+/* ════ INIT ════ */
 (function(){
-  const saved=localStorage.getItem('ed_code');
-  const savedF=localStorage.getItem('ed_file');
-  if(saved)code.value=saved;
-  if(savedF)$('eName').value=savedF;
-  uLn();
-
+  if(!users.length){users=[{name:'wander',email:'',token:'',repos:''}];saveUsers();currentUser='wander';saveCurrent()}
+  if(!currentUser&&users.length)currentUser=users[0].name;
+  populateSelect();loadUserData();loadRepoList();loadFileList();uLn();
+  populateSelectFromTextarea();
+  if(getToken())fetchGithubRepos().then(()=>populateEdRepoSelect());
   sLog('═══ git-sync v2.0 ═══');
-  sLog('Cole a URL do repositorio acima.');
-  sLog('Use Sync para pull/push ou Editor para escrever codigo.\n');
+  sLog('Usuario: '+currentUser);
+  sLog('Tema: '+$('themeSel').selectedOptions[0].text);
+  sLog('Adicione repos e clique para selecionar.\n');
+  if(typeof QRCode!=='undefined'){
+    new QRCode($('pixQr'),{text:'00020126580014br.gov.bcb.pix013614981305888@pix520400005303986554040.005802BR5925Git Sync Doacao6009Sao Paulo62070503***6304',width:160,height:160,colorDark:'#e2e8f0',colorLight:'#0f172a'});
+  }
 })();
 </script>
 </body>

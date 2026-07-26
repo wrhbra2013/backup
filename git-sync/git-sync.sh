@@ -21,31 +21,100 @@ if ! git rev-parse --is-inside-work-tree &>/dev/null; then
     exit 1
 fi
 
+# ══════════════════════════════════════════════════════════
+#  INFORMACOES DO AMBIENTE
+# ══════════════════════════════════════════════════════════
+
 _branch=$(git branch --show-current 2>/dev/null || echo "main")
 _remote_url=$(git remote get-url origin 2>/dev/null || echo "")
+_git_user=$(git config user.name 2>/dev/null || echo "desconhecido")
+_git_email=$(git config user.email 2>/dev/null || echo "desconhecido")
+_repo_name=$(basename -s .git "$_remote_url" 2>/dev/null || echo "local")
 
-echo -e "${M}═══ git-sync ═══${R}"
-echo -e "${A}Branch:${R}  $_branch"
-echo -e "${A}Remote:${R}  ${_remote_url:-nenhum}"
+# ══════════════════════════════════════════════════════════
+#  STATUS DO TOKEN
+# ══════════════════════════════════════════════════════════
 
-# ── Verificar token ──
 _token="${GIT_SYNC_TOKEN:-}"
 _token_file="$HOME/.git-sync-token"
 
-# Tentar carregar token salvo
 if [ -z "$_token" ] && [ -f "$_token_file" ]; then
     _token=$(cat "$_token_file" 2>/dev/null || echo "")
 fi
 
-# Se nao tem token, pedir
-if [ -z "$_token" ]; then
+if [ -n "$_token" ]; then
+    _token_status="${V}ok${R} (existe)"
+else
+    _token_status="${VM}nok${R} (nao existe)"
+fi
+
+# ══════════════════════════════════════════════════════════
+#  PAINEL DE CONTROLE
+# ══════════════════════════════════════════════════════════
+
+echo ""
+echo -e "${M}══════════════════════════════════════${R}"
+echo -e "${M}        git-sync — Painel            ${R}"
+echo -e "${M}══════════════════════════════════════${R}"
+echo ""
+echo -e "  ${A}Usuario:${R}    ${B}$_git_user${R} <$_git_email>"
+echo -e "  ${A}Repositorio:${R} ${B}$_repo_name${R}"
+echo -e "  ${A}Branch:${R}      ${B}$_branch${R}"
+echo -e "  ${A}Token:${R}       $_token_status"
+echo ""
+
+# ══════════════════════════════════════════════════════════
+#  ULTIMOS 5 COMMITS
+# ══════════════════════════════════════════════════════════
+
+echo -e "${A}Ultimos 5 commits:${R}"
+git log --oneline -5 --color=always 2>/dev/null | while IFS= read -r _line; do
+    echo -e "  $_line"
+done
+echo ""
+
+# ══════════════════════════════════════════════════════════
+#  ARQUIVOS MODIFICADOS
+# ══════════════════════════════════════════════════════════
+
+_changes=$(git status --porcelain)
+
+if [ -z "$_changes" ]; then
+    echo -e "${AM}Nada para sincronizar.${R}"
     echo ""
-    echo -e "${AM}  GitHub nao aceita mais senha. Necessario token.${R}"
-    echo -e "${A}  Abrindo navegador para gerar token...${R}"
-    echo -e "${A}  Permissoes: repo, read:org, workflow${R}"
+    echo -ne "${A}Fazer pull mesmo assim? [s/N]:${R} "
+    read -r _do_pull
+    if [ "${_do_pull,,}" = "s" ]; then
+        echo -e "${A}git pull origin $_branch${R}"
+        git pull origin "$_branch" 2>/dev/null && echo -e "${V}Pull concluido.${R}" || echo -e "${AM}Pull nao precisou ou houve conflito.${R}"
+    fi
+    exit 0
+fi
+
+echo -e "${A}Arquivos modificados:${R}"
+echo "$_changes" | while IFS= read -r _line; do
+    _status="${_line:0:2}"
+    _file="${_line:3}"
+    case "$_status" in
+        "M ") echo -e "  ${V}M${R}  $_file";;
+        " D") echo -e "  ${VM}D${R}  $_file";;
+        "A ") echo -e "  ${AM}A${R}  $_file";;
+        "??") echo -e "  ${M}?${R}  $_file";;
+        *)    echo -e "  $_file";;
+    esac
+done
+echo ""
+
+# ══════════════════════════════════════════════════════════
+#  SE NAO TEM TOKEN, PEDIR
+# ══════════════════════════════════════════════════════════
+
+if [ -z "$_token" ]; then
+    echo -e "${AM}GitHub nao aceita mais senha. Necessario token.${R}"
+    echo -e "${A}Abrindo navegador para gerar token...${R}"
+    echo -e "${A}Permissoes: repo, read:org, workflow${R}"
     echo ""
 
-    # Abrir navegador no link do token
     if command -v xdg-open &>/dev/null; then
         xdg-open "https://github.com/settings/tokens/new?scopes=repo,read:org,workflow&description=git-sync" &
     elif command -v sensible-browser &>/dev/null; then
@@ -60,62 +129,56 @@ if [ -z "$_token" ]; then
         google-chrome "https://github.com/settings/tokens/new?scopes=repo,read:org,workflow&description=git-sync" &
     fi
 
-    echo -ne "${A}  Token GitHub:${R} "
+    echo -ne "${A}Token GitHub:${R} "
     read -rs _token
     echo ""
 
     if [ -z "$_token" ]; then
-        echo -e "${VM}  Token vazio. Abortado.${R}"
+        echo -e "${VM}Token vazio. Abortado.${R}"
         exit 1
     fi
 
-    # Salvar token
     echo "$_token" > "$_token_file"
     chmod 600 "$_token_file"
-    echo -e "${V}  Token salvo em $_token_file${R}"
+    echo -e "${V}Token salvo em $_token_file${R}"
 
-    # Configurar remote com token
     if [ -n "$_remote_url" ]; then
         _repo_path=$(echo "$_remote_url" | sed -E 's|https?://github.com/||;s|\.git$||;s|\.git/||')
         _new_url="https://${_token}@github.com/${_repo_path}.git"
         git remote set-url origin "$_new_url"
-        echo -e "${V}  Remote atualizado com token.${R}"
+        echo -e "${V}Remote atualizado com token.${R}"
     fi
 else
-    # Se ja tem token mas remote nao tem, atualizar
     if [ -n "$_remote_url" ] && [[ "$_remote_url" != *"@"* ]]; then
         _repo_path=$(echo "$_remote_url" | sed -E 's|https?://github.com/||;s|\.git$||;s|\.git/||')
         _new_url="https://${_token}@github.com/${_repo_path}.git"
         git remote set-url origin "$_new_url"
-        echo -e "${V}  Remote atualizado com token.${R}"
+        echo -e "${V}Remote atualizado com token.${R}"
     fi
 fi
 
-# ── Verificar mudancas ──
-echo ""
-_changes=$(git status --porcelain)
+# ══════════════════════════════════════════════════════════
+#  CONFIRMACAO E COMMIT
+# ══════════════════════════════════════════════════════════
 
-if [ -z "$_changes" ]; then
-    echo -e "${AM}Nada para sincronizar.${R}"
-
-    # Mesmo sem mudancas, oferecer pull
-    echo -ne "\n${A}Fazer pull mesmo assim? [s/N]:${R} "
-    read -r _do_pull
-    if [ "${_do_pull,,}" = "s" ]; then
-        echo -e "${A}git pull origin $_branch${R}"
-        git pull origin "$_branch" 2>/dev/null && echo -e "${V}✔ Pull concluido.${R}" || echo -e "${AM}Pull nao precisou ou houve conflito.${R}"
-    fi
-    exit 0
-fi
-
-echo -e "${A}Mudancas:${R}"
-echo "$_changes"
-echo ""
-
-# ── Commit message ──
 echo -ne "${A}Mensagem do commit${R} [Atualizacao]: "
 read -r _msg
 _msg="${_msg:-Atualizacao}"
+
+echo ""
+echo -e "${A}Resumo da operacao:${R}"
+echo -e "  Usuario:    $_git_user <$_git_email>"
+echo -e "  Repositorio: $_repo_name"
+echo -e "  Branch:     $_branch"
+echo -e "  Commit msg: $_msg"
+echo ""
+echo -ne "${AM}Confirmar e sincronizar? [s/N]:${R} "
+read -r _confirm
+
+if [ "${_confirm,,}" != "s" ]; then
+    echo -e "${VM}Operacao cancelada.${R}"
+    exit 0
+fi
 
 echo ""
 echo -e "${A}git add -A${R}"
@@ -124,18 +187,18 @@ git add -A
 echo -e "${A}git commit -m \"$_msg\"${R}"
 git commit -m "$_msg"
 
-# ── Pull antes do push ──
 echo ""
 echo -e "${A}git pull origin $_branch --rebase${R}"
 git pull origin "$_branch" --rebase 2>/dev/null || echo -e "${AM}Pull nao precisou ou houve conflito.${R}"
 
-# ── Push ──
 echo ""
 echo -e "${A}git push origin $_branch${R}"
 if git push origin "$_branch" 2>&1; then
-    echo -e "\n${V}${B}✔ Sincronizado com sucesso!${R}"
+    echo ""
+    echo -e "${V}${B}Sincronizado com sucesso!${R}"
 else
-    echo -e "\n${VM}✘ Falha no push.${R}"
+    echo ""
+    echo -e "${VM}Falha no push.${R}"
     echo -e "${A}Verifique: https://github.com/settings/tokens${R}"
     exit 1
 fi
