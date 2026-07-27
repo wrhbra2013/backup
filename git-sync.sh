@@ -9,7 +9,7 @@ set -euo pipefail
 # ══════════════════════════════════════════════════════════
 #  .ENV EMBUTIDO
 # ══════════════════════════════════════════════════════════
-GIT_SYNC_TOKEN="${GIT_SYNC_TOKEN:-}"
+GIT_SYNC_TOKEN="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"
 
 V='\033[0;32m'  A='\033[0;34m'  AM='\033[1;33m'
 VM='\033[0;31m'  M='\033[0;35m'  R='\033[0m'  B='\033[1m'
