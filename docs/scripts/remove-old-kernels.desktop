@@ -2,7 +2,7 @@
 Type=Application
 Name=remove_old_kernels.sh
 Comment=remove-old-kernels.sh
-Exec=x-terminal-emulator -e bash -c '/home/runner/work/backup/backup/system_scripts/remove_old_kernels.sh; echo ""; echo "=== Script finalizado. Pressione Enter para fechar ==="; read'
+Exec=x-terminal-emulator -e bash -c '/home/wander/Public/backup/system_scripts/remove_old_kernels.sh; echo ""; echo "=== Script finalizado. Pressione Enter para fechar ==="; read'
 Terminal=true
 Icon=terminal
 Categories=Development;System;

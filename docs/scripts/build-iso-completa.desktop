@@ -2,7 +2,7 @@
 Type=Application
 Name=build_iso_completa.sh
 Comment===============================================================================
-Exec=x-terminal-emulator -e bash -c '/home/runner/work/backup/backup/build_iso_completa.sh; echo ""; echo "=== Script finalizado. Pressione Enter para fechar ==="; read'
+Exec=x-terminal-emulator -e bash -c '/home/wander/Public/backup/build_iso_completa.sh; echo ""; echo "=== Script finalizado. Pressione Enter para fechar ==="; read'
 Terminal=true
 Icon=terminal
 Categories=Development;System;

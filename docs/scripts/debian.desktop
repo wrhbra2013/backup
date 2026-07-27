@@ -2,7 +2,7 @@
 Type=Application
 Name=debian.sh
 Comment=1. Definir o nome da pasta de trabalho (ao lado deste script)
-Exec=x-terminal-emulator -e bash -c '/home/runner/work/backup/backup/debian.sh; echo ""; echo "=== Script finalizado. Pressione Enter para fechar ==="; read'
+Exec=x-terminal-emulator -e bash -c '/home/wander/Public/backup/debian.sh; echo ""; echo "=== Script finalizado. Pressione Enter para fechar ==="; read'
 Terminal=true
 Icon=terminal
 Categories=Development;System;

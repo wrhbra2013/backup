@@ -9,7 +9,7 @@ set -euo pipefail
 # ══════════════════════════════════════════════════════════
 #  .ENV EMBUTIDO
 # ══════════════════════════════════════════════════════════
-GIT_SYNC_TOKEN="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"
+GIT_SYNC_TOKEN="${GIT_SYNC_TOKEN:-}"
 
 V='\033[0;32m'  A='\033[0;34m'  AM='\033[1;33m'
 VM='\033[0;31m'  M='\033[0;35m'  R='\033[0m'  B='\033[1m'
@@ -124,7 +124,7 @@ echo ""
 # ══════════════════════════════════════════════════════════
 
 if [ -n "$_remote_url" ] && [ -n "$_token" ]; then
-    _repo_path=$(echo "$_remote_url" | sed -E 's|https?://[^@]*@github.com/||;s|\.git$||;s|\.git/||')
+    _repo_path=$(echo "$_remote_url" | sed -E 's|https?://[^@]*@github.com/||;s|https?://github.com/||;s|\.git$||;s|\.git/||')
     _new_url="https://${_token}@github.com/${_repo_path}.git"
     git remote set-url origin "$_new_url"
 fi
