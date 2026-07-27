@@ -111,8 +111,8 @@ tr:hover td { background: #f8fafc; }
       <p class="subtitle">╔══════════════════════════════════════════════════════════╗</p>
 
       <div class="meta-table"><table><tr><td colspan='2'>╔══════════════════════════════════════════════════════════╗</td></tr><tr><td colspan='2'>║  git-sync.sh — Sincroniza repositorio com GitHub        ║</td></tr><tr><td colspan='2'>╚══════════════════════════════════════════════════════════╝</td></tr><tr><td colspan='2'>&nbsp;</td></tr></table></div>
-      <div class="meta-table"><table><tr><td>Arquivo</td><td><code>git-sync.sh</code></td></tr><tr><td>Shebang</td><td><code>#!/bin/bash</code></td></tr><tr><td>Tamanho</td><td>7.7 KB · 177 linhas</td></tr></table></div>
-      
+      <div class="meta-table"><table><tr><td>Arquivo</td><td><code>git-sync.sh</code></td></tr><tr><td>Shebang</td><td><code>#!/bin/bash</code></td></tr><tr><td>Tamanho</td><td>12.9 KB · 295 linhas</td></tr></table></div>
+      <h2>Funções</h2><div class='func-list'><span class="func-item">_verificar_alinhamento() <span style="opacity:0.5">linha 55</span></span></div>
       <h2>Variáveis de Configuração</h2><div class='var-list'><span class="var-item"><code>GIT_SYNC_TOKEN</code> = <code>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</code></span><span class="var-item"><code>VM</code> = <code>\033[0;31m&#x27;  M=&#x27;\033[0;35m&#x27;  R=&#x27;\033[0m&#x27;  B=&#x27;\033[1m</code></span></div>
       <h2>Comandos Utilizados</h2><div class="cmd-group"><div class="cmd-group-title">Git</div><div class="cmd-list"><span class="badge badge-cmd">git</span></div></div><div class="cmd-group"><div class="cmd-group-title">Text Processing</div><div class="cmd-list"><span class="badge badge-cmd">sed</span></div></div>
       
@@ -168,6 +168,110 @@ if [ -n &quot;$_token&quot; ]; then
 else
     _token_status=&quot;${VM}nok${R} (nao existe)&quot;
 fi
+
+# ══════════════════════════════════════════════════════════
+#  VERIFICACAO DE ALINHAMENTO PRE-SYNC
+# ══════════════════════════════════════════════════════════
+
+_verificar_alinhamento() {
+    echo &quot;&quot;
+    echo -e &quot;${M}══════════════════════════════════════${R}&quot;
+    echo -e &quot;${M}     Verificacao de Alinhamento       ${R}&quot;
+    echo -e &quot;${M}══════════════════════════════════════${R}&quot;
+    echo &quot;&quot;
+
+    local _erros=0
+    local _avisos=0
+
+    # ── 1. Fetch remoto ──
+    echo -e &quot;${A}[1/5]${R} Buscando atualizacoes do remoto...&quot;
+    if git fetch origin &quot;$_branch&quot; 2&gt;/dev/null; then
+        echo -e &quot;  ${V}ok${R} — fetch concluido&quot;
+    else
+        echo -e &quot;  ${VM}falha${R} — nao foi possivel acessar o remoto&quot;
+        (( _erros++ ))
+    fi
+
+    # ── 2. Verificar divergencia local vs remoto ──
+    echo &quot;&quot;
+    echo -e &quot;${A}[2/5]${R} Comparando branch local com remoto...&quot;
+    _local_hash=$(git rev-parse HEAD 2&gt;/dev/null)
+    _remote_hash=$(git rev-parse &quot;origin/$_branch&quot; 2&gt;/dev/null || echo &quot;&quot;)
+    _base_hash=$(git merge-base HEAD &quot;origin/$_branch&quot; 2&gt;/dev/null || echo &quot;&quot;)
+
+    if [ -n &quot;$_remote_hash&quot; ] &amp;&amp; [ &quot;$_local_hash&quot; = &quot;$_remote_hash&quot; ]; then
+        echo -e &quot;  ${V}ok${R} — local e remoto estao identicos&quot;
+    elif [ -n &quot;$_base_hash&quot; ] &amp;&amp; [ &quot;$_local_hash&quot; != &quot;$_remote_hash&quot; ]; then
+        _local_ahead=$(git rev-list --count &quot;origin/$_branch..HEAD&quot; 2&gt;/dev/null || echo &quot;0&quot;)
+        _local_behind=$(git rev-list --count &quot;HEAD..origin/$_branch&quot; 2&gt;/dev/null || echo &quot;0&quot;)
+
+        if [ &quot;$_local_behind&quot; -gt 0 ] &amp;&amp; [ &quot;$_local_ahead&quot; -gt 0 ]; then
+            echo -e &quot;  ${VM}CONFLITO${R} — branches divergentes: $_local_ahead commits à frente, $_local_behind atras&quot;
+            (( _erros++ ))
+        elif [ &quot;$_local_behind&quot; -gt 0 ]; then
+            echo -e &quot;  ${AM}AVISO${R} — local esta $_local_behind commit(s) atras do remoto (pull necessario)&quot;
+            (( _avisos++ ))
+        elif [ &quot;$_local_ahead&quot; -gt 0 ]; then
+            echo -e &quot;  ${AM}AVISO${R} — local esta $_local_ahead commit(s) a frente do remoto (push necessario)&quot;
+            (( _avisos++ ))
+        fi
+    else
+        echo -e &quot;  ${VM}erro${R} — nao foi possivel comparar branches&quot;
+        (( _erros++ ))
+    fi
+
+    # ── 3. Verificar arquivos nao rastreados (untracked) ──
+    echo &quot;&quot;
+    echo -e &quot;${A}[3/5]${R} Verificando arquivos nao rastreados...&quot;
+    _untracked=$(git ls-files --others --exclude-standard 2&gt;/dev/null | wc -l)
+    if [ &quot;$_untracked&quot; -gt 0 ]; then
+        echo -e &quot;  ${AM}AVISO${R} — $_untracked arquivo(s) nao rastreado(s) sera(o) ignorado(s) no pull&quot;
+        (( _avisos++ ))
+    else
+        echo -e &quot;  ${V}ok${R} — todos os arquivos estao rastreados&quot;
+    fi
+
+    # ── 4. Verificar stash pendente ──
+    echo &quot;&quot;
+    echo -e &quot;${A}[4/5]${R} Verificando stash pendente...&quot;
+    _stash_count=$(git stash list 2&gt;/dev/null | wc -l)
+    if [ &quot;$_stash_count&quot; -gt 0 ]; then
+        echo -e &quot;  ${AM}AVISO${R} — $_stash_count stash(es) pendente(s) — considere usar stash pop&quot;
+        (( _avisos++ ))
+    else
+        echo -e &quot;  ${V}ok${R} — nenhum stash pendente&quot;
+    fi
+
+    # ── 5. Verificar conflitos de merge anteriores ──
+    echo &quot;&quot;
+    echo -e &quot;${A}[5/5]${R} Verificando conflitos de merge...&quot;
+    _unmerged=$(git diff --name-only --diff-filter=U 2&gt;/dev/null | wc -l)
+    if [ &quot;$_unmerged&quot; -gt 0 ]; then
+        echo -e &quot;  ${VM}ERRO${R} — $_unmerged arquivo(s) com conflito de merge nao resolvido(s)&quot;
+        (( _erros++ ))
+    else
+        echo -e &quot;  ${V}ok${R} — nenhum conflito de merge&quot;
+    fi
+
+    # ── Resultado ──
+    echo &quot;&quot;
+    echo -e &quot;${M}──────────────────────────────────────${R}&quot;
+    if [ &quot;$_erros&quot; -gt 0 ]; then
+        echo -e &quot;  ${VM}RESULTADO: $_erros erro(s), $_avisos aviso(s)${R}&quot;
+        echo -e &quot;  ${VM}Corrija os erros antes de sincronizar.${R}&quot;
+        echo &quot;&quot;
+        return 1
+    elif [ &quot;$_avisos&quot; -gt 0 ]; then
+        echo -e &quot;  ${AM}RESULTADO: 0 erros, $_avisos aviso(s)${R}&quot;
+        echo -e &quot;  ${AM}Prosseguir com cuidado.${R}&quot;
+        echo &quot;&quot;
+        return 0
+    else
+        echo -e &quot;  ${V}RESULTADO: tudo alinhado, pronto para sync${R}&quot;
+        echo &quot;&quot;
+        return 0
+    fi
+}
 
 # ══════════════════════════════════════════════════════════
 #  PAINEL DE CONTROLE
@@ -241,11 +345,25 @@ done
 echo &quot;&quot;
 
 # ══════════════════════════════════════════════════════════
+#  VERIFICACAO DE ALINHAMENTO
+# ══════════════════════════════════════════════════════════
+
+if ! _verificar_alinhamento; then
+    echo -ne &quot;${VM}Deseja abortar a sincronizacao? [S/n]:${R} &quot;
+    read -r _abort
+    if [ &quot;${_abort,,}&quot; != &quot;n&quot; ]; then
+        echo -e &quot;${VM}Operacao abortada.${R}&quot;
+        exit 1
+    fi
+    echo -e &quot;${AM}Continuando mesmo assim...${R}&quot;
+fi
+
+# ══════════════════════════════════════════════════════════
 #  ATUALIZAR REMOTE COM TOKEN
 # ══════════════════════════════════════════════════════════
 
 if [ -n &quot;$_remote_url&quot; ] &amp;&amp; [ -n &quot;$_token&quot; ]; then
-    _repo_path=$(echo &quot;$_remote_url&quot; | sed -E &#x27;s|https?://[^@]*@github.com/||;s|\.git$||;s|\.git/||&#x27;)
+    _repo_path=$(echo &quot;$_remote_url&quot; | sed -E &#x27;s|https?://[^@]*@github.com/||;s|https?://github.com/||;s|\.git$||;s|\.git/||&#x27;)
     _new_url=&quot;https://${_token}@github.com/${_repo_path}.git&quot;
     git remote set-url origin &quot;$_new_url&quot;
 fi
