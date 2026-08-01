@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>@grupoamoranimal - Postagens por Categoria</title>
+<style>
+:root{
+  --bg:linear-gradient(135deg,#f5f7fa,#e8ecf1);
+  --surface:rgba(255,255,255,0.92);
+  --border:rgba(0,0,0,0.07);
+  --text:#1a1a2e;--muted:#555;--dim:#999;
+  --grad:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);
+  --c-adocao:#0a7d4f;--bg-adocao:rgba(10,125,79,0.12);
+  --c-castracao:#1d4ed8;--bg-castracao:rgba(29,78,216,0.12);
+  --c-procura:#c2410c;--bg-procura:rgba(194,65,12,0.12);
+  --c-doacao:#a21caf;--bg-doacao:rgba(162,28,175,0.12);
+  --c-outros:#6b7280;--bg-outros:rgba(107,114,128,0.14);
+  --shadow:0 4px 16px rgba(0,0,0,0.08);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',Tahoma,sans-serif;background:var(--bg);min-height:100vh;color:var(--text)}
+header{background:rgba(255,255,255,0.85);backdrop-filter:blur(12px);padding:14px 30px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:14px;box-shadow:0 1px 3px rgba(0,0,0,0.06);position:sticky;top:0;z-index:50;flex-wrap:wrap}
+.ig-icon{width:36px;height:36px;border-radius:10px;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:1.2rem}
+header h1{font-size:1.25rem;font-weight:700;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+header .sub{font-size:0.72rem;color:var(--dim);width:100%}
+.container{max-width:1200px;margin:0 auto;padding:20px 24px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.tab{padding:8px 16px;border-radius:20px;border:1px solid var(--border);background:var(--surface);cursor:pointer;font-size:0.85rem;font-weight:600;font-family:inherit;color:var(--muted);transition:all .15s;display:flex;align-items:center;gap:6px}
+.tab .n{font-size:0.7rem;background:rgba(0,0,0,0.06);padding:1px 7px;border-radius:10px;color:var(--dim)}
+.tab:hover{transform:translateY(-1px);box-shadow:var(--shadow)}
+.tab.active{background:var(--grad);color:#fff;border-color:transparent}
+.tab.active .n{background:rgba(255,255,255,0.25);color:#fff}
+.controls{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.controls input,.controls select{padding:9px 14px;border-radius:10px;border:1px solid var(--border);background:var(--surface);font-family:inherit;font-size:0.85rem;color:var(--text);outline:none}
+.controls input{flex:1;min-width:200px}
+.controls select{width:auto}
+.controls input:focus,.controls select:focus{border-color:#cc2366;box-shadow:0 0 0 3px rgba(204,35,102,0.1)}
+.info{font-size:0.78rem;color:var(--dim);margin-bottom:14px}
+.feed{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px}
+.post{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;transition:transform 0.2s,box-shadow 0.2s;box-shadow:0 1px 3px rgba(0,0,0,0.06);display:flex;flex-direction:column}
+.post:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.post-top{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:12px 14px 6px}
+.badge{font-size:0.66rem;text-transform:uppercase;letter-spacing:0.6px;padding:3px 9px;border-radius:20px;font-weight:700}
+.badge-adocao{background:var(--bg-adocao);color:var(--c-adocao)}
+.badge-castracao{background:var(--bg-castracao);color:var(--c-castracao)}
+.badge-procura-se{background:var(--bg-procura);color:var(--c-procura)}
+.badge-doacao{background:var(--bg-doacao);color:var(--c-doacao)}
+.badge-outros{background:var(--bg-outros);color:var(--c-outros)}
+.post-meta{display:flex;align-items:center;gap:6px;font-size:0.7rem;color:var(--dim)}
+.type-icon{font-size:0.8rem}
+.post-body{padding:6px 14px 12px;flex:1;display:flex;flex-direction:column}
+.post-title{font-size:0.95rem;font-weight:700;line-height:1.35;margin-bottom:8px;color:var(--text)}
+.post-caption{font-size:0.8rem;line-height:1.5;color:var(--muted);word-break:break-word;white-space:pre-wrap}
+.post-caption.clamp{max-height:6em;overflow:hidden;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;white-space:normal}
+.btn-more{border:none;background:none;color:var(--c-castracao);font-size:0.72rem;font-weight:600;cursor:pointer;padding:4px 0;align-self:flex-start;font-family:inherit}
+.post-stats{display:flex;gap:16px;margin-top:auto;padding:10px 14px;border-top:1px solid rgba(0,0,0,0.05);font-size:0.75rem;color:var(--muted);align-items:center}
+.post-stats .spacer{flex:1}
+.post-link{font-size:0.75rem;color:#cc2366;text-decoration:none;font-weight:700}
+.post-link:hover{text-decoration:underline}
+.empty{grid-column:1/-1;text-align:center;color:var(--dim);padding:60px 0}
+.toolbar{position:fixed;bottom:20px;right:20px;display:flex;gap:8px;z-index:10}
+.toolbar button{padding:10px 16px;border-radius:8px;border:none;cursor:pointer;font-size:0.82rem;font-weight:600;box-shadow:var(--shadow);font-family:inherit}
+.btn-dl{background:var(--grad);color:#fff}
+.btn-top{background:#fff;color:var(--text);border:1px solid var(--border)!important}
+footer{text-align:center;padding:30px;color:var(--dim);font-size:0.75rem}
+@media(max-width:600px){.feed{grid-template-columns:1fr}header{padding:12px 16px}}
+</style>
+</head>
+<body>
+<header>
+<div class="ig-icon">&#128062;</div>
+<h1>@grupoamoranimal - Postagens por Categoria</h1>
+<div class="sub">ONG Grupo Amor Animal - Jaque &middot; Marília/SP &middot; cobertura: __COBERTURA__ &middot; total de postagens: __TOTAL__ &middot; gerado em __GERADO_EM__</div>
+</header>
+<div class="container">
+<div class="tabs" id="tabs"></div>
+<div class="controls">
+<input type="text" id="busca" placeholder="Buscar por título ou conteúdo...">
+<select id="ordem">
+<option value="desc">Mais recentes primeiro</option>
+<option value="asc">Mais antigas primeiro</option>
+</select>
+</div>
+<div class="info" id="info"></div>
+<div class="feed" id="feed"></div>
+</div>
+<footer>Gerado automaticamente a partir de dados publicos do perfil @grupoamoranimal (via imginn.com) &middot; Dados: instagram-grupoamoranimal-dataset.json</footer>
+<div class="toolbar">
+<button class="btn-dl" onclick="downloadJSON()">JSON</button>
+<button class="btn-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">Topo</button>
+</div>
+<script>
+const POSTS = /*__DATA__*/[];
+const LABEL = {adocao:'Adoção',castracao:'Castração','procura-se':'Procura-se',doacao:'Doações',outros:'Outros'};
+const TABS = ['adocao','castracao','procura-se','doacao','outros'];
+let active = 'todos';
+let q = '';
+let ordem = 'desc';
+
+function fmtData(iso){
+  if(!iso) return '—';
+  const d = new Date(iso);
+  const pad = n => String(n).padStart(2,'0');
+  const hoje = new Date();
+  const diff = Math.floor((hoje - d)/86400000);
+  let rel;
+  if(diff < 1) rel = 'hoje';
+  else if(diff === 1) rel = 'há 1 dia';
+  else if(diff < 30) rel = 'há ' + diff + ' dias';
+  else if(diff < 365) rel = 'há ' + Math.floor(diff/30) + ' meses';
+  else rel = 'há ' + Math.floor(diff/365) + ' ano(s)';
+  return rel + ' &middot; ' + pad(d.getDate()) + '/' + pad(d.getMonth()+1) + '/' + d.getFullYear() + ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes());
+}
+
+function renderTabs(){
+  const counts = {};
+  POSTS.forEach(p => counts[p.categoria] = (counts[p.categoria]||0)+1);
+  const el = document.getElementById('tabs');
+  el.innerHTML = '';
+  const mk = (key, label, n) => {
+    const b = document.createElement('button');
+    b.className = 'tab' + (active === key ? ' active' : '');
+    b.innerHTML = label + ' <span class="n">' + n + '</span>';
+    b.onclick = () => { active = key; renderTabs(); render(); };
+    el.appendChild(b);
+  };
+  mk('todos', 'Todos', POSTS.length);
+  TABS.forEach(t => mk(t, LABEL[t], counts[t]||0));
+}
+
+function render(){
+  const query = q.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+  let list = POSTS.filter(p => active === 'todos' || p.categoria === active);
+  if(query){
+    list = list.filter(p =>
+      p.titulo.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').includes(query) ||
+      (p.legenda||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').includes(query)
+    );
+  }
+  list = list.slice().sort((a,b) => ordem === 'desc' ? (b.data||'').localeCompare(a.data||'') : (a.data||'').localeCompare(b.data||''));
+
+  document.getElementById('info').textContent = list.length + ' postagem(ns) exibida(s) em "' + (active==='todos' ? 'Todos' : LABEL[active]) + '"' + (q ? ' (filtro: "' + q + '")' : '') + '.';
+
+  const feed = document.getElementById('feed');
+  if(!list.length){
+    feed.innerHTML = '<div class="empty">Nenhuma postagem encontrada.</div>';
+    return;
+  }
+  feed.innerHTML = list.map(p => {
+    const typeIcon = p.tipo === 'VIDEO' ? '&#127909;' : p.tipo === 'CAROUSEL' ? '&#128247;' : '';
+    const legenda = (p.legenda||'').trim();
+    return '<article class="post">' +
+      '<div class="post-top">' +
+        '<span class="badge badge-' + p.categoria + '">' + (LABEL[p.categoria]||p.categoria) + '</span>' +
+        '<div class="post-meta">' + fmtData(p.data) + ' <span class="type-icon">' + typeIcon + '</span></div>' +
+      '</div>' +
+      '<div class="post-body">' +
+        '<div class="post-title">' + esc(p.titulo) + '</div>' +
+        (legenda ? '<div class="post-caption clamp" data-full="' + esc(legenda) + '"></div><button class="btn-more">Ver legenda completa</button>' : '') +
+      '</div>' +
+      '<div class="post-stats"><span>&#10084;&#65039; ' + p.likes.toLocaleString('pt-BR') + '</span><span>&#128172; ' + p.com.toLocaleString('pt-BR') + '</span><span class="spacer"></span><a class="post-link" target="_blank" rel="noopener" href="' + p.url + '">Ver no Instagram &#8599;</a></div>' +
+    '</article>';
+  }).join('');
+
+  feed.querySelectorAll('.post-caption').forEach(el => {
+    el.textContent = el.dataset.full;
+    const btn = el.nextElementSibling;
+    if(btn){
+      btn.addEventListener('click', () => {
+        const isClamp = el.classList.contains('clamp');
+        el.classList.toggle('clamp');
+        btn.textContent = isClamp ? 'Ver menos' : 'Ver legenda completa';
+      });
+    }
+  });
+}
+
+function esc(s){
+  const d = document.createElement('div');
+  d.textContent = s;
+  return d.innerHTML;
+}
+
+function downloadJSON(){
+  const dados = { perfil:{username:'grupoamoranimal',nome:'ONG- Grupo Amor Animal - Jaque'}, filtro_atual: active, posts: POSTS };
+  const b = new Blob([JSON.stringify(dados,null,2)],{type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(b);
+  a.download = 'instagram-grupoamoranimal-abas.json';
+  a.click();
+}
+
+document.getElementById('busca').addEventListener('input', e => { q = e.target.value; render(); });
+document.getElementById('ordem').addEventListener('change', e => { ordem = e.target.value; render(); });
+
+renderTabs();
+render();
+</script>
+</body>
+</html>
