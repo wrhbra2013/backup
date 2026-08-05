@@ -13,6 +13,7 @@
  *   node atualizar.js --save-only     Nao coleta; apenas regenera JSON/HTML com os dados ja salvos
  *   node atualizar.js --max-pages N   Limite de paginas coletadas (padrao: 250)
  *   node atualizar.js --delay MS      Pausa entre paginas em ms (padrao: 450)
+ *   node atualizar.js --sync          Ao final, envia os dados novos para a API (sincronizar.js)
  *
  * Requisitos: Node.js 18+ (fetch nativo).
  */
@@ -23,9 +24,9 @@ const path = require('path');
 
 const DIR = __dirname;
 const USERNAME = 'grupoamoranimal';
-const FILE_JSON = path.join(DIR, 'instagram-grupoamoranimal-dataset.json');
-const FILE_HTML = path.join(DIR, 'instagram-grupoamoranimal-abas.html');
-const FILE_TPL = path.join(DIR, 'template-abas.html');
+const FILE_JSON = path.join(DIR, '..', 'json', 'instagram-grupoamoranimal-dataset.json');
+const FILE_HTML = path.join(DIR, '..', 'html', 'instagram-grupoamoranimal-abas.html');
+const FILE_TPL = path.join(DIR, '..', 'html', 'template-abas.html');
 
 const UA =
   'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36';
@@ -333,6 +334,22 @@ async function main() {
   log('dataset     : ' + FILE_JSON);
   log('pagina html : ' + FILE_HTML);
   log('concluido em ' + new Date().toLocaleString('pt-BR'));
+
+  if (process.argv.includes('--sync')) {
+    log('=== Sincronizando com a API ===');
+    const { execFileSync } = require('child_process');
+    try {
+      execFileSync(process.execPath, [path.join(DIR, 'sincronizar.js')], {
+        stdio: 'inherit',
+        env: Object.assign({}, process.env, {
+          API_BASE: process.env.API_BASE || 'https://api.projetosdinamicos.com.br/amoranimal',
+        }),
+      });
+      log('sincronizacao com a API concluida.');
+    } catch (e) {
+      log('AVISO: sincronizacao com a API falhou (' + (e.message || 'erro') + ').');
+    }
+  }
 }
 
 main().catch((e) => {
