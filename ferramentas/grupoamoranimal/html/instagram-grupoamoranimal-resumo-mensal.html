@@ -118,6 +118,35 @@ const fmtData = iso => {
   return p(d.getDate()) + '/' + p(d.getMonth()+1) + '/' + d.getFullYear();
 };
 
+function postsFiltrados(){
+  const todos = [];
+  Object.values(RESUMO.por_ano).forEach(a => Object.values(a.meses).forEach(m => m.posts.forEach(p => todos.push(p))));
+  if(!q) return todos;
+  return todos.filter(p =>
+    norm(p.titulo).includes(q) ||
+    norm(p.categoria).includes(q) ||
+    norm(LABEL[p.categoria]).includes(q));
+}
+
+function agregar(lista){
+  const porAno = {}, totalCats = {};
+  let likes = 0, com = 0;
+  lista.forEach(p => {
+    const ano = (p.data || '').slice(0,4);
+    const A = porAno[ano] || (porAno[ano] = {quantidade_posts:0,total_likes:0,total_comentarios:0,imagens:0,videos:0,carrosseis:0,por_categoria:{}});
+    A.quantidade_posts++; likes += p.likes||0; com += p.comentarios||0;
+    A.total_likes += p.likes||0; A.total_comentarios += p.comentarios||0;
+    if(p.tipo === 'VIDEO') A.videos++; else if(p.tipo === 'CAROUSEL') A.carrosseis++; else A.imagens++;
+    A.por_categoria[p.categoria] = (A.por_categoria[p.categoria]||0)+1;
+    totalCats[p.categoria] = (totalCats[p.categoria]||0)+1;
+  });
+  Object.values(porAno).forEach(A => {
+    A.media_likes_por_post = A.quantidade_posts ? +(A.total_likes/A.quantidade_posts).toFixed(1) : 0;
+    A.media_comentarios_por_post = A.quantidade_posts ? +(A.total_comentarios/A.quantidade_posts).toFixed(1) : 0;
+  });
+  return {porAno, totalCats, totalLikes: likes, totalCom: com};
+}
+
 function renderTabs(){
   const el = $('tabs');
   el.innerHTML = '';
@@ -137,13 +166,14 @@ function card(v, l){
 }
 
 function renderDashboard(){
-  const e = RESUMO.estatisticas, p = RESUMO.perfil, anos = RESUMO.por_ano;
+  const p = RESUMO.perfil;
+  const lista = postsFiltrados();
+  const G = agregar(lista);
+  const anos = G.porAno;
+  const anosKey = Object.keys(anos).sort((a,b)=>b-a);
   let html = '';
 
   // Perfil
-  const y = Object.values(anos).reduce((s,a)=>s+a.quantidade_posts,0);
-  const totalCats = {};
-  Object.values(anos).forEach(a => Object.entries(a.por_categoria).forEach(([c,n]) => totalCats[c]=(totalCats[c]||0)+n));
   html += '<div class="profile-card"><div class="avatar">&#128062;</div><div><h3>' + esc(p.nome) +
     (p.eh_verificado ? '<span class="verified">&#10003; Verificado</span>' : '') + '</h3>' +
     '<div class="usr">@' + esc(p.username) + '</div>' +
@@ -151,15 +181,17 @@ function renderDashboard(){
     '<div class="profile-stats"><span><b>' + num(p.seguidores) + '</b> seguidores</span>' +
     '<span><b>' + num(p.seguindo) + '</b> seguindo</span>' +
     '<span><b>' + num(p.total_posts) + '</b> posts no perfil</span>' +
-    '<span><b>' + num(y) + '</b> posts analisados (' + (p.total_posts ? Math.round(y/p.total_posts*100) : 0) + '%)</span></div></div></div>';
+    '<span><b>' + num(lista.length) + '</b> posts analisados' + (q ? ' (filtro)' : '') + '</span></div></div></div>';
 
   html += '<div class="section-title"><span class="bar"></span>Estatísticas gerais</div>';
+  const mediaL = lista.length ? G.totalLikes/lista.length : 0;
+  const mediaC = lista.length ? G.totalCom/lista.length : 0;
   html += '<div class="cards">' +
-    card(num(e.posts_coletados), 'Posts coletados') +
-    card(num(e.total_likes), 'Total de curtidas') +
-    card(num(e.total_comentarios), 'Total de comentários') +
-    card(num(e.media_likes_por_post), 'Média de curtidas') +
-    card(num(e.media_comentarios_por_post), 'Média de comentários') +
+    card(num(lista.length), 'Posts' + (q ? ' (filtro)' : ' coletados')) +
+    card(num(G.totalLikes), 'Total de curtidas') +
+    card(num(G.totalCom), 'Total de comentários') +
+    card(num(mediaL), 'Média de curtidas') +
+    card(num(mediaC), 'Média de comentários') +
     '</div>';
 
   // Tabela por ano
@@ -168,7 +200,7 @@ function renderDashboard(){
     '<th>Ano</th><th class="num">Posts</th><th class="num">Curtidas</th><th class="num">Comentários</th>' +
     '<th class="num">Imagens</th><th class="num">Vídeos</th><th class="num">Carrosséis</th>' +
     '<th class="num">Média curt.</th><th class="num">Média com.</th><th>Categorias</th></tr></thead><tbody>' +
-    Object.keys(anos).map(a => {
+    (anosKey.length ? anosKey.map(a => {
       const A = anos[a];
       const top = Object.entries(A.por_categoria).slice(0,3).map(([c,n]) => badge(c) + ' ' + n).join(' ');
       return '<tr><td><b>' + a + '</b></td><td class="num">' + num(A.quantidade_posts) + '</td>' +
@@ -176,26 +208,34 @@ function renderDashboard(){
         '<td class="num">' + num(A.imagens) + '</td><td class="num">' + num(A.videos) + '</td>' +
         '<td class="num">' + num(A.carrosseis) + '</td><td class="num">' + num(A.media_likes_por_post) + '</td>' +
         '<td class="num">' + num(A.media_comentarios_por_post) + '</td><td>' + top + '</td></tr>';
-    }).join('') + '</tbody></table></div>';
+    }).join('') : '<tr><td colspan="10" style="text-align:center;color:var(--dim)">Nenhuma correspondência.</td></tr>') +
+    '</tbody></table></div>';
 
   // Categorias
   html += '<div class="section-title"><span class="bar"></span>Categorias</div>';
   html += '<div style="overflow-x:auto"><table><thead><tr><th>Categoria</th><th class="num">Posts</th><th class="num">%</th><th>Distribuição</th></tr></thead><tbody>';
-  const total = e.posts_coletados || 1;
-  CATS.filter(c => totalCats[c]).sort((a,b)=>totalCats[b]-totalCats[a]).forEach(c => {
-    const n = totalCats[c];
-    html += '<tr><td>' + badge(c) + '</td><td class="num">' + num(n) + '</td><td class="num">' + Math.round(n/total*100) + '%</td>' +
-      '<td><div class="est-bar"><i style="width:' + Math.round(n/total*100) + '%"></i></div></td></tr>';
-  });
+  const total = lista.length || 1;
+  const catsList = CATS.filter(c => G.totalCats[c]).sort((a,b)=>G.totalCats[b]-G.totalCats[a]);
+  if(!catsList.length){
+    html += '<tr><td colspan="4" style="text-align:center;color:var(--dim)">Nenhuma correspondência.</td></tr>';
+  } else {
+    catsList.forEach(c => {
+      const n = G.totalCats[c];
+      html += '<tr><td>' + badge(c) + '</td><td class="num">' + num(n) + '</td><td class="num">' + Math.round(n/total*100) + '%</td>' +
+        '<td><div class="est-bar"><i style="width:' + Math.round(n/total*100) + '%"></i></div></td></tr>';
+    });
+  }
   html += '</tbody></table></div>';
 
+  // Categorias por ano
   html += '<div class="section-title"><span class="bar"></span>Categorias por ano</div>';
   html += '<div style="overflow-x:auto"><table><thead><tr><th>Ano</th>' +
     CATS.map(c => '<th class="num">' + LABEL[c] + '</th>').join('') + '</tr></thead><tbody>' +
-    Object.keys(anos).map(a => {
+    (anosKey.length ? anosKey.map(a => {
       const A = anos[a];
       return '<tr><td><b>' + a + '</b></td>' + CATS.map(c => '<td class="num">' + num(A.por_categoria[c]||0) + '</td>').join('') + '</tr>';
-    }).join('') + '</tbody></table></div>';
+    }).join('') : '<tr><td colspan="' + (CATS.length+1) + '" style="text-align:center;color:var(--dim)">Nenhuma correspondência.</td></tr>') +
+    '</tbody></table></div>';
 
   $('view-dashboard').innerHTML = html;
 }
@@ -267,7 +307,7 @@ function render(){
   $('view-ano').classList.toggle('hidden', isDash);
   const encontrados = isDash ? 0 : Array.from(document.querySelectorAll('#view-ano tbody tr')).length;
   $('info').textContent = isDash
-    ? 'Visão geral dos ' + RESUMO.estatisticas.posts_coletados + ' posts coletados.'
+    ? 'Visão geral dos ' + RESUMO.estatisticas.posts_coletados + ' posts coletados.' + (q ? ' Filtro ativo: ' + postsFiltrados().length + ' correspondências.' : '')
     : view + ': ' + (q ? encontrados + ' linhas correspondentes a "' + q + '".' : '');
 }
 
