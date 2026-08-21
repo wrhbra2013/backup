@@ -4,7 +4,7 @@ on:
   push:
     paths:
       - '**.sh'
-      - 'ferramentas/*.html'
+      - 'ferramentas/**'
       - 'generate-docs.py'
   workflow_dispatch:
 

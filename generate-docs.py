@@ -306,14 +306,15 @@ def scan_scripts():
 
 
 def scan_ferramentas():
-    """Scan all .html files in ferramentas/ and extract TOOL_META comments."""
+    """Scan all .html files in ferramentas/ (recursive) and extract TOOL_META comments."""
     if not FERRAMENTAS_DIR.exists():
         return []
     results = []
-    for path in sorted(FERRAMENTAS_DIR.glob("*.html")):
+    for path in sorted(FERRAMENTAS_DIR.rglob("*.html")):
         try:
             content = path.read_text(encoding="utf-8")
-            meta = {"path": path, "filename": path.name, "rel_path": f"ferramentas/{path.name}"}
+            rel_path = path.relative_to(PROJECT_DIR).as_posix()
+            meta = {"path": path, "filename": path.name, "rel_path": rel_path}
             match = re.search(r"<!--\s*TOOL_META:\s*(.*?)\s*-->", content)
             if match:
                 for pair in match.group(1).split("|"):
@@ -805,6 +806,20 @@ def generate():
 
     print(f"  Generated {len(scripts)} individual pages")
     print(f"  Generated {len(scripts)} .desktop files")
+
+    # Mirror ferramentas/ into docs/ferramentas/ (tool pages + assets)
+    if FERRAMENTAS_DIR.exists():
+        copied = 0
+        for src in FERRAMENTAS_DIR.rglob("*"):
+            if src.is_dir() or src.suffix == ".py" or src.name.startswith("."):
+                continue
+            rel = src.relative_to(PROJECT_DIR)
+            dst = OUTPUT_DIR / rel
+            dst.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(src, dst)
+            copied += 1
+        print(f"  Mirrored {copied} tool files to docs/ferramentas/")
+
     print(f"\nDone! Open: {OUTPUT_DIR.resolve()}/index.html")
 
 

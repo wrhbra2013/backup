@@ -2,7 +2,7 @@
 Type=Application
 Name=gerar_iso.sh
 Comment=Este script configura repositórios adicionais no Oracle Linux 10 (OL10)
-Exec=x-terminal-emulator -e bash -c '/home/runner/work/backup/backup/system_scripts/gerar_iso.sh; echo ""; echo "=== Script finalizado. Pressione Enter para fechar ==="; read'
+Exec=x-terminal-emulator -e bash -c '/home/wander/Public/backup/system_scripts/gerar_iso.sh; echo ""; echo "=== Script finalizado. Pressione Enter para fechar ==="; read'
 Terminal=true
 Icon=terminal
 Categories=Development;System;
