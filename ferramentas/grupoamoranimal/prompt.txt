@@ -1,0 +1,1 @@
+auditar pasta /home/wander/Public/backup/ferramentas/grupoamoranimal, auditar resultados, auditasr a api api.projetosdinamicos.com.br/amoranimal correlacionar as tabelas com o json da pasta explicar como poderia postar de forma correta estes dados
