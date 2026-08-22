@@ -2,7 +2,7 @@
 Type=Application
 Name=fix_boot_ol9_offline.sh
 Comment=============================================================
-Exec=x-terminal-emulator -e bash -c '/home/wander/Public/backup/fix_boot_ol9_offline.sh; echo ""; echo "=== Script finalizado. Pressione Enter para fechar ==="; read'
+Exec=x-terminal-emulator -e bash -c '/home/runner/work/backup/backup/fix_boot_ol9_offline.sh; echo ""; echo "=== Script finalizado. Pressione Enter para fechar ==="; read'
 Terminal=true
 Icon=terminal
 Categories=Development;System;

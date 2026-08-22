@@ -2,7 +2,7 @@
 Type=Application
 Name=ol9-full-setup.sh
 Comment=Configuracao completa: Oracle Linux 9 + EPEL + RPM Fusion + XFCE + LibreOffice + Codecs
-Exec=x-terminal-emulator -e bash -c '/home/wander/Public/backup/system_scripts/ol9-full-setup.sh; echo ""; echo "=== Script finalizado. Pressione Enter para fechar ==="; read'
+Exec=x-terminal-emulator -e bash -c '/home/runner/work/backup/backup/system_scripts/ol9-full-setup.sh; echo ""; echo "=== Script finalizado. Pressione Enter para fechar ==="; read'
 Terminal=true
 Icon=terminal
 Categories=Development;System;
