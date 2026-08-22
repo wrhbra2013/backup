@@ -7,14 +7,42 @@
 set -euo pipefail
 
 # ══════════════════════════════════════════════════════════
-#  .ENV EMBUTIDO
+#  .ENV EMBUTIDO (heredoc) + ARQUIVO EXTERNO (preferido)
 # ══════════════════════════════════════════════════════════
-GIT_SYNC_TOKEN="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"
+
+_carregar_env() {
+    local _k _v
+    while IFS='=' read -r _k _v; do
+        case "$_k" in
+            ''|'#'*) continue ;;
+            GIT_SYNC_TOKEN)      export GIT_SYNC_TOKEN="$_v" ;;
+            GIT_SYNC_TOKEN_URL)  export GIT_SYNC_TOKEN_URL="$_v" ;;
+        esac
+    done
+}
+
+_carregar_env <<'GIT_SYNC_ENV'
+# ── chave=valor (fallback embutido) ──
+GIT_SYNC_TOKEN=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
+GIT_SYNC_TOKEN_URL=https://github.com/settings/tokens/new?scopes=repo&description=git-sync
+GIT_SYNC_ENV
+
+_TOKEN_FILE="${HOME}/.config/git-sync/token"
+if [ -f "$_TOKEN_FILE" ]; then
+    GIT_SYNC_TOKEN="$(tr -d '[:space:]' < "$_TOKEN_FILE")"
+fi
 
 V='\033[0;32m'  A='\033[0;34m'  AM='\033[1;33m'
 VM='\033[0;31m'  M='\033[0;35m'  R='\033[0m'  B='\033[1m'
 
 _REPO_DIR="${1:-.}"
+
+_RENOVAR_ONLY=0
+if [[ "${1:-}" == "-t" || "${1:-}" == "-token" ]]; then
+    shift
+    _REPO_DIR="${1:-.}"
+    _RENOVAR_ONLY=1
+fi
 
 if ! cd "$_REPO_DIR" 2>/dev/null; then
     echo -e "${VM}Erro: diretorio '$_REPO_DIR' nao existe.${R}"
@@ -46,6 +74,58 @@ if [ -n "$_token" ]; then
     _token_status="${V}ok${R} (existe)"
 else
     _token_status="${VM}nok${R} (nao existe)"
+fi
+
+# ══════════════════════════════════════════════════════════
+#  RENOVACAO DE TOKEN VIA xdg-open
+# ══════════════════════════════════════════════════════════
+
+-token() {
+    local _url="${GIT_SYNC_TOKEN_URL}"
+    echo ""
+    echo -e "${AM}Abrindo o navegador para gerar um novo token...${R}"
+    if command -v xdg-open >/dev/null 2>&1; then
+        xdg-open "$_url" >/dev/null 2>&1 || true
+    else
+        echo -e "${AM}xdg-open nao encontrado — abra a URL manualmente:${R}"
+        echo "  $_url"
+    fi
+    echo ""
+    echo -ne "${A}Cole o novo token (ghp_...): ${R}"
+    read -r _novo
+    _novo="${_novo//[[:space:]]/}"
+    if [[ ! "$_novo" =~ ^(ghp_|gho_|github_pat_) ]]; then
+        echo -e "${VM}Token invalido ou vazio.${R}"
+        return 1
+    fi
+    mkdir -p "$(dirname "$_TOKEN_FILE")"
+    umask 077
+    cat > "$_TOKEN_FILE" <<EOF
+$_novo
+EOF
+    _token="$_novo"
+    if [ -n "$_remote_url" ]; then
+        _repo_path=$(echo "$_remote_url" | sed -E 's|https?://[^@]*@github.com/||;s|https?://github.com/||;s|\.git$||;s|\.git/||')
+        git remote set-url origin "https://${_token}@github.com/${_repo_path}.git"
+    fi
+    echo -e "${V}ok${R} — token salvo em $_TOKEN_FILE e remote atualizado"
+}
+
+# ══════════════════════════════════════════════════════════
+#  MODO STANDALONE: git-sync.sh -token [repo]
+# ══════════════════════════════════════════════════════════
+
+if [ "$_RENOVAR_ONLY" = "1" ]; then
+    if -token; then
+        echo ""
+        echo -e "${A}Testando credenciais (git ls-remote)...${R}"
+        if git ls-remote origin >/dev/null 2>&1; then
+            echo -e "${V}${B}Novo token funcionando!${R}"
+        else
+            echo -e "${VM}Token salvo, mas o acesso ao remoto falhou.${R}"
+        fi
+    fi
+    exit 0
 fi
 
 # ══════════════════════════════════════════════════════════
@@ -85,7 +165,7 @@ _verificar_alinhamento() {
         _local_behind=$(git rev-list --count "HEAD..origin/$_branch" 2>/dev/null || echo "0")
 
         if [ "$_local_behind" -gt 0 ] && [ "$_local_ahead" -gt 0 ]; then
-            echo -e "  ${VM}CONFLITO${R} — branches divergentes: $_local_ahead commits à frente, $_local_behind atras"
+            echo -e "  ${VM}CONFLITO${R} — branches divergentes: $_local_ahead commits a frente, $_local_behind atras"
             (( _erros++ ))
         elif [ "$_local_behind" -gt 0 ]; then
             echo -e "  ${AM}AVISO${R} — local esta $_local_behind commit(s) atras do remoto (pull necessario)"
@@ -210,20 +290,6 @@ done
 echo ""
 
 # ══════════════════════════════════════════════════════════
-#  CONTEUDO DA PASTA ATUAL
-# ══════════════════════════════════════════════════════════
-
-echo -e "${A}Conteudo da pasta atual:${R}"
-ls -1 --color=never | while IFS= read -r _item; do
-    if [ -d "$_item" ]; then
-        echo -e "  ${A}$_item/${R}"
-    else
-        echo -e "  $_item"
-    fi
-done
-echo ""
-
-# ══════════════════════════════════════════════════════════
 #  VERIFICACAO DE ALINHAMENTO
 # ══════════════════════════════════════════════════════════
 
@@ -286,9 +352,24 @@ echo -e "${A}git push origin $_branch${R}"
 if git push origin "$_branch" 2>&1; then
     echo ""
     echo -e "${V}${B}Sincronizado com sucesso!${R}"
-else
-    echo ""
-    echo -e "${VM}Falha no push.${R}"
-    echo -e "${A}Verifique: https://github.com/settings/tokens${R}"
-    exit 1
+    exit 0
 fi
+
+echo ""
+echo -e "${VM}Falha no push.${R}"
+echo -ne "${AM}Token pode ter expirado. Renovar agora? [s/N]:${R} "
+read -r _renew
+if [ "${_renew,,}" = "s" ]; then
+    if -token; then
+        echo ""
+        echo -e "${A}git push origin $_branch (nova tentativa)${R}"
+        if git push origin "$_branch" 2>&1; then
+            echo ""
+            echo -e "${V}${B}Sincronizado com sucesso!${R}"
+            exit 0
+        fi
+        echo -e "${VM}Falha no push mesmo com token novo.${R}"
+    fi
+fi
+echo -e "${A}Verifique: https://github.com/settings/tokens${R}"
+exit 1
