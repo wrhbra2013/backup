@@ -120,6 +120,42 @@ CATEGORY_ORDER = [
     "User Management",
 ]
 
+CATEGORY_META = [
+    ("iso", "ISO & LiveCD", "🏗️", "79,70,229"),
+    ("config", "Configuração & Otimização", "⚙️", "14,165,233"),
+    ("packaging", "Empacotamento", "📦", "139,92,246"),
+    ("vm", "Virtualização & VM", "🖥️", "16,185,129"),
+    ("servers", "Servidores & Serviços", "🌐", "245,158,11"),
+    ("bluetooth", "Bluetooth", "🔵", "59,130,246"),
+    ("sync", "Sincronização & Docs", "🔄", "239,68,68"),
+    ("sku", "SKU & E-commerce", "🛒", "236,72,153"),
+]
+
+CATEGORY_RULES = [
+    ("iso", ["build_iso", "build_offline", "build_ol9", "build_backup", "create_iso", "gerar_iso", "rebuild_ol9", "oracle.sh"]),
+    ("packaging", ["appimage2rpm", "create_rpm", "manager_repo_sh"]),
+    ("config", ["ol9-audit", "ol9-full-setup", "otimizar", "setup-xfce-tiling", "setup-zram", "xrandr-config", "remove_old_kernels", "auto_fix_powerprofiles", "fix_boot_ol9", "fix-repos", "oracle_config"]),
+    ("vm", ["control.sh", "restore-snapshot", "setup-api-debian"]),
+    ("servers", ["node.sh", "manut.sh", "debian.sh"]),
+    ("bluetooth", ["bt-auto", "bt-ctl"]),
+    ("sync", ["git-sync", "update-appimages", "update-docs", "atualizar"]),
+    ("sku", ["gerar_sku"]),
+]
+
+DIR_SHORT = {
+    "root": "raiz",
+    "system_scripts": "sys",
+    "vm_scripts": "vm",
+    "bluetooth": "bt",
+}
+
+
+def _is_just_decor(text):
+    """Return True when a header line is only decorative banner characters."""
+    if not text:
+        return True
+    return bool(re.fullmatch(r"[\W_]+", text))
+
 
 def extract_header(filepath):
     """Extract shebang, header comments, usage, and description from a script."""
@@ -146,9 +182,12 @@ def extract_header(filepath):
                     # Detect usage line
                     if re.search(r"^(Uso|Usage|Modo de usar)", stripped, re.IGNORECASE):
                         usage = stripped
-                    # First non-empty comment line is description
-                    if not description and stripped:
-                        description = stripped
+                    # First meaningful comment line is the description
+                    if not description and not re.search(r"^(Uso|Usage|Modo de usar)", stripped, re.IGNORECASE):
+                        candidate = re.sub(r"[┌┐└┘│╔╗╚╝║═━╰╯╮╭]", "", stripped)
+                        candidate = re.sub(r"\s{2,}", " ", candidate).strip()
+                        if not _is_just_decor(candidate):
+                            description = candidate
             elif line.strip() == "" and header_started:
                 header_comments.append("")
             else:
@@ -338,6 +377,88 @@ def make_slug(name):
     return slug
 
 
+def classify_script(info):
+    """Best-effort classification of a script by purpose (filename rules + dir fallback)."""
+    filename = info.get("filename", "")
+    for key, patterns in CATEGORY_RULES:
+        for pattern in patterns:
+            if pattern in filename:
+                return key
+    fallback = {
+        "bluetooth": "bluetooth",
+        "vm_scripts": "vm",
+        "root": "config",
+        "system_scripts": "config",
+    }
+    return fallback.get(info.get("dir_name", ""), "config")
+
+
+def get_category(key):
+    """Return (label, emoji, color) for a category key, with a sensible default."""
+    for k, label, emoji, color in CATEGORY_META:
+        if k == key:
+            return label, emoji, color
+    return key.replace("_", " ").title(), "🔧", "107,114,128"
+
+
+def count_names_per_script(cats):
+    """Count how many times each filename appears across the whole project."""
+    counts = {}
+    for group in cats.values():
+        for s in group:
+            counts[s["filename"]] = counts.get(s["filename"], 0) + 1
+    return counts
+
+
+def render_sidebar(cats, active_rel=None, ferramentas=(), base=""):
+    """Render the navigation sidebar grouped by category."""
+    active_dash = ' class="active"' if active_rel is None else ""
+    html = '<div class="sidebar-title">📂 Navegação</div>'
+    html += f'<a href="{base}index.html"{active_dash}>📊 Dashboard</a>'
+
+    counts = count_names_per_script(cats)
+    for key, label, emoji, _color in CATEGORY_META:
+        group = cats.get(key)
+        if not group:
+            continue
+        has_active = active_rel is not None and any(s["rel_path"] == active_rel for s in group)
+        open_attr = " open" if has_active or active_rel is None else ""
+        html += (
+            f'<details class="side-group"{open_attr}><summary>'
+            f'<span class="g-emoji">{emoji}</span>{label}'
+            f'<span class="g-count">{len(group)}</span></summary>'
+        )
+        for s in group:
+            slug = make_slug(s["filename"])
+            active = ' class="active"' if active_rel is not None and s["rel_path"] == active_rel else ""
+            cmd_count = sum(len(cmds) for cmds in s["commands"].values())
+            dup = dir_marker(s, counts)
+            html += (
+                f'<a href="{base}scripts/{slug}.html"{active}>{escape(s["filename"])}'
+                f'{dup}<span class="s-badge">{cmd_count}</span></a>'
+            )
+        html += "</details>"
+
+    if ferramentas:
+        html += (
+            f'<details class="side-group" open><summary>'
+            f'<span class="g-emoji">🧰</span>Ferramentas'
+            f'<span class="g-count">{len(ferramentas)}</span></summary>'
+        )
+        for f in ferramentas:
+            html += f'<a href="{base}{escape(f["rel_path"])}">{escape(f.get("icon", "🔧"))} {escape(f.get("title", f["filename"]))}</a>'
+        html += "</details>"
+    return html
+
+
+def dir_marker(s, name_counts=None):
+    """Small dir label shown when a filename appears more than once in the project."""
+    if name_counts is None or name_counts.get(s["filename"], 0) <= 1:
+        return ""
+    short = DIR_SHORT.get(s["dir_name"], s["dir_name"])
+    return f'<span class="s-dir">{escape(short)}</span>'
+
+
 def css_style():
     return """
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -418,50 +539,75 @@ tr:hover td { background: #f8fafc; }
 .tool-tags { display: flex; flex-wrap: wrap; gap: 4px; }
 .tool-arrow { position: absolute; top: 16px; right: 16px; font-size: 1.2rem; color: #9ca3af; transition: color 0.2s; }
 .tool-card:hover .tool-arrow { color: #2563eb; }
-@media (max-width: 800px) { .layout { flex-direction: column; } .sidebar { width: 100%; position: static; max-height: none; } }
+.header-bar .nav a.active { color: #fff; font-weight: 600; }
+.cat-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+.cat-chip { --c: #6b7280; display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border: 2px solid #e5e7eb; border-radius: 999px; background: #fff; color: #374151; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+.cat-chip:hover { border-color: #cbd5e1; transform: translateY(-1px); }
+.cat-chip.active { border-color: var(--c); color: var(--c); }
+.cat-chip .chip-count { background: #f1f5f9; border-radius: 999px; padding: 0 8px; font-size: 0.7rem; font-weight: 600; color: #6b7280; }
+.cat-chip.active .chip-count { background: rgba(148,163,184,.2); }
+.table-meta { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin: 12px 0; flex-wrap: wrap; }
+.table-meta .visible-count { font-size: 0.8rem; color: #6b7280; }
+.table-wrap { overflow-x: auto; }
+.badge-cat { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 0.72rem; font-weight: 600; white-space: nowrap; }
+.desc-cell { max-width: 340px; color: #4b5563; }
+.actions { white-space: nowrap; }
+.empty-row td { text-align: center; padding: 32px; color: #9ca3af; font-size: 0.9rem; }
+.side-group { border-top: 1px solid #f0f0f0; }
+.side-group summary { display: flex; align-items: center; gap: 8px; padding: 10px 16px; font-size: 0.72rem; font-weight: 700; color: #6b7280; text-transform: uppercase; letter-spacing: 0.3px; cursor: pointer; list-style: none; user-select: none; }
+.side-group summary::-webkit-details-marker { display: none; }
+.side-group summary::marker { content: ""; }
+.side-group:hover summary, .side-group[open] summary { color: #5b21b6; background: #faf5ff; }
+.side-group .g-count { margin-left: auto; background: #e5e7eb; color: #6b7280; border-radius: 999px; padding: 0 8px; font-size: 0.65rem; line-height: 1.8; font-weight: 600; }
+.side-group[open] .g-count { background: #ede9fe; color: #5b21b6; }
+.side-group .g-emoji { font-size: 0.85rem; }
+.side-group a .s-dir { font-size: 0.62rem; color: #9ca3af; background: #f1f5f9; padding: 0 5px; border-radius: 3px; margin-left: 4px; }
+@media (max-width: 800px) { .layout { flex-direction: column; } .sidebar { width: 100%; position: static; max-height: none; } .cat-chips { gap: 6px; } }
 """
 
 
-def render_index(scripts, dirs, ferramentas=None):
-    """Render the dashboard index page with sidebar menu."""
+def render_index(scripts, cats, ferramentas=None):
+    """Render the dashboard index page with category chips, search, and filter table."""
     if ferramentas is None:
         ferramentas = []
     total_scripts = len(scripts)
+    total_categories = len(cats)
     total_commands = sum(len([c for cat in s["commands"].values() for c in cat]) for s in scripts)
     total_functions = sum(len(s["functions"]) for s in scripts)
     total_lines = sum(s["line_count"] for s in scripts)
 
-    dir_order = ["root", "system_scripts", "vm_scripts", "bluetooth"]
-    dir_label = {"root": "Raiz", "system_scripts": "System Scripts", "vm_scripts": "VM Scripts", "bluetooth": "Bluetooth"}
+    cat_index = {item[0]: i for i, item in enumerate(CATEGORY_META)}
+    name_counts = count_names_per_script(cats)
+    scripts_sorted = sorted(
+        scripts,
+        key=lambda s: (cat_index.get(s.get("category", "config"), 99), s["filename"].lower()),
+    )
 
-    sidebar_html = '<div class="sidebar-title">📂 Navegação</div>'
-    sidebar_html += '<a href="index.html" class="active">📊 Dashboard</a>'
-
-    for d in dir_order:
-        if d not in dirs:
+    chips_html = (
+        '<button type="button" class="cat-chip active" data-cat="" '
+        f'onclick="setCategory(\'\')">Todas <span class="chip-count">{total_scripts}</span></button>'
+    )
+    for key, label, emoji, color in CATEGORY_META:
+        if key not in cats or not cats[key]:
             continue
-        label = dir_label.get(d, d)
-        sidebar_html += f'<div class="sidebar-group"><div class="sidebar-group-label">{label}</div>'
-        for s in dirs[d]:
-            slug = make_slug(s["filename"])
-            cmd_count = sum(len(cmds) for cmds in s["commands"].values())
-            sidebar_html += f'<a href="scripts/{slug}.html">{escape(s["filename"])} <span class="s-badge">{cmd_count}</span></a>'
-        sidebar_html += '</div>'
-
-    if ferramentas:
-        sidebar_html += '<div class="sidebar-group"><div class="sidebar-group-label">🧰 Ferramentas</div>'
-        for f in ferramentas:
-            sidebar_html += f'<a href="{escape(f["rel_path"])}">{escape(f.get("icon", "🔧"))} {escape(f.get("title", f["filename"]))}</a>'
-        sidebar_html += '</div>'
+        chips_html += (
+            f'<button type="button" class="cat-chip" data-cat="{key}" style="--c:rgb({color})" '
+            f'onclick="setCategory(\'{key}\')">{emoji} {label} '
+            f'<span class="chip-count">{len(cats[key])}</span></button>'
+        )
 
     rows_html = ""
-    for s in scripts:
+    for s in scripts_sorted:
         slug = make_slug(s["filename"])
         cmd_count = sum(len(cmds) for cmds in s["commands"].values())
         func_count = len(s["functions"])
 
+        cat = s.get("category", "config")
+        clabel, cemoji, ccolor = get_category(cat)
+        dup = dir_marker(s, name_counts)
+
         cmd_badges = ""
-        for cat, cmds in list(s["commands"].items())[:3]:
+        for _cat, cmds in list(s["commands"].items())[:3]:
             for c in cmds[:2]:
                 cmd_badges += f'<span class="badge badge-cmd">{escape(c)}</span>'
         if cmd_count > 6:
@@ -470,22 +616,20 @@ def render_index(scripts, dirs, ferramentas=None):
         pkg_count = len(s["packages"]) + len(s["deps"])
         pkg_badge = f'<span class="badge badge-pkg">{pkg_count}</span>' if pkg_count > 0 else ""
 
-        rows_html += f"""<tr>
-  <td><a href="scripts/{slug}.html"><strong>{escape(s["filename"])}</strong></a></td>
-  <td>{escape(s["description"][:80])}{'...' if len(s["description"]) > 80 else ''}</td>
-  <td><span class="badge badge-dir">{s["dir_name"]}</span></td>
+        desc = s["description"]
+        desc_short = desc if len(desc) <= 90 else desc[:90].rstrip() + "…"
+
+        rows_html += f"""<tr data-cat="{cat}">
+  <td><a href="scripts/{slug}.html"><strong>{escape(s["filename"])}</strong></a>{dup}</td>
+  <td class="desc-cell">{escape(desc_short)}</td>
+  <td><span class="badge badge-cat" style="background:rgba({ccolor},.12);color:rgb({ccolor})">{cemoji} {clabel}</span></td>
   <td>{cmd_badges}{pkg_badge}</td>
   <td class="cmd-count">{cmd_count} cmd · {func_count} fn · {s["line_count"]} lin</td>
-  <td>
-    <a href="scripts/{slug}.desktop" download class="tag" title="Download .desktop">🖥️</a>
+  <td class="actions">
+    <a href="scripts/{slug}.desktop" download class="tag" title="Baixar .desktop">🖥️</a>
     <a href="scripts/{slug}.html" class="tag" title="Abrir página">📄</a>
   </td>
 </tr>"""
-
-    categories_html = ""
-    for d, sc in sorted(dirs.items()):
-        label = dir_label.get(d, d)
-        categories_html += f'<span class="badge badge-dir">{label} ({len(sc)})</span> '
 
     ferramentas_cards = ""
     for f in ferramentas:
@@ -505,12 +649,14 @@ def render_index(scripts, dirs, ferramentas=None):
   <span class="tool-arrow">→</span>
 </a>"""
 
+    sidebar_html = render_sidebar(cats, ferramentas=ferramentas, base="")
+
     html = f"""<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src 'self' https://api.github.com https://raw.githubusercontent.com;">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://api.github.com https://raw.githubusercontent.com;">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <title>Backup Scripts — Dashboard</title>
 <style>{css_style()}</style>
@@ -520,16 +666,18 @@ def render_index(scripts, dirs, ferramentas=None):
   <div class="container">
     <h1><a href="index.html">📜 Backup Scripts</a></h1>
     <div class="nav">
-      <a href="index.html">Dashboard</a>
+      <a href="index.html" class="active">Dashboard</a>
+      <a href="https://github.com/wrhbra2013/backup" target="_blank" rel="noopener">GitHub</a>
     </div>
   </div>
 </div>
 <div class="container">
   <h1>Dashboard de Scripts</h1>
-  <p class="subtitle">Repositório público de scripts de Linux LiveCD e automação</p>
+  <p class="subtitle">Repositório de scripts de Linux, LiveCD, automação e ferramentas</p>
 
   <div class="stat-grid">
     <div class="stat-card"><div class="num">{total_scripts}</div><div class="label">Scripts</div></div>
+    <div class="stat-card"><div class="num">{total_categories}</div><div class="label">Categorias</div></div>
     <div class="stat-card"><div class="num">{total_commands}</div><div class="label">Comandos</div></div>
     <div class="stat-card"><div class="num">{total_functions}</div><div class="label">Funções</div></div>
     <div class="stat-card"><div class="num">{total_lines:,}</div><div class="label">Linhas de código</div></div>
@@ -542,27 +690,51 @@ def render_index(scripts, dirs, ferramentas=None):
       {sidebar_html}
     </div>
     <div class="main-content">
-      <p class="stat-line">Categorias: {categories_html}</p>
+      <h2>📦 Scripts por categoria</h2>
+      <div class="cat-chips">{chips_html}</div>
 
-      <input type="text" class="search-box" id="search" placeholder="Pesquisar scripts, comandos, descrições..." oninput="filterTable()">
+      <input type="text" class="search-box" id="search" placeholder="Pesquisar scripts, comandos, descrições..." oninput="applyFilters()">
+      <div class="table-meta">
+        <span class="visible-count" id="visible-count">{total_scripts} de {total_scripts} scripts</span>
+        <span class="visible-count">Ordenado por categoria e nome</span>
+      </div>
 
-      <table id="script-table">
-        <thead><tr><th>Script</th><th>Descrição</th><th>Diretório</th><th>Comandos / Pacotes</th><th>Info</th><th>Ações</th></tr></thead>
-        <tbody>{rows_html}</tbody>
-      </table>
+      <div class="table-wrap">
+        <table id="script-table">
+          <thead><tr><th>Script</th><th>Descrição</th><th>Categoria</th><th>Comandos / Pacotes</th><th>Info</th><th>Ações</th></tr></thead>
+          <tbody>{rows_html}<tr id="empty-state" class="empty-row" style="display:none"><td colspan="6">Nenhum script encontrado. Ajuste a busca ou o filtro de categoria.</td></tr></tbody>
+        </table>
+      </div>
     </div>
   </div>
 </div>
 
 <script>
-function filterTable() {{
-  var input = document.getElementById('search');
-  var filter = input.value.toLowerCase();
-  var rows = document.querySelectorAll('#script-table tbody tr');
-  for (var i = 0; i < rows.length; i++) {{
-    var text = rows[i].textContent.toLowerCase();
-    rows[i].style.display = text.indexOf(filter) > -1 ? '' : 'none';
+var currentCat = '';
+function setCategory(cat) {{
+  currentCat = (currentCat === cat) ? '' : cat;
+  var chips = document.querySelectorAll('.cat-chip');
+  for (var i = 0; i < chips.length; i++) {{
+    chips[i].classList.toggle('active', chips[i].getAttribute('data-cat') === currentCat);
   }}
+  applyFilters();
+}}
+function applyFilters() {{
+  var term = document.getElementById('search').value.toLowerCase();
+  var rows = document.querySelectorAll('#script-table tbody tr[data-cat]');
+  var visible = 0;
+  for (var i = 0; i < rows.length; i++) {{
+    var row = rows[i];
+    var text = row.textContent.toLowerCase();
+    var matchTerm = !term || text.indexOf(term) !== -1;
+    var matchCat = !currentCat || row.getAttribute('data-cat') === currentCat;
+    var show = matchTerm && matchCat;
+    row.style.display = show ? '' : 'none';
+    if (show) visible++;
+  }}
+  document.getElementById('empty-state').style.display = visible ? 'none' : '';
+  var count = document.getElementById('visible-count');
+  if (count) count.textContent = visible + ' de ' + rows.length + ' scripts';
 }}
 </script>
 </body>
@@ -570,9 +742,14 @@ function filterTable() {{
     return html
 
 
-def render_script_page(s, dirs):
+def render_script_page(s, cats, ferramentas=None):
     """Render individual script page."""
+    if ferramentas is None:
+        ferramentas = []
     slug = make_slug(s["filename"])
+
+    clabel, cemoji, ccolor = get_category(s.get("category", "config"))
+    cat_badge = f'<span class="badge badge-cat" style="background:rgba({ccolor},.12);color:rgb({ccolor})">{cemoji} {clabel}</span>'
 
     # Description from header comments
     desc_html = ""
@@ -635,21 +812,7 @@ def render_script_page(s, dirs):
     # Determine desktop file path relative to scripts dir
     desktop_rel = f"{slug}.desktop"
 
-    dir_label = {"root": "Raiz", "system_scripts": "System Scripts", "vm_scripts": "VM Scripts", "bluetooth": "Bluetooth"}
-    dir_order = ["root", "system_scripts", "vm_scripts", "bluetooth"]
-
-    menu_html = ""
-    for d in dir_order:
-        if d not in dirs:
-            continue
-        label = dir_label.get(d, d)
-        menu_html += f'<div class="sidebar-group"><div class="sidebar-group-label">{label}</div>'
-        for s2 in dirs[d]:
-            slug2 = make_slug(s2["filename"])
-            active = ' class="active"' if s2["filename"] == s["filename"] else ""
-            cmd_count2 = sum(len(cmds) for cmds in s2["commands"].values())
-            menu_html += f'<a href="{slug2}.html"{active}>{escape(s2["filename"])} <span class="s-badge">{cmd_count2}</span></a>'
-        menu_html += '</div>'
+    menu_html = render_sidebar(cats, active_rel=s["rel_path"], ferramentas=ferramentas, base="../")
 
     html = f"""<!DOCTYPE html>
 <html lang="pt-BR">
@@ -673,15 +836,13 @@ def render_script_page(s, dirs):
 <div class="container">
   <div class="layout">
     <div class="sidebar">
-      <div class="sidebar-title">📂 Navegação</div>
-      <a href="../index.html">📊 Dashboard</a>
       {menu_html}
     </div>
     <div class="main-content script-page">
       <a href="../index.html" class="back-link">Voltar ao Dashboard</a>
 
       <h1>{escape(s["filename"])}</h1>
-      <p class="subtitle">{escape(s["description"])}</p>
+      <p class="subtitle">{cat_badge} <span>{escape(s["description"])}</span></p>
 
       {desc_html}
       {meta_html}
@@ -765,37 +926,26 @@ def generate():
     ferramentas = scan_ferramentas()
     print(f"  Found {len(ferramentas)} ferramentas")
 
-    # Build directory map for sidebar menu
-    dirs = {}
+    # Classify scripts by purpose and group them for the menu
     for s in scripts:
-        d = s["dir_name"]
-        if d not in dirs:
-            dirs[d] = []
-        dirs[d].append(s)
+        s["category"] = classify_script(s)
+    cats = {}
+    for s in scripts:
+        cats.setdefault(s["category"], []).append(s)
 
     # Clean output directory
     if OUTPUT_DIR.exists():
         shutil.rmtree(OUTPUT_DIR)
     SCRIPTS_DIR.mkdir(parents=True)
 
-    # Generate index (only if not hand-crafted)
-    index_path = OUTPUT_DIR / "index.html"
-    if index_path.exists():
-        existing = index_path.read_text(encoding="utf-8")
-        is_handcrafted = "var(--bg)" in existing or "tool-banner" in existing
-    else:
-        is_handcrafted = False
-    if not is_handcrafted:
-        print("Generating index.html...")
-        index_html = render_index(scripts, dirs, ferramentas)
-        index_path.write_text(index_html, encoding="utf-8")
-    else:
-        print("Skipping index.html (hand-crafted version detected)")
+    print("Generating index.html...")
+    index_html = render_index(scripts, cats, ferramentas)
+    (OUTPUT_DIR / "index.html").write_text(index_html, encoding="utf-8")
 
     # Generate individual pages
     for s in scripts:
         slug = make_slug(s["filename"])
-        page_html = render_script_page(s, dirs)
+        page_html = render_script_page(s, cats, ferramentas)
         page_path = SCRIPTS_DIR / f"{slug}.html"
         page_path.write_text(page_html, encoding="utf-8")
 

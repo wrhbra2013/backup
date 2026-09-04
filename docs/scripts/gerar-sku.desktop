@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=gerar_sku.sh
+Comment=gerar_sku.sh - Gera SKU no padrão comercial
+Exec=x-terminal-emulator -e bash -c '/home/wander/Public/backup/gerar_sku.sh; echo ""; echo "=== Script finalizado. Pressione Enter para fechar ==="; read'
+Terminal=true
+Icon=terminal
+Categories=Development;System;

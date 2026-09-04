@@ -1,8 +1,8 @@
 [Desktop Entry]
 Type=Application
 Name=gerar_iso_ol9.sh
-Comment=----------------------------------------------------
-Exec=x-terminal-emulator -e bash -c '/home/runner/work/backup/backup/system_scripts/gerar_iso_ol9.sh; echo ""; echo "=== Script finalizado. Pressione Enter para fechar ==="; read'
+Comment=SCRIPT DE CRIAÇÃO DE ISO HÍBRIDA OL 9.6: CLONE COM SQUASHFS E REPOSITÓRIOS
+Exec=x-terminal-emulator -e bash -c '/home/wander/Public/backup/system_scripts/gerar_iso_ol9.sh; echo ""; echo "=== Script finalizado. Pressione Enter para fechar ==="; read'
 Terminal=true
 Icon=terminal
 Categories=Development;System;

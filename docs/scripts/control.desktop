@@ -2,7 +2,7 @@
 Type=Application
 Name=control.sh
 Comment=--- Configurações ---
-Exec=x-terminal-emulator -e bash -c '/home/runner/work/backup/backup/vm_scripts/control.sh; echo ""; echo "=== Script finalizado. Pressione Enter para fechar ==="; read'
+Exec=x-terminal-emulator -e bash -c '/home/wander/Public/backup/vm_scripts/control.sh; echo ""; echo "=== Script finalizado. Pressione Enter para fechar ==="; read'
 Terminal=true
 Icon=terminal
 Categories=Development;System;

@@ -85,7 +85,30 @@ tr:hover td { background: #f8fafc; }
 .tool-tags { display: flex; flex-wrap: wrap; gap: 4px; }
 .tool-arrow { position: absolute; top: 16px; right: 16px; font-size: 1.2rem; color: #9ca3af; transition: color 0.2s; }
 .tool-card:hover .tool-arrow { color: #2563eb; }
-@media (max-width: 800px) { .layout { flex-direction: column; } .sidebar { width: 100%; position: static; max-height: none; } }
+.header-bar .nav a.active { color: #fff; font-weight: 600; }
+.cat-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+.cat-chip { --c: #6b7280; display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border: 2px solid #e5e7eb; border-radius: 999px; background: #fff; color: #374151; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+.cat-chip:hover { border-color: #cbd5e1; transform: translateY(-1px); }
+.cat-chip.active { border-color: var(--c); color: var(--c); }
+.cat-chip .chip-count { background: #f1f5f9; border-radius: 999px; padding: 0 8px; font-size: 0.7rem; font-weight: 600; color: #6b7280; }
+.cat-chip.active .chip-count { background: rgba(148,163,184,.2); }
+.table-meta { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin: 12px 0; flex-wrap: wrap; }
+.table-meta .visible-count { font-size: 0.8rem; color: #6b7280; }
+.table-wrap { overflow-x: auto; }
+.badge-cat { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 0.72rem; font-weight: 600; white-space: nowrap; }
+.desc-cell { max-width: 340px; color: #4b5563; }
+.actions { white-space: nowrap; }
+.empty-row td { text-align: center; padding: 32px; color: #9ca3af; font-size: 0.9rem; }
+.side-group { border-top: 1px solid #f0f0f0; }
+.side-group summary { display: flex; align-items: center; gap: 8px; padding: 10px 16px; font-size: 0.72rem; font-weight: 700; color: #6b7280; text-transform: uppercase; letter-spacing: 0.3px; cursor: pointer; list-style: none; user-select: none; }
+.side-group summary::-webkit-details-marker { display: none; }
+.side-group summary::marker { content: ""; }
+.side-group:hover summary, .side-group[open] summary { color: #5b21b6; background: #faf5ff; }
+.side-group .g-count { margin-left: auto; background: #e5e7eb; color: #6b7280; border-radius: 999px; padding: 0 8px; font-size: 0.65rem; line-height: 1.8; font-weight: 600; }
+.side-group[open] .g-count { background: #ede9fe; color: #5b21b6; }
+.side-group .g-emoji { font-size: 0.85rem; }
+.side-group a .s-dir { font-size: 0.62rem; color: #9ca3af; background: #f1f5f9; padding: 0 5px; border-radius: 3px; margin-left: 4px; }
+@media (max-width: 800px) { .layout { flex-direction: column; } .sidebar { width: 100%; position: static; max-height: none; } .cat-chips { gap: 6px; } }
 </style>
 </head>
 <body>
@@ -100,19 +123,17 @@ tr:hover td { background: #f8fafc; }
 <div class="container">
   <div class="layout">
     <div class="sidebar">
-      <div class="sidebar-title">📂 Navegação</div>
-      <a href="../index.html">📊 Dashboard</a>
-      <div class="sidebar-group"><div class="sidebar-group-label">Raiz</div><a href="build-iso.html">build_iso.sh <span class="s-badge">13</span></a><a href="build-iso-completa.html">build_iso_completa.sh <span class="s-badge">24</span></a><a href="build-offline-from-boot.html">build_offline_from_boot.sh <span class="s-badge">26</span></a><a href="build-offline-ol9.html">build_offline_ol9.sh <span class="s-badge">26</span></a><a href="build-ol9-openbox-offline.html">build_ol9_openbox_offline.sh <span class="s-badge">26</span></a><a href="create-rpm.html">create_rpm.sh <span class="s-badge">9</span></a><a href="debian.html">debian.sh <span class="s-badge">4</span></a><a href="fix-repos-ol9.html">fix-repos-ol9.sh <span class="s-badge">9</span></a><a href="fix-boot-ol9-offline.html">fix_boot_ol9_offline.sh <span class="s-badge">8</span></a><a href="git-sync.html">git-sync.sh <span class="s-badge">2</span></a><a href="oracle.html">oracle.sh <span class="s-badge">19</span></a><a href="rebuild-ol9-xfce-offline.html">rebuild_ol9_xfce_offline.sh <span class="s-badge">22</span></a><a href="update-appimages.html" class="active">update-appimages.sh <span class="s-badge">11</span></a><a href="update-docs.html">update-docs.sh <span class="s-badge">2</span></a></div><div class="sidebar-group"><div class="sidebar-group-label">System Scripts</div><a href="appimage2rpm.html">appimage2rpm.sh <span class="s-badge">9</span></a><a href="atualizar.html">atualizar.sh <span class="s-badge">2</span></a><a href="auto-fix-powerprofiles-selinux.html">auto_fix_powerprofiles_selinux.sh <span class="s-badge">2</span></a><a href="build-backup.html">build_backup.sh <span class="s-badge">16</span></a><a href="build-iso.html">build_iso.sh <span class="s-badge">15</span></a><a href="create-iso.html">create_iso.sh <span class="s-badge">13</span></a><a href="fix-repos-ol9.html">fix-repos-ol9.sh <span class="s-badge">9</span></a><a href="gerar-iso.html">gerar_iso.sh <span class="s-badge">2</span></a><a href="gerar-iso-ol10.html">gerar_iso_ol10.sh <span class="s-badge">12</span></a><a href="gerar-iso-ol9.html">gerar_iso_ol9.sh <span class="s-badge">13</span></a><a href="manager-repo-sh.html">manager_repo_sh <span class="s-badge">3</span></a><a href="manut.html">manut.sh <span class="s-badge">4</span></a><a href="node.html">node.sh <span class="s-badge">12</span></a><a href="ol9-audit-otimizar.html">ol9-audit-otimizar.sh <span class="s-badge">14</span></a><a href="ol9-full-setup.html">ol9-full-setup.sh <span class="s-badge">12</span></a><a href="oracle-config.html">oracle_config.sh <span class="s-badge">2</span></a><a href="otimizar-gnome.html">otimizar-gnome.sh <span class="s-badge">3</span></a><a href="otimizar-xfce.html">otimizar-xfce.sh <span class="s-badge">15</span></a><a href="remove-old-kernels.html">remove_old_kernels.sh <span class="s-badge">4</span></a><a href="setup-xfce-tiling.html">setup-xfce-tiling.sh <span class="s-badge">7</span></a><a href="setup-zram.html">setup-zram.sh <span class="s-badge">3</span></a><a href="xrandr-config.html">xrandr-config.sh <span class="s-badge">7</span></a></div><div class="sidebar-group"><div class="sidebar-group-label">VM Scripts</div><a href="control.html">control.sh <span class="s-badge">8</span></a><a href="restore-snapshot-disable-ufw.html">restore-snapshot-disable-ufw.sh <span class="s-badge">1</span></a><a href="setup-api-debian.html">setup-api-debian.sh <span class="s-badge">13</span></a></div><div class="sidebar-group"><div class="sidebar-group-label">Bluetooth</div><a href="bt-auto.html">bt-auto.sh <span class="s-badge">1</span></a><a href="bt-ctl.html">bt-ctl.sh <span class="s-badge">1</span></a></div>
+      <div class="sidebar-title">📂 Navegação</div><a href="../index.html">📊 Dashboard</a><details class="side-group"><summary><span class="g-emoji">🏗️</span>ISO & LiveCD<span class="g-count">13</span></summary><a href="../scripts/build-iso.html">build_iso.sh<span class="s-dir">raiz</span><span class="s-badge">13</span></a><a href="../scripts/build-iso-completa.html">build_iso_completa.sh<span class="s-badge">24</span></a><a href="../scripts/build-offline-from-boot.html">build_offline_from_boot.sh<span class="s-badge">26</span></a><a href="../scripts/build-offline-ol9.html">build_offline_ol9.sh<span class="s-badge">26</span></a><a href="../scripts/build-ol9-openbox-offline.html">build_ol9_openbox_offline.sh<span class="s-badge">26</span></a><a href="../scripts/oracle.html">oracle.sh<span class="s-badge">19</span></a><a href="../scripts/rebuild-ol9-xfce-offline.html">rebuild_ol9_xfce_offline.sh<span class="s-badge">22</span></a><a href="../scripts/build-backup.html">build_backup.sh<span class="s-badge">16</span></a><a href="../scripts/build-iso.html">build_iso.sh<span class="s-dir">sys</span><span class="s-badge">15</span></a><a href="../scripts/create-iso.html">create_iso.sh<span class="s-badge">13</span></a><a href="../scripts/gerar-iso.html">gerar_iso.sh<span class="s-badge">2</span></a><a href="../scripts/gerar-iso-ol10.html">gerar_iso_ol10.sh<span class="s-badge">12</span></a><a href="../scripts/gerar-iso-ol9.html">gerar_iso_ol9.sh<span class="s-badge">13</span></a></details><details class="side-group"><summary><span class="g-emoji">⚙️</span>Configuração & Otimização<span class="g-count">13</span></summary><a href="../scripts/fix-repos-ol9.html">fix-repos-ol9.sh<span class="s-dir">raiz</span><span class="s-badge">9</span></a><a href="../scripts/fix-boot-ol9-offline.html">fix_boot_ol9_offline.sh<span class="s-badge">8</span></a><a href="../scripts/auto-fix-powerprofiles-selinux.html">auto_fix_powerprofiles_selinux.sh<span class="s-badge">2</span></a><a href="../scripts/fix-repos-ol9.html">fix-repos-ol9.sh<span class="s-dir">sys</span><span class="s-badge">9</span></a><a href="../scripts/ol9-audit-otimizar.html">ol9-audit-otimizar.sh<span class="s-badge">14</span></a><a href="../scripts/ol9-full-setup.html">ol9-full-setup.sh<span class="s-badge">12</span></a><a href="../scripts/oracle-config.html">oracle_config.sh<span class="s-badge">2</span></a><a href="../scripts/otimizar-gnome.html">otimizar-gnome.sh<span class="s-badge">3</span></a><a href="../scripts/otimizar-xfce.html">otimizar-xfce.sh<span class="s-badge">15</span></a><a href="../scripts/remove-old-kernels.html">remove_old_kernels.sh<span class="s-badge">4</span></a><a href="../scripts/setup-xfce-tiling.html">setup-xfce-tiling.sh<span class="s-badge">7</span></a><a href="../scripts/setup-zram.html">setup-zram.sh<span class="s-badge">3</span></a><a href="../scripts/xrandr-config.html">xrandr-config.sh<span class="s-badge">7</span></a></details><details class="side-group"><summary><span class="g-emoji">📦</span>Empacotamento<span class="g-count">3</span></summary><a href="../scripts/create-rpm.html">create_rpm.sh<span class="s-badge">9</span></a><a href="../scripts/appimage2rpm.html">appimage2rpm.sh<span class="s-badge">9</span></a><a href="../scripts/manager-repo-sh.html">manager_repo_sh<span class="s-badge">3</span></a></details><details class="side-group"><summary><span class="g-emoji">🖥️</span>Virtualização & VM<span class="g-count">3</span></summary><a href="../scripts/control.html">control.sh<span class="s-badge">8</span></a><a href="../scripts/restore-snapshot-disable-ufw.html">restore-snapshot-disable-ufw.sh<span class="s-badge">1</span></a><a href="../scripts/setup-api-debian.html">setup-api-debian.sh<span class="s-badge">13</span></a></details><details class="side-group"><summary><span class="g-emoji">🌐</span>Servidores & Serviços<span class="g-count">3</span></summary><a href="../scripts/debian.html">debian.sh<span class="s-badge">4</span></a><a href="../scripts/manut.html">manut.sh<span class="s-badge">4</span></a><a href="../scripts/node.html">node.sh<span class="s-badge">12</span></a></details><details class="side-group"><summary><span class="g-emoji">🔵</span>Bluetooth<span class="g-count">2</span></summary><a href="../scripts/bt-auto.html">bt-auto.sh<span class="s-badge">1</span></a><a href="../scripts/bt-ctl.html">bt-ctl.sh<span class="s-badge">1</span></a></details><details class="side-group" open><summary><span class="g-emoji">🔄</span>Sincronização & Docs<span class="g-count">4</span></summary><a href="../scripts/git-sync.html">git-sync.sh<span class="s-badge">3</span></a><a href="../scripts/atualizar.html">atualizar.sh<span class="s-badge">2</span></a><a href="../scripts/update-appimages.html" class="active">update-appimages.sh<span class="s-badge">11</span></a><a href="../scripts/update-docs.html">update-docs.sh<span class="s-badge">2</span></a></details><details class="side-group"><summary><span class="g-emoji">🛒</span>SKU & E-commerce<span class="g-count">2</span></summary><a href="../scripts/gerar-sku.html">gerar_sku.sh<span class="s-badge">1</span></a><a href="../scripts/gerar-sku-ebook.html">gerar_sku_ebook.sh<span class="s-badge">1</span></a></details>
     </div>
     <div class="main-content script-page">
       <a href="../index.html" class="back-link">Voltar ao Dashboard</a>
 
       <h1>update-appimages.sh</h1>
-      <p class="subtitle">Apps data: repo|filter|filename|label|desktop|icon|mime|icon_url</p>
+      <p class="subtitle"><span class="badge badge-cat" style="background:rgba(239,68,68,.12);color:rgb(239,68,68)">🔄 Sincronização & Docs</span> <span>Apps data: repo|filter|filename|label|desktop|icon|mime|icon_url|release_tag</span></p>
 
-      <div class="meta-table"><table><tr><td colspan='2'>Apps data: repo|filter|filename|label|desktop|icon|mime|icon_url</td></tr></table></div>
-      <div class="meta-table"><table><tr><td>Arquivo</td><td><code>update-appimages.sh</code></td></tr><tr><td>Shebang</td><td><code>#!/usr/bin/env bash</code></td></tr><tr><td>Tamanho</td><td>15.2 KB · 469 linhas</td></tr></table></div>
-      <h2>Funções</h2><div class='func-list'><span class="func-item">log() <span style="opacity:0.5">linha 26</span></span><span class="func-item">fetch_release() <span style="opacity:0.5">linha 35</span></span><span class="func-item">fetch_release_html() <span style="opacity:0.5">linha 63</span></span><span class="func-item">download_app() <span style="opacity:0.5">linha 99</span></span><span class="func-item">install_desktop() <span style="opacity:0.5">linha 126</span></span><span class="func-item">download_icon() <span style="opacity:0.5">linha 142</span></span><span class="func-item">download_icon_from_repo() <span style="opacity:0.5">linha 157</span></span><span class="func-item">install_icon() <span style="opacity:0.5">linha 200</span></span><span class="func-item">try_download() <span style="opacity:0.5">linha 244</span></span><span class="func-item">list_installed() <span style="opacity:0.5">linha 257</span></span><span class="func-item">uninstall_app() <span style="opacity:0.5">linha 286</span></span><span class="func-item">uninstall_menu() <span style="opacity:0.5">linha 322</span></span><span class="func-item">show_menu() <span style="opacity:0.5">linha 368</span></span><span class="func-item">update_all() <span style="opacity:0.5">linha 396</span></span></div>
+      <div class="meta-table"><table><tr><td colspan='2'>Apps data: repo|filter|filename|label|desktop|icon|mime|icon_url|release_tag</td></tr></table></div>
+      <div class="meta-table"><table><tr><td>Arquivo</td><td><code>update-appimages.sh</code></td></tr><tr><td>Shebang</td><td><code>#!/usr/bin/env bash</code></td></tr><tr><td>Tamanho</td><td>15.9 KB · 486 linhas</td></tr></table></div>
+      <h2>Funções</h2><div class='func-list'><span class="func-item">log() <span style="opacity:0.5">linha 25</span></span><span class="func-item">fetch_release() <span style="opacity:0.5">linha 34</span></span><span class="func-item">fetch_release_html() <span style="opacity:0.5">linha 71</span></span><span class="func-item">download_app() <span style="opacity:0.5">linha 110</span></span><span class="func-item">install_desktop() <span style="opacity:0.5">linha 137</span></span><span class="func-item">download_icon() <span style="opacity:0.5">linha 153</span></span><span class="func-item">download_icon_from_repo() <span style="opacity:0.5">linha 168</span></span><span class="func-item">install_icon() <span style="opacity:0.5">linha 211</span></span><span class="func-item">try_download() <span style="opacity:0.5">linha 261</span></span><span class="func-item">list_installed() <span style="opacity:0.5">linha 274</span></span><span class="func-item">uninstall_app() <span style="opacity:0.5">linha 303</span></span><span class="func-item">uninstall_menu() <span style="opacity:0.5">linha 339</span></span><span class="func-item">show_menu() <span style="opacity:0.5">linha 385</span></span><span class="func-item">update_all() <span style="opacity:0.5">linha 413</span></span></div>
       <h2>Variáveis de Configuração</h2><div class='var-list'><span class="var-item"><code>LOGFILE</code> = <code>$HOME/.cache/update-appimages.log</code></span><span class="var-item"><code>DESKTOP_DIR</code> = <code>$HOME/.local/share/applications</code></span><span class="var-item"><code>MODE</code> = <code>update</code></span><span class="var-item"><code>APP_DIR</code> = <code>${1:-$HOME/Applications}</code></span><span class="var-item"><code>APPS_DATA</code> = <code>(</code></span><span class="var-item"><code>GH_API_IPS</code> = <code>(&quot;140.82.112.5&quot; &quot;140.82.113.5&quot; &quot;140.82.114.5&quot; &quot;140.82.116...</code></span><span class="var-item"><code>VERSION</code> = <code>$(echo &quot;$json&quot; | python3 -c &quot;import json,sys; print(json....</code></span><span class="var-item"><code>URL</code> = <code>$(echo &quot;$json&quot; | python3 -c</code></span></div>
       <h2>Comandos Utilizados</h2><div class="cmd-group"><div class="cmd-group-title">Download</div><div class="cmd-list"><span class="badge badge-cmd">curl</span></div></div><div class="cmd-group"><div class="cmd-group-title">Text Processing</div><div class="cmd-list"><span class="badge badge-cmd">awk</span><span class="badge badge-cmd">grep</span><span class="badge badge-cmd">sed</span></div></div><div class="cmd-group"><div class="cmd-group-title">File Operations</div><div class="cmd-list"><span class="badge badge-cmd">cp</span><span class="badge badge-cmd">mkdir</span><span class="badge badge-cmd">mv</span><span class="badge badge-cmd">rm</span><span class="badge badge-cmd">tee</span></div></div><div class="cmd-group"><div class="cmd-group-title">Permissions</div><div class="cmd-list"><span class="badge badge-cmd">chmod</span></div></div><div class="cmd-group"><div class="cmd-group-title">Python</div><div class="cmd-list"><span class="badge badge-cmd">python3</span></div></div>
       
@@ -135,11 +156,10 @@ esac
 APP_DIR=&quot;${1:-$HOME/Applications}&quot;
 mkdir -p &quot;$APP_DIR&quot; &quot;$(dirname &quot;$LOGFILE&quot;)&quot; &quot;$DESKTOP_DIR&quot;
 
-# Apps data: repo|filter|filename|label|desktop|icon|mime|icon_url
+# Apps data: repo|filter|filename|label|desktop|icon|mime|icon_url|release_tag
 APPS_DATA=(
-    &quot;srevinsaju/Brave-AppImage|x86_64.AppImage|brave.AppImage|Brave Browser|brave-browser.desktop|brave-browser|x-scheme-handler/http;x-scheme-handler/https;text/html|&quot;
+    &quot;srevinsaju/firefox-appimage|firefox-devedition|firefox-developer.AppImage|Firefox Developer Edition|firefox-developer-edition.desktop|firefox-developer-edition|x-scheme-handler/http;x-scheme-handler/https;text/html||firefox-devedition&quot;
     &quot;VSCodium/vscodium|glibc2.30-x86_64.AppImage|VSCodium.AppImage|VSCodium|codium-appimage.desktop|vscodium|text/plain;text/x-python;text/x-c;text/html;application/json|https://raw.githubusercontent.com/VSCodium/vscodium/master/icons/stable/codium_clt.svg&quot;
-    &quot;ungoogled-software/ungoogled-chromium-portablelinux|x86_64.AppImage|ungoogled-chromium.AppImage|Chromium|ungoogled-chromium-appimage.desktop|chromium|x-scheme-handler/http;x-scheme-handler/https;text/html|&quot;
     &quot;anomalyco/opencode|opencode-desktop-linux-x86_64.AppImage|opencode-desktop-linux-x86_64.AppImage|OpenCode|opencode-appimage.desktop|opencode|text/plain|https://raw.githubusercontent.com/anomalyco/opencode/dev/packages/desktop/icons/prod/icon.png&quot;
 )
 
@@ -154,14 +174,18 @@ for ip in &quot;${GH_API_IPS[@]}&quot;; do
 done
 
 fetch_release() {
-    local repo=&quot;$1&quot; filter=&quot;$2&quot;
+    local repo=&quot;$1&quot; filter=&quot;$2&quot; tag=&quot;${3:-}&quot;
     local json
+    local api_url=&quot;https://api.github.com/repos/$repo/releases/latest&quot;
+    [[ -n &quot;$tag&quot; ]] &amp;&amp; api_url=&quot;https://api.github.com/repos/$repo/releases/tags/$tag&quot;
 
     # Tentar API com --resolve (contorna DNS invalido)
     json=$(curl -sL $GH_RESOLVE --connect-timeout 10 --max-time 20 \
-        &quot;https://api.github.com/repos/$repo/releases/latest&quot; 2&gt;&amp;1) || {
-        # Fallback: scraping da pagina HTML (funciona para alguns repos)
-        fetch_release_html &quot;$repo&quot; &quot;$filter&quot; &amp;&amp; return 0
+        &quot;$api_url&quot; 2&gt;&amp;1) || {
+        if [[ -z &quot;$tag&quot; ]]; then
+            # Fallback: scraping da pagina HTML (funciona para alguns repos)
+            fetch_release_html &quot;$repo&quot; &quot;$filter&quot; &amp;&amp; return 0
+        fi
         fetch_err=&quot;API e fallback HTML falharam&quot;
         return 1
     }
@@ -179,15 +203,23 @@ for a in json.load(sys.stdin).get(&#x27;assets&#x27;, []):
         fetch_err=&quot;nenhum asset encontrado para: $filter&quot;
         return 1
     fi
+
+    # Canais com tag fixa (ex: firefox-devedition): a versao vem do nome do asset
+    if [[ -n &quot;$tag&quot; ]]; then
+        VERSION=$(basename &quot;$URL&quot; | sed &#x27;s/\.AppImage$//&#x27;)
+    fi
 }
 
 fetch_release_html() {
-    local repo=&quot;$1&quot; filter=&quot;$2&quot;
+    local repo=&quot;$1&quot; filter=&quot;$2&quot; tag=&quot;${3:-}&quot;
+
+    local release_url=&quot;https://github.com/$repo/releases/latest&quot;
+    [[ -n &quot;$tag&quot; ]] &amp;&amp; release_url=&quot;https://github.com/$repo/releases/tag/$tag&quot;
 
     local page_url
     page_url=$(curl -sL --connect-timeout 10 --max-time 20 \
         -o /dev/null -w &#x27;%{url_effective}&#x27; \
-        &quot;https://github.com/$repo/releases/latest&quot;) || return 1
+        &quot;$release_url&quot;) || return 1
 
     VERSION=$(echo &quot;$page_url&quot; | sed &#x27;s|.*/tag/||&#x27;)
     [[ -z &quot;$VERSION&quot; ]] &amp;&amp; return 1
@@ -348,6 +380,12 @@ install_icon() {
         fi
 
         if [[ -n &quot;$icon_src&quot; ]]; then
+            # .DirIcon costuma ser um symlink: resolver para obter a extensao real
+            if [[ &quot;$(basename &quot;$icon_src&quot;)&quot; == &quot;.DirIcon&quot; ]]; then
+                local real_icon
+                real_icon=$(readlink -f &quot;$icon_src&quot;) || real_icon=&quot;$icon_src&quot;
+                icon_src=&quot;$real_icon&quot;
+            fi
             local ext=&quot;${icon_src##*.}&quot;
             mkdir -p &quot;$HOME/.local/share/icons&quot;
             cp &quot;$icon_src&quot; &quot;$HOME/.local/share/icons/${icon_name}.${ext}&quot;
@@ -523,12 +561,12 @@ update_all() {
     local FAIL=0
 
     for entry in &quot;${APPS_DATA[@]}&quot;; do
-        IFS=&#x27;|&#x27; read -r repo filter filename label desktop icon mime icon_url &lt;&lt;&lt; &quot;$entry&quot;
+        IFS=&#x27;|&#x27; read -r repo filter filename label desktop icon mime icon_url release_tag &lt;&lt;&lt; &quot;$entry&quot;
         echo &quot;--- $label ---&quot;
 
         printf &quot;  Release... &quot;
         VERSION=&quot;&quot; URL=&quot;&quot; fetch_err=&quot;&quot;
-        if fetch_release &quot;$repo&quot; &quot;$filter&quot;; then
+        if fetch_release &quot;$repo&quot; &quot;$filter&quot; &quot;$release_tag&quot;; then
             echo &quot;$VERSION&quot;
         else
             echo &quot;FALHOU ($fetch_err)&quot;
@@ -561,7 +599,7 @@ update_all() {
 
         if command -v xdg-settings &amp;&gt;/dev/null; then
             case &quot;$label&quot; in
-                &quot;Brave Browser&quot;|&quot;Chromium&quot;)
+                &quot;Firefox Developer Edition&quot;)
                     xdg-settings set default-web-browser &quot;$(basename &quot;$desktop&quot; .desktop)&quot; 2&gt;/dev/null || true
                     ;;
             esac

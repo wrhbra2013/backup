@@ -1,8 +1,8 @@
 [Desktop Entry]
 Type=Application
 Name=oracle.sh
-Comment===============================================================================
-Exec=x-terminal-emulator -e bash -c '/home/runner/work/backup/backup/oracle.sh; echo ""; echo "=== Script finalizado. Pressione Enter para fechar ==="; read'
+Comment=Gerador de ISO Hibrida (UEFI + MBR) - Oracle Linux 9 (Sistema Basico)
+Exec=x-terminal-emulator -e bash -c '/home/wander/Public/backup/oracle.sh; echo ""; echo "=== Script finalizado. Pressione Enter para fechar ==="; read'
 Terminal=true
 Icon=terminal
 Categories=Development;System;

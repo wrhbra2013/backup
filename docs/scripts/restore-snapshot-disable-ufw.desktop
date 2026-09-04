@@ -2,7 +2,7 @@
 Type=Application
 Name=restore-snapshot-disable-ufw.sh
 Comment=restore-snapshot-disable-ufw.sh
-Exec=x-terminal-emulator -e bash -c '/home/runner/work/backup/backup/vm_scripts/restore-snapshot-disable-ufw.sh; echo ""; echo "=== Script finalizado. Pressione Enter para fechar ==="; read'
+Exec=x-terminal-emulator -e bash -c '/home/wander/Public/backup/vm_scripts/restore-snapshot-disable-ufw.sh; echo ""; echo "=== Script finalizado. Pressione Enter para fechar ==="; read'
 Terminal=true
 Icon=terminal
 Categories=Development;System;

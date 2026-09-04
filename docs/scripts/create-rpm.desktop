@@ -1,8 +1,8 @@
 [Desktop Entry]
 Type=Application
 Name=create_rpm.sh
-Comment===============================================================================
-Exec=x-terminal-emulator -e bash -c '/home/runner/work/backup/backup/create_rpm.sh; echo ""; echo "=== Script finalizado. Pressione Enter para fechar ==="; read'
+Comment=Criador Automático de RPM a partir de arquivos .tar.gz
+Exec=x-terminal-emulator -e bash -c '/home/wander/Public/backup/create_rpm.sh; echo ""; echo "=== Script finalizado. Pressione Enter para fechar ==="; read'
 Terminal=true
 Icon=terminal
 Categories=Development;System;

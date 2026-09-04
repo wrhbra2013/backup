@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=gerar_sku_ebook.sh
+Comment=gerar_sku_ebook.sh - Gera SKU para produtos digitais (ebook)
+Exec=x-terminal-emulator -e bash -c '/home/wander/Public/backup/gerar_sku_ebook.sh; echo ""; echo "=== Script finalizado. Pressione Enter para fechar ==="; read'
+Terminal=true
+Icon=terminal
+Categories=Development;System;

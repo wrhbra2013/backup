@@ -14,11 +14,11 @@ esac
 APP_DIR="${1:-$HOME/Applications}"
 mkdir -p "$APP_DIR" "$(dirname "$LOGFILE")" "$DESKTOP_DIR"
 
-# Apps data: repo|filter|filename|label|desktop|icon|mime|icon_url
+# Apps data: repo|filter|filename|label|desktop|icon|mime|icon_url|release_tag
 APPS_DATA=(
-    "srevinsaju/Brave-AppImage|x86_64.AppImage|brave.AppImage|Brave Browser|brave-browser.desktop|brave-browser|x-scheme-handler/http;x-scheme-handler/https;text/html|"
-    "VSCodium/vscodium|glibc2.30-x86_64.AppImage|VSCodium.AppImage|VSCodium|codium-appimage.desktop|vscodium|text/plain;text/x-python;text/x-c;text/html;application/json|https://raw.githubusercontent.com/VSCodium/vscodium/master/icons/stable/codium_clt.svg"
-    "ungoogled-software/ungoogled-chromium-portablelinux|x86_64.AppImage|ungoogled-chromium.AppImage|Chromium|ungoogled-chromium-appimage.desktop|chromium|x-scheme-handler/http;x-scheme-handler/https;text/html|"
+    "srevinsaju/firefox-appimage|firefox-devedition|firefox-developer.AppImage|Firefox Developer Edition|firefox-developer-edition.desktop|firefox-developer-edition|x-scheme-handler/http;x-scheme-handler/https;text/html||firefox-devedition"
+    "ivan-hc/Chromium-Web-Browser-appimage|Chromium-stable-|chromium.AppImage|Chromium|chromium-appimage.desktop|chromium|x-scheme-handler/http;x-scheme-handler/https;text/html||continuous"
+    "VSCodium/vscodium|x86_64.AppImage|VSCodium.AppImage|VSCodium|codium-appimage.desktop|vscodium|text/plain;text/x-python;text/x-c;text/html;application/json|https://raw.githubusercontent.com/VSCodium/vscodium/master/icons/stable/codium_clt.svg"
     "anomalyco/opencode|opencode-desktop-linux-x86_64.AppImage|opencode-desktop-linux-x86_64.AppImage|OpenCode|opencode-appimage.desktop|opencode|text/plain|https://raw.githubusercontent.com/anomalyco/opencode/dev/packages/desktop/icons/prod/icon.png"
 )
 
@@ -33,14 +33,18 @@ for ip in "${GH_API_IPS[@]}"; do
 done
 
 fetch_release() {
-    local repo="$1" filter="$2"
+    local repo="$1" filter="$2" tag="${3:-}"
     local json
+    local api_url="https://api.github.com/repos/$repo/releases/latest"
+    [[ -n "$tag" ]] && api_url="https://api.github.com/repos/$repo/releases/tags/$tag"
 
     # Tentar API com --resolve (contorna DNS invalido)
     json=$(curl -sL $GH_RESOLVE --connect-timeout 10 --max-time 20 \
-        "https://api.github.com/repos/$repo/releases/latest" 2>&1) || {
-        # Fallback: scraping da pagina HTML (funciona para alguns repos)
-        fetch_release_html "$repo" "$filter" && return 0
+        "$api_url" 2>&1) || {
+        if [[ -z "$tag" ]]; then
+            # Fallback: scraping da pagina HTML (funciona para alguns repos)
+            fetch_release_html "$repo" "$filter" && return 0
+        fi
         fetch_err="API e fallback HTML falharam"
         return 1
     }
@@ -58,15 +62,23 @@ for a in json.load(sys.stdin).get('assets', []):
         fetch_err="nenhum asset encontrado para: $filter"
         return 1
     fi
+
+    # Canais com tag fixa (ex: firefox-devedition): a versao vem do nome do asset
+    if [[ -n "$tag" ]]; then
+        VERSION=$(basename "$URL" | sed 's/\.AppImage$//')
+    fi
 }
 
 fetch_release_html() {
-    local repo="$1" filter="$2"
+    local repo="$1" filter="$2" tag="${3:-}"
+
+    local release_url="https://github.com/$repo/releases/latest"
+    [[ -n "$tag" ]] && release_url="https://github.com/$repo/releases/tag/$tag"
 
     local page_url
     page_url=$(curl -sL --connect-timeout 10 --max-time 20 \
         -o /dev/null -w '%{url_effective}' \
-        "https://github.com/$repo/releases/latest") || return 1
+        "$release_url") || return 1
 
     VERSION=$(echo "$page_url" | sed 's|.*/tag/||')
     [[ -z "$VERSION" ]] && return 1
@@ -227,6 +239,12 @@ install_icon() {
         fi
 
         if [[ -n "$icon_src" ]]; then
+            # .DirIcon costuma ser um symlink: resolver para obter a extensao real
+            if [[ "$(basename "$icon_src")" == ".DirIcon" ]]; then
+                local real_icon
+                real_icon=$(readlink -f "$icon_src") || real_icon="$icon_src"
+                icon_src="$real_icon"
+            fi
             local ext="${icon_src##*.}"
             mkdir -p "$HOME/.local/share/icons"
             cp "$icon_src" "$HOME/.local/share/icons/${icon_name}.${ext}"
@@ -402,12 +420,12 @@ update_all() {
     local FAIL=0
 
     for entry in "${APPS_DATA[@]}"; do
-        IFS='|' read -r repo filter filename label desktop icon mime icon_url <<< "$entry"
+        IFS='|' read -r repo filter filename label desktop icon mime icon_url release_tag <<< "$entry"
         echo "--- $label ---"
 
         printf "  Release... "
         VERSION="" URL="" fetch_err=""
-        if fetch_release "$repo" "$filter"; then
+        if fetch_release "$repo" "$filter" "$release_tag"; then
             echo "$VERSION"
         else
             echo "FALHOU ($fetch_err)"
@@ -440,8 +458,8 @@ update_all() {
 
         if command -v xdg-settings &>/dev/null; then
             case "$label" in
-                "Brave Browser"|"Chromium")
-                    xdg-settings set default-web-browser "$(basename "$desktop" .desktop)" 2>/dev/null || true
+                "Firefox Developer Edition")
+                    xdg-settings set default-web-browser "$desktop" 2>/dev/null || true
                     ;;
             esac
         fi

@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:;">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<title>gerar_sku.sh — Script Details</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, monospace; background: #f5f5f5; color: #1a1a1a; line-height: 1.6; }
+.container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+h1 { font-size: 1.8rem; margin-bottom: 8px; }
+h2 { font-size: 1.3rem; margin: 24px 0 12px; color: #2563eb; border-bottom: 2px solid #e5e7eb; padding-bottom: 6px; }
+h3 { font-size: 1rem; margin: 16px 0 8px; color: #374151; }
+.subtitle { color: #6b7280; margin-bottom: 20px; font-size: 0.95rem; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+.header-bar { background: #1e293b; color: #fff; padding: 16px 0; margin-bottom: 24px; }
+.header-bar .container { display: flex; justify-content: space-between; align-items: center; }
+.header-bar h1 { margin: 0; font-size: 1.3rem; }
+.header-bar h1 a { color: #fff; }
+.header-bar h1 a:hover { text-decoration: none; }
+.header-bar .nav a { color: #93c5fd; margin-left: 16px; font-size: 0.9rem; }
+.search-box { width: 100%; padding: 10px 14px; border: 2px solid #d1d5db; border-radius: 8px; font-size: 0.95rem; margin-bottom: 20px; outline: none; transition: border-color 0.2s; }
+.search-box:focus { border-color: #2563eb; }
+table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+th, td { padding: 10px 14px; text-align: left; font-size: 0.9rem; }
+th { background: #f8fafc; font-weight: 600; color: #374151; border-bottom: 2px solid #e5e7eb; }
+td { border-bottom: 1px solid #f0f0f0; }
+tr:hover td { background: #f8fafc; }
+.badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; margin: 1px 2px; }
+.badge-pkg { background: #dcfce7; color: #166534; }
+.badge-cmd { background: #dbeafe; color: #1e40af; }
+.badge-func { background: #fef3c7; color: #92400e; }
+.badge-dir { background: #e5e7eb; color: #374151; }
+.tag { display: inline-block; padding: 2px 6px; border-radius: 3px; font-size: 0.7rem; font-weight: 600; background: #e5e7eb; color: #374151; margin: 1px; }
+.tag-category { background: #ede9fe; color: #5b21b6; }
+.cmd-count { font-size: 0.8rem; color: #6b7280; }
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 24px; }
+.stat-card { background: #fff; border-radius: 8px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); text-align: center; }
+.stat-card .num { font-size: 1.8rem; font-weight: 700; color: #2563eb; }
+.stat-card .label { font-size: 0.8rem; color: #6b7280; margin-top: 4px; }
+.script-page { max-width: 960px; margin: 0 auto; }
+.meta-table { width: 100%; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 20px; }
+.meta-table td { padding: 8px 14px; border-bottom: 1px solid #f0f0f0; }
+.meta-table td:first-child { font-weight: 600; color: #374151; width: 140px; background: #f8fafc; }
+.cmd-group { margin-bottom: 16px; }
+.cmd-group-title { font-size: 0.85rem; font-weight: 600; color: #5b21b6; margin-bottom: 6px; }
+.cmd-list { display: flex; flex-wrap: wrap; gap: 4px; }
+.source-box { margin: 12px 0; }
+.source-box textarea { width: 100%; padding: 12px; border: 2px solid #d1d5db; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 0.8rem; line-height: 1.4; background: #1e293b; color: #e5e7eb; resize: vertical; outline: none; }
+.source-box textarea:focus { border-color: #2563eb; }
+.copy-btn { display: inline-block; padding: 8px 16px; background: #2563eb; color: #fff; border: none; border-radius: 6px; font-size: 0.85rem; cursor: pointer; margin: 8px 4px 4px 0; transition: background 0.2s; }
+.copy-btn:hover { background: #1d4ed8; }
+.copy-btn.copied { background: #16a34a; }
+.download-btn { display: inline-block; padding: 8px 16px; background: #374151; color: #fff; border: none; border-radius: 6px; font-size: 0.85rem; cursor: pointer; margin: 8px 4px 4px 0; transition: background 0.2s; text-decoration: none; }
+.download-btn:hover { background: #1f2937; text-decoration: none; }
+.func-list { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+.func-item { background: #fef3c7; color: #92400e; padding: 3px 10px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 0.8rem; }
+.var-list { display: flex; flex-wrap: wrap; gap: 6px; }
+.var-item { background: #f0fdf4; color: #166534; padding: 3px 10px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 0.78rem; }
+.var-item code { font-size: 0.78rem; }
+.back-link { display: inline-block; margin-bottom: 16px; color: #2563eb; font-size: 0.9rem; }
+.back-link:before { content: "← "; }
+.stat-line { font-size: 0.8rem; color: #6b7280; margin-bottom: 12px; }
+.layout { display: flex; gap: 24px; align-items: flex-start; }
+.sidebar { width: 260px; flex-shrink: 0; background: #fff; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); overflow: hidden; position: sticky; top: 20px; max-height: calc(100vh - 80px); overflow-y: auto; }
+.sidebar-title { padding: 12px 16px; font-weight: 700; font-size: 0.85rem; color: #1e293b; background: #f8fafc; border-bottom: 1px solid #e5e7eb; text-transform: uppercase; letter-spacing: 0.5px; }
+.sidebar a { display: block; padding: 8px 16px; color: #374151; text-decoration: none; font-size: 0.82rem; border-left: 3px solid transparent; transition: all 0.15s; }
+.sidebar a:hover { background: #f1f5f9; border-left-color: #93c5fd; }
+.sidebar a.active { background: #eff6ff; border-left-color: #2563eb; color: #1e40af; font-weight: 600; }
+.sidebar-group { border-top: 1px solid #f0f0f0; }
+.sidebar-group-label { padding: 6px 16px; font-size: 0.7rem; font-weight: 600; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.3px; }
+.sidebar a .s-badge { float: right; background: #e5e7eb; color: #374151; padding: 0 6px; border-radius: 3px; font-size: 0.65rem; font-weight: 600; line-height: 1.6; }
+.main-content { flex: 1; min-width: 0; }
+.tool-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin: 16px 0 28px; }
+.tool-card { display: flex; flex-direction: column; background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); overflow: hidden; text-decoration: none; color: inherit; transition: transform 0.2s, box-shadow 0.2s; position: relative; }
+.tool-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.12); }
+.tool-banner { height: 100px; display: flex; align-items: center; justify-content: center; }
+.tool-emoji { font-size: 3rem; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.3)); }
+.tool-body { padding: 16px; flex: 1; }
+.tool-body h3 { font-size: 1rem; color: #1e293b; margin-bottom: 6px; }
+.tool-body p { font-size: 0.82rem; color: #6b7280; line-height: 1.4; margin-bottom: 8px; }
+.tool-tags { display: flex; flex-wrap: wrap; gap: 4px; }
+.tool-arrow { position: absolute; top: 16px; right: 16px; font-size: 1.2rem; color: #9ca3af; transition: color 0.2s; }
+.tool-card:hover .tool-arrow { color: #2563eb; }
+.header-bar .nav a.active { color: #fff; font-weight: 600; }
+.cat-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+.cat-chip { --c: #6b7280; display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border: 2px solid #e5e7eb; border-radius: 999px; background: #fff; color: #374151; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+.cat-chip:hover { border-color: #cbd5e1; transform: translateY(-1px); }
+.cat-chip.active { border-color: var(--c); color: var(--c); }
+.cat-chip .chip-count { background: #f1f5f9; border-radius: 999px; padding: 0 8px; font-size: 0.7rem; font-weight: 600; color: #6b7280; }
+.cat-chip.active .chip-count { background: rgba(148,163,184,.2); }
+.table-meta { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin: 12px 0; flex-wrap: wrap; }
+.table-meta .visible-count { font-size: 0.8rem; color: #6b7280; }
+.table-wrap { overflow-x: auto; }
+.badge-cat { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 0.72rem; font-weight: 600; white-space: nowrap; }
+.desc-cell { max-width: 340px; color: #4b5563; }
+.actions { white-space: nowrap; }
+.empty-row td { text-align: center; padding: 32px; color: #9ca3af; font-size: 0.9rem; }
+.side-group { border-top: 1px solid #f0f0f0; }
+.side-group summary { display: flex; align-items: center; gap: 8px; padding: 10px 16px; font-size: 0.72rem; font-weight: 700; color: #6b7280; text-transform: uppercase; letter-spacing: 0.3px; cursor: pointer; list-style: none; user-select: none; }
+.side-group summary::-webkit-details-marker { display: none; }
+.side-group summary::marker { content: ""; }
+.side-group:hover summary, .side-group[open] summary { color: #5b21b6; background: #faf5ff; }
+.side-group .g-count { margin-left: auto; background: #e5e7eb; color: #6b7280; border-radius: 999px; padding: 0 8px; font-size: 0.65rem; line-height: 1.8; font-weight: 600; }
+.side-group[open] .g-count { background: #ede9fe; color: #5b21b6; }
+.side-group .g-emoji { font-size: 0.85rem; }
+.side-group a .s-dir { font-size: 0.62rem; color: #9ca3af; background: #f1f5f9; padding: 0 5px; border-radius: 3px; margin-left: 4px; }
+@media (max-width: 800px) { .layout { flex-direction: column; } .sidebar { width: 100%; position: static; max-height: none; } .cat-chips { gap: 6px; } }
+</style>
+</head>
+<body>
+<div class="header-bar">
+  <div class="container">
+    <h1><a href="../index.html">📜 Backup Scripts</a></h1>
+    <div class="nav">
+      <a href="../index.html">Dashboard</a>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <div class="layout">
+    <div class="sidebar">
+      <div class="sidebar-title">📂 Navegação</div><a href="../index.html">📊 Dashboard</a><details class="side-group"><summary><span class="g-emoji">🏗️</span>ISO & LiveCD<span class="g-count">13</span></summary><a href="../scripts/build-iso.html">build_iso.sh<span class="s-dir">raiz</span><span class="s-badge">13</span></a><a href="../scripts/build-iso-completa.html">build_iso_completa.sh<span class="s-badge">24</span></a><a href="../scripts/build-offline-from-boot.html">build_offline_from_boot.sh<span class="s-badge">26</span></a><a href="../scripts/build-offline-ol9.html">build_offline_ol9.sh<span class="s-badge">26</span></a><a href="../scripts/build-ol9-openbox-offline.html">build_ol9_openbox_offline.sh<span class="s-badge">26</span></a><a href="../scripts/oracle.html">oracle.sh<span class="s-badge">19</span></a><a href="../scripts/rebuild-ol9-xfce-offline.html">rebuild_ol9_xfce_offline.sh<span class="s-badge">22</span></a><a href="../scripts/build-backup.html">build_backup.sh<span class="s-badge">16</span></a><a href="../scripts/build-iso.html">build_iso.sh<span class="s-dir">sys</span><span class="s-badge">15</span></a><a href="../scripts/create-iso.html">create_iso.sh<span class="s-badge">13</span></a><a href="../scripts/gerar-iso.html">gerar_iso.sh<span class="s-badge">2</span></a><a href="../scripts/gerar-iso-ol10.html">gerar_iso_ol10.sh<span class="s-badge">12</span></a><a href="../scripts/gerar-iso-ol9.html">gerar_iso_ol9.sh<span class="s-badge">13</span></a></details><details class="side-group"><summary><span class="g-emoji">⚙️</span>Configuração & Otimização<span class="g-count">13</span></summary><a href="../scripts/fix-repos-ol9.html">fix-repos-ol9.sh<span class="s-dir">raiz</span><span class="s-badge">9</span></a><a href="../scripts/fix-boot-ol9-offline.html">fix_boot_ol9_offline.sh<span class="s-badge">8</span></a><a href="../scripts/auto-fix-powerprofiles-selinux.html">auto_fix_powerprofiles_selinux.sh<span class="s-badge">2</span></a><a href="../scripts/fix-repos-ol9.html">fix-repos-ol9.sh<span class="s-dir">sys</span><span class="s-badge">9</span></a><a href="../scripts/ol9-audit-otimizar.html">ol9-audit-otimizar.sh<span class="s-badge">14</span></a><a href="../scripts/ol9-full-setup.html">ol9-full-setup.sh<span class="s-badge">12</span></a><a href="../scripts/oracle-config.html">oracle_config.sh<span class="s-badge">2</span></a><a href="../scripts/otimizar-gnome.html">otimizar-gnome.sh<span class="s-badge">3</span></a><a href="../scripts/otimizar-xfce.html">otimizar-xfce.sh<span class="s-badge">15</span></a><a href="../scripts/remove-old-kernels.html">remove_old_kernels.sh<span class="s-badge">4</span></a><a href="../scripts/setup-xfce-tiling.html">setup-xfce-tiling.sh<span class="s-badge">7</span></a><a href="../scripts/setup-zram.html">setup-zram.sh<span class="s-badge">3</span></a><a href="../scripts/xrandr-config.html">xrandr-config.sh<span class="s-badge">7</span></a></details><details class="side-group"><summary><span class="g-emoji">📦</span>Empacotamento<span class="g-count">3</span></summary><a href="../scripts/create-rpm.html">create_rpm.sh<span class="s-badge">9</span></a><a href="../scripts/appimage2rpm.html">appimage2rpm.sh<span class="s-badge">9</span></a><a href="../scripts/manager-repo-sh.html">manager_repo_sh<span class="s-badge">3</span></a></details><details class="side-group"><summary><span class="g-emoji">🖥️</span>Virtualização & VM<span class="g-count">3</span></summary><a href="../scripts/control.html">control.sh<span class="s-badge">8</span></a><a href="../scripts/restore-snapshot-disable-ufw.html">restore-snapshot-disable-ufw.sh<span class="s-badge">1</span></a><a href="../scripts/setup-api-debian.html">setup-api-debian.sh<span class="s-badge">13</span></a></details><details class="side-group"><summary><span class="g-emoji">🌐</span>Servidores & Serviços<span class="g-count">3</span></summary><a href="../scripts/debian.html">debian.sh<span class="s-badge">4</span></a><a href="../scripts/manut.html">manut.sh<span class="s-badge">4</span></a><a href="../scripts/node.html">node.sh<span class="s-badge">12</span></a></details><details class="side-group"><summary><span class="g-emoji">🔵</span>Bluetooth<span class="g-count">2</span></summary><a href="../scripts/bt-auto.html">bt-auto.sh<span class="s-badge">1</span></a><a href="../scripts/bt-ctl.html">bt-ctl.sh<span class="s-badge">1</span></a></details><details class="side-group"><summary><span class="g-emoji">🔄</span>Sincronização & Docs<span class="g-count">4</span></summary><a href="../scripts/git-sync.html">git-sync.sh<span class="s-badge">3</span></a><a href="../scripts/atualizar.html">atualizar.sh<span class="s-badge">2</span></a><a href="../scripts/update-appimages.html">update-appimages.sh<span class="s-badge">11</span></a><a href="../scripts/update-docs.html">update-docs.sh<span class="s-badge">2</span></a></details><details class="side-group" open><summary><span class="g-emoji">🛒</span>SKU & E-commerce<span class="g-count">2</span></summary><a href="../scripts/gerar-sku.html" class="active">gerar_sku.sh<span class="s-badge">1</span></a><a href="../scripts/gerar-sku-ebook.html">gerar_sku_ebook.sh<span class="s-badge">1</span></a></details>
+    </div>
+    <div class="main-content script-page">
+      <a href="../index.html" class="back-link">Voltar ao Dashboard</a>
+
+      <h1>gerar_sku.sh</h1>
+      <p class="subtitle"><span class="badge badge-cat" style="background:rgba(236,72,153,.12);color:rgb(236,72,153)">🛒 SKU & E-commerce</span> <span>gerar_sku.sh - Gera SKU no padrão comercial</span></p>
+
+      <div class="meta-table"><table><tr><td colspan='2'>============================================================</td></tr><tr><td colspan='2'>gerar_sku.sh - Gera SKU no padrão comercial</td></tr><tr><td colspan='2'>Formato padrão comercial:</td></tr><tr><td colspan='2'>CATEGORIA-SUBCATEGORIA-CARACTERISTICA-COR-TAMANHO</td></tr><tr><td colspan='2'>Cada campo é representado por um prefixo (abreviação).</td></tr><tr><td colspan='2'>Ex.: CAMISETA MASCULINA BÁSICA PRETA M -&gt; CAM-MASC-BAS-PRE-M</td></tr><tr><td colspan='2'>============================================================</td></tr><tr><td colspan='2'>&nbsp;</td></tr></table></div>
+      <div class="meta-table"><table><tr><td>Arquivo</td><td><code>gerar_sku.sh</code></td></tr><tr><td>Shebang</td><td><code>#!/usr/bin/env bash</code></td></tr><tr><td>Tamanho</td><td>7.0 KB · 206 linhas</td></tr></table></div>
+      <h2>Funções</h2><div class='func-list'><span class="func-item">gerar_prefixo() <span style="opacity:0.5">linha 29</span></span><span class="func-item">perguntar() <span style="opacity:0.5">linha 54</span></span><span class="func-item">codigo_cor() <span style="opacity:0.5">linha 71</span></span><span class="func-item">codigo_tamanho() <span style="opacity:0.5">linha 97</span></span><span class="func-item">gerar_sufixo() <span style="opacity:0.5">linha 115</span></span><span class="func-item">mostrar_banner() <span style="opacity:0.5">linha 122</span></span></div>
+      <h2>Variáveis de Configuração</h2><div class='var-list'><span class="var-item"><code>VERSION</code> = <code>1.0.0</code></span><span class="var-item"><code>RED</code> = <code>\033[0;31m</code></span><span class="var-item"><code>GREEN</code> = <code>\033[0;32m</code></span><span class="var-item"><code>YELLOW</code> = <code>\033[1;33m</code></span><span class="var-item"><code>CYAN</code> = <code>\033[0;36m</code></span><span class="var-item"><code>NC</code> = <code>\033[0m</code></span></div>
+      <h2>Comandos Utilizados</h2><div class="cmd-group"><div class="cmd-group-title">Text Processing</div><div class="cmd-list"><span class="badge badge-cmd">sed</span></div></div>
+      
+
+      <h2>Código Fonte</h2>
+      <div class="source-box">
+        <textarea id="source-code" rows="20" readonly spellcheck="false">#!/usr/bin/env bash
+
+VERSION=&quot;1.0.0&quot;
+
+# ============================================================
+#  gerar_sku.sh - Gera SKU no padrão comercial
+#
+#  Formato padrão comercial:
+#     CATEGORIA-SUBCATEGORIA-CARACTERISTICA-COR-TAMANHO
+#
+#  Cada campo é representado por um prefixo (abreviação).
+#  Ex.: CAMISETA MASCULINA BÁSICA PRETA M -&gt; CAM-MASC-BAS-PRE-M
+# ============================================================
+
+set -euo pipefail
+
+# --- Cores para output --------------------------------
+RED=&#x27;\033[0;31m&#x27;
+GREEN=&#x27;\033[0;32m&#x27;
+YELLOW=&#x27;\033[1;33m&#x27;
+CYAN=&#x27;\033[0;36m&#x27;
+NC=&#x27;\033[0m&#x27;
+
+# ------------------------------------------------------------
+# Função: extrair prefixo de um texto
+#   - Remove acentos, espaços, caracteres especiais
+#   - Se o campo for vazio, retorna um valor padrão
+# ------------------------------------------------------------
+gerar_prefixo() {
+    local texto=&quot;$1&quot;
+    local padrao=&quot;${2:-N/A}&quot;
+
+    # Remove acentos
+    texto=$(echo &quot;$texto&quot; | iconv -f utf-8 -t ascii//TRANSLIT 2&gt;/dev/null || echo &quot;$texto&quot;)
+
+    # Remove caracteres especiais e espaços, deixa letras/numero
+    texto=$(echo &quot;$texto&quot; | sed &#x27;s/[^A-Za-z0-9]//g&#x27; | tr -d &#x27; &#x27;)
+
+    # Converte para maiúsculas
+    texto=$(echo &quot;$texto&quot; | tr &#x27;[:lower:]&#x27; &#x27;[:upper:]&#x27;)
+
+    if [[ -z &quot;$texto&quot; ]]; then
+        echo &quot;$padrao&quot;
+        return
+    fi
+
+    # Pega as primeiras 3 letras
+    echo &quot;${texto:0:3}&quot;
+}
+
+# ------------------------------------------------------------
+# Função: ler input do usuário (com suporte a valor padrão)
+# ------------------------------------------------------------
+perguntar() {
+    local msg=&quot;$1&quot;
+    local padrao=&quot;${2:-}&quot;
+
+    if [[ -n &quot;$padrao&quot; ]]; then
+        read -r -p &quot;$(echo -e &quot;${CYAN}$msg${NC} [padrão: ${padrao}]: &quot;)&quot; resposta
+        resposta=&quot;${resposta:-$padrao}&quot;
+    else
+        read -r -p &quot;$(echo -e &quot;${CYAN}$msg${NC}: &quot;)&quot; resposta
+    fi
+
+    echo &quot;$resposta&quot;
+}
+
+# ------------------------------------------------------------
+# Função: máscara de conversão de cor para código
+# ------------------------------------------------------------
+codigo_cor() {
+    local cor=&quot;$1&quot;
+    cor=$(echo &quot;$cor&quot; | tr &#x27;[:upper:]&#x27; &#x27;[:lower:]&#x27; | sed &#x27;s/[áàâã]/a/g; s/[éèê]/e/g; s/[íì]/i/g; s/[óòôõ]/o/g; s/[úùû]/u/g; s/[ç]/c/g&#x27;)
+
+    case &quot;$cor&quot; in
+        preto|black)           echo &quot;PRE&quot; ;;
+        branco|white)          echo &quot;BRA&quot; ;;
+        vermelho|red)          echo &quot;VER&quot; ;;
+        azul|blue)             echo &quot;AZU&quot; ;;
+        verde|green)           echo &quot;VERD&quot; ;;
+        amarelo|yellow)        echo &quot;AMA&quot; ;;
+        rosa|pink)             echo &quot;ROS&quot; ;;
+        roxo|purple|violeta)   echo &quot;ROX&quot; ;;
+        laranja|orange)        echo &quot;LAR&quot; ;;
+        cinza|gray|grey)       echo &quot;CIN&quot; ;;
+        marrom|brown)          echo &quot;MAR&quot; ;;
+        bege|beige)            echo &quot;BEG&quot; ;;
+        dourado|gold)          echo &quot;DOU&quot; ;;
+        prata|prateado|silver) echo &quot;PRA&quot; ;;
+        *)                     gerar_prefixo &quot;$1&quot; ;;
+    esac
+}
+
+# ------------------------------------------------------------
+# Função: máscara de conversão de tamanho
+# ------------------------------------------------------------
+codigo_tamanho() {
+    local tam=&quot;$1&quot;
+    tam=$(echo &quot;$tam&quot; | tr &#x27;[:lower:]&#x27; &#x27;[:upper:]&#x27; | sed &#x27;s/[^A-Za-z0-9]//g&#x27;)
+
+    case &quot;$tam&quot; in
+        P)        echo &quot;P&quot; ;;
+        M)        echo &quot;M&quot; ;;
+        G)        echo &quot;G&quot; ;;
+        GG)       echo &quot;GG&quot; ;;
+        XG|XGG)   echo &quot;XG&quot; ;;
+        UNICO)    echo &quot;UNI&quot; ;;
+        *)        echo &quot;${tam:0:3}&quot; ;;
+    esac
+}
+
+# ------------------------------------------------------------
+# Função: gerar um sufixo aleatório (evita duplicidade total)
+# ------------------------------------------------------------
+gerar_sufixo() {
+    echo &quot;$(date +%s%N | sha256sum | tr -d &#x27;a-f0-9 &#x27; | head -c 2 | tr &#x27;[:lower:]&#x27; &#x27;[:upper:]&#x27;)&quot;
+}
+
+# ------------------------------------------------------------
+# Banner de apresentação
+# ------------------------------------------------------------
+mostrar_banner() {
+    cat &lt;&lt;&quot;EOF&quot;
+  ____  _  _  _  __   __  ____
+ / ___|| || || | \ \ / / |  _ \
+| |   | | || | __\ V /  | |_) |
+| |___| |__&#x27; |/ _ \| |   |  _ &lt;
+ \____|_|  |_| \___/|_|   |_| \_\  -- Gerador de SKU v1.0
+EOF
+    echo -e &quot;${GREEN}Formato de saída:${NC} CATEGORIA-SUBCATEGORIA-CARACTERISTICA-COR-TAMANHO&quot;
+    echo
+}
+
+# ============================================================
+# MAIN
+# ============================================================
+
+mostrar_banner
+
+echo -e &quot;${YELLOW}Preencha os dados do produto para gerar o SKU.${NC}&quot;
+echo
+
+# --- Coleta de inputs -------------------------------------
+categoria=$(perguntar &quot;Categoria (ex: Camiseta)&quot;              &quot;GERAL&quot;)
+subcategoria=$(perguntar &quot;Subcategoria (ex: Masculina)&quot;        &quot;BÁSIC&quot;)
+caracteristica=$(perguntar &quot;Característica (ex: Básica)&quot;       &quot;CLÁSS&quot;)
+cor=$(perguntar &quot;Cor (ex: Preta)&quot;                              &quot;PRETA&quot;)
+tamanho=$(perguntar &quot;Tamanho (ex: M)&quot;                          &quot;UNI&quot;)
+
+# --- Geração de prefixos ------------------------------------
+p_cat=$(gerar_prefixo &quot;$categoria&quot; &quot;GER&quot;)
+p_sub=$(gerar_prefixo &quot;$subcategoria&quot; &quot;BAS&quot;)
+p_car=$(gerar_prefixo &quot;$caracteristica&quot; &quot;CLA&quot;)
+
+# Usa máscara inteligente para cor e tamanho (mais amigável)
+p_cor=$(codigo_cor &quot;$cor&quot;)
+p_tam=$(codigo_tamanho &quot;$tamanho&quot;)
+
+# --- Monta e exibe o SKU ------------------------------------
+sku=&quot;${p_cat}-${p_sub}-${p_car}-${p_cor}-${p_tam}&quot;
+
+echo
+echo -e &quot;${GREEN}============================================${NC}&quot;
+echo -e &quot;${CYAN}SKU gerado:${NC} ${GREEN}${sku}${NC}&quot;
+echo -e &quot;${GREEN}============================================${NC}&quot;
+echo
+
+# -- Resumo dos inputs (debug / conferência) ----------------
+echo -e &quot;${YELLOW}Resumo:${NC}&quot;
+printf &quot;  %-18s %-8s %s\n&quot; &quot;Campo&quot; &quot;Prefixo&quot; &quot;Original&quot;
+printf &quot;  %-18s %-8s %s\n&quot; &quot;-------&quot; &quot;-------&quot; &quot;--------&quot;
+printf &quot;  %-18s %-8s %s\n&quot; &quot;Categoria&quot;       &quot;$p_cat&quot; &quot;$categoria&quot;
+printf &quot;  %-18s %-8s %s\n&quot; &quot;Subcategoria&quot;    &quot;$p_sub&quot; &quot;$subcategoria&quot;
+printf &quot;  %-18s %-8s %s\n&quot; &quot;Característica&quot;  &quot;$p_car&quot; &quot;$caracteristica&quot;
+printf &quot;  %-18s %-8s %s\n&quot; &quot;Cor&quot;             &quot;$p_cor&quot; &quot;$cor&quot;
+printf &quot;  %-18s %-8s %s\n&quot; &quot;Tamanho&quot;         &quot;$p_tam&quot; &quot;$tamanho&quot;
+
+echo
+
+# --- Opção de copiar para clipboard ------------------------
+read -r -p &quot;$(echo -e &quot;${CYAN}Copiar SKU para a área de transferência? [s/N]: ${NC}&quot;)&quot; copiar
+if [[ &quot;${copiar,,}&quot; == &quot;s&quot; ]]; then
+    if command -v xclip &gt;/dev/null 2&gt;&amp;1; then
+        echo -n &quot;$sku&quot; | xclip -selection clipboard
+        echo -e &quot;${GREEN}SKU copiado!${NC}&quot;
+    elif command -v xsel &gt;/dev/null 2&gt;&amp;1; then
+        echo -n &quot;$sku&quot; | xsel --clipboard --input
+        echo -e &quot;${GREEN}SKU copiado!${NC}&quot;
+    elif command -v wl-copy &gt;/dev/null 2&gt;&amp;1; then
+        echo -n &quot;$sku&quot; | wl-copy
+        echo -e &quot;${GREEN}SKU copiado!${NC}&quot;
+    else
+        echo -e &quot;${RED}Ferramenta de clipboard não encontrada (xclip/xsel/wl-copy).${NC}&quot;
+    fi
+fi
+
+# --- Opção de salvar em arquivo ----------------------------
+read -r -p &quot;$(echo -e &quot;${CYAN}Salvar SKU em arquivo skus.txt? [s/N]: ${NC}&quot;)&quot; salvar
+if [[ &quot;${salvar,,}&quot; == &quot;s&quot; ]]; then
+    echo &quot;$sku&quot; &gt;&gt; &quot;skus.txt&quot;
+    echo -e &quot;${GREEN}SKU salvo em skus.txt${NC}&quot;
+fi
+
+echo -e &quot;${GREEN}Pronto!${NC}&quot;
+exit 0
+</textarea>
+        <div>
+          <button class="copy-btn" onclick="copySource()" id="copy-btn">📋 Copiar código</button>
+          <button class="copy-btn" onclick="downloadSource()" id="dl-btn">💾 Download .sh</button>
+          <a href="gerar-sku.desktop" class="download-btn" download>▶️ Abrir no Terminal (.desktop)</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function copySource() {
+  var textarea = document.getElementById('source-code');
+  textarea.select();
+  textarea.setSelectionRange(0, 999999);
+  document.execCommand('copy');
+  var btn = document.getElementById('copy-btn');
+  btn.textContent = '✅ Copiado!';
+  btn.classList.add('copied');
+  setTimeout(function() {
+    btn.textContent = '📋 Copiar código';
+    btn.classList.remove('copied');
+  }, 2000);
+}
+
+function downloadSource() {
+  var content = document.getElementById('source-code').value;
+  var blob = new Blob([content], {type: 'application/x-shellscript'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'gerar_sku.sh';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  var btn = document.getElementById('dl-btn');
+  btn.textContent = '✅ Baixado!';
+  setTimeout(function() {
+    btn.textContent = '💾 Download .sh';
+  }, 2000);
+}
+</script>
+</body>
+</html>
