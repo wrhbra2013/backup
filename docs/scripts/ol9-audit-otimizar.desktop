@@ -2,7 +2,7 @@
 Type=Application
 Name=ol9-audit-otimizar.sh
 Comment=Auditoria + Otimizacao Oracle Linux 9 + XFCE4
-Exec=x-terminal-emulator -e bash -c '/home/wander/Public/backup/system_scripts/ol9-audit-otimizar.sh; echo ""; echo "=== Script finalizado. Pressione Enter para fechar ==="; read'
+Exec=x-terminal-emulator -e bash -c '/home/runner/work/backup/backup/system_scripts/ol9-audit-otimizar.sh; echo ""; echo "=== Script finalizado. Pressione Enter para fechar ==="; read'
 Terminal=true
 Icon=terminal
 Categories=Development;System;
