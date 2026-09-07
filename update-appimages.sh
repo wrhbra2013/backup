@@ -9,6 +9,7 @@ case "${1:-}" in
     --menu) MODE="menu"; shift ;;
     --status) MODE="status"; shift ;;
     --uninstall) MODE="uninstall"; UNINSTALL_APP="${2:-}"; shift 2 ;;
+    --register) MODE="register"; shift ;;
 esac
 
 APP_DIR="${1:-$HOME/Applications}"
@@ -20,6 +21,7 @@ APPS_DATA=(
     "ivan-hc/Chromium-Web-Browser-appimage|Chromium-stable-|chromium.AppImage|Chromium|chromium-appimage.desktop|chromium|x-scheme-handler/http;x-scheme-handler/https;text/html||continuous"
     "VSCodium/vscodium|x86_64.AppImage|VSCodium.AppImage|VSCodium|codium-appimage.desktop|vscodium|text/plain;text/x-python;text/x-c;text/html;application/json|https://raw.githubusercontent.com/VSCodium/vscodium/master/icons/stable/codium_clt.svg"
     "anomalyco/opencode|opencode-desktop-linux-x86_64.AppImage|opencode-desktop-linux-x86_64.AppImage|OpenCode|opencode-appimage.desktop|opencode|text/plain|https://raw.githubusercontent.com/anomalyco/opencode/dev/packages/desktop/icons/prod/icon.png"
+    "ivan-hc/MS-Edge-appimage|-stable-|microsoft-edge.AppImage|Microsoft Edge|microsoft-edge.desktop|microsoft-edge|x-scheme-handler/http;x-scheme-handler/https;text/html||continuous"
 )
 
 [[ "$MODE" != "update" ]] && exec > >(tee -a "$LOGFILE")
@@ -391,22 +393,70 @@ show_menu() {
         echo "╚══════════════════════════════════════╝"
         echo ""
         echo "1) Atualizar todos os apps"
-        echo "2) Listar apps instalados e status"
-        echo "3) Desinstalar um app"
-        echo "4) Sair"
+        echo "2) Registrar no sistema (usuario)"
+        echo "3) Listar apps instalados e status"
+        echo "4) Desinstalar um app"
+        echo "5) Sair"
         echo ""
         read -rp "Escolha uma opcao: " choice
 
         case "$choice" in
             1) update_all ;;
-            2) list_installed ;;
-            3) uninstall_menu ;;
-            4) echo ""; exit 0 ;;
+            2) register_system ;;
+            3) list_installed ;;
+            4) uninstall_menu ;;
+            5) echo ""; exit 0 ;;
             *) echo "Opcao invalida." ;;
         esac
         echo ""
         read -rp "Pressione Enter para continuar..."
     done
+}
+
+# ── Register (sistema, sem sudo) ───────────────
+
+register_system() {
+    echo ""
+    echo "Registrando AppImages no sistema (usuario)..."
+    mkdir -p "$DESKTOP_DIR" "$HOME/.local/share/icons" "$HOME/.local/bin"
+    echo ""
+
+    local FAIL=0
+    for entry in "${APPS_DATA[@]}"; do
+        IFS='|' read -r repo filter filename label desktop icon mime icon_url release_tag <<< "$entry"
+        local output="$APP_DIR/$filename"
+        if [[ ! -f "$output" ]]; then
+            echo "  $label: nao instalado (pulando)"
+            continue
+        fi
+
+        echo "--- $label ---"
+        chmod +x "$output" 2>/dev/null || true
+        install_desktop "$label" "$output" "$desktop" "$icon" "$mime"
+        echo "  .desktop: $DESKTOP_DIR/$desktop"
+        if install_icon "$output" "$icon" "$repo" "$icon_url"; then
+            echo "  Icone instalado"
+        else
+            echo "  Icone nao instalado"
+        fi
+        ln -sf "$output" "$HOME/.local/bin/$filename" && echo "  Symlink: ~/.local/bin/$filename"
+        echo ""
+    done
+
+    command -v update-desktop-database &>/dev/null && update-desktop-database "$DESKTOP_DIR" 2>/dev/null || true
+    command -v gtk-update-icon-cache &>/dev/null && gtk-update-icon-cache "$HOME/.local/share/icons" 2>/dev/null || true
+
+    case ":$PATH:" in
+        *":$HOME/.local/bin:"*) : ;;
+        *) export PATH="$HOME/.local/bin:$PATH" ;;
+    esac
+    if ! grep -q 'HOME/.local/bin' "$HOME/.bashrc" 2>/dev/null; then
+        echo 'export PATH="$HOME/.local/bin:$PATH"' >> "$HOME/.bashrc"
+        echo "  ~/.local/bin adicionado ao PATH (arquivo ~/.bashrc atualizado)"
+    fi
+
+    echo "Pronto. Apps visiveis no menu e no terminal (reabra a sessao se necessario)."
+    return "$FAIL"
 }
 
 # ── Main ───────────────────────────────────────
@@ -482,5 +532,6 @@ case "$MODE" in
     menu) show_menu ;;
     status) list_installed ;;
     uninstall) uninstall_app "$UNINSTALL_APP" ;;
+    register) register_system ;;
     update) update_all ;;
 esac
