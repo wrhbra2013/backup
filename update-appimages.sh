@@ -10,6 +10,7 @@ case "${1:-}" in
     --status) MODE="status"; shift ;;
     --uninstall) MODE="uninstall"; UNINSTALL_APP="${2:-}"; shift 2 ;;
     --register) MODE="register"; shift ;;
+    --panel) MODE="panel"; shift ;;
 esac
 
 APP_DIR="${1:-$HOME/Applications}"
@@ -272,6 +273,225 @@ try_download() {
     return 1
 }
 
+# ── Painel XFCE ────────────────────────────────
+
+PANEL_DIR="$HOME/.config/xfce4/panel"
+PANEL_XML="$HOME/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml"
+
+ensure_panel_launchers() {
+    PANEL_ADDED=0
+    [[ -d "$PANEL_DIR" ]] || { echo "  Painel XFCE nao encontrado ($PANEL_DIR)"; return 0; }
+    [[ -f "$PANEL_XML" ]] || { echo "  Config do painel nao encontrada ($PANEL_XML)"; return 0; }
+
+    local toadd=()
+    local entry repo filter filename label desktop icon mime icon_url release_tag
+    for entry in "${APPS_DATA[@]}"; do
+        IFS='|' read -r repo filter filename label desktop icon mime icon_url release_tag <<< "$entry"
+        local output="$APP_DIR/$filename"
+        [[ -f "$output" ]] || continue
+
+        local pinned="" f
+        shopt -s nullglob
+        for f in "$PANEL_DIR"/launcher-*/*.desktop; do
+            [[ -f "$f" ]] || continue
+            if grep -q "^X-XFCE-Source=file://$DESKTOP_DIR/$desktop$" "$f" 2>/dev/null; then
+                pinned=1
+                break
+            fi
+            local fname_label fname_exec
+            fname_label=$(grep -m1 '^Name=' "$f" 2>/dev/null | sed 's|^Name=||')
+            fname_exec=$(grep -m1 '^Exec=' "$f" 2>/dev/null | sed 's|^Exec=||;s| *%F$||')
+            if [[ -n "$fname_label" ]] && {
+                [[ "$fname_label" == "$label" ]] ||
+                [[ "${label,,}" == *"${fname_label,,}"* ]] ||
+                [[ "${fname_label,,}" == *"${label,,}"* ]]; }; then
+                pinned=1
+                break
+            fi
+            if [[ "$fname_exec" == "$APP_DIR/$filename" ]]; then
+                pinned=1
+                break
+            fi
+        done
+        shopt -u nullglob
+        [[ -z "$pinned" ]] || continue
+
+        toadd+=("$desktop|$DESKTOP_DIR/$desktop|$label")
+    done
+
+    [[ ${#toadd[@]} -eq 0 ]] && { PANEL_ADDED=0; return 0; }
+
+    echo "  Adicionando launchers novos no painel XFCE..."
+
+    # Ler config (somente leitura) para descobrir proximo id de plugin e painel alvo
+    local meta
+    meta=$(python3 - "$PANEL_XML" 2>&1 <<'PY'
+import re, sys, xml.etree.ElementTree as ET
+
+tree = ET.parse(sys.argv[1])
+root = tree.getroot()
+
+def props(el, name):
+    return [c for c in list(el) if c.get('name') == name]
+
+plugins = props(root, 'plugins')
+panels = props(root, 'panels')
+if not plugins or not panels:
+    print('', file=sys.stderr)
+    sys.exit(1)
+plugins, panels = plugins[0], panels[0]
+
+plugin_map = {}
+for p in list(plugins):
+    m = re.fullmatch(r'plugin-(\d+)', p.get('name') or '')
+    if m:
+        plugin_map[int(m.group(1))] = p
+
+panel_elms = [c for c in list(panels) if c.tag == 'property'
+              and (c.get('name') or '').startswith('panel-')]
+
+def panel_ids(pp):
+    ids = []
+    for pi in props(pp, 'plugin-ids'):
+        for v in list(pi):
+            if v.tag == 'value':
+                ids.append(int(v.get('value')))
+    return ids
+
+used = set(plugin_map)
+for pp in panel_elms:
+    used |= set(panel_ids(pp))
+
+target = None
+for pp in panel_elms:
+    if any(i in plugin_map and plugin_map[i].get('value') == 'launcher'
+           for i in panel_ids(pp)):
+        target = pp
+        break
+if target is None and panel_elms:
+    target = max(panel_elms, key=lambda pp: len(panel_ids(pp)))
+if target is None:
+    print('', file=sys.stderr)
+    sys.exit(1)
+
+target_num = re.fullmatch(r'panel-(\d+)', target.get('name')).group(1)
+next_id = max(used) + 1 if used else 1
+print('%d|%s|%s' % (next_id, target_num,
+                    ' '.join(str(i) for i in panel_ids(target))))
+PY
+    ) || [[ "$meta" =~ ^[0-9]+\|panel-[0-9]+\| ]] || {
+        echo "  Erro ao ler config do painel"
+        PANEL_ADDED=0
+        return 1
+    }
+
+    local next_id panel_target cur_ids
+    IFS='|' read -r next_id panel_target cur_ids <<< "$meta"
+
+    local item desktop src label ldir fname ok=0
+    for item in "${toadd[@]}"; do
+        desktop="${item%%|*}"
+        label="${item##*|}"
+        src="$DESKTOP_DIR/$desktop"
+        ldir="$PANEL_DIR/launcher-$next_id"
+        fname="$next_id.desktop"
+
+        mkdir -p "$ldir"
+        cat "$src" > "$ldir/$fname"
+        if ! grep -q '^X-XFCE-Source=' "$ldir/$fname" 2>/dev/null; then
+            echo "X-XFCE-Source=file://$src" >> "$ldir/$fname"
+        fi
+        chmod 644 "$ldir/$fname"
+
+        xfconf-query -c xfce4-panel -p "/plugins/plugin-$next_id" \
+            -n -t string -s launcher &&
+        xfconf-query -c xfce4-panel -p "/plugins/plugin-$next_id/items" \
+            -n -a -t string -s "$fname" || {
+            echo "  Painel XFCE: erro ao registrar plugin-$next_id ($label)"
+            PANEL_ADDED=0
+            return 1
+        }
+
+        cur_ids="$cur_ids $next_id"
+        echo "  Painel XFCE: $label fixado no painel"
+        ok=1
+        next_id=$((next_id + 1))
+    done
+
+    # Atualizar plugin-ids do painel alvo com os novos plugins
+    local args=(-c xfce4-panel -p "/panels/panel-$panel_target/plugin-ids")
+    local i
+    for i in $cur_ids; do
+        args+=(-t int -s "$i")
+    done
+    xfconf-query "${args[@]}" || {
+        echo "  Painel XFCE: erro ao atualizar plugin-ids do painel-$panel_target"
+        PANEL_ADDED=0
+        return 1
+    }
+
+    [[ "$ok" -eq 1 ]] && PANEL_ADDED=1
+    return 0
+}
+
+sync_panel_launchers() {
+    PANEL_ADDED=0
+    [[ -d "$PANEL_DIR" ]] || { echo "  Painel XFCE nao encontrado ($PANEL_DIR)"; return 0; }
+
+    local updated=0
+    shopt -s nullglob
+    for launcher in "$PANEL_DIR"/launcher-*; do
+        for f in "$launcher"/*.desktop; do
+            [[ -f "$f" ]] || continue
+
+            local source
+            source=$(grep '^X-XFCE-Source=' "$f" 2>/dev/null | head -1 | sed 's|^X-XFCE-Source=||')
+            [[ -n "$source" ]] || continue
+
+            for entry in "${APPS_DATA[@]}"; do
+                IFS='|' read -r repo filter filename label desktop icon mime icon_url release_tag <<< "$entry"
+                [[ "$source" == "file://$DESKTOP_DIR/$desktop" ]] || continue
+
+                local output="$APP_DIR/$filename"
+                [[ -f "$output" ]] || continue
+
+                local comment="" wmclass=""
+                comment=$(grep '^Comment=' "$f" | head -1 | sed 's|^Comment=||' 2>/dev/null)
+                wmclass=$(grep '^StartupWMClass=' "$f" | head -1 | sed 's|^StartupWMClass=||' 2>/dev/null)
+
+                {
+                    echo "[Desktop Entry]"
+                    echo "Type=Application"
+                    echo "Name=$label"
+                    [[ -n "$comment" ]] && echo "Comment=$comment"
+                    echo "Exec=$output %F"
+                    echo "Icon=$icon"
+                    echo "Terminal=false"
+                    echo "Categories=Development;Network;WebBrowser;"
+                    echo "MimeType=$mime"
+                    echo "StartupNotify=true"
+                    [[ -n "$wmclass" ]] && echo "StartupWMClass=$wmclass"
+                    echo "X-XFCE-Source=$source"
+                } > "$f"
+                chmod 644 "$f"
+
+                echo "  Painel XFCE: $f atualizado"
+                updated=1
+                break
+            done
+        done
+    done
+    shopt -u nullglob
+
+    ensure_panel_launchers
+
+    if [[ "$updated" -eq 1 || "$PANEL_ADDED" -eq 1 ]] && command -v xfce4-panel &>/dev/null; then
+        xfce4-panel -r 2>/dev/null || true
+        echo "  Painel XFCE reiniciado para aplicar as mudancas"
+    fi
+    return 0
+}
+
 # ── Status / List ──────────────────────────────
 
 list_installed() {
@@ -396,7 +616,8 @@ show_menu() {
         echo "2) Registrar no sistema (usuario)"
         echo "3) Listar apps instalados e status"
         echo "4) Desinstalar um app"
-        echo "5) Sair"
+        echo "5) Atualizar lancadores no painel XFCE"
+        echo "6) Sair"
         echo ""
         read -rp "Escolha uma opcao: " choice
 
@@ -405,7 +626,8 @@ show_menu() {
             2) register_system ;;
             3) list_installed ;;
             4) uninstall_menu ;;
-            5) echo ""; exit 0 ;;
+            5) sync_panel_launchers ;;
+            6) echo ""; exit 0 ;;
             *) echo "Opcao invalida." ;;
         esac
         echo ""
@@ -456,6 +678,8 @@ register_system() {
     fi
 
     echo "Pronto. Apps visiveis no menu e no terminal (reabra a sessao se necessario)."
+    echo ""
+    sync_panel_launchers
     return "$FAIL"
 }
 
@@ -520,6 +744,11 @@ update_all() {
     command -v update-desktop-database &>/dev/null && update-desktop-database "$DESKTOP_DIR" 2>/dev/null || true
     command -v gtk-update-icon-cache &>/dev/null && gtk-update-icon-cache "$HOME/.local/share/icons" 2>/dev/null || true
 
+    echo ""
+    echo "---"
+    echo "Sincronizando lancadores do painel XFCE..."
+    sync_panel_launchers
+
     echo "---"
     echo "Status: $([ "$FAIL" -eq 0 ] && echo "Sucesso" || echo "Falha em algum item")"
     echo "Log: $LOGFILE"
@@ -533,5 +762,6 @@ case "$MODE" in
     status) list_installed ;;
     uninstall) uninstall_app "$UNINSTALL_APP" ;;
     register) register_system ;;
+    panel) sync_panel_launchers ;;
     update) update_all ;;
 esac
