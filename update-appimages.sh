@@ -10,22 +10,62 @@ case "${1:-}" in
     --status) MODE="status"; shift ;;
     --uninstall) MODE="uninstall"; UNINSTALL_APP="${2:-}"; shift 2 ;;
     --register) MODE="register"; shift ;;
+    --links) MODE="links"; shift ;;
     --panel) MODE="panel"; shift ;;
 esac
 
 APP_DIR="${1:-$HOME/Applications}"
 mkdir -p "$APP_DIR" "$(dirname "$LOGFILE")" "$DESKTOP_DIR"
 
-# Apps data: repo|filter|filename|label|desktop|icon|mime|icon_url|release_tag
+# Apps data: repo|filter|filename|label|desktop|icon|mime|icon_url|release_tag|type|install_url
+#
+# type: "appimage" (default, baixa do GitHub) ou "curl" (executa script de instalacao)
+# Para type=curl, repo/filter sao ignorados e a versao vem do proprio instalador.
 APPS_DATA=(
-    "srevinsaju/firefox-appimage|firefox-devedition|firefox-developer.AppImage|Firefox Developer Edition|firefox-developer-edition.desktop|firefox-developer-edition|x-scheme-handler/http;x-scheme-handler/https;text/html||firefox-devedition"
-    "ivan-hc/Chromium-Web-Browser-appimage|Chromium-stable-|chromium.AppImage|Chromium|chromium-appimage.desktop|chromium|x-scheme-handler/http;x-scheme-handler/https;text/html||continuous"
-    "VSCodium/vscodium|x86_64.AppImage|VSCodium.AppImage|VSCodium|codium-appimage.desktop|vscodium|text/plain;text/x-python;text/x-c;text/html;application/json|https://raw.githubusercontent.com/VSCodium/vscodium/master/icons/stable/codium_clt.svg"
-    "anomalyco/opencode|opencode-desktop-linux-x86_64.AppImage|opencode-desktop-linux-x86_64.AppImage|OpenCode|opencode-appimage.desktop|opencode|text/plain|https://raw.githubusercontent.com/anomalyco/opencode/dev/packages/desktop/icons/prod/icon.png"
-    "ivan-hc/MS-Edge-appimage|-stable-|microsoft-edge.AppImage|Microsoft Edge|microsoft-edge.desktop|microsoft-edge|x-scheme-handler/http;x-scheme-handler/https;text/html||continuous"
+    "srevinsaju/firefox-appimage|firefox-devedition|firefox-developer.AppImage|Firefox Developer Edition|firefox-developer-edition.desktop|firefox-developer-edition|x-scheme-handler/http;x-scheme-handler/https;text/html||firefox-devedition|appimage|"
+    "ivan-hc/MS-Edge-appimage|Microsoft-Edge-stable|microsoft-edge.AppImage|Microsoft Edge|microsoft-edge.desktop|microsoft-edge|application/pdf;application/xhtml+xml;image/webp;text/html;text/xml;x-scheme-handler/http;x-scheme-handler/https||continuous|appimage|"
+    "ungoogled-software/ungoogled-chromium-portablelinux|x86_64.AppImage|ungoogled-chromium.AppImage|Chromium (ungoogled)|chromium-appimage.desktop|chromium|x-scheme-handler/http;x-scheme-handler/https;text/html|||appimage|"
+    "VSCodium/vscodium|x86_64.AppImage|VSCodium.AppImage|VSCodium|codium-appimage.desktop|vscodium|text/plain;text/x-python;text/x-c;text/html;application/json|https://raw.githubusercontent.com/VSCodium/vscodium/master/icons/stable/codium_clt.svg||appimage|"
+    "||opencode|OpenCode (CLI)|opencode-cli.desktop|opencode-cli|text/plain|||curl|https://opencode.ai/v2/install"
 )
 
-[[ "$MODE" != "update" ]] && exec > >(tee -a "$LOGFILE")
+# Comandos curtos -> symlinks criados em $BIN_DIR (padrao ~/.local/bin).
+# Chave = campo "filename" do app (ou "opencode" p/ o CLI). Valor = um ou mais
+# nomes separados por espaco. Sem entrada = nao cria atalho.
+declare -A APP_COMMANDS=(
+    ["firefox-developer.AppImage"]="firefox-dev firefox-developer"
+    ["microsoft-edge.AppImage"]="edge microsoft-edge"
+    ["ungoogled-chromium.AppImage"]="chromium ungoogled-chromium"
+    ["VSCodium.AppImage"]="codium vscodium"
+)
+# Onde criar os atalhos. Pode sobrescrever:  BIN_DIR=/usr/local/bin ./update-appimages.sh --links
+BIN_DIR="${BIN_DIR:-$HOME/.local/bin}"
+
+# ── Instalador via curl (CLI) ───────────────────
+
+install_curl_app() {
+    local url="$1"
+    local retries="${INSTALL_RETRIES:-3}"
+    local attempt
+
+    [[ -n "$url" ]] || return 1
+
+    for attempt in $(seq 1 "$retries"); do
+        log "Executando instalador (tentativa $attempt/$retries): $url"
+        # O instalador baixa o binario em background; --retry cobre a conexao
+        # com a registry, que e onde costuma cair em rede instavel.
+        if curl -fsSL --retry 3 --retry-delay 5 --retry-all-errors "$url" | bash; then
+            return 0
+        fi
+        sleep 5
+    done
+
+    fetch_err="falha ao executar instalador apos $retries tentativas"
+    return 1
+}
+
+# Menu e interativo (nao duplica no log); os demais modos sempre registram.
+[[ "$MODE" != "menu" ]] && exec > >(tee -a "$LOGFILE")
 log() { echo "[$(date '+%Y-%m-%d %H:%M:%S')] $*"; }
 
 # IPs conhecidos do GitHub API (DNS local resolve para IP invalido)
@@ -34,6 +74,11 @@ GH_RESOLVE=""
 for ip in "${GH_API_IPS[@]}"; do
     GH_RESOLVE+=" --resolve api.github.com:443:$ip"
 done
+
+# Curl antigo (OL9 base, 7.76) nao conhece --retry-max-delay (alias novo):
+# detecta o flag suportado para manter compatibilidade.
+RETRY_MAX_FLAG="--retry-max-time"
+curl --help all 2>/dev/null | grep -q -- '--retry-max-delay' && RETRY_MAX_FLAG="--retry-max-delay"
 
 fetch_release() {
     local repo="$1" filter="$2" tag="${3:-}"
@@ -111,24 +156,102 @@ for m in re.finditer(r'href=\"([^\"]+?)\"', html):
     fi
 }
 
+# Confere se o AppImage e realmente utilizavel, nao apenas se o tamanho bate.
+# Extrai o AppRun do squashfs/dwarfs interno: um arquivo corrompido pela
+# retomada costuma manter o tamanho certo (Content-Length) e falhar aqui.
+validate_appimage() {
+    local file="$1"
+    local tmpdir rc valid=1
+
+    # Resolve para caminho absoluto: a extracao roda dentro de $tmpdir.
+    file=$(readlink -f "$file" 2>/dev/null) || return 1
+    [[ -f "$file" ]] || return 1
+
+    tmpdir=$(mktemp -d)
+    ( cd "$tmpdir" && timeout 120 "$file" --appimage-extract AppRun >/dev/null 2>&1 )
+    rc=$?
+
+    if [[ "$rc" -eq 0 && -s "$tmpdir/squashfs-root/AppRun" ]]; then
+        valid=0
+    fi
+
+    rm -rf "$tmpdir"
+    return "$valid"
+}
+
 download_app() {
     local url="$1" output="$2"
     local start elapsed bytes total_size
+    local retries="${DOWNLOAD_RETRIES:-8}"
+    local attempt
 
     # Mostrar tamanho do arquivo antes de baixar
-    total_size=$(curl -sI --connect-timeout 10 --max-time 15 "$url" 2>/dev/null \
-        | grep -i '^content-length:' | awk '{print $2}' | tr -d '\r ')
+    # -L: segue o redirect do GitHub (sem -L o content-length vem 0)
+    total_size=$(curl -sIL --connect-timeout 10 --max-time 15 "$url" 2>/dev/null \
+        | grep -i '^content-length:' | tail -1 | awk '{print $2}' | tr -d '\r ')
     if [[ -n "$total_size" ]]; then
         echo "  Tamanho: $(numfmt --to=iec "$total_size")"
     fi
 
-    start=$(date +%s%N)
-    curl -L --connect-timeout 10 --progress-bar \
-        -o "$output.part" "$url" || return 1
-    elapsed=$(( ($(date +%s%N) - start) / 1000000 )) # ms
+    # Descarta .part de um download anterior que nao bate com o tamanho
+    # esperado (ex: arquivo corrompido ou URL mudou).
+    if [[ -f "$output.part" && -n "$total_size" ]]; then
+        local part_size
+        part_size=$(stat -c%s "$output.part" 2>/dev/null || echo 0)
+        if (( part_size > total_size )); then
+            echo "  .part anterior invalido, descartando"
+            rm -f "$output.part"
+        fi
+    fi
 
-    chmod +x "$output.part"
-    mv "$output.part" "$output"
+    for attempt in 1 2; do
+        start=$(date +%s%N)
+        # -C -        : retoma de onde parou (arquivo .part preservado entre execucoes)
+        # --retry     : repete em erro de transitorio
+        # --speed-*   : aborta se a conexao travar (curl 28) em vez de esperar eternamente
+        if ! curl -L --connect-timeout 10 --progress-bar \
+            -C - \
+            --retry "$retries" \
+            --retry-delay 5 \
+            $RETRY_MAX_FLAG 60 \
+            --retry-all-errors \
+            --speed-time 60 --speed-limit 1024 \
+            -o "$output.part" "$url"; then
+            # Mantem o .part: a proxima execucao retoma de onde parou.
+            fetch_err="download falhou (parcial preservado em $(basename "$output").part)"
+            return 1
+        fi
+        elapsed=$(( ($(date +%s%N) - start) / 1000000 )) # ms
+
+        # Validacao de integridade: confere tamanho antes de instalar
+        if [[ -n "$total_size" ]]; then
+            local got
+            got=$(stat -c%s "$output.part" 2>/dev/null || echo 0)
+            if [[ "$got" != "$total_size" ]]; then
+                echo "  Tamanho invalido: esperado $total_size, obtido $got"
+                fetch_err="download incompleto (parcial preservado para retomar)"
+                return 1
+            fi
+        fi
+
+        chmod +x "$output.part"
+
+        # Tamanho certo nao garante conteudo integro: retomar de um .part
+        # danificado gera arquivo corrompido com o tamanho esperado. Nesse
+        # caso descarta o parcial e baixa de novo do zero.
+        if validate_appimage "$output.part"; then
+            mv "$output.part" "$output"
+            break
+        fi
+
+        rm -f "$output.part"
+        if [[ "$attempt" -lt 2 ]]; then
+            echo "  AppImage corrompido apos a retomada, baixando novamente do zero..."
+            continue
+        fi
+        fetch_err="AppImage corrompido (tamanho ok, conteudo invalido)"
+        return 1
+    done
 
     bytes=$(stat -c%s "$output" 2>/dev/null)
     if [[ "$elapsed" -gt 0 && -n "$bytes" && "$bytes" -gt 0 ]]; then
@@ -284,9 +407,10 @@ ensure_panel_launchers() {
     [[ -f "$PANEL_XML" ]] || { echo "  Config do painel nao encontrada ($PANEL_XML)"; return 0; }
 
     local toadd=()
-    local entry repo filter filename label desktop icon mime icon_url release_tag
+    local entry repo filter filename label desktop icon mime icon_url release_tag atype aurl
     for entry in "${APPS_DATA[@]}"; do
-        IFS='|' read -r repo filter filename label desktop icon mime icon_url release_tag <<< "$entry"
+        IFS='|' read -r repo filter filename label desktop icon mime icon_url release_tag atype aurl <<< "$entry"
+        [[ "$atype" == "curl" ]] && continue
         local output="$APP_DIR/$filename"
         [[ -f "$output" ]] || continue
 
@@ -449,7 +573,8 @@ sync_panel_launchers() {
             [[ -n "$source" ]] || continue
 
             for entry in "${APPS_DATA[@]}"; do
-                IFS='|' read -r repo filter filename label desktop icon mime icon_url release_tag <<< "$entry"
+                IFS='|' read -r repo filter filename label desktop icon mime icon_url release_tag atype aurl <<< "$entry"
+                [[ "$atype" == "curl" ]] && continue
                 [[ "$source" == "file://$DESKTOP_DIR/$desktop" ]] || continue
 
                 local output="$APP_DIR/$filename"
@@ -501,8 +626,13 @@ list_installed() {
     local found=0
     local outdated=0
     for entry in "${APPS_DATA[@]}"; do
-        IFS='|' read -r repo filter filename label desktop icon mime <<< "$entry"
-        local output="$APP_DIR/$filename"
+        IFS='|' read -r repo filter filename label desktop icon mime icon_url release_tag atype aurl <<< "$entry"
+        local output
+        if [[ "$atype" == "curl" ]]; then
+            output="$HOME/.opencode/bin/opencode"
+        else
+            output="$APP_DIR/$filename"
+        fi
         local vfile="$output.version"
         if [[ -f "$output" ]]; then
             found=1
@@ -512,6 +642,8 @@ list_installed() {
             echo "    Arquivo: $filename ($(numfmt --to=iec "$(stat -c%s "$output" 2>/dev/null)" 2>/dev/null || echo "?"))"
             if [[ -n "$version" ]]; then
                 echo "    Versao: $version"
+            elif [[ "$atype" == "curl" ]] && command -v "$output" >/dev/null 2>&1; then
+                echo "    Versao: $("$output" --version 2>/dev/null | head -1)"
             else
                 echo "    Versao: desconhecida"
             fi
@@ -526,9 +658,14 @@ list_installed() {
 uninstall_app() {
     local target_label="$1"
     for entry in "${APPS_DATA[@]}"; do
-        IFS='|' read -r repo filter filename label desktop icon mime <<< "$entry"
+        IFS='|' read -r repo filter filename label desktop icon mime atype aurl <<< "$entry"
         if [[ "$label" == "$target_label" ]]; then
-            local output="$APP_DIR/$filename"
+            local output
+            if [[ "$atype" == "curl" ]]; then
+                output="$HOME/.opencode/bin/opencode"
+            else
+                output="$APP_DIR/$filename"
+            fi
             local vfile="$output.version"
             local removed=0
 
@@ -548,6 +685,15 @@ uninstall_app() {
                 rm -f "$icon_file" && echo "  Removido: $icon_file"
             fi
 
+            # Atalhos de nome curto (se houver)
+            local names="${APP_COMMANDS[$filename]:-}"
+            local n
+            for n in $names; do
+                if [[ -L "$HOME/.local/bin/$n" ]]; then
+                    rm -f "$HOME/.local/bin/$n" && echo "  Removido: ~/.local/bin/$n"
+                fi
+            done
+
             if [[ "$removed" -eq 0 ]]; then
                 echo "  '$label' nao esta instalado."
             else
@@ -563,8 +709,14 @@ uninstall_menu() {
     local installed=()
     local labels=()
     for entry in "${APPS_DATA[@]}"; do
-        IFS='|' read -r repo filter filename label desktop icon mime <<< "$entry"
-        if [[ -f "$APP_DIR/$filename" ]]; then
+        IFS='|' read -r repo filter filename label desktop icon mime icon_url release_tag atype aurl <<< "$entry"
+        local output
+        if [[ "$atype" == "curl" ]]; then
+            output="$HOME/.opencode/bin/opencode"
+        else
+            output="$APP_DIR/$filename"
+        fi
+        if [[ -f "$output" ]]; then
             installed+=("$entry")
             labels+=("$label")
         fi
@@ -617,7 +769,8 @@ show_menu() {
         echo "3) Listar apps instalados e status"
         echo "4) Desinstalar um app"
         echo "5) Atualizar lancadores no painel XFCE"
-        echo "6) Sair"
+        echo "6) Criar/atualizar atalhos (comandos)"
+        echo "7) Sair"
         echo ""
         read -rp "Escolha uma opcao: " choice
 
@@ -627,12 +780,54 @@ show_menu() {
             3) list_installed ;;
             4) uninstall_menu ;;
             5) sync_panel_launchers ;;
-            6) echo ""; exit 0 ;;
+            6) ensure_commands ;;
+            7) echo ""; exit 0 ;;
             *) echo "Opcao invalida." ;;
         esac
         echo ""
         read -rp "Pressione Enter para continuar..."
     done
+}
+
+# ── Comandos (symlinks curtos em $BIN_DIR) ─────
+
+# Cria atalhos de nome curto (ex: chromium, edge) apontando para os AppImages.
+# Nomes vindos de APP_COMMANDS. Idempotente: atualiza o alvo se ja existir.
+ensure_commands() {
+    local dir="${BIN_DIR:-$HOME/.local/bin}"
+    mkdir -p "$dir"
+
+    local made=() skipped=()
+    local entry repo filter filename label desktop icon mime icon_url release_tag atype aurl
+    for entry in "${APPS_DATA[@]}"; do
+        IFS='|' read -r repo filter filename label desktop icon mime icon_url release_tag atype aurl <<< "$entry"
+
+        local output
+        if [[ "$atype" == "curl" ]]; then
+            output="$HOME/.opencode/bin/opencode"
+        else
+            output="$APP_DIR/$filename"
+        fi
+        [[ -f "$output" ]] || continue
+
+        local names="${APP_COMMANDS[$filename]:-}"
+        [[ -n "$names" ]] || continue
+
+        local n
+        for n in $names; do
+            # Nunca sobrescreve um arquivo real (so symlink antigo ou ausente)
+            if [[ -e "$dir/$n" && ! -L "$dir/$n" ]]; then
+                skipped+=("$n")
+                continue
+            fi
+            ln -sfn "$output" "$dir/$n"
+            made+=("$n")
+        done
+    done
+
+    [[ ${#made[@]} -gt 0 ]] && echo "  Atalhos em $dir: ${made[*]}"
+    [[ ${#skipped[@]} -gt 0 ]] && echo "  (nao sobrescritos, ja existem e nao sao symlink): ${skipped[*]}"
+    return 0
 }
 
 # ── Register (sistema, sem sudo) ───────────────
@@ -645,7 +840,24 @@ register_system() {
 
     local FAIL=0
     for entry in "${APPS_DATA[@]}"; do
-        IFS='|' read -r repo filter filename label desktop icon mime icon_url release_tag <<< "$entry"
+        IFS='|' read -r repo filter filename label desktop icon mime icon_url release_tag atype aurl <<< "$entry"
+
+        if [[ "$atype" == "curl" ]]; then
+            # App instalado por script (nao e AppImage)
+            local cli_bin="$HOME/.opencode/bin/opencode"
+            echo "--- $label ---"
+            if [[ -f "$cli_bin" ]]; then
+                echo "  ja instalado ($("$cli_bin" --version 2>/dev/null | head -1))"
+            else
+                echo "  nao instalado — use: Atualizar todos os apps"
+            fi
+            if [[ -n "$desktop" && -f "$DESKTOP_DIR/$desktop" ]]; then
+                echo "  .desktop: $DESKTOP_DIR/$desktop"
+            fi
+            echo ""
+            continue
+        fi
+
         local output="$APP_DIR/$filename"
         if [[ ! -f "$output" ]]; then
             echo "  $label: nao instalado (pulando)"
@@ -664,6 +876,8 @@ register_system() {
         ln -sf "$output" "$HOME/.local/bin/$filename" && echo "  Symlink: ~/.local/bin/$filename"
         echo ""
     done
+
+    ensure_commands
 
     command -v update-desktop-database &>/dev/null && update-desktop-database "$DESKTOP_DIR" 2>/dev/null || true
     command -v gtk-update-icon-cache &>/dev/null && gtk-update-icon-cache "$HOME/.local/share/icons" 2>/dev/null || true
@@ -694,8 +908,37 @@ update_all() {
     local FAIL=0
 
     for entry in "${APPS_DATA[@]}"; do
-        IFS='|' read -r repo filter filename label desktop icon mime icon_url release_tag <<< "$entry"
+        IFS='|' read -r repo filter filename label desktop icon mime icon_url release_tag atype aurl <<< "$entry"
         echo "--- $label ---"
+
+        # ── Apps instalados via script (curl) ──
+        if [[ "$atype" == "curl" ]]; then
+            local cli_bin="$HOME/.opencode/bin/opencode"
+            local cli_vfile="$HOME/.opencode/bin/opencode.version"
+
+            printf "  Instalador... "
+            if install_curl_app "$aurl"; then
+                if [[ -x "$cli_bin" ]]; then
+                    VERSION=$("$cli_bin" --version 2>/dev/null | head -1)
+                    echo "$VERSION" > "$cli_vfile"
+                    echo "OK ($VERSION)"
+                else
+                    echo "FALHOU (binario nao encontrado em $cli_bin)"
+                    FAIL=1
+                fi
+            else
+                echo "FALHOU (${fetch_err:-erro desconhecido})"
+                FAIL=1
+                continue
+            fi
+
+            if [[ -n "$desktop" ]]; then
+                install_desktop "$label" "$cli_bin" "$desktop" "$icon" "$mime"
+                echo "  .desktop criado"
+            fi
+            echo ""
+            continue
+        fi
 
         printf "  Release... "
         VERSION="" URL="" fetch_err=""
@@ -712,6 +955,8 @@ update_all() {
 
         if [[ -f "$vfile" ]] && [[ "$(cat "$vfile")" == "$VERSION" ]] && [[ -f "$output" ]]; then
             echo "  Ja atualizado ($VERSION)"
+            # Garante que versão seja salva mesmo se arquivo antigo não tinha .version
+            echo "$VERSION" > "$vfile"
         else
             echo "  Baixando... "
             if download_app "$URL" "$output"; then
@@ -744,6 +989,8 @@ update_all() {
     command -v update-desktop-database &>/dev/null && update-desktop-database "$DESKTOP_DIR" 2>/dev/null || true
     command -v gtk-update-icon-cache &>/dev/null && gtk-update-icon-cache "$HOME/.local/share/icons" 2>/dev/null || true
 
+    ensure_commands
+
     echo ""
     echo "---"
     echo "Sincronizando lancadores do painel XFCE..."
@@ -762,6 +1009,7 @@ case "$MODE" in
     status) list_installed ;;
     uninstall) uninstall_app "$UNINSTALL_APP" ;;
     register) register_system ;;
+    links) ensure_commands ;;
     panel) sync_panel_launchers ;;
     update) update_all ;;
 esac
