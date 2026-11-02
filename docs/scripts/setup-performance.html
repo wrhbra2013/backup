@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:;">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<title>setup-performance.sh — Script Details</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, monospace; background: #f5f5f5; color: #1a1a1a; line-height: 1.6; }
+.container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+h1 { font-size: 1.8rem; margin-bottom: 8px; }
+h2 { font-size: 1.3rem; margin: 24px 0 12px; color: #2563eb; border-bottom: 2px solid #e5e7eb; padding-bottom: 6px; }
+h3 { font-size: 1rem; margin: 16px 0 8px; color: #374151; }
+.subtitle { color: #6b7280; margin-bottom: 20px; font-size: 0.95rem; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+.header-bar { background: #1e293b; color: #fff; padding: 16px 0; margin-bottom: 24px; }
+.header-bar .container { display: flex; justify-content: space-between; align-items: center; }
+.header-bar h1 { margin: 0; font-size: 1.3rem; }
+.header-bar h1 a { color: #fff; }
+.header-bar h1 a:hover { text-decoration: none; }
+.header-bar .nav a { color: #93c5fd; margin-left: 16px; font-size: 0.9rem; }
+.search-box { width: 100%; padding: 10px 14px; border: 2px solid #d1d5db; border-radius: 8px; font-size: 0.95rem; margin-bottom: 20px; outline: none; transition: border-color 0.2s; }
+.search-box:focus { border-color: #2563eb; }
+table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+th, td { padding: 10px 14px; text-align: left; font-size: 0.9rem; }
+th { background: #f8fafc; font-weight: 600; color: #374151; border-bottom: 2px solid #e5e7eb; }
+td { border-bottom: 1px solid #f0f0f0; }
+tr:hover td { background: #f8fafc; }
+.badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; margin: 1px 2px; }
+.badge-pkg { background: #dcfce7; color: #166534; }
+.badge-cmd { background: #dbeafe; color: #1e40af; }
+.badge-func { background: #fef3c7; color: #92400e; }
+.badge-dir { background: #e5e7eb; color: #374151; }
+.tag { display: inline-block; padding: 2px 6px; border-radius: 3px; font-size: 0.7rem; font-weight: 600; background: #e5e7eb; color: #374151; margin: 1px; }
+.tag-category { background: #ede9fe; color: #5b21b6; }
+.cmd-count { font-size: 0.8rem; color: #6b7280; }
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 24px; }
+.stat-card { background: #fff; border-radius: 8px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); text-align: center; }
+.stat-card .num { font-size: 1.8rem; font-weight: 700; color: #2563eb; }
+.stat-card .label { font-size: 0.8rem; color: #6b7280; margin-top: 4px; }
+.script-page { max-width: 960px; margin: 0 auto; }
+.meta-table { width: 100%; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 20px; }
+.meta-table td { padding: 8px 14px; border-bottom: 1px solid #f0f0f0; }
+.meta-table td:first-child { font-weight: 600; color: #374151; width: 140px; background: #f8fafc; }
+.cmd-group { margin-bottom: 16px; }
+.cmd-group-title { font-size: 0.85rem; font-weight: 600; color: #5b21b6; margin-bottom: 6px; }
+.cmd-list { display: flex; flex-wrap: wrap; gap: 4px; }
+.source-box { margin: 12px 0; }
+.source-box textarea { width: 100%; padding: 12px; border: 2px solid #d1d5db; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 0.8rem; line-height: 1.4; background: #1e293b; color: #e5e7eb; resize: vertical; outline: none; }
+.source-box textarea:focus { border-color: #2563eb; }
+.copy-btn { display: inline-block; padding: 8px 16px; background: #2563eb; color: #fff; border: none; border-radius: 6px; font-size: 0.85rem; cursor: pointer; margin: 8px 4px 4px 0; transition: background 0.2s; }
+.copy-btn:hover { background: #1d4ed8; }
+.copy-btn.copied { background: #16a34a; }
+.download-btn { display: inline-block; padding: 8px 16px; background: #374151; color: #fff; border: none; border-radius: 6px; font-size: 0.85rem; cursor: pointer; margin: 8px 4px 4px 0; transition: background 0.2s; text-decoration: none; }
+.download-btn:hover { background: #1f2937; text-decoration: none; }
+.func-list { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+.func-item { background: #fef3c7; color: #92400e; padding: 3px 10px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 0.8rem; }
+.var-list { display: flex; flex-wrap: wrap; gap: 6px; }
+.var-item { background: #f0fdf4; color: #166534; padding: 3px 10px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 0.78rem; }
+.var-item code { font-size: 0.78rem; }
+.back-link { display: inline-block; margin-bottom: 16px; color: #2563eb; font-size: 0.9rem; }
+.back-link:before { content: "← "; }
+.stat-line { font-size: 0.8rem; color: #6b7280; margin-bottom: 12px; }
+.layout { display: flex; gap: 24px; align-items: flex-start; }
+.sidebar { width: 260px; flex-shrink: 0; background: #fff; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); overflow: hidden; position: sticky; top: 20px; max-height: calc(100vh - 80px); overflow-y: auto; }
+.sidebar-title { padding: 12px 16px; font-weight: 700; font-size: 0.85rem; color: #1e293b; background: #f8fafc; border-bottom: 1px solid #e5e7eb; text-transform: uppercase; letter-spacing: 0.5px; }
+.sidebar a { display: block; padding: 8px 16px; color: #374151; text-decoration: none; font-size: 0.82rem; border-left: 3px solid transparent; transition: all 0.15s; }
+.sidebar a:hover { background: #f1f5f9; border-left-color: #93c5fd; }
+.sidebar a.active { background: #eff6ff; border-left-color: #2563eb; color: #1e40af; font-weight: 600; }
+.sidebar-group { border-top: 1px solid #f0f0f0; }
+.sidebar-group-label { padding: 6px 16px; font-size: 0.7rem; font-weight: 600; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.3px; }
+.sidebar a .s-badge { float: right; background: #e5e7eb; color: #374151; padding: 0 6px; border-radius: 3px; font-size: 0.65rem; font-weight: 600; line-height: 1.6; }
+.main-content { flex: 1; min-width: 0; }
+.tool-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin: 16px 0 28px; }
+.tool-card { display: flex; flex-direction: column; background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); overflow: hidden; text-decoration: none; color: inherit; transition: transform 0.2s, box-shadow 0.2s; position: relative; }
+.tool-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.12); }
+.tool-banner { height: 100px; display: flex; align-items: center; justify-content: center; }
+.tool-emoji { font-size: 3rem; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.3)); }
+.tool-body { padding: 16px; flex: 1; }
+.tool-body h3 { font-size: 1rem; color: #1e293b; margin-bottom: 6px; }
+.tool-body p { font-size: 0.82rem; color: #6b7280; line-height: 1.4; margin-bottom: 8px; }
+.tool-tags { display: flex; flex-wrap: wrap; gap: 4px; }
+.tool-arrow { position: absolute; top: 16px; right: 16px; font-size: 1.2rem; color: #9ca3af; transition: color 0.2s; }
+.tool-card:hover .tool-arrow { color: #2563eb; }
+.header-bar .nav a.active { color: #fff; font-weight: 600; }
+.cat-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+.cat-chip { --c: #6b7280; display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border: 2px solid #e5e7eb; border-radius: 999px; background: #fff; color: #374151; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+.cat-chip:hover { border-color: #cbd5e1; transform: translateY(-1px); }
+.cat-chip.active { border-color: var(--c); color: var(--c); }
+.cat-chip .chip-count { background: #f1f5f9; border-radius: 999px; padding: 0 8px; font-size: 0.7rem; font-weight: 600; color: #6b7280; }
+.cat-chip.active .chip-count { background: rgba(148,163,184,.2); }
+.table-meta { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin: 12px 0; flex-wrap: wrap; }
+.table-meta .visible-count { font-size: 0.8rem; color: #6b7280; }
+.table-wrap { overflow-x: auto; }
+.badge-cat { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 0.72rem; font-weight: 600; white-space: nowrap; }
+.desc-cell { max-width: 340px; color: #4b5563; }
+.actions { white-space: nowrap; }
+.empty-row td { text-align: center; padding: 32px; color: #9ca3af; font-size: 0.9rem; }
+.side-group { border-top: 1px solid #f0f0f0; }
+.side-group summary { display: flex; align-items: center; gap: 8px; padding: 10px 16px; font-size: 0.72rem; font-weight: 700; color: #6b7280; text-transform: uppercase; letter-spacing: 0.3px; cursor: pointer; list-style: none; user-select: none; }
+.side-group summary::-webkit-details-marker { display: none; }
+.side-group summary::marker { content: ""; }
+.side-group:hover summary, .side-group[open] summary { color: #5b21b6; background: #faf5ff; }
+.side-group .g-count { margin-left: auto; background: #e5e7eb; color: #6b7280; border-radius: 999px; padding: 0 8px; font-size: 0.65rem; line-height: 1.8; font-weight: 600; }
+.side-group[open] .g-count { background: #ede9fe; color: #5b21b6; }
+.side-group .g-emoji { font-size: 0.85rem; }
+.side-group a .s-dir { font-size: 0.62rem; color: #9ca3af; background: #f1f5f9; padding: 0 5px; border-radius: 3px; margin-left: 4px; }
+@media (max-width: 800px) { .layout { flex-direction: column; } .sidebar { width: 100%; position: static; max-height: none; } .cat-chips { gap: 6px; } }
+</style>
+</head>
+<body>
+<div class="header-bar">
+  <div class="container">
+    <h1><a href="../index.html">📜 Backup Scripts</a></h1>
+    <div class="nav">
+      <a href="../index.html">Dashboard</a>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <div class="layout">
+    <div class="sidebar">
+      <div class="sidebar-title">📂 Navegação</div><a href="../index.html">📊 Dashboard</a><details class="side-group"><summary><span class="g-emoji">🏗️</span>ISO & LiveCD<span class="g-count">13</span></summary><a href="../scripts/build-iso.html">build_iso.sh<span class="s-dir">raiz</span><span class="s-badge">13</span></a><a href="../scripts/build-iso-completa.html">build_iso_completa.sh<span class="s-badge">24</span></a><a href="../scripts/build-offline-from-boot.html">build_offline_from_boot.sh<span class="s-badge">26</span></a><a href="../scripts/build-offline-ol9.html">build_offline_ol9.sh<span class="s-badge">26</span></a><a href="../scripts/build-ol9-openbox-offline.html">build_ol9_openbox_offline.sh<span class="s-badge">26</span></a><a href="../scripts/oracle.html">oracle.sh<span class="s-badge">19</span></a><a href="../scripts/rebuild-ol9-xfce-offline.html">rebuild_ol9_xfce_offline.sh<span class="s-badge">22</span></a><a href="../scripts/build-backup.html">build_backup.sh<span class="s-badge">16</span></a><a href="../scripts/build-iso.html">build_iso.sh<span class="s-dir">sys</span><span class="s-badge">15</span></a><a href="../scripts/create-iso.html">create_iso.sh<span class="s-badge">13</span></a><a href="../scripts/gerar-iso.html">gerar_iso.sh<span class="s-badge">2</span></a><a href="../scripts/gerar-iso-ol10.html">gerar_iso_ol10.sh<span class="s-badge">12</span></a><a href="../scripts/gerar-iso-ol9.html">gerar_iso_ol9.sh<span class="s-badge">13</span></a></details><details class="side-group" open><summary><span class="g-emoji">⚙️</span>Configuração & Otimização<span class="g-count">23</span></summary><a href="../scripts/aplicar-p1-travamentos.html">aplicar-p1-travamentos.sh<span class="s-badge">11</span></a><a href="../scripts/build-iso.html">build-iso.sh<span class="s-badge">22</span></a><a href="../scripts/cache-guard.html">cache-guard.sh<span class="s-badge">12</span></a><a href="../scripts/fix-repos-ol9.html">fix-repos-ol9.sh<span class="s-dir">raiz</span><span class="s-badge">9</span></a><a href="../scripts/fix-boot-ol9-offline.html">fix_boot_ol9_offline.sh<span class="s-badge">8</span></a><a href="../scripts/install-llm.html">install_llm.sh<span class="s-badge">11</span></a><a href="../scripts/mgc.html">mgc.sh<span class="s-dir">raiz</span><span class="s-badge">7</span></a><a href="../scripts/remove-old-kernels.html">remove_old_kernels.sh<span class="s-dir">raiz</span><span class="s-badge">6</span></a><a href="../scripts/setup-performance.html">setup-performance.sh<span class="s-dir">raiz</span><span class="s-badge">17</span></a><a href="../scripts/auto-fix-powerprofiles-selinux.html">auto_fix_powerprofiles_selinux.sh<span class="s-badge">2</span></a><a href="../scripts/fix-repos-ol9.html">fix-repos-ol9.sh<span class="s-dir">sys</span><span class="s-badge">9</span></a><a href="../scripts/llm.html">llm.sh<span class="s-badge">9</span></a><a href="../scripts/mgc.html">mgc.sh<span class="s-dir">sys</span><span class="s-badge">7</span></a><a href="../scripts/ol9-audit-otimizar.html">ol9-audit-otimizar.sh<span class="s-badge">14</span></a><a href="../scripts/ol9-full-setup.html">ol9-full-setup.sh<span class="s-badge">12</span></a><a href="../scripts/oracle-config.html">oracle_config.sh<span class="s-badge">2</span></a><a href="../scripts/otimizar-gnome.html">otimizar-gnome.sh<span class="s-badge">3</span></a><a href="../scripts/otimizar-xfce.html">otimizar-xfce.sh<span class="s-badge">15</span></a><a href="../scripts/remove-old-kernels.html">remove_old_kernels.sh<span class="s-dir">sys</span><span class="s-badge">4</span></a><a href="../scripts/setup-performance.html" class="active">setup-performance.sh<span class="s-dir">sys</span><span class="s-badge">17</span></a><a href="../scripts/setup-xfce-tiling.html">setup-xfce-tiling.sh<span class="s-badge">7</span></a><a href="../scripts/setup-zram.html">setup-zram.sh<span class="s-badge">3</span></a><a href="../scripts/xrandr-config.html">xrandr-config.sh<span class="s-badge">7</span></a></details><details class="side-group"><summary><span class="g-emoji">📦</span>Empacotamento<span class="g-count">3</span></summary><a href="../scripts/create-rpm.html">create_rpm.sh<span class="s-badge">9</span></a><a href="../scripts/appimage2rpm.html">appimage2rpm.sh<span class="s-badge">9</span></a><a href="../scripts/manager-repo-sh.html">manager_repo_sh<span class="s-badge">3</span></a></details><details class="side-group"><summary><span class="g-emoji">🖥️</span>Virtualização & VM<span class="g-count">3</span></summary><a href="../scripts/control.html">control.sh<span class="s-badge">8</span></a><a href="../scripts/restore-snapshot-disable-ufw.html">restore-snapshot-disable-ufw.sh<span class="s-badge">1</span></a><a href="../scripts/setup-api-debian.html">setup-api-debian.sh<span class="s-badge">13</span></a></details><details class="side-group"><summary><span class="g-emoji">🌐</span>Servidores & Serviços<span class="g-count">3</span></summary><a href="../scripts/debian.html">debian.sh<span class="s-badge">4</span></a><a href="../scripts/manut.html">manut.sh<span class="s-badge">4</span></a><a href="../scripts/node.html">node.sh<span class="s-badge">12</span></a></details><details class="side-group"><summary><span class="g-emoji">🔵</span>Bluetooth<span class="g-count">2</span></summary><a href="../scripts/bt-auto.html">bt-auto.sh<span class="s-badge">1</span></a><a href="../scripts/bt-ctl.html">bt-ctl.sh<span class="s-badge">1</span></a></details><details class="side-group"><summary><span class="g-emoji">🔄</span>Sincronização & Docs<span class="g-count">5</span></summary><a href="../scripts/git-sync.html">git-sync.sh<span class="s-badge">3</span></a><a href="../scripts/atualizar.html">atualizar.sh<span class="s-badge">2</span></a><a href="../scripts/update-appimages.html">update-appimages.sh<span class="s-dir">sys</span><span class="s-badge">13</span></a><a href="../scripts/update-appimages.html">update-appimages.sh<span class="s-dir">raiz</span><span class="s-badge">13</span></a><a href="../scripts/update-docs.html">update-docs.sh<span class="s-badge">2</span></a></details><details class="side-group"><summary><span class="g-emoji">🛒</span>SKU & E-commerce<span class="g-count">2</span></summary><a href="../scripts/gerar-sku.html">gerar_sku.sh<span class="s-badge">1</span></a><a href="../scripts/gerar-sku-ebook.html">gerar_sku_ebook.sh<span class="s-badge">1</span></a></details>
+    </div>
+    <div class="main-content script-page">
+      <a href="../index.html" class="back-link">Voltar ao Dashboard</a>
+
+      <h1>setup-performance.sh</h1>
+      <p class="subtitle"><span class="badge badge-cat" style="background:rgba(14,165,233,.12);color:rgb(14,165,233)">⚙️ Configuração & Otimização</span> <span>setup-performance.sh</span></p>
+
+      <div class="meta-table"><table><tr><td colspan='2'>=============================================================================</td></tr><tr><td colspan='2'>setup-performance.sh</td></tr><tr><td colspan='2'>-----------------------------------------------------------------------------</td></tr><tr><td colspan='2'>Reproduz as alteracoes de memoria/desempenho/boot aplicadas no Oracle Linux 9.8</td></tr><tr><td colspan='2'>(UEK 6.12). IDEMPOTENTE: pode rodar varias vezes sem efeito colateral.</td></tr><tr><td colspan='2'>Uso:</td></tr><tr><td colspan='2'>sudo ./setup-performance.sh</td></tr><tr><td colspan='2'>Etapas aplicadas:</td></tr><tr><td colspan='2'>1) /etc/sysctl.d/99-performance.conf      vm.swappiness=15 e vm.vfs_cache_pressure=50</td></tr><tr><td colspan='2'>2) /etc/systemd/system/zram-swap.service  swap zram (SEM &quot;Before=swap.target&quot;,</td></tr><tr><td colspan='2'>que causava ciclo de ordenacao no systemd)</td></tr><tr><td colspan='2'>3) kdump desabilitado + crashkernel removido (libera ~448 MiB no reboot)</td></tr><tr><td colspan='2'>4) sysstat instalado e com coleta ativa   (historico sar/rpm de desempenho)</td></tr><tr><td colspan='2'>5) NetworkManager wifi.powersave=2        (power-save do Wi-Fi desligado)</td></tr><tr><td colspan='2'>6) Video Intel i915                       remove &quot;rhgb&quot; (mantem &quot;quiet&quot;) e aplica</td></tr><tr><td colspan='2'>i915.enable_psr=0 i915.enable_fbc=0</td></tr><tr><td colspan='2'>7) GRUB timeout                           GRUB_TIMEOUT=1 / TIMEOUT_STYLE=menu</td></tr><tr><td colspan='2'>8) Console serial ttyS0                   menu do GRUB + console=ttyS0 no kernel</td></tr><tr><td colspan='2'>+ getty de login (DO_SERIAL=no p/ pular)</td></tr><tr><td colspan='2'>9) NVRAM EFI                              remove entradas mortas (rEFInd/rede/</td></tr><tr><td colspan='2'>genericas) e deixa Oracle Linux + fallback</td></tr><tr><td colspan='2'>10) backlight intel_backlight              regra udev + valor salvo (painel aceso)</td></tr><tr><td colspan='2'>11) journald persistente (opcional)        logs sobrevivem a reboot  PERSIST_JOURNALD=yes</td></tr><tr><td colspan='2'>12) fsck                                   checagem no proximo boot (DO_FSCK=auto|yes|no)</td></tr><tr><td colspan='2'>=============================================================================</td></tr><tr><td colspan='2'>Variaveis de ambiente (yes/no) para PULAR etapas:</td></tr><tr><td colspan='2'>DO_VIDEO=no            pula a etapa 6</td></tr><tr><td colspan='2'>DO_GRUB_TIMEOUT=no     pula a etapa 7</td></tr><tr><td colspan='2'>DO_SERIAL=no           pula a etapa 8 (console serial)</td></tr><tr><td colspan='2'>DO_EFI=no              pula a etapa 9</td></tr><tr><td colspan='2'>DO_BACKLIGHT=no        pula a etapa 10</td></tr><tr><td colspan='2'>PERSIST_JOURNALD=yes   ativa a etapa 11 (padrao: no)</td></tr><tr><td colspan='2'>DO_FSCK=yes|auto|no    etapa 12 (padrao: auto = so agenda se algum fs estiver sujo)</td></tr><tr><td colspan='2'>INSTALL_SYSSTAT=no     pula a instalacao do sysstat</td></tr><tr><td colspan='2'>ZRAM_SIZE=2G           tamanho do zram (padrao: 1G)</td></tr><tr><td colspan='2'>SERIAL_PORT=ttyS0      porta serial da etapa 8 (padrao: ttyS0)</td></tr><tr><td colspan='2'>SERIAL_SPEED=115200    velocidade da serial da etapa 8 (padrao: 115200)</td></tr><tr><td colspan='2'>Exemplo:</td></tr><tr><td colspan='2'>sudo DO_EFI=no ./setup-performance.sh</td></tr><tr><td colspan='2'>=============================================================================</td></tr></table></div>
+      <div class="meta-table"><table><tr><td>Arquivo</td><td><code>system_scripts/setup-performance.sh</code></td></tr><tr><td>Shebang</td><td><code>#!/usr/bin/env bash</code></td></tr><tr><td>Tamanho</td><td>21.2 KB · 456 linhas</td></tr><tr><td>Uso</td><td><code>Uso:</code></td></tr></table></div>
+      <h2>Funções</h2><div class='func-list'><span class="func-item">grub_cmdline_set() <span style="opacity:0.5">linha 76</span></span><span class="func-item">grub_cmdline_add() <span style="opacity:0.5">linha 95</span></span><span class="func-item">kcmdline_add() <span style="opacity:0.5">linha 106</span></span><span class="func-item">fixfile() <span style="opacity:0.5">linha 118</span></span></div>
+      <h2>Variáveis de Configuração</h2><div class='var-list'><span class="var-item"><code>ZRAM_SIZE</code> = <code>${ZRAM_SIZE:-1G}</code></span><span class="var-item"><code>DO_VIDEO</code> = <code>${DO_VIDEO:-yes}</code></span><span class="var-item"><code>DO_GRUB_TIMEOUT</code> = <code>${DO_GRUB_TIMEOUT:-yes}</code></span><span class="var-item"><code>DO_SERIAL</code> = <code>${DO_SERIAL:-yes}</code></span><span class="var-item"><code>SERIAL_PORT</code> = <code>${SERIAL_PORT:-ttyS0}</code></span><span class="var-item"><code>SERIAL_SPEED</code> = <code>${SERIAL_SPEED:-115200}</code></span><span class="var-item"><code>DO_EFI</code> = <code>${DO_EFI:-yes}</code></span><span class="var-item"><code>DO_BACKLIGHT</code> = <code>${DO_BACKLIGHT:-yes}</code></span><span class="var-item"><code>DO_FSCK</code> = <code>${DO_FSCK:-auto}</code></span><span class="var-item"><code>PERSIST_JOURNALD</code> = <code>${PERSIST_JOURNALD:-no}</code></span><span class="var-item"><code>INSTALL_SYSSTAT</code> = <code>${INSTALL_SYSSTAT:-yes}</code></span><span class="var-item"><code>SYSCTL_FILE</code> = <code>/etc/sysctl.d/99-performance.conf</code></span><span class="var-item"><code>ZRAM_UNIT</code> = <code>/etc/systemd/system/zram-swap.service</code></span><span class="var-item"><code>SYSSTAT_CFG</code> = <code>/etc/sysconfig/sysstat</code></span><span class="var-item"><code>GRUB_FILE</code> = <code>/etc/default/grub</code></span><span class="var-item"><code>KCMD</code> = <code>/etc/kernel/cmdline</code></span><span class="var-item"><code>TS</code> = <code>$(date &#x27;+%Y-%m-%d %H:%M:%S&#x27;)</code></span></div>
+      <h2>Comandos Utilizados</h2><div class="cmd-group"><div class="cmd-group-title">Package Manager</div><div class="cmd-list"><span class="badge badge-cmd">dnf</span><span class="badge badge-cmd">rpm</span><span class="badge badge-cmd">yum</span></div></div><div class="cmd-group"><div class="cmd-group-title">System Service</div><div class="cmd-list"><span class="badge badge-cmd">systemctl</span></div></div><div class="cmd-group"><div class="cmd-group-title">Text Processing</div><div class="cmd-list"><span class="badge badge-cmd">awk</span><span class="badge badge-cmd">grep</span><span class="badge badge-cmd">sed</span></div></div><div class="cmd-group"><div class="cmd-group-title">File Operations</div><div class="cmd-list"><span class="badge badge-cmd">cp</span><span class="badge badge-cmd">mkdir</span></div></div><div class="cmd-group"><div class="cmd-group-title">Permissions</div><div class="cmd-list"><span class="badge badge-cmd">chmod</span><span class="badge badge-cmd">chown</span></div></div><div class="cmd-group"><div class="cmd-group-title">Bootloader</div><div class="cmd-list"><span class="badge badge-cmd">grub2-mkconfig</span><span class="badge badge-cmd">grubby</span></div></div><div class="cmd-group"><div class="cmd-group-title">Disk</div><div class="cmd-list"><span class="badge badge-cmd">lsblk</span></div></div><div class="cmd-group"><div class="cmd-group-title">Kernel</div><div class="cmd-list"><span class="badge badge-cmd">modprobe</span><span class="badge badge-cmd">sysctl</span><span class="badge badge-cmd">udevadm</span></div></div>
+      <h2>Pacotes / Dependências</h2><div class='cmd-list'><span class="badge badge-pkg">yes</span></div>
+
+      <h2>Código Fonte</h2>
+      <div class="source-box">
+        <textarea id="source-code" rows="20" readonly spellcheck="false">#!/usr/bin/env bash
+# =============================================================================
+# setup-performance.sh
+# -----------------------------------------------------------------------------
+# Reproduz as alteracoes de memoria/desempenho/boot aplicadas no Oracle Linux 9.8
+# (UEK 6.12). IDEMPOTENTE: pode rodar varias vezes sem efeito colateral.
+#
+# Uso:
+#   sudo ./setup-performance.sh
+#
+# Etapas aplicadas:
+#   1) /etc/sysctl.d/99-performance.conf      vm.swappiness=15 e vm.vfs_cache_pressure=50
+#   2) /etc/systemd/system/zram-swap.service  swap zram (SEM &quot;Before=swap.target&quot;,
+#                                             que causava ciclo de ordenacao no systemd)
+#   3) kdump desabilitado + crashkernel removido (libera ~448 MiB no reboot)
+#   4) sysstat instalado e com coleta ativa   (historico sar/rpm de desempenho)
+#   5) NetworkManager wifi.powersave=2        (power-save do Wi-Fi desligado)
+#   6) Video Intel i915                       remove &quot;rhgb&quot; (mantem &quot;quiet&quot;) e aplica
+#                                             i915.enable_psr=0 i915.enable_fbc=0
+#   7) GRUB timeout                           GRUB_TIMEOUT=1 / TIMEOUT_STYLE=menu
+#   8) Console serial ttyS0                   menu do GRUB + console=ttyS0 no kernel
+#                                             + getty de login (DO_SERIAL=no p/ pular)
+#   9) NVRAM EFI                              remove entradas mortas (rEFInd/rede/
+#                                             genericas) e deixa Oracle Linux + fallback
+#  10) backlight intel_backlight              regra udev + valor salvo (painel aceso)
+#  11) journald persistente (opcional)        logs sobrevivem a reboot  PERSIST_JOURNALD=yes
+#  12) fsck                                   checagem no proximo boot (DO_FSCK=auto|yes|no)
+# =============================================================================
+#
+# Variaveis de ambiente (yes/no) para PULAR etapas:
+#   DO_VIDEO=no            pula a etapa 6
+#   DO_GRUB_TIMEOUT=no     pula a etapa 7
+#   DO_SERIAL=no           pula a etapa 8 (console serial)
+#   DO_EFI=no              pula a etapa 9
+#   DO_BACKLIGHT=no        pula a etapa 10
+#   PERSIST_JOURNALD=yes   ativa a etapa 11 (padrao: no)
+#   DO_FSCK=yes|auto|no    etapa 12 (padrao: auto = so agenda se algum fs estiver sujo)
+#   INSTALL_SYSSTAT=no     pula a instalacao do sysstat
+#   ZRAM_SIZE=2G           tamanho do zram (padrao: 1G)
+#   SERIAL_PORT=ttyS0      porta serial da etapa 8 (padrao: ttyS0)
+#   SERIAL_SPEED=115200    velocidade da serial da etapa 8 (padrao: 115200)
+#
+# Exemplo:
+#   sudo DO_EFI=no ./setup-performance.sh
+# =============================================================================
+set -euo pipefail
+
+# ---- pre-requisitos ---------------------------------------------------------
+if [ &quot;$(id -u)&quot; -ne 0 ]; then
+  echo &quot;ERRO: execute com sudo:  sudo $0&quot; &gt;&amp;2
+  exit 1
+fi
+
+# ---- opcoes ----------------------------------------------------------------
+ZRAM_SIZE=&quot;${ZRAM_SIZE:-1G}&quot;
+DO_VIDEO=&quot;${DO_VIDEO:-yes}&quot;
+DO_GRUB_TIMEOUT=&quot;${DO_GRUB_TIMEOUT:-yes}&quot;
+DO_SERIAL=&quot;${DO_SERIAL:-yes}&quot;
+SERIAL_PORT=&quot;${SERIAL_PORT:-ttyS0}&quot;
+SERIAL_SPEED=&quot;${SERIAL_SPEED:-115200}&quot;
+DO_EFI=&quot;${DO_EFI:-yes}&quot;
+DO_BACKLIGHT=&quot;${DO_BACKLIGHT:-yes}&quot;
+DO_FSCK=&quot;${DO_FSCK:-auto}&quot;
+PERSIST_JOURNALD=&quot;${PERSIST_JOURNALD:-no}&quot;
+INSTALL_SYSSTAT=&quot;${INSTALL_SYSSTAT:-yes}&quot;
+
+SYSCTL_FILE=/etc/sysctl.d/99-performance.conf
+ZRAM_UNIT=/etc/systemd/system/zram-swap.service
+SYSSTAT_CFG=/etc/sysconfig/sysstat
+GRUB_FILE=/etc/default/grub
+KCMD=/etc/kernel/cmdline
+TS=&quot;$(date &#x27;+%Y-%m-%d %H:%M:%S&#x27;)&quot;
+echo &quot;&gt;&gt;&gt; setup-performance.sh iniciado em $TS (zram=${ZRAM_SIZE})&quot;
+
+# helper: aplica uma lista de args numa linha GRUB_CMDLINE_LINUX=&quot;...&quot;
+grub_cmdline_set() {
+  # uso: grub_cmdline_set &quot;remover=rhgb|quiet&quot; &quot;adicionar=i915.foo=1&quot;
+  local cur new tok want remove_list add_list
+  # NAO removemos &quot;quiet&quot; (decisao do usuario): apenas &quot;rhgb&quot; e removido.
+  remove_list=&quot;rhgb&quot;
+  add_list=&quot;i915.enable_psr=0 i915.enable_fbc=0&quot;
+  cur=&quot;$(sed -n &#x27;s/^GRUB_CMDLINE_LINUX=&quot;\(.*\)&quot;/\1/p&#x27; &quot;$GRUB_FILE&quot; 2&gt;/dev/null || true)&quot;
+  new=&quot;&quot;
+  for tok in $cur; do
+    case &quot; $remove_list &quot; in *&quot; $tok &quot;*) continue ;; esac
+    new=&quot;${new:+$new }$tok&quot;
+  done
+  for want in $add_list; do
+    case &quot; $new &quot; in *&quot; $want &quot;*) ;; *) new=&quot;${new:+$new }$want&quot; ;; esac
+  done
+  sed -i &quot;s|^GRUB_CMDLINE_LINUX=.*|GRUB_CMDLINE_LINUX=\&quot;$new\&quot;|&quot; &quot;$GRUB_FILE&quot;
+}
+
+# helper: adiciona tokens (idempotente) em GRUB_CMDLINE_LINUX, preservando o resto
+grub_cmdline_add() {
+  local cur new want
+  cur=&quot;$(sed -n &#x27;s/^GRUB_CMDLINE_LINUX=&quot;\(.*\)&quot;/\1/p&#x27; &quot;$GRUB_FILE&quot; 2&gt;/dev/null || true)&quot;
+  new=&quot;$cur&quot;
+  for want in &quot;$@&quot;; do
+    case &quot; $new &quot; in *&quot; $want &quot;*) ;; *) new=&quot;${new:+$new }$want&quot; ;; esac
+  done
+  sed -i &quot;s|^GRUB_CMDLINE_LINUX=.*|GRUB_CMDLINE_LINUX=\&quot;$new\&quot;|&quot; &quot;$GRUB_FILE&quot;
+}
+
+# helper: adiciona tokens (idempotente) em /etc/kernel/cmdline (kernels futuros)
+kcmdline_add() {
+  local f=&quot;$KCMD&quot; cur new want
+  [ -f &quot;$f&quot; ] || return 0
+  cur=&quot;$(tr &#x27;\n&#x27; &#x27; &#x27; &lt; &quot;$f&quot;)&quot;
+  new=&quot;$cur&quot;
+  for want in &quot;$@&quot;; do
+    case &quot; $new &quot; in *&quot; $want &quot;*) ;; *) new=&quot;${new:+$new }$want&quot; ;; esac
+  done
+  printf &#x27;%s\n&#x27; &quot;$(printf &#x27;%s&#x27; &quot;$new&quot; | sed -E &#x27;s/[[:space:]]+/ /g; s/^ //; s/ $//&#x27;)&quot; &gt; &quot;$f&quot;
+}
+
+# helper: garante dono root, permissao 0644 e contexto SELinux correto do arquivo
+fixfile() {
+  local f=&quot;$1&quot;
+  [ -e &quot;$f&quot; ] || return 0
+  chown root:root &quot;$f&quot; 2&gt;/dev/null || true
+  chmod 0644 &quot;$f&quot; 2&gt;/dev/null || true
+  if command -v restorecon &gt;/dev/null 2&gt;&amp;1; then
+    restorecon -F &quot;$f&quot; &gt;/dev/null 2&gt;&amp;1 || true
+  fi
+}
+
+# =============================================================================
+# 1) sysctl de memoria ---------------------------------------------------------
+# =============================================================================
+echo
+echo &quot;== [1/12] sysctl -&gt; $SYSCTL_FILE&quot;
+cat &gt; &quot;$SYSCTL_FILE&quot; &lt;&lt;&#x27;EOF&#x27;
+# Tuning de memória (setup-performance.sh)
+# swappiness &lt; 30  -&gt; menos uso de swap; mantém páginas anônimas na RAM
+# vfs_cache_pressure &lt; 100 -&gt; mantém mais page cache de inodes/dentries
+vm.swappiness=15
+vm.vfs_cache_pressure=50
+EOF
+fixfile &quot;$SYSCTL_FILE&quot;
+sysctl --system &gt;/dev/null 2&gt;&amp;1 || true
+echo &quot;   ativo: vm.swappiness=$(sysctl -n vm.swappiness) | vm.vfs_cache_pressure=$(sysctl -n vm.vfs_cache_pressure)&quot;
+
+# =============================================================================
+# 2) zram swap (corrigido: sem Before=swap.target -&gt; evita ciclo de ordenacao) -
+# =============================================================================
+echo
+echo &quot;== [2/12] zram-swap -&gt; $ZRAM_UNIT (${ZRAM_SIZE}, prioridade 200)&quot;
+cat &gt; &quot;$ZRAM_UNIT&quot; &lt;&lt;EOF
+[Unit]
+Description=ZRAM swap (${ZRAM_SIZE}, prioridade 200)
+After=local-fs.target
+Documentation=man:zramctl(8)
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStartPre=-/sbin/modprobe zram
+ExecStartPre=-/bin/sh -c &#x27;if [ -e /sys/block/zram0 ] &amp;&amp; [ &quot;\$(cat /sys/block/zram0/disksize 2&gt;/dev/null || echo 0)&quot; != &quot;0&quot; ]; then /sbin/modprobe -r zram&amp;&amp;/sbin/modprobe zram; fi&#x27;
+ExecStartPre=/bin/sh -c &#x27;echo ${ZRAM_SIZE} &gt; /sys/block/zram0/disksize&#x27;
+ExecStart=/sbin/mkswap /dev/zram0
+ExecStart=/sbin/swapon -p 200 /dev/zram0
+ExecStop=/sbin/swapoff /dev/zram0
+ExecStopPost=-/sbin/modprobe -r zram
+
+[Install]
+WantedBy=multi-user.target
+EOF
+fixfile &quot;$ZRAM_UNIT&quot;
+systemctl daemon-reload
+systemctl enable zram-swap.service &gt;/dev/null 2&gt;&amp;1 || true
+systemctl restart zram-swap.service
+echo &quot;   estado: $(systemctl is-active zram-swap.service)&quot;
+echo &quot;   swap ativo:&quot;
+swapon --show | sed &#x27;s/^/      /&#x27;
+
+# =============================================================================
+# 3) kdump desabilitado + crashkernel removido (libera RAM no proximo boot) ----
+# =============================================================================
+echo
+echo &quot;== [3/12] kdump / crashkernel&quot;
+if systemctl is-enabled kdump 2&gt;/dev/null | grep -q enabled; then
+  systemctl disable --now kdump || true
+  echo &quot;   kdump desabilitado (reserva crashkernel só libera ~448 MiB após REBOOT)&quot;
+else
+  echo &quot;   kdump já desabilitado&quot;
+fi
+
+[ -f &quot;$GRUB_FILE&quot; ] &amp;&amp; cp -a &quot;$GRUB_FILE&quot; &quot;${GRUB_FILE}.bak.$(date +%F)&quot; 2&gt;/dev/null || true
+[ -f &quot;$KCMD&quot; ]     &amp;&amp; cp -a &quot;$KCMD&quot;     &quot;${KCMD}.bak.$(date +%F)&quot;     2&gt;/dev/null || true
+sed -ri &#x27;s/([[:space:]]|&quot;)crashkernel=[^&quot;[:space:]]+/\1/&#x27; &quot;$GRUB_FILE&quot;
+[ -f &quot;$KCMD&quot; ] &amp;&amp; sed -ri &#x27;s/crashkernel=[^[:space:]]+//&#x27; &quot;$KCMD&quot; || true
+
+if command -v grubby &gt;/dev/null 2&gt;&amp;1; then
+  grubby --update-kernel=ALL --remove-args=crashkernel 2&gt;&amp;1 | sed &#x27;s/^/   grubby: /&#x27; || true
+else
+  command -v grub2-mkconfig &gt;/dev/null 2&gt;&amp;1 &amp;&amp; grub2-mkconfig -o /boot/grub2/grub.cfg || true
+fi
+echo &quot;   GRUB_CMDLINE_LINUX: $(grep -o &#x27;GRUB_CMDLINE_LINUX=.*&#x27; &quot;$GRUB_FILE&quot; 2&gt;/dev/null || echo n/a)&quot;
+if grep -qs crashkernel /boot/loader/entries/*.conf 2&gt;/dev/null; then
+  echo &quot;   AVISO: ainda há crashkernel em /boot/loader/entries — confira pós-reboot&quot;
+else
+  echo &quot;   ok: nenhum entry BLS com crashkernel&quot;
+fi
+
+# =============================================================================
+# 4) sysstat (historico de desempenho) ----------------------------------------
+# =============================================================================
+echo
+echo &quot;== [4/12] sysstat&quot;
+if [ &quot;${INSTALL_SYSSTAT}&quot; = &quot;yes&quot; ] &amp;&amp; ! rpm -q sysstat &gt;/dev/null 2&gt;&amp;1; then
+  if command -v dnf &gt;/dev/null 2&gt;&amp;1; then
+    dnf -y install sysstat 2&gt;&amp;1 | tail -3
+  else
+    yum -y install sysstat 2&gt;&amp;1 | tail -3
+  fi
+else
+  echo &quot;   sysstat já instalado ou pulado&quot;
+fi
+if [ -f &quot;$SYSSTAT_CFG&quot; ]; then
+  sed -i &#x27;s/^ENABLED=.*/ENABLED=&quot;true&quot;/&#x27; &quot;$SYSSTAT_CFG&quot; 2&gt;/dev/null || true
+  grep -q &#x27;^ENABLED=&#x27; &quot;$SYSSTAT_CFG&quot; || echo &#x27;ENABLED=&quot;true&quot;&#x27; &gt;&gt; &quot;$SYSSTAT_CFG&quot;
+fi
+systemctl enable --now sysstat.service       &gt;/dev/null 2&gt;&amp;1 || true
+systemctl enable --now sysstat-collect.timer 2&gt;/dev/null || true
+systemctl enable --now sysstat-summary.timer 2&gt;/dev/null || true
+echo &quot;   timers: $(systemctl is-active sysstat-collect.timer 2&gt;/dev/null || true)&quot;
+
+# =============================================================================
+# 5) Wi-Fi power-save desligado (latencia/rede) -------------------------------
+# =============================================================================
+echo
+echo &quot;== [5/12] NetworkManager wifi.powersave=2&quot;
+NM=/etc/NetworkManager/conf.d/default-wifi-powersave-on.conf
+if [ -d /etc/NetworkManager/conf.d ]; then
+  cat &gt; &quot;$NM&quot; &lt;&lt;&#x27;EOF&#x27;
+[connection]
+wifi.powersave = 2
+EOF
+  fixfile &quot;$NM&quot;
+  systemctl reload NetworkManager 2&gt;/dev/null || true
+  echo &quot;   $NM gravado&quot;
+else
+  echo &quot;   NetworkManager ausente — etapa ignorada&quot;
+fi
+
+# =============================================================================
+# 6) Video Intel i915 (remove &quot;rhgb&quot;; &quot;quiet&quot; e mantido) -----------------------
+# =============================================================================
+echo
+echo &quot;== [6/12] video i915 + remover &#x27;rhgb&#x27; (mantem &#x27;quiet&#x27;)&quot;
+if [ &quot;${DO_VIDEO}&quot; = &quot;yes&quot; ]; then
+  if command -v grubby &gt;/dev/null 2&gt;&amp;1; then
+    grubby --update-kernel=ALL --remove-args=&quot;rhgb&quot; 2&gt;&amp;1 | sed &#x27;s/^/   grubby: /&#x27; || true
+    grubby --update-kernel=ALL --args=&quot;i915.enable_psr=0 i915.enable_fbc=0&quot; 2&gt;&amp;1 | sed &#x27;s/^/   grubby: /&#x27; || true
+  fi
+  grub_cmdline_set
+  echo &quot;   GRUB_CMDLINE_LINUX: $(grep -o &#x27;GRUB_CMDLINE_LINUX=.*&#x27; &quot;$GRUB_FILE&quot; 2&gt;/dev/null || echo n/a)&quot;
+  echo &quot;   kernel padrao: $(grubby --default-kernel 2&gt;/dev/null || echo n/a)&quot;
+else
+  echo &quot;   pulado (DO_VIDEO=no)&quot;
+fi
+
+# =============================================================================
+# 7) GRUB timeout curto -------------------------------------------------------
+# =============================================================================
+echo
+echo &quot;== [7/12] GRUB timeout=1&quot;
+if [ &quot;${DO_GRUB_TIMEOUT}&quot; = &quot;yes&quot; ] &amp;&amp; [ -f &quot;$GRUB_FILE&quot; ]; then
+  sed -i &#x27;s/^GRUB_TIMEOUT=.*/GRUB_TIMEOUT=1/&#x27; &quot;$GRUB_FILE&quot;
+  if grep -q &#x27;^GRUB_TIMEOUT_STYLE=&#x27; &quot;$GRUB_FILE&quot;; then
+    sed -i &#x27;s/^GRUB_TIMEOUT_STYLE=.*/GRUB_TIMEOUT_STYLE=menu/&#x27; &quot;$GRUB_FILE&quot;
+  else
+    echo &#x27;GRUB_TIMEOUT_STYLE=menu&#x27; &gt;&gt; &quot;$GRUB_FILE&quot;
+  fi
+  command -v grub2-mkconfig &gt;/dev/null 2&gt;&amp;1 &amp;&amp; grub2-mkconfig -o /boot/grub2/grub.cfg &gt;/dev/null 2&gt;&amp;1 || true
+  echo &quot;   $(grep -E &#x27;^GRUB_TIMEOUT(_STYLE)?=&#x27; &quot;$GRUB_FILE&quot; | tr &#x27;\n&#x27; &#x27; &#x27;)&quot;
+else
+  echo &quot;   pulado (DO_GRUB_TIMEOUT=no)&quot;
+fi
+
+# =============================================================================
+# 8) console serial ttyS0 (menu GRUB + kernel console + getty de login) --------
+# =============================================================================
+echo
+echo &quot;== [8/12] console serial ${SERIAL_PORT} (${SERIAL_SPEED} 8N1)&quot;
+if [ &quot;${DO_SERIAL}&quot; = &quot;yes&quot; ]; then
+  SERIAL_CONSOLE_ARGS=&quot;console=tty0 console=${SERIAL_PORT},${SERIAL_SPEED}n8&quot;
+
+  # 8a) saida do menu do GRUB na serial, mantendo o console de video
+  if [ -f &quot;$GRUB_FILE&quot; ]; then
+    if grep -q &#x27;^GRUB_TERMINAL=&#x27; &quot;$GRUB_FILE&quot;; then
+      sed -i &#x27;s|^GRUB_TERMINAL=.*|GRUB_TERMINAL=&quot;console serial&quot;|&#x27; &quot;$GRUB_FILE&quot;
+    else
+      # GRUB_TERMINAL tem prioridade; comenta GRUB_TERMINAL_OUTPUT p/ evitar conflito
+      sed -i &#x27;s|^GRUB_TERMINAL_OUTPUT=.*|# &amp;|&#x27; &quot;$GRUB_FILE&quot;
+      echo &#x27;GRUB_TERMINAL=&quot;console serial&quot;&#x27; &gt;&gt; &quot;$GRUB_FILE&quot;
+    fi
+    if grep -q &#x27;^GRUB_SERIAL_COMMAND=&#x27; &quot;$GRUB_FILE&quot;; then
+      sed -i &quot;s|^GRUB_SERIAL_COMMAND=.*|GRUB_SERIAL_COMMAND=\&quot;serial --speed=${SERIAL_SPEED} --unit=0 --word=8 --parity=no --stop=1\&quot;|&quot; &quot;$GRUB_FILE&quot;
+    else
+      echo &quot;GRUB_SERIAL_COMMAND=\&quot;serial --speed=${SERIAL_SPEED} --unit=0 --word=8 --parity=no --stop=1\&quot;&quot; &gt;&gt; &quot;$GRUB_FILE&quot;
+    fi
+  fi
+
+  # 8b) parametros do kernel: BLS (kernel atual) + /etc/kernel/cmdline (futuros)
+  if command -v grubby &gt;/dev/null 2&gt;&amp;1; then
+    grubby --update-kernel=ALL --args=&quot;$SERIAL_CONSOLE_ARGS&quot; 2&gt;&amp;1 | sed &#x27;s/^/   grubby: /&#x27; || true
+  fi
+  kcmdline_add $SERIAL_CONSOLE_ARGS
+  grub_cmdline_add $SERIAL_CONSOLE_ARGS
+
+  # 8c) regenera o grub.cfg para aplicar GRUB_TERMINAL/GRUB_SERIAL_COMMAND no menu
+  if command -v grub2-mkconfig &gt;/dev/null 2&gt;&amp;1; then
+    grub2-mkconfig -o /boot/grub2/grub.cfg &gt;/dev/null 2&gt;&amp;1 || true
+  fi
+
+  # 8d) getty de login na serial (login ja disponivel sem reboot)
+  systemctl enable --now &quot;serial-getty@${SERIAL_PORT}.service&quot; &gt;/dev/null 2&gt;&amp;1 || true
+
+  echo &quot;   menu GRUB ..... $(grep -E &#x27;^GRUB_TERMINAL=&#x27; &quot;$GRUB_FILE&quot; 2&gt;/dev/null || echo n/a)&quot;
+  echo &quot;   serial cmd .... $(grep -E &#x27;^GRUB_SERIAL_COMMAND=&#x27; &quot;$GRUB_FILE&quot; 2&gt;/dev/null || echo n/a)&quot;
+  echo &quot;   kernel console  $(grep -ho &#x27;console=[^ ]*&#x27; /boot/loader/entries/*.conf 2&gt;/dev/null | sort -u | tr &#x27;\n&#x27; &#x27; &#x27;)&quot;
+  echo &quot;   getty ......... $(systemctl is-enabled &quot;serial-getty@${SERIAL_PORT}.service&quot; 2&gt;/dev/null || echo n/a) / $(systemctl is-active &quot;serial-getty@${SERIAL_PORT}.service&quot; 2&gt;/dev/null || echo n/a)&quot;
+  echo &quot;   (reboot necessario para o menu e o console do kernel valerem)&quot;
+else
+  echo &quot;   pulado (DO_SERIAL=no)&quot;
+fi
+
+# =============================================================================
+# 9) NVRAM EFI: remover entradas mortas (rEFInd/rede/genericas) ---------------
+# =============================================================================
+echo
+echo &quot;== [9/12] limpeza NVRAM EFI&quot;
+if [ &quot;${DO_EFI}&quot; = &quot;yes&quot; ] &amp;&amp; command -v efibootmgr &gt;/dev/null 2&gt;&amp;1; then
+  keep=&quot;$(efibootmgr 2&gt;/dev/null | awk &#x27;/^BootCurrent:/{print $2}&#x27;)&quot;
+  [ -n &quot;$keep&quot; ] || keep=&quot;$(efibootmgr -v 2&gt;/dev/null | awk &#x27;/SHIMX64.EFI/{print $1}&#x27; | sed &#x27;s/Boot//; s/\*//&#x27; | head -1)&quot;
+  echo &quot;   mantendo BootCurrent=$keep&quot;
+  while read -r num rest; do
+    clean=&quot;${num#Boot}&quot;; clean=&quot;${clean%\*}&quot;
+    [ &quot;$clean&quot; = &quot;$keep&quot; ] &amp;&amp; continue
+    case &quot;$rest&quot; in
+      *rEFInd*|*&quot;EFI Shell&quot;*|*IP4*|*IP6*|*PXE*|*VenHw*)
+        echo &quot;   removendo $num ($rest)&quot;
+        efibootmgr -b &quot;$clean&quot; -B &gt;/dev/null 2&gt;&amp;1 || true
+        ;;
+    esac
+  done &lt; &lt;(efibootmgr -v 2&gt;/dev/null | grep -E &#x27;^Boot[0-9A-Fa-f]{4}&#x27;)
+
+  order=&quot;$keep&quot;
+  for b in $(efibootmgr 2&gt;/dev/null | awk &#x27;/^Boot[0-9A-Fa-f]{4}\*/{print $1}&#x27; | sed &#x27;s/Boot//; s/\*//&#x27;); do
+    [ &quot;$b&quot; = &quot;$keep&quot; ] &amp;&amp; continue
+    order=&quot;${order:+$order,}$b&quot;
+  done
+  [ -n &quot;$order&quot; ] &amp;&amp; efibootmgr -o &quot;$order&quot; &gt;/dev/null 2&gt;&amp;1 || true
+  efibootmgr -t 1 &gt;/dev/null 2&gt;&amp;1 || true
+  echo &quot;   depois:&quot;
+  efibootmgr 2&gt;/dev/null | grep -E &quot;BootCurrent|Timeout|BootOrder|^Boot&quot; | sed &#x27;s/^/      /&#x27;
+else
+  echo &quot;   pulado (DO_EFI=no ou efibootmgr ausente)&quot;
+fi
+
+# =============================================================================
+# 10) backlight intel_backlight (painel aceso desde o inicio do boot) ---------
+# =============================================================================
+echo
+echo &quot;== [10/12] backlight intel_backlight&quot;
+BL_DIR=/sys/class/backlight/intel_backlight
+BL_RULE=/etc/udev/rules.d/99-backlight-brightness.rules
+if [ &quot;${DO_BACKLIGHT}&quot; = &quot;yes&quot; ] &amp;&amp; [ -d &quot;$BL_DIR&quot; ]; then
+  bl_max=&quot;$(cat &quot;$BL_DIR/max_brightness&quot; 2&gt;/dev/null || echo 0)&quot;
+  if [ &quot;${bl_max:-0}&quot; -gt 0 ] 2&gt;/dev/null; then
+    bl_val=$(( bl_max * 77 / 100 ))
+    cat &gt; &quot;$BL_RULE&quot; &lt;&lt;EOF
+# Forca o brilho do painel logo que o dispositivo de backlight aparece (setup-performance.sh).
+# Valor atual: ${bl_val}/${bl_max} (~77%). Ajuste conforme necessario.
+ACTION==&quot;add&quot;, SUBSYSTEM==&quot;backlight&quot;, KERNEL==&quot;intel_backlight&quot;, ATTR{brightness}=&quot;${bl_val}&quot;
+EOF
+    fixfile &quot;$BL_RULE&quot;
+    udevadm control --reload-rules 2&gt;/dev/null || true
+    echo &quot;$bl_val&quot; &gt; &quot;$BL_DIR/brightness&quot; 2&gt;/dev/null || true
+    /usr/lib/systemd/systemd-backlight save backlight:intel_backlight 2&gt;/dev/null || true
+    echo &quot;   brilho fixado em ${bl_val}/${bl_max} + $BL_RULE&quot;
+  else
+    echo &quot;   max_brightness indisponivel — etapa ignorada&quot;
+  fi
+else
+  echo &quot;   pulado (DO_BACKLIGHT=no ou interface ausente)&quot;
+fi
+
+# =============================================================================
+# 11) journald persistente (opcional) -----------------------------------------
+# =============================================================================
+echo
+echo &quot;== [11/12] journald&quot;
+JOURNAL_DIR=/var/log/journal
+if [ &quot;${PERSIST_JOURNALD}&quot; = &quot;yes&quot; ]; then
+  mkdir -p &quot;$JOURNAL_DIR&quot;
+  chown root:systemd-journal &quot;$JOURNAL_DIR&quot; 2&gt;/dev/null || true
+  chmod 2755 &quot;$JOURNAL_DIR&quot; 2&gt;/dev/null || true
+  command -v restorecon &gt;/dev/null 2&gt;&amp;1 &amp;&amp; restorecon -RF &quot;$JOURNAL_DIR&quot; &gt;/dev/null 2&gt;&amp;1 || true
+  systemctl restart systemd-journald 2&gt;/dev/null || true
+  echo &quot;   journald persistente ativado em $JOURNAL_DIR&quot;
+else
+  echo &quot;   pulado (PERSIST_JOURNALD=no) — logs ficam só em /run (perdem no reboot)&quot;
+fi
+
+# =============================================================================
+# 12) fsck (auto|yes|no) — checagem no proximo boot --------------------------
+# =============================================================================
+# DO_FSCK=auto (padrao): só agenda se algum ext4 estiver sujo
+# DO_FSCK=yes           : agenda checagem completa no proximo boot
+# DO_FSCK=no            : não faz nada (só relatório de estado)
+echo
+echo &quot;== [12/12] fsck (modo: ${DO_FSCK})&quot;
+FSCK_DEVS=&quot;$(lsblk -rno NAME,FSTYPE 2&gt;/dev/null | awk &#x27;$2==&quot;ext4&quot;{print &quot;/dev/&quot;$1}&#x27;)&quot;
+need_fsck=no
+for dev in $FSCK_DEVS; do
+  st=&quot;$(dumpe2fs -h &quot;$dev&quot; 2&gt;/dev/null | awk &#x27;/Filesystem state/{print $NF}&#x27; || true)&quot;
+  echo &quot;   $dev: ${st:-n/a}&quot;
+  [ &quot;${st:-}&quot; != &quot;clean&quot; ] &amp;&amp; need_fsck=yes
+done
+if [ &quot;${DO_FSCK}&quot; = &quot;no&quot; ]; then
+  echo &quot;   pulado (DO_FSCK=no)&quot;
+elif [ &quot;${DO_FSCK}&quot; = &quot;yes&quot; ] || [ &quot;$need_fsck&quot; = &quot;yes&quot; ]; then
+  if command -v grubby &gt;/dev/null 2&gt;&amp;1; then
+    grubby --update-kernel=ALL --args=&quot;fsck.mode=force fsck.repair=yes&quot; 2&gt;&amp;1 | sed &#x27;s/^/   grubby: /&#x27; || true
+  fi
+  echo &quot;   AGENDADO: fsck.mode=force fsck.repair=yes no proximo boot.&quot;
+  echo &quot;   (pode demorar no HDD; remova depois com:)&quot; 
+  echo &quot;     sudo grubby --update-kernel=ALL --remove-args=\&quot;fsck.mode=force fsck.repair=yes\&quot;&quot;
+else
+  echo &quot;   nada a fazer: filesystems limpos (use DO_FSCK=yes para forçar)&quot;
+fi
+
+# =============================================================================
+# resumo -----------------------------------------------------------------------
+# =============================================================================
+echo
+echo &quot;==================================================================&quot;
+echo &quot; RESUMO (${ZRAM_SIZE}):&quot;
+echo &quot;   sysctl memória ....... $(sysctl -n vm.swappiness 2&gt;/dev/null)/15 e $(sysctl -n vm.vfs_cache_pressure 2&gt;/dev/null)/50&quot;
+echo &quot;   zram ................. $(swapon --show | awk &#x27;$1==&quot;/dev/zram0&quot;{print $2,$3,$4; f=1} END{if(!f)print &quot;NÃO ATIVO!&quot;}&#x27;)&quot;
+echo &quot;   kdump ................ $(systemctl is-enabled kdump 2&gt;/dev/null || true)&quot;
+echo &quot;   sar/sysstat .......... $(command -v sar &gt;/dev/null 2&gt;&amp;1 &amp;&amp; echo &#x27;instalado&#x27; || echo &#x27;ausente&#x27;) | coleta: $(systemctl is-active sysstat-collect.timer 2&gt;/dev/null || true)&quot;
+echo &quot;   video i915 ........... $(grep -o &#x27;i915.enable_psr=0&#x27; &quot;$GRUB_FILE&quot; &gt;/dev/null 2&gt;&amp;1 &amp;&amp; echo &#x27;parametros aplicados&#x27; || echo &#x27;n/a&#x27;)&quot;
+echo &quot;   GRUB timeout ......... $(grep -oE &#x27;GRUB_TIMEOUT=[0-9]+&#x27; &quot;$GRUB_FILE&quot; 2&gt;/dev/null || echo n/a)&quot;
+echo &quot;   serial console ....... $(systemctl is-enabled &quot;serial-getty@${SERIAL_PORT}.service&quot; &gt;/dev/null 2&gt;&amp;1 &amp;&amp; echo &quot;getty@${SERIAL_PORT} ok&quot; || echo &#x27;n/a&#x27;) | $(grep -ho &quot;console=${SERIAL_PORT}[^ ]*&quot; /boot/loader/entries/*.conf 2&gt;/dev/null | sort -u | tr &#x27;\n&#x27; &#x27; &#x27;)&quot;
+echo &quot;   EFI .................. $(efibootmgr 2&gt;/dev/null | awk &#x27;/^BootOrder:/{print $2}&#x27; || echo n/a)&quot;
+echo &quot;   backlight ............ $(cat &quot;$BL_DIR/brightness&quot; 2&gt;/dev/null || echo n/a)/$(cat &quot;$BL_DIR/max_brightness&quot; 2&gt;/dev/null || echo n/a)&quot;
+echo &quot;   journald ............. $([ -d /var/log/journal ] &amp;&amp; echo &#x27;persistente&#x27; || echo &#x27;volátil (/run)&#x27;)&quot;
+echo &quot;   fsck ................. $(grep -qs &#x27;fsck.mode=force&#x27; /boot/loader/entries/*.conf 2&gt;/dev/null &amp;&amp; echo &#x27;agendado p/ próximo boot&#x27; || echo &#x27;não agendado&#x27;)&quot;
+echo &quot;   REBOOT pendente? ..... crashkernel removido do boot irá liberar ~448 MiB de RAM&quot;
+echo &quot;==================================================================&quot;
+exit 0
+</textarea>
+        <div>
+          <button class="copy-btn" onclick="copySource()" id="copy-btn">📋 Copiar código</button>
+          <button class="copy-btn" onclick="downloadSource()" id="dl-btn">💾 Download .sh</button>
+          <a href="setup-performance.desktop" class="download-btn" download>▶️ Abrir no Terminal (.desktop)</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function copySource() {
+  var textarea = document.getElementById('source-code');
+  textarea.select();
+  textarea.setSelectionRange(0, 999999);
+  document.execCommand('copy');
+  var btn = document.getElementById('copy-btn');
+  btn.textContent = '✅ Copiado!';
+  btn.classList.add('copied');
+  setTimeout(function() {
+    btn.textContent = '📋 Copiar código';
+    btn.classList.remove('copied');
+  }, 2000);
+}
+
+function downloadSource() {
+  var content = document.getElementById('source-code').value;
+  var blob = new Blob([content], {type: 'application/x-shellscript'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'setup-performance.sh';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  var btn = document.getElementById('dl-btn');
+  btn.textContent = '✅ Baixado!';
+  setTimeout(function() {
+    btn.textContent = '💾 Download .sh';
+  }, 2000);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:;">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<title>llm.sh — Script Details</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, monospace; background: #f5f5f5; color: #1a1a1a; line-height: 1.6; }
+.container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+h1 { font-size: 1.8rem; margin-bottom: 8px; }
+h2 { font-size: 1.3rem; margin: 24px 0 12px; color: #2563eb; border-bottom: 2px solid #e5e7eb; padding-bottom: 6px; }
+h3 { font-size: 1rem; margin: 16px 0 8px; color: #374151; }
+.subtitle { color: #6b7280; margin-bottom: 20px; font-size: 0.95rem; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+.header-bar { background: #1e293b; color: #fff; padding: 16px 0; margin-bottom: 24px; }
+.header-bar .container { display: flex; justify-content: space-between; align-items: center; }
+.header-bar h1 { margin: 0; font-size: 1.3rem; }
+.header-bar h1 a { color: #fff; }
+.header-bar h1 a:hover { text-decoration: none; }
+.header-bar .nav a { color: #93c5fd; margin-left: 16px; font-size: 0.9rem; }
+.search-box { width: 100%; padding: 10px 14px; border: 2px solid #d1d5db; border-radius: 8px; font-size: 0.95rem; margin-bottom: 20px; outline: none; transition: border-color 0.2s; }
+.search-box:focus { border-color: #2563eb; }
+table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+th, td { padding: 10px 14px; text-align: left; font-size: 0.9rem; }
+th { background: #f8fafc; font-weight: 600; color: #374151; border-bottom: 2px solid #e5e7eb; }
+td { border-bottom: 1px solid #f0f0f0; }
+tr:hover td { background: #f8fafc; }
+.badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; margin: 1px 2px; }
+.badge-pkg { background: #dcfce7; color: #166534; }
+.badge-cmd { background: #dbeafe; color: #1e40af; }
+.badge-func { background: #fef3c7; color: #92400e; }
+.badge-dir { background: #e5e7eb; color: #374151; }
+.tag { display: inline-block; padding: 2px 6px; border-radius: 3px; font-size: 0.7rem; font-weight: 600; background: #e5e7eb; color: #374151; margin: 1px; }
+.tag-category { background: #ede9fe; color: #5b21b6; }
+.cmd-count { font-size: 0.8rem; color: #6b7280; }
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 24px; }
+.stat-card { background: #fff; border-radius: 8px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); text-align: center; }
+.stat-card .num { font-size: 1.8rem; font-weight: 700; color: #2563eb; }
+.stat-card .label { font-size: 0.8rem; color: #6b7280; margin-top: 4px; }
+.script-page { max-width: 960px; margin: 0 auto; }
+.meta-table { width: 100%; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 20px; }
+.meta-table td { padding: 8px 14px; border-bottom: 1px solid #f0f0f0; }
+.meta-table td:first-child { font-weight: 600; color: #374151; width: 140px; background: #f8fafc; }
+.cmd-group { margin-bottom: 16px; }
+.cmd-group-title { font-size: 0.85rem; font-weight: 600; color: #5b21b6; margin-bottom: 6px; }
+.cmd-list { display: flex; flex-wrap: wrap; gap: 4px; }
+.source-box { margin: 12px 0; }
+.source-box textarea { width: 100%; padding: 12px; border: 2px solid #d1d5db; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 0.8rem; line-height: 1.4; background: #1e293b; color: #e5e7eb; resize: vertical; outline: none; }
+.source-box textarea:focus { border-color: #2563eb; }
+.copy-btn { display: inline-block; padding: 8px 16px; background: #2563eb; color: #fff; border: none; border-radius: 6px; font-size: 0.85rem; cursor: pointer; margin: 8px 4px 4px 0; transition: background 0.2s; }
+.copy-btn:hover { background: #1d4ed8; }
+.copy-btn.copied { background: #16a34a; }
+.download-btn { display: inline-block; padding: 8px 16px; background: #374151; color: #fff; border: none; border-radius: 6px; font-size: 0.85rem; cursor: pointer; margin: 8px 4px 4px 0; transition: background 0.2s; text-decoration: none; }
+.download-btn:hover { background: #1f2937; text-decoration: none; }
+.func-list { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+.func-item { background: #fef3c7; color: #92400e; padding: 3px 10px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 0.8rem; }
+.var-list { display: flex; flex-wrap: wrap; gap: 6px; }
+.var-item { background: #f0fdf4; color: #166534; padding: 3px 10px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 0.78rem; }
+.var-item code { font-size: 0.78rem; }
+.back-link { display: inline-block; margin-bottom: 16px; color: #2563eb; font-size: 0.9rem; }
+.back-link:before { content: "← "; }
+.stat-line { font-size: 0.8rem; color: #6b7280; margin-bottom: 12px; }
+.layout { display: flex; gap: 24px; align-items: flex-start; }
+.sidebar { width: 260px; flex-shrink: 0; background: #fff; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); overflow: hidden; position: sticky; top: 20px; max-height: calc(100vh - 80px); overflow-y: auto; }
+.sidebar-title { padding: 12px 16px; font-weight: 700; font-size: 0.85rem; color: #1e293b; background: #f8fafc; border-bottom: 1px solid #e5e7eb; text-transform: uppercase; letter-spacing: 0.5px; }
+.sidebar a { display: block; padding: 8px 16px; color: #374151; text-decoration: none; font-size: 0.82rem; border-left: 3px solid transparent; transition: all 0.15s; }
+.sidebar a:hover { background: #f1f5f9; border-left-color: #93c5fd; }
+.sidebar a.active { background: #eff6ff; border-left-color: #2563eb; color: #1e40af; font-weight: 600; }
+.sidebar-group { border-top: 1px solid #f0f0f0; }
+.sidebar-group-label { padding: 6px 16px; font-size: 0.7rem; font-weight: 600; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.3px; }
+.sidebar a .s-badge { float: right; background: #e5e7eb; color: #374151; padding: 0 6px; border-radius: 3px; font-size: 0.65rem; font-weight: 600; line-height: 1.6; }
+.main-content { flex: 1; min-width: 0; }
+.tool-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin: 16px 0 28px; }
+.tool-card { display: flex; flex-direction: column; background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); overflow: hidden; text-decoration: none; color: inherit; transition: transform 0.2s, box-shadow 0.2s; position: relative; }
+.tool-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.12); }
+.tool-banner { height: 100px; display: flex; align-items: center; justify-content: center; }
+.tool-emoji { font-size: 3rem; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.3)); }
+.tool-body { padding: 16px; flex: 1; }
+.tool-body h3 { font-size: 1rem; color: #1e293b; margin-bottom: 6px; }
+.tool-body p { font-size: 0.82rem; color: #6b7280; line-height: 1.4; margin-bottom: 8px; }
+.tool-tags { display: flex; flex-wrap: wrap; gap: 4px; }
+.tool-arrow { position: absolute; top: 16px; right: 16px; font-size: 1.2rem; color: #9ca3af; transition: color 0.2s; }
+.tool-card:hover .tool-arrow { color: #2563eb; }
+.header-bar .nav a.active { color: #fff; font-weight: 600; }
+.cat-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+.cat-chip { --c: #6b7280; display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border: 2px solid #e5e7eb; border-radius: 999px; background: #fff; color: #374151; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+.cat-chip:hover { border-color: #cbd5e1; transform: translateY(-1px); }
+.cat-chip.active { border-color: var(--c); color: var(--c); }
+.cat-chip .chip-count { background: #f1f5f9; border-radius: 999px; padding: 0 8px; font-size: 0.7rem; font-weight: 600; color: #6b7280; }
+.cat-chip.active .chip-count { background: rgba(148,163,184,.2); }
+.table-meta { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin: 12px 0; flex-wrap: wrap; }
+.table-meta .visible-count { font-size: 0.8rem; color: #6b7280; }
+.table-wrap { overflow-x: auto; }
+.badge-cat { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 0.72rem; font-weight: 600; white-space: nowrap; }
+.desc-cell { max-width: 340px; color: #4b5563; }
+.actions { white-space: nowrap; }
+.empty-row td { text-align: center; padding: 32px; color: #9ca3af; font-size: 0.9rem; }
+.side-group { border-top: 1px solid #f0f0f0; }
+.side-group summary { display: flex; align-items: center; gap: 8px; padding: 10px 16px; font-size: 0.72rem; font-weight: 700; color: #6b7280; text-transform: uppercase; letter-spacing: 0.3px; cursor: pointer; list-style: none; user-select: none; }
+.side-group summary::-webkit-details-marker { display: none; }
+.side-group summary::marker { content: ""; }
+.side-group:hover summary, .side-group[open] summary { color: #5b21b6; background: #faf5ff; }
+.side-group .g-count { margin-left: auto; background: #e5e7eb; color: #6b7280; border-radius: 999px; padding: 0 8px; font-size: 0.65rem; line-height: 1.8; font-weight: 600; }
+.side-group[open] .g-count { background: #ede9fe; color: #5b21b6; }
+.side-group .g-emoji { font-size: 0.85rem; }
+.side-group a .s-dir { font-size: 0.62rem; color: #9ca3af; background: #f1f5f9; padding: 0 5px; border-radius: 3px; margin-left: 4px; }
+@media (max-width: 800px) { .layout { flex-direction: column; } .sidebar { width: 100%; position: static; max-height: none; } .cat-chips { gap: 6px; } }
+</style>
+</head>
+<body>
+<div class="header-bar">
+  <div class="container">
+    <h1><a href="../index.html">📜 Backup Scripts</a></h1>
+    <div class="nav">
+      <a href="../index.html">Dashboard</a>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <div class="layout">
+    <div class="sidebar">
+      <div class="sidebar-title">📂 Navegação</div><a href="../index.html">📊 Dashboard</a><details class="side-group"><summary><span class="g-emoji">🏗️</span>ISO & LiveCD<span class="g-count">13</span></summary><a href="../scripts/build-iso.html">build_iso.sh<span class="s-dir">raiz</span><span class="s-badge">13</span></a><a href="../scripts/build-iso-completa.html">build_iso_completa.sh<span class="s-badge">24</span></a><a href="../scripts/build-offline-from-boot.html">build_offline_from_boot.sh<span class="s-badge">26</span></a><a href="../scripts/build-offline-ol9.html">build_offline_ol9.sh<span class="s-badge">26</span></a><a href="../scripts/build-ol9-openbox-offline.html">build_ol9_openbox_offline.sh<span class="s-badge">26</span></a><a href="../scripts/oracle.html">oracle.sh<span class="s-badge">19</span></a><a href="../scripts/rebuild-ol9-xfce-offline.html">rebuild_ol9_xfce_offline.sh<span class="s-badge">22</span></a><a href="../scripts/build-backup.html">build_backup.sh<span class="s-badge">16</span></a><a href="../scripts/build-iso.html">build_iso.sh<span class="s-dir">sys</span><span class="s-badge">15</span></a><a href="../scripts/create-iso.html">create_iso.sh<span class="s-badge">13</span></a><a href="../scripts/gerar-iso.html">gerar_iso.sh<span class="s-badge">2</span></a><a href="../scripts/gerar-iso-ol10.html">gerar_iso_ol10.sh<span class="s-badge">12</span></a><a href="../scripts/gerar-iso-ol9.html">gerar_iso_ol9.sh<span class="s-badge">13</span></a></details><details class="side-group" open><summary><span class="g-emoji">⚙️</span>Configuração & Otimização<span class="g-count">23</span></summary><a href="../scripts/aplicar-p1-travamentos.html">aplicar-p1-travamentos.sh<span class="s-badge">11</span></a><a href="../scripts/build-iso.html">build-iso.sh<span class="s-badge">22</span></a><a href="../scripts/cache-guard.html">cache-guard.sh<span class="s-badge">12</span></a><a href="../scripts/fix-repos-ol9.html">fix-repos-ol9.sh<span class="s-dir">raiz</span><span class="s-badge">9</span></a><a href="../scripts/fix-boot-ol9-offline.html">fix_boot_ol9_offline.sh<span class="s-badge">8</span></a><a href="../scripts/install-llm.html">install_llm.sh<span class="s-badge">11</span></a><a href="../scripts/mgc.html">mgc.sh<span class="s-dir">raiz</span><span class="s-badge">7</span></a><a href="../scripts/remove-old-kernels.html">remove_old_kernels.sh<span class="s-dir">raiz</span><span class="s-badge">6</span></a><a href="../scripts/setup-performance.html">setup-performance.sh<span class="s-dir">raiz</span><span class="s-badge">17</span></a><a href="../scripts/auto-fix-powerprofiles-selinux.html">auto_fix_powerprofiles_selinux.sh<span class="s-badge">2</span></a><a href="../scripts/fix-repos-ol9.html">fix-repos-ol9.sh<span class="s-dir">sys</span><span class="s-badge">9</span></a><a href="../scripts/llm.html" class="active">llm.sh<span class="s-badge">9</span></a><a href="../scripts/mgc.html">mgc.sh<span class="s-dir">sys</span><span class="s-badge">7</span></a><a href="../scripts/ol9-audit-otimizar.html">ol9-audit-otimizar.sh<span class="s-badge">14</span></a><a href="../scripts/ol9-full-setup.html">ol9-full-setup.sh<span class="s-badge">12</span></a><a href="../scripts/oracle-config.html">oracle_config.sh<span class="s-badge">2</span></a><a href="../scripts/otimizar-gnome.html">otimizar-gnome.sh<span class="s-badge">3</span></a><a href="../scripts/otimizar-xfce.html">otimizar-xfce.sh<span class="s-badge">15</span></a><a href="../scripts/remove-old-kernels.html">remove_old_kernels.sh<span class="s-dir">sys</span><span class="s-badge">4</span></a><a href="../scripts/setup-performance.html">setup-performance.sh<span class="s-dir">sys</span><span class="s-badge">17</span></a><a href="../scripts/setup-xfce-tiling.html">setup-xfce-tiling.sh<span class="s-badge">7</span></a><a href="../scripts/setup-zram.html">setup-zram.sh<span class="s-badge">3</span></a><a href="../scripts/xrandr-config.html">xrandr-config.sh<span class="s-badge">7</span></a></details><details class="side-group"><summary><span class="g-emoji">📦</span>Empacotamento<span class="g-count">3</span></summary><a href="../scripts/create-rpm.html">create_rpm.sh<span class="s-badge">9</span></a><a href="../scripts/appimage2rpm.html">appimage2rpm.sh<span class="s-badge">9</span></a><a href="../scripts/manager-repo-sh.html">manager_repo_sh<span class="s-badge">3</span></a></details><details class="side-group"><summary><span class="g-emoji">🖥️</span>Virtualização & VM<span class="g-count">3</span></summary><a href="../scripts/control.html">control.sh<span class="s-badge">8</span></a><a href="../scripts/restore-snapshot-disable-ufw.html">restore-snapshot-disable-ufw.sh<span class="s-badge">1</span></a><a href="../scripts/setup-api-debian.html">setup-api-debian.sh<span class="s-badge">13</span></a></details><details class="side-group"><summary><span class="g-emoji">🌐</span>Servidores & Serviços<span class="g-count">3</span></summary><a href="../scripts/debian.html">debian.sh<span class="s-badge">4</span></a><a href="../scripts/manut.html">manut.sh<span class="s-badge">4</span></a><a href="../scripts/node.html">node.sh<span class="s-badge">12</span></a></details><details class="side-group"><summary><span class="g-emoji">🔵</span>Bluetooth<span class="g-count">2</span></summary><a href="../scripts/bt-auto.html">bt-auto.sh<span class="s-badge">1</span></a><a href="../scripts/bt-ctl.html">bt-ctl.sh<span class="s-badge">1</span></a></details><details class="side-group"><summary><span class="g-emoji">🔄</span>Sincronização & Docs<span class="g-count">5</span></summary><a href="../scripts/git-sync.html">git-sync.sh<span class="s-badge">3</span></a><a href="../scripts/atualizar.html">atualizar.sh<span class="s-badge">2</span></a><a href="../scripts/update-appimages.html">update-appimages.sh<span class="s-dir">sys</span><span class="s-badge">13</span></a><a href="../scripts/update-appimages.html">update-appimages.sh<span class="s-dir">raiz</span><span class="s-badge">13</span></a><a href="../scripts/update-docs.html">update-docs.sh<span class="s-badge">2</span></a></details><details class="side-group"><summary><span class="g-emoji">🛒</span>SKU & E-commerce<span class="g-count">2</span></summary><a href="../scripts/gerar-sku.html">gerar_sku.sh<span class="s-badge">1</span></a><a href="../scripts/gerar-sku-ebook.html">gerar_sku_ebook.sh<span class="s-badge">1</span></a></details>
+    </div>
+    <div class="main-content script-page">
+      <a href="../index.html" class="back-link">Voltar ao Dashboard</a>
+
+      <h1>llm.sh</h1>
+      <p class="subtitle"><span class="badge badge-cat" style="background:rgba(14,165,233,.12);color:rgb(14,165,233)">⚙️ Configuração & Otimização</span> <span>llm.sh — IA local OFFLINE (llama.cpp) para Oracle Linux 9.8</span></p>
+
+      <div class="meta-table"><table><tr><td colspan='2'>=============================================================================</td></tr><tr><td colspan='2'>llm.sh — IA local OFFLINE (llama.cpp) para Oracle Linux 9.8</td></tr><tr><td colspan='2'>-----------------------------------------------------------------------------</td></tr><tr><td colspan='2'>Hardware alvo: Intel Celeron N2808 (2 nucleos, SEM AVX), 3.3 GB RAM.</td></tr><tr><td colspan='2'>Por isso usamos llama.cpp compilado nativo (funciona sem AVX) e modelos</td></tr><tr><td colspan='2'>pequenos quantizados (Q4). NAO use Ollama aqui: ele costuma exigir AVX e</td></tr><tr><td colspan='2'>trava com &quot;Illegal instruction&quot; nesta CPU.</td></tr><tr><td colspan='2'>Uso (rode como usuario NORMAL, NAO como root — usa sudo so p/ instalar pacotes):</td></tr><tr><td colspan='2'>./llm.sh install          # dependencias + compila + baixa modelos leves</td></tr><tr><td colspan='2'>./llm.sh doctor           # diagnostico do hardware/ambiente</td></tr><tr><td colspan='2'>./llm.sh list             # lista modelos do catalogo e o que ja foi baixado</td></tr><tr><td colspan='2'>./llm.sh pull &lt;alias&gt;     # baixa um modelo do catalogo</td></tr><tr><td colspan='2'>./llm.sh run  &lt;alias&gt; [-p &quot;prompt&quot;] [outras flags do llama-cli]</td></tr><tr><td colspan='2'>./llm.sh chat &lt;alias&gt;     # conversa interativa (modo -cnv)</td></tr><tr><td colspan='2'>./llm.sh serve &lt;alias&gt; [--port 8080]   # servidor com API OpenAI</td></tr><tr><td colspan='2'>./llm.sh bench &lt;alias&gt;    # mede tokens/s nesta maquina</td></tr><tr><td colspan='2'>./llm.sh update           # git pull + recompila</td></tr><tr><td colspan='2'>./llm.sh paths            # mostra onde esta cada coisa</td></tr><tr><td colspan='2'>Variaveis:</td></tr><tr><td colspan='2'>LLM_HOME   (padrao: $HOME/llama.cpp)   onde compilar</td></tr><tr><td colspan='2'>MODELS_DIR (padrao: $HOME/models)      onde ficam os .gguf</td></tr><tr><td colspan='2'>THREADS    (padrao: nproc)             threads de inferencia</td></tr><tr><td colspan='2'>CTX        (padrao: 2048)              tamanho de contexto</td></tr><tr><td colspan='2'>JOBS       (padrao: nproc)             paralelismo da compilacao</td></tr><tr><td colspan='2'>Instalado automaticamente tambem um atalho em ~/.local/bin/llm (se existir).</td></tr><tr><td colspan='2'>=============================================================================</td></tr></table></div>
+      <div class="meta-table"><table><tr><td>Arquivo</td><td><code>system_scripts/llm.sh</code></td></tr><tr><td>Shebang</td><td><code>#!/usr/bin/env bash</code></td></tr><tr><td>Tamanho</td><td>9.8 KB · 255 linhas</td></tr><tr><td>Uso</td><td><code>Uso (rode como usuario NORMAL, NAO como root — usa sudo so p/ instalar pacotes):</code></td></tr></table></div>
+      <h2>Funções</h2><div class='func-list'><span class="func-item">say() <span style="opacity:0.5">linha 53</span></span><span class="func-item">warn() <span style="opacity:0.5">linha 54</span></span><span class="func-item">die() <span style="opacity:0.5">linha 55</span></span><span class="func-item">asroot() <span style="opacity:0.5">linha 58</span></span><span class="func-item">catalog_line() <span style="opacity:0.5">linha 60</span></span><span class="func-item">model_file() <span style="opacity:0.5">linha 63</span></span><span class="func-item">model_repo() <span style="opacity:0.5">linha 64</span></span><span class="func-item">model_size() <span style="opacity:0.5">linha 65</span></span><span class="func-item">model_path() <span style="opacity:0.5">linha 66</span></span><span class="func-item">llama_exe() <span style="opacity:0.5">linha 69</span></span><span class="func-item">require_built() <span style="opacity:0.5">linha 78</span></span><span class="func-item">cmd_deps() <span style="opacity:0.5">linha 86</span></span><span class="func-item">cmd_build() <span style="opacity:0.5">linha 92</span></span><span class="func-item">cmd_pull() <span style="opacity:0.5">linha 107</span></span><span class="func-item">cmd_install() <span style="opacity:0.5">linha 124</span></span><span class="func-item">cmd_list() <span style="opacity:0.5">linha 141</span></span><span class="func-item">check_ram() <span style="opacity:0.5">linha 152</span></span><span class="func-item">cmd_run() <span style="opacity:0.5">linha 164</span></span><span class="func-item">cmd_chat() <span style="opacity:0.5">linha 174</span></span><span class="func-item">cmd_serve() <span style="opacity:0.5">linha 176</span></span><span class="func-item">cmd_bench() <span style="opacity:0.5">linha 189</span></span><span class="func-item">cmd_update() <span style="opacity:0.5">linha 199</span></span><span class="func-item">cmd_paths() <span style="opacity:0.5">linha 201</span></span><span class="func-item">cmd_doctor() <span style="opacity:0.5">linha 212</span></span><span class="func-item">usage() <span style="opacity:0.5">linha 234</span></span></div>
+      <h2>Variáveis de Configuração</h2><div class='var-list'><span class="var-item"><code>LLM_HOME</code> = <code>${LLM_HOME:-$HOME/llama.cpp}</code></span><span class="var-item"><code>MODELS_DIR</code> = <code>${MODELS_DIR:-$HOME/models}</code></span><span class="var-item"><code>LLAMA_BIN</code> = <code>$LLM_HOME/build/bin</code></span><span class="var-item"><code>THREADS</code> = <code>${THREADS:-$(nproc 2&gt;/dev/null || echo 2)}</code></span><span class="var-item"><code>CTX</code> = <code>${CTX:-2048}</code></span><span class="var-item"><code>JOBS</code> = <code>${JOBS:-$(nproc 2&gt;/dev/null || echo 2)}</code></span><span class="var-item"><code>SELF</code> = <code>$(readlink -f &quot;$0&quot;)</code></span><span class="var-item"><code>SCRIPT_DIR</code> = <code>$(dirname &quot;$SELF&quot;)</code></span><span class="var-item"><code>CATALOG</code> = <code>qwen0.5b|Qwen/Qwen2.5-0.5B-Instruct-GGUF|qwen2.5-0.5b-ins...</code></span><span class="var-item"><code>DEFAULT_MODELS</code> = <code>qwen0.5b llama1b qwen1.5b</code></span></div>
+      <h2>Comandos Utilizados</h2><div class="cmd-group"><div class="cmd-group-title">Package Manager</div><div class="cmd-list"><span class="badge badge-cmd">dnf</span></div></div><div class="cmd-group"><div class="cmd-group-title">Git</div><div class="cmd-list"><span class="badge badge-cmd">git</span></div></div><div class="cmd-group"><div class="cmd-group-title">Download</div><div class="cmd-list"><span class="badge badge-cmd">wget</span></div></div><div class="cmd-group"><div class="cmd-group-title">Text Processing</div><div class="cmd-list"><span class="badge badge-cmd">awk</span><span class="badge badge-cmd">grep</span><span class="badge badge-cmd">sed</span></div></div><div class="cmd-group"><div class="cmd-group-title">File Operations</div><div class="cmd-list"><span class="badge badge-cmd">ln</span><span class="badge badge-cmd">mkdir</span><span class="badge badge-cmd">mv</span></div></div>
+      <h2>Pacotes / Dependências</h2><div class='cmd-list'><span class="badge badge-pkg">cmake</span><span class="badge badge-pkg">make</span></div>
+
+      <h2>Código Fonte</h2>
+      <div class="source-box">
+        <textarea id="source-code" rows="20" readonly spellcheck="false">#!/usr/bin/env bash
+# =============================================================================
+# llm.sh — IA local OFFLINE (llama.cpp) para Oracle Linux 9.8
+# -----------------------------------------------------------------------------
+# Hardware alvo: Intel Celeron N2808 (2 nucleos, SEM AVX), 3.3 GB RAM.
+# Por isso usamos llama.cpp compilado nativo (funciona sem AVX) e modelos
+# pequenos quantizados (Q4). NAO use Ollama aqui: ele costuma exigir AVX e
+# trava com &quot;Illegal instruction&quot; nesta CPU.
+#
+# Uso (rode como usuario NORMAL, NAO como root — usa sudo so p/ instalar pacotes):
+#   ./llm.sh install          # dependencias + compila + baixa modelos leves
+#   ./llm.sh doctor           # diagnostico do hardware/ambiente
+#   ./llm.sh list             # lista modelos do catalogo e o que ja foi baixado
+#   ./llm.sh pull &lt;alias&gt;     # baixa um modelo do catalogo
+#   ./llm.sh run  &lt;alias&gt; [-p &quot;prompt&quot;] [outras flags do llama-cli]
+#   ./llm.sh chat &lt;alias&gt;     # conversa interativa (modo -cnv)
+#   ./llm.sh serve &lt;alias&gt; [--port 8080]   # servidor com API OpenAI
+#   ./llm.sh bench &lt;alias&gt;    # mede tokens/s nesta maquina
+#   ./llm.sh update           # git pull + recompila
+#   ./llm.sh paths            # mostra onde esta cada coisa
+#
+# Variaveis:
+#   LLM_HOME   (padrao: $HOME/llama.cpp)   onde compilar
+#   MODELS_DIR (padrao: $HOME/models)      onde ficam os .gguf
+#   THREADS    (padrao: nproc)             threads de inferencia
+#   CTX        (padrao: 2048)              tamanho de contexto
+#   JOBS       (padrao: nproc)             paralelismo da compilacao
+#
+# Instalado automaticamente tambem um atalho em ~/.local/bin/llm (se existir).
+# =============================================================================
+set -euo pipefail
+
+# ---- config -----------------------------------------------------------------
+LLM_HOME=&quot;${LLM_HOME:-$HOME/llama.cpp}&quot;
+MODELS_DIR=&quot;${MODELS_DIR:-$HOME/models}&quot;
+LLAMA_BIN=&quot;$LLM_HOME/build/bin&quot;
+THREADS=&quot;${THREADS:-$(nproc 2&gt;/dev/null || echo 2)}&quot;
+CTX=&quot;${CTX:-2048}&quot;
+JOBS=&quot;${JOBS:-$(nproc 2&gt;/dev/null || echo 2)}&quot;
+SELF=&quot;$(readlink -f &quot;$0&quot;)&quot;
+SCRIPT_DIR=&quot;$(dirname &quot;$SELF&quot;)&quot;
+
+# catalogo: alias|repo_huggingface|arquivo.gguf|tamanho_aprox_GB
+CATALOG=&quot;qwen0.5b|Qwen/Qwen2.5-0.5B-Instruct-GGUF|qwen2.5-0.5b-instruct-q4_k_m.gguf|0.4
+llama1b|bartowski/Llama-3.2-1B-Instruct-GGUF|Llama-3.2-1B-Instruct-Q4_K_M.gguf|0.8
+qwen1.5b|Qwen/Qwen2.5-1.5B-Instruct-GGUF|qwen2.5-1.5b-instruct-q4_k_m.gguf|1.0
+smollm2|HuggingFaceTB/SmolLM2-360M-Instruct-GGUF|smollm2-360m-instruct-q8_0.gguf|0.4
+phi4mini|unsloth/Phi-4-mini-instruct-GGUF|Phi-4-mini-instruct-Q4_K_M.gguf|2.4
+phi3mini|microsoft/Phi-3-mini-4k-instruct-gguf|Phi-3-mini-4k-instruct-q4.gguf|2.2&quot;
+DEFAULT_MODELS=&quot;qwen0.5b llama1b qwen1.5b&quot;
+
+# ---- helpers ----------------------------------------------------------------
+say()  { printf &#x27;\033[1;36m== %s\033[0m\n&#x27; &quot;$*&quot;; }
+warn() { printf &#x27;\033[1;33mAVISO: %s\033[0m\n&#x27; &quot;$*&quot; &gt;&amp;2; }
+die()  { printf &#x27;\033[1;31mERRO: %s\033[0m\n&#x27; &quot;$*&quot; &gt;&amp;2; exit 1; }
+
+# executa como root: direto se ja root, senao via sudo
+asroot() { if [ &quot;$(id -u)&quot; -eq 0 ]; then &quot;$@&quot;; else sudo &quot;$@&quot;; fi; }
+
+catalog_line() {
+  printf &#x27;%s\n&#x27; &quot;$CATALOG&quot; | awk -F&#x27;|&#x27; -v a=&quot;$1&quot; &#x27;$1==a{print; f=1} END{exit(f?0:1)}&#x27;
+}
+model_file() { catalog_line &quot;$1&quot; | cut -d&#x27;|&#x27; -f3; }
+model_repo() { catalog_line &quot;$1&quot; | cut -d&#x27;|&#x27; -f2; }
+model_size() { catalog_line &quot;$1&quot; | cut -d&#x27;|&#x27; -f4; }
+model_path() { printf &#x27;%s/%s&#x27; &quot;$MODELS_DIR&quot; &quot;$(model_file &quot;$1&quot;)&quot;; }
+
+# resolve o binario do llama.cpp (nomes mudam entre versoes)
+llama_exe() {
+  local name=&quot;$1&quot;
+  if [ -x &quot;$LLAMA_BIN/$name&quot; ]; then printf &#x27;%s&#x27; &quot;$LLAMA_BIN/$name&quot;; return; fi
+  case &quot;$name&quot; in
+    llama-cli) [ -x &quot;$LLAMA_BIN/main&quot; ] &amp;&amp; { printf &#x27;%s&#x27; &quot;$LLAMA_BIN/main&quot;; return; } ;;
+  esac
+  printf &#x27;&#x27;   # nao encontrado
+}
+
+require_built() {
+  if [ -z &quot;$(llama_exe llama-cli)&quot; ]; then
+    die &quot;llama.cpp ainda nao compilado. Rode:  $0 install&quot;
+  fi
+}
+
+# ---- subcomandos ------------------------------------------------------------
+
+cmd_deps() {
+  say &quot;Instalando dependencias de build (cmake, gcc-c++, make, git)&quot;
+  asroot dnf install -y cmake gcc gcc-c++ make git
+  say &quot;Dependencias OK&quot;
+}
+
+cmd_build() {
+  say &quot;Compilando llama.cpp em $LLM_HOME (nativo, sem AVX)&quot;
+  mkdir -p &quot;$(dirname &quot;$LLM_HOME&quot;)&quot;
+  if [ -d &quot;$LLM_HOME/.git&quot; ]; then
+    git -C &quot;$LLM_HOME&quot; pull --ff-only || warn &quot;git pull falhou; usando codigo atual&quot;
+  else
+    git clone --depth 1 https://github.com/ggerganov/llama.cpp &quot;$LLM_HOME&quot;
+  fi
+  cmake -S &quot;$LLM_HOME&quot; -B &quot;$LLM_HOME/build&quot; \
+        -DGGML_NATIVE=ON -DCMAKE_BUILD_TYPE=Release -DLLAMA_CURL=OFF
+  cmake --build &quot;$LLM_HOME/build&quot; -j&quot;$JOBS&quot; \
+        --target llama-cli llama-server llama-bench
+  say &quot;Build concluido: $(llama_exe llama-cli || echo &#x27;??&#x27;)&quot;
+}
+
+cmd_pull() {
+  local alias=&quot;${1:?uso: $0 pull &lt;alias&gt;}&quot;
+  catalog_line &quot;$alias&quot; &gt;/dev/null || die &quot;alias desconhecido: $alias (veja: $0 list)&quot;
+  local repo file dest url
+  repo=&quot;$(model_repo &quot;$alias&quot;)&quot;; file=&quot;$(model_file &quot;$alias&quot;)&quot;; dest=&quot;$MODELS_DIR/$file&quot;
+  mkdir -p &quot;$MODELS_DIR&quot;
+  if [ -s &quot;$dest&quot; ]; then
+    say &quot;Ja existe: $dest ($(du -h &quot;$dest&quot; | cut -f1))&quot;
+    return 0
+  fi
+  url=&quot;https://huggingface.co/$repo/resolve/main/$file?download=true&quot;
+  say &quot;Baixando $alias -&gt; $dest&quot;
+  wget -c -O &quot;$dest.part&quot; &quot;$url&quot;
+  mv -f &quot;$dest.part&quot; &quot;$dest&quot;
+  say &quot;Pronto: $(du -h &quot;$dest&quot; | cut -f1)  ($dest)&quot;
+}
+
+cmd_install() {
+  cmd_deps
+  cmd_build
+  local m
+  for m in $DEFAULT_MODELS; do cmd_pull &quot;$m&quot;; done
+  # atalho conveniente
+  if [ -d &quot;$HOME/.local/bin&quot; ] &amp;&amp; [ -w &quot;$HOME/.local/bin&quot; ]; then
+    ln -sf &quot;$SELF&quot; &quot;$HOME/.local/bin/llm&quot;
+    say &quot;Atalho criado: ~/.local/bin/llm&quot;
+    case &quot;:$PATH:&quot; in *&quot;:$HOME/.local/bin:&quot;*) ;; *)
+      warn &quot;~/.local/bin nao esta no PATH — adicione: export PATH=\&quot;\$HOME/.local/bin:\$PATH\&quot;&quot; ;;
+    esac
+  fi
+  cmd_doctor
+  say &quot;TUDO PRONTO. Teste:  $0 run qwen0.5b -p \&quot;Ola!\&quot;&quot;
+}
+
+cmd_list() {
+  printf &#x27;%-10s %-8s %-10s %s\n&#x27; &quot;ALIAS&quot; &quot;TAM.&quot; &quot;STATUS&quot; &quot;REPO&quot;
+  local line a s
+  while IFS=&#x27;|&#x27; read -r a repo file s; do
+    [ -n &quot;$a&quot; ] || continue
+    local st=&quot;nao baixado&quot;
+    [ -s &quot;$MODELS_DIR/$file&quot; ] &amp;&amp; st=&quot;OK ($(du -h &quot;$MODELS_DIR/$file&quot; | cut -f1))&quot;
+    printf &#x27;%-10s %-8s %-10s %s\n&#x27; &quot;$a&quot; &quot;~${s}G&quot; &quot;$st&quot; &quot;$repo&quot;
+  done &lt;&lt;&lt; &quot;$CATALOG&quot;
+}
+
+check_ram() {
+  local alias=&quot;$1&quot; f=&quot;&quot; need_kb avail_kb
+  f=&quot;$(model_path &quot;$alias&quot;)&quot;
+  [ -s &quot;$f&quot; ] || return 0
+  need_kb=$(( $(stat -c %s &quot;$f&quot; 2&gt;/dev/null || echo 0) / 1024 ))
+  avail_kb=$(( $(awk &#x27;/MemAvailable/{print $2}&#x27; /proc/meminfo) ))
+  if [ &quot;$need_kb&quot; -gt &quot;$avail_kb&quot; ]; then
+    warn &quot;modelo ~$((need_kb/1024))MB &gt; RAM disponivel ~$((avail_kb/1024))MB — vai usar swap e ficar LENTO.&quot;
+    warn &quot;se travar, use um modelo menor (qwen0.5b) ou reduza o contexto: CTX=1024 $0 run $alias&quot;
+  fi
+}
+
+cmd_run() {
+  local alias=&quot;${1:?uso: $0 run &lt;alias&gt; [flags]}&quot;; shift || true
+  require_built
+  local f; f=&quot;$(model_path &quot;$alias&quot;)&quot;
+  catalog_line &quot;$alias&quot; &gt;/dev/null || die &quot;alias desconhecido: $alias (veja: $0 list)&quot;
+  [ -s &quot;$f&quot; ] || die &quot;modelo nao baixado. Rode:  $0 pull $alias&quot;
+  check_ram &quot;$alias&quot;
+  exec &quot;$(llama_exe llama-cli)&quot; -m &quot;$f&quot; -t &quot;$THREADS&quot; -c &quot;$CTX&quot; &quot;$@&quot;
+}
+
+cmd_chat() { cmd_run &quot;$@&quot;; }   # interativo quando sem -p: o llama-cli entra em modo conversa
+
+cmd_serve() {
+  local alias=&quot;${1:?uso: $0 serve &lt;alias&gt; [--port 8080]}&quot;; shift || true
+  require_built
+  local f port=8080; f=&quot;$(model_path &quot;$alias&quot;)&quot;
+  catalog_line &quot;$alias&quot; &gt;/dev/null || die &quot;alias desconhecido: $alias (veja: $0 list)&quot;
+  [ -s &quot;$f&quot; ] || die &quot;modelo nao baixado. Rode:  $0 pull $alias&quot;
+  check_ram &quot;$alias&quot;
+  local exe; exe=&quot;$(llama_exe llama-server)&quot;
+  [ -n &quot;$exe&quot; ] || die &quot;llama-server nao encontrado no build&quot;
+  say &quot;API em http://127.0.0.1:$port  (modelo: $alias, ctx=$CTX, threads=$THREADS)&quot;
+  exec &quot;$exe&quot; -m &quot;$f&quot; -t &quot;$THREADS&quot; -c &quot;$CTX&quot; --host 127.0.0.1 --port &quot;$port&quot; &quot;$@&quot;
+}
+
+cmd_bench() {
+  local alias=&quot;${1:?uso: $0 bench &lt;alias&gt;}&quot;
+  require_built
+  local f; f=&quot;$(model_path &quot;$alias&quot;)&quot;
+  [ -s &quot;$f&quot; ] || die &quot;modelo nao baixado. Rode:  $0 pull $alias&quot;
+  local exe; exe=&quot;$(llama_exe llama-bench)&quot;
+  [ -n &quot;$exe&quot; ] || exe=&quot;$(llama_exe llama-cli)&quot;
+  exec &quot;$exe&quot; -m &quot;$f&quot; -t &quot;$THREADS&quot; -p 64 -n 32 -r 1
+}
+
+cmd_update() { cmd_build; }
+
+cmd_paths() {
+  cat &lt;&lt;EOF
+LLM_HOME   : $LLM_HOME
+MODELS_DIR : $MODELS_DIR
+llama-cli  : $(llama_exe llama-cli || echo &#x27;(nao compilado)&#x27;)
+llama-server: $(llama_exe llama-server || echo &#x27;(nao compilado)&#x27;)
+threads    : $THREADS
+ctx        : $CTX
+EOF
+}
+
+cmd_doctor() {
+  say &quot;Diagnostico&quot;
+  echo &quot;CPU        : $(grep -m1 &#x27;model name&#x27; /proc/cpuinfo | cut -d: -f2- | sed &#x27;s/^ //&#x27;)&quot;
+  echo &quot;Nucleos    : $(nproc)&quot;
+  echo &quot;Flags CPU  : $(grep -m1 flags /proc/cpuinfo | grep -oE &#x27;avx2|avx|sse4_2|f16c|fma&#x27; | tr &#x27;\n&#x27; &#x27; &#x27; || echo &#x27;(sem AVX)&#x27;)&quot;
+  echo &quot;RAM        : $(awk &#x27;/MemTotal/{t=$2} /MemAvailable/{a=$2} END{printf &quot;%.1f GB total, %.1f GB disponivel&quot;, t/1048576, a/1048576}&#x27; /proc/meminfo)&quot;
+  echo &quot;Disco (/)  : $(df -h / | awk &#x27;NR==2{print $4&quot; livres&quot;}&#x27;)&quot;
+  echo &quot;Build dir  : $LLM_HOME&quot;
+  echo &quot;Modelos dir: $MODELS_DIR&quot;
+  local cli; cli=&quot;$(llama_exe llama-cli || true)&quot;
+  [ -n &quot;$cli&quot; ] || cli=&quot;NAO COMPILADO (rode: $0 install)&quot;
+  echo &quot;llama-cli  : $cli&quot;
+  local gg=0
+  if [ -d &quot;$MODELS_DIR&quot; ]; then
+    gg=&quot;$(find &quot;$MODELS_DIR&quot; -maxdepth 1 -name &#x27;*.gguf&#x27; 2&gt;/dev/null | wc -l)&quot;
+  fi
+  echo &quot;Modelos    : $gg arquivo(s) .gguf baixado(s)&quot;
+  if ! grep -q avx /proc/cpuinfo; then
+    warn &quot;Esta CPU nao tem AVX — use llama.cpp (este script). Ollama provavelmente falha aqui.&quot;
+  fi
+}
+
+usage() {
+  sed -n &#x27;2,40p&#x27; &quot;$SELF&quot; | sed &#x27;s/^# \{0,1\}//&#x27;
+}
+
+# ---- dispatch ---------------------------------------------------------------
+case &quot;${1:-}&quot; in
+  install) cmd_install ;;
+  deps)    cmd_deps ;;
+  build)   cmd_build ;;
+  pull)    shift; cmd_pull &quot;$@&quot; ;;
+  list)    cmd_list ;;
+  run)     shift; cmd_run &quot;$@&quot; ;;
+  chat)    shift; cmd_chat &quot;$@&quot; ;;
+  serve)   shift; cmd_serve &quot;$@&quot; ;;
+  bench)   shift; cmd_bench &quot;$@&quot; ;;
+  update)  cmd_update ;;
+  paths)   cmd_paths ;;
+  doctor)  cmd_doctor ;;
+  &quot;&quot;|-h|--help|help) usage ;;
+  *) die &quot;comando desconhecido: $1 (use: $0 help)&quot; ;;
+esac
+</textarea>
+        <div>
+          <button class="copy-btn" onclick="copySource()" id="copy-btn">📋 Copiar código</button>
+          <button class="copy-btn" onclick="downloadSource()" id="dl-btn">💾 Download .sh</button>
+          <a href="llm.desktop" class="download-btn" download>▶️ Abrir no Terminal (.desktop)</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function copySource() {
+  var textarea = document.getElementById('source-code');
+  textarea.select();
+  textarea.setSelectionRange(0, 999999);
+  document.execCommand('copy');
+  var btn = document.getElementById('copy-btn');
+  btn.textContent = '✅ Copiado!';
+  btn.classList.add('copied');
+  setTimeout(function() {
+    btn.textContent = '📋 Copiar código';
+    btn.classList.remove('copied');
+  }, 2000);
+}
+
+function downloadSource() {
+  var content = document.getElementById('source-code').value;
+  var blob = new Blob([content], {type: 'application/x-shellscript'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'llm.sh';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  var btn = document.getElementById('dl-btn');
+  btn.textContent = '✅ Baixado!';
+  setTimeout(function() {
+    btn.textContent = '💾 Download .sh';
+  }, 2000);
+}
+</script>
+</body>
+</html>

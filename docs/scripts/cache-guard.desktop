@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=cache-guard.sh
+Comment=cache-guard.sh — Proteção de memória e liberação AUTOMÁTICA de cache
+Exec=x-terminal-emulator -e bash -c '/home/runner/work/backup/backup/cache-guard.sh; echo ""; echo "=== Script finalizado. Pressione Enter para fechar ==="; read'
+Terminal=true
+Icon=terminal
+Categories=Development;System;

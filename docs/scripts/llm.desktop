@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=llm.sh
+Comment=llm.sh — IA local OFFLINE (llama.cpp) para Oracle Linux 9.8
+Exec=x-terminal-emulator -e bash -c '/home/runner/work/backup/backup/system_scripts/llm.sh; echo ""; echo "=== Script finalizado. Pressione Enter para fechar ==="; read'
+Terminal=true
+Icon=terminal
+Categories=Development;System;

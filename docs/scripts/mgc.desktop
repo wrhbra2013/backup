@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=mgc.sh
+Comment=mgc.sh
+Exec=x-terminal-emulator -e bash -c '/home/runner/work/backup/backup/system_scripts/mgc.sh; echo ""; echo "=== Script finalizado. Pressione Enter para fechar ==="; read'
+Terminal=true
+Icon=terminal
+Categories=Development;System;

@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:;">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<title>aplicar-p1-travamentos.sh — Script Details</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, monospace; background: #f5f5f5; color: #1a1a1a; line-height: 1.6; }
+.container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+h1 { font-size: 1.8rem; margin-bottom: 8px; }
+h2 { font-size: 1.3rem; margin: 24px 0 12px; color: #2563eb; border-bottom: 2px solid #e5e7eb; padding-bottom: 6px; }
+h3 { font-size: 1rem; margin: 16px 0 8px; color: #374151; }
+.subtitle { color: #6b7280; margin-bottom: 20px; font-size: 0.95rem; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+.header-bar { background: #1e293b; color: #fff; padding: 16px 0; margin-bottom: 24px; }
+.header-bar .container { display: flex; justify-content: space-between; align-items: center; }
+.header-bar h1 { margin: 0; font-size: 1.3rem; }
+.header-bar h1 a { color: #fff; }
+.header-bar h1 a:hover { text-decoration: none; }
+.header-bar .nav a { color: #93c5fd; margin-left: 16px; font-size: 0.9rem; }
+.search-box { width: 100%; padding: 10px 14px; border: 2px solid #d1d5db; border-radius: 8px; font-size: 0.95rem; margin-bottom: 20px; outline: none; transition: border-color 0.2s; }
+.search-box:focus { border-color: #2563eb; }
+table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+th, td { padding: 10px 14px; text-align: left; font-size: 0.9rem; }
+th { background: #f8fafc; font-weight: 600; color: #374151; border-bottom: 2px solid #e5e7eb; }
+td { border-bottom: 1px solid #f0f0f0; }
+tr:hover td { background: #f8fafc; }
+.badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; margin: 1px 2px; }
+.badge-pkg { background: #dcfce7; color: #166534; }
+.badge-cmd { background: #dbeafe; color: #1e40af; }
+.badge-func { background: #fef3c7; color: #92400e; }
+.badge-dir { background: #e5e7eb; color: #374151; }
+.tag { display: inline-block; padding: 2px 6px; border-radius: 3px; font-size: 0.7rem; font-weight: 600; background: #e5e7eb; color: #374151; margin: 1px; }
+.tag-category { background: #ede9fe; color: #5b21b6; }
+.cmd-count { font-size: 0.8rem; color: #6b7280; }
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 24px; }
+.stat-card { background: #fff; border-radius: 8px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); text-align: center; }
+.stat-card .num { font-size: 1.8rem; font-weight: 700; color: #2563eb; }
+.stat-card .label { font-size: 0.8rem; color: #6b7280; margin-top: 4px; }
+.script-page { max-width: 960px; margin: 0 auto; }
+.meta-table { width: 100%; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 20px; }
+.meta-table td { padding: 8px 14px; border-bottom: 1px solid #f0f0f0; }
+.meta-table td:first-child { font-weight: 600; color: #374151; width: 140px; background: #f8fafc; }
+.cmd-group { margin-bottom: 16px; }
+.cmd-group-title { font-size: 0.85rem; font-weight: 600; color: #5b21b6; margin-bottom: 6px; }
+.cmd-list { display: flex; flex-wrap: wrap; gap: 4px; }
+.source-box { margin: 12px 0; }
+.source-box textarea { width: 100%; padding: 12px; border: 2px solid #d1d5db; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 0.8rem; line-height: 1.4; background: #1e293b; color: #e5e7eb; resize: vertical; outline: none; }
+.source-box textarea:focus { border-color: #2563eb; }
+.copy-btn { display: inline-block; padding: 8px 16px; background: #2563eb; color: #fff; border: none; border-radius: 6px; font-size: 0.85rem; cursor: pointer; margin: 8px 4px 4px 0; transition: background 0.2s; }
+.copy-btn:hover { background: #1d4ed8; }
+.copy-btn.copied { background: #16a34a; }
+.download-btn { display: inline-block; padding: 8px 16px; background: #374151; color: #fff; border: none; border-radius: 6px; font-size: 0.85rem; cursor: pointer; margin: 8px 4px 4px 0; transition: background 0.2s; text-decoration: none; }
+.download-btn:hover { background: #1f2937; text-decoration: none; }
+.func-list { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+.func-item { background: #fef3c7; color: #92400e; padding: 3px 10px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 0.8rem; }
+.var-list { display: flex; flex-wrap: wrap; gap: 6px; }
+.var-item { background: #f0fdf4; color: #166534; padding: 3px 10px; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 0.78rem; }
+.var-item code { font-size: 0.78rem; }
+.back-link { display: inline-block; margin-bottom: 16px; color: #2563eb; font-size: 0.9rem; }
+.back-link:before { content: "← "; }
+.stat-line { font-size: 0.8rem; color: #6b7280; margin-bottom: 12px; }
+.layout { display: flex; gap: 24px; align-items: flex-start; }
+.sidebar { width: 260px; flex-shrink: 0; background: #fff; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); overflow: hidden; position: sticky; top: 20px; max-height: calc(100vh - 80px); overflow-y: auto; }
+.sidebar-title { padding: 12px 16px; font-weight: 700; font-size: 0.85rem; color: #1e293b; background: #f8fafc; border-bottom: 1px solid #e5e7eb; text-transform: uppercase; letter-spacing: 0.5px; }
+.sidebar a { display: block; padding: 8px 16px; color: #374151; text-decoration: none; font-size: 0.82rem; border-left: 3px solid transparent; transition: all 0.15s; }
+.sidebar a:hover { background: #f1f5f9; border-left-color: #93c5fd; }
+.sidebar a.active { background: #eff6ff; border-left-color: #2563eb; color: #1e40af; font-weight: 600; }
+.sidebar-group { border-top: 1px solid #f0f0f0; }
+.sidebar-group-label { padding: 6px 16px; font-size: 0.7rem; font-weight: 600; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.3px; }
+.sidebar a .s-badge { float: right; background: #e5e7eb; color: #374151; padding: 0 6px; border-radius: 3px; font-size: 0.65rem; font-weight: 600; line-height: 1.6; }
+.main-content { flex: 1; min-width: 0; }
+.tool-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin: 16px 0 28px; }
+.tool-card { display: flex; flex-direction: column; background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); overflow: hidden; text-decoration: none; color: inherit; transition: transform 0.2s, box-shadow 0.2s; position: relative; }
+.tool-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.12); }
+.tool-banner { height: 100px; display: flex; align-items: center; justify-content: center; }
+.tool-emoji { font-size: 3rem; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.3)); }
+.tool-body { padding: 16px; flex: 1; }
+.tool-body h3 { font-size: 1rem; color: #1e293b; margin-bottom: 6px; }
+.tool-body p { font-size: 0.82rem; color: #6b7280; line-height: 1.4; margin-bottom: 8px; }
+.tool-tags { display: flex; flex-wrap: wrap; gap: 4px; }
+.tool-arrow { position: absolute; top: 16px; right: 16px; font-size: 1.2rem; color: #9ca3af; transition: color 0.2s; }
+.tool-card:hover .tool-arrow { color: #2563eb; }
+.header-bar .nav a.active { color: #fff; font-weight: 600; }
+.cat-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+.cat-chip { --c: #6b7280; display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border: 2px solid #e5e7eb; border-radius: 999px; background: #fff; color: #374151; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+.cat-chip:hover { border-color: #cbd5e1; transform: translateY(-1px); }
+.cat-chip.active { border-color: var(--c); color: var(--c); }
+.cat-chip .chip-count { background: #f1f5f9; border-radius: 999px; padding: 0 8px; font-size: 0.7rem; font-weight: 600; color: #6b7280; }
+.cat-chip.active .chip-count { background: rgba(148,163,184,.2); }
+.table-meta { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin: 12px 0; flex-wrap: wrap; }
+.table-meta .visible-count { font-size: 0.8rem; color: #6b7280; }
+.table-wrap { overflow-x: auto; }
+.badge-cat { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 0.72rem; font-weight: 600; white-space: nowrap; }
+.desc-cell { max-width: 340px; color: #4b5563; }
+.actions { white-space: nowrap; }
+.empty-row td { text-align: center; padding: 32px; color: #9ca3af; font-size: 0.9rem; }
+.side-group { border-top: 1px solid #f0f0f0; }
+.side-group summary { display: flex; align-items: center; gap: 8px; padding: 10px 16px; font-size: 0.72rem; font-weight: 700; color: #6b7280; text-transform: uppercase; letter-spacing: 0.3px; cursor: pointer; list-style: none; user-select: none; }
+.side-group summary::-webkit-details-marker { display: none; }
+.side-group summary::marker { content: ""; }
+.side-group:hover summary, .side-group[open] summary { color: #5b21b6; background: #faf5ff; }
+.side-group .g-count { margin-left: auto; background: #e5e7eb; color: #6b7280; border-radius: 999px; padding: 0 8px; font-size: 0.65rem; line-height: 1.8; font-weight: 600; }
+.side-group[open] .g-count { background: #ede9fe; color: #5b21b6; }
+.side-group .g-emoji { font-size: 0.85rem; }
+.side-group a .s-dir { font-size: 0.62rem; color: #9ca3af; background: #f1f5f9; padding: 0 5px; border-radius: 3px; margin-left: 4px; }
+@media (max-width: 800px) { .layout { flex-direction: column; } .sidebar { width: 100%; position: static; max-height: none; } .cat-chips { gap: 6px; } }
+</style>
+</head>
+<body>
+<div class="header-bar">
+  <div class="container">
+    <h1><a href="../index.html">📜 Backup Scripts</a></h1>
+    <div class="nav">
+      <a href="../index.html">Dashboard</a>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <div class="layout">
+    <div class="sidebar">
+      <div class="sidebar-title">📂 Navegação</div><a href="../index.html">📊 Dashboard</a><details class="side-group"><summary><span class="g-emoji">🏗️</span>ISO & LiveCD<span class="g-count">13</span></summary><a href="../scripts/build-iso.html">build_iso.sh<span class="s-dir">raiz</span><span class="s-badge">13</span></a><a href="../scripts/build-iso-completa.html">build_iso_completa.sh<span class="s-badge">24</span></a><a href="../scripts/build-offline-from-boot.html">build_offline_from_boot.sh<span class="s-badge">26</span></a><a href="../scripts/build-offline-ol9.html">build_offline_ol9.sh<span class="s-badge">26</span></a><a href="../scripts/build-ol9-openbox-offline.html">build_ol9_openbox_offline.sh<span class="s-badge">26</span></a><a href="../scripts/oracle.html">oracle.sh<span class="s-badge">19</span></a><a href="../scripts/rebuild-ol9-xfce-offline.html">rebuild_ol9_xfce_offline.sh<span class="s-badge">22</span></a><a href="../scripts/build-backup.html">build_backup.sh<span class="s-badge">16</span></a><a href="../scripts/build-iso.html">build_iso.sh<span class="s-dir">sys</span><span class="s-badge">15</span></a><a href="../scripts/create-iso.html">create_iso.sh<span class="s-badge">13</span></a><a href="../scripts/gerar-iso.html">gerar_iso.sh<span class="s-badge">2</span></a><a href="../scripts/gerar-iso-ol10.html">gerar_iso_ol10.sh<span class="s-badge">12</span></a><a href="../scripts/gerar-iso-ol9.html">gerar_iso_ol9.sh<span class="s-badge">13</span></a></details><details class="side-group" open><summary><span class="g-emoji">⚙️</span>Configuração & Otimização<span class="g-count">23</span></summary><a href="../scripts/aplicar-p1-travamentos.html" class="active">aplicar-p1-travamentos.sh<span class="s-badge">11</span></a><a href="../scripts/build-iso.html">build-iso.sh<span class="s-badge">22</span></a><a href="../scripts/cache-guard.html">cache-guard.sh<span class="s-badge">12</span></a><a href="../scripts/fix-repos-ol9.html">fix-repos-ol9.sh<span class="s-dir">raiz</span><span class="s-badge">9</span></a><a href="../scripts/fix-boot-ol9-offline.html">fix_boot_ol9_offline.sh<span class="s-badge">8</span></a><a href="../scripts/install-llm.html">install_llm.sh<span class="s-badge">11</span></a><a href="../scripts/mgc.html">mgc.sh<span class="s-dir">raiz</span><span class="s-badge">7</span></a><a href="../scripts/remove-old-kernels.html">remove_old_kernels.sh<span class="s-dir">raiz</span><span class="s-badge">6</span></a><a href="../scripts/setup-performance.html">setup-performance.sh<span class="s-dir">raiz</span><span class="s-badge">17</span></a><a href="../scripts/auto-fix-powerprofiles-selinux.html">auto_fix_powerprofiles_selinux.sh<span class="s-badge">2</span></a><a href="../scripts/fix-repos-ol9.html">fix-repos-ol9.sh<span class="s-dir">sys</span><span class="s-badge">9</span></a><a href="../scripts/llm.html">llm.sh<span class="s-badge">9</span></a><a href="../scripts/mgc.html">mgc.sh<span class="s-dir">sys</span><span class="s-badge">7</span></a><a href="../scripts/ol9-audit-otimizar.html">ol9-audit-otimizar.sh<span class="s-badge">14</span></a><a href="../scripts/ol9-full-setup.html">ol9-full-setup.sh<span class="s-badge">12</span></a><a href="../scripts/oracle-config.html">oracle_config.sh<span class="s-badge">2</span></a><a href="../scripts/otimizar-gnome.html">otimizar-gnome.sh<span class="s-badge">3</span></a><a href="../scripts/otimizar-xfce.html">otimizar-xfce.sh<span class="s-badge">15</span></a><a href="../scripts/remove-old-kernels.html">remove_old_kernels.sh<span class="s-dir">sys</span><span class="s-badge">4</span></a><a href="../scripts/setup-performance.html">setup-performance.sh<span class="s-dir">sys</span><span class="s-badge">17</span></a><a href="../scripts/setup-xfce-tiling.html">setup-xfce-tiling.sh<span class="s-badge">7</span></a><a href="../scripts/setup-zram.html">setup-zram.sh<span class="s-badge">3</span></a><a href="../scripts/xrandr-config.html">xrandr-config.sh<span class="s-badge">7</span></a></details><details class="side-group"><summary><span class="g-emoji">📦</span>Empacotamento<span class="g-count">3</span></summary><a href="../scripts/create-rpm.html">create_rpm.sh<span class="s-badge">9</span></a><a href="../scripts/appimage2rpm.html">appimage2rpm.sh<span class="s-badge">9</span></a><a href="../scripts/manager-repo-sh.html">manager_repo_sh<span class="s-badge">3</span></a></details><details class="side-group"><summary><span class="g-emoji">🖥️</span>Virtualização & VM<span class="g-count">3</span></summary><a href="../scripts/control.html">control.sh<span class="s-badge">8</span></a><a href="../scripts/restore-snapshot-disable-ufw.html">restore-snapshot-disable-ufw.sh<span class="s-badge">1</span></a><a href="../scripts/setup-api-debian.html">setup-api-debian.sh<span class="s-badge">13</span></a></details><details class="side-group"><summary><span class="g-emoji">🌐</span>Servidores & Serviços<span class="g-count">3</span></summary><a href="../scripts/debian.html">debian.sh<span class="s-badge">4</span></a><a href="../scripts/manut.html">manut.sh<span class="s-badge">4</span></a><a href="../scripts/node.html">node.sh<span class="s-badge">12</span></a></details><details class="side-group"><summary><span class="g-emoji">🔵</span>Bluetooth<span class="g-count">2</span></summary><a href="../scripts/bt-auto.html">bt-auto.sh<span class="s-badge">1</span></a><a href="../scripts/bt-ctl.html">bt-ctl.sh<span class="s-badge">1</span></a></details><details class="side-group"><summary><span class="g-emoji">🔄</span>Sincronização & Docs<span class="g-count">5</span></summary><a href="../scripts/git-sync.html">git-sync.sh<span class="s-badge">3</span></a><a href="../scripts/atualizar.html">atualizar.sh<span class="s-badge">2</span></a><a href="../scripts/update-appimages.html">update-appimages.sh<span class="s-dir">sys</span><span class="s-badge">13</span></a><a href="../scripts/update-appimages.html">update-appimages.sh<span class="s-dir">raiz</span><span class="s-badge">13</span></a><a href="../scripts/update-docs.html">update-docs.sh<span class="s-badge">2</span></a></details><details class="side-group"><summary><span class="g-emoji">🛒</span>SKU & E-commerce<span class="g-count">2</span></summary><a href="../scripts/gerar-sku.html">gerar_sku.sh<span class="s-badge">1</span></a><a href="../scripts/gerar-sku-ebook.html">gerar_sku_ebook.sh<span class="s-badge">1</span></a></details>
+    </div>
+    <div class="main-content script-page">
+      <a href="../index.html" class="back-link">Voltar ao Dashboard</a>
+
+      <h1>aplicar-p1-travamentos.sh</h1>
+      <p class="subtitle"><span class="badge badge-cat" style="background:rgba(14,165,233,.12);color:rgb(14,165,233)">⚙️ Configuração & Otimização</span> <span>aplicar-p1-travamentos.sh</span></p>
+
+      <div class="meta-table"><table><tr><td colspan='2'>=============================================================================</td></tr><tr><td colspan='2'>aplicar-p1-travamentos.sh</td></tr><tr><td colspan='2'>Ajustes P1 da auditoria de travamentos — Positivo DH8BT11TV / OL9 / UEK 6.12</td></tr><tr><td colspan='2'>O que faz:</td></tr><tr><td colspan='2'>1. remove a reserva de crashkernel (somente se o kdump estiver desligado)</td></tr><tr><td colspan='2'>2. aumenta o zram de 1 GiB para 2 GiB</td></tr><tr><td colspan='2'>3. desativa o swap no HDD (opcional: --keep-hdd-swap)</td></tr><tr><td colspan='2'>4. troca o agendador de I/O do sda para BFQ</td></tr><tr><td colspan='2'>5. aplica sysctl de resposta (dirty_ratio, page-cluster, swappiness)</td></tr><tr><td colspan='2'>6. coloca Transparent Huge Pages em madvise</td></tr><tr><td colspan='2'>7. habilita o bool SELinux selinuxuser_execmod (elimina o AVC do llamafile)</td></tr><tr><td colspan='2'>8. opcional: mascara o setroubleshootd (--mask-setroubleshoot)</td></tr><tr><td colspan='2'>Uso:</td></tr><tr><td colspan='2'>./aplicar-p1-travamentos.sh                        # simulação (não altera nada)</td></tr><tr><td colspan='2'>sudo ./aplicar-p1-travamentos.sh --apply           # aplica</td></tr><tr><td colspan='2'>sudo ./aplicar-p1-travamentos.sh --apply --keep-hdd-swap</td></tr><tr><td colspan='2'>sudo ./aplicar-p1-travamentos.sh --apply --mask-setroubleshoot</td></tr><tr><td colspan='2'>Segurança:</td></tr><tr><td colspan='2'>- idempotente: pode rodar de novo sem duplicar nada</td></tr><tr><td colspan='2'>- backup dos arquivos alterados em /var/backups/travamentos-&lt;data&gt;/</td></tr><tr><td colspan='2'>- não reinicia a máquina sozinho</td></tr><tr><td colspan='2'>- não remove crashkernel se o kdump estiver ativo</td></tr><tr><td colspan='2'>- não desativa o swap do HDD se ele estiver em uso (a menos que --force)</td></tr><tr><td colspan='2'>=============================================================================</td></tr><tr><td colspan='2'>&nbsp;</td></tr></table></div>
+      <div class="meta-table"><table><tr><td>Arquivo</td><td><code>aplicar-p1-travamentos.sh</code></td></tr><tr><td>Shebang</td><td><code>#!/usr/bin/env bash</code></td></tr><tr><td>Tamanho</td><td>10.8 KB · 270 linhas</td></tr><tr><td>Uso</td><td><code>Uso:</code></td></tr></table></div>
+      <h2>Funções</h2><div class='func-list'><span class="func-item">say() <span style="opacity:0.5">linha 48</span></span><span class="func-item">ok() <span style="opacity:0.5">linha 49</span></span><span class="func-item">warn() <span style="opacity:0.5">linha 50</span></span><span class="func-item">skip() <span style="opacity:0.5">linha 51</span></span><span class="func-item">die() <span style="opacity:0.5">linha 52</span></span><span class="func-item">do_it() <span style="opacity:0.5">linha 54</span></span><span class="func-item">backup() <span style="opacity:0.5">linha 63</span></span></div>
+      <h2>Variáveis de Configuração</h2><div class='var-list'><span class="var-item"><code>APPLY</code> = <code>0</code></span><span class="var-item"><code>KEEP_HDD_SWAP</code> = <code>0</code></span><span class="var-item"><code>MASK_SETROUBLESHOOT</code> = <code>0</code></span><span class="var-item"><code>FORCE</code> = <code>0</code></span><span class="var-item"><code>TS</code> = <code>$(date +%Y%m%d-%H%M%S)</code></span><span class="var-item"><code>BK</code> = <code>/var/backups/travamentos-$TS</code></span><span class="var-item"><code>CK</code> = <code>$(tr &#x27; &#x27; &#x27;\n&#x27; &lt; /proc/cmdline | grep &#x27;^crashkernel=&#x27; | he...</code></span></div>
+      <h2>Comandos Utilizados</h2><div class="cmd-group"><div class="cmd-group-title">Package Manager</div><div class="cmd-list"><span class="badge badge-cmd">dnf</span></div></div><div class="cmd-group"><div class="cmd-group-title">System Service</div><div class="cmd-list"><span class="badge badge-cmd">systemctl</span></div></div><div class="cmd-group"><div class="cmd-group-title">Text Processing</div><div class="cmd-list"><span class="badge badge-cmd">awk</span><span class="badge badge-cmd">grep</span><span class="badge badge-cmd">sed</span></div></div><div class="cmd-group"><div class="cmd-group-title">File Operations</div><div class="cmd-list"><span class="badge badge-cmd">cp</span><span class="badge badge-cmd">mkdir</span><span class="badge badge-cmd">rm</span></div></div><div class="cmd-group"><div class="cmd-group-title">Bootloader</div><div class="cmd-list"><span class="badge badge-cmd">grubby</span></div></div><div class="cmd-group"><div class="cmd-group-title">Kernel</div><div class="cmd-list"><span class="badge badge-cmd">sysctl</span><span class="badge badge-cmd">udevadm</span></div></div>
+      
+
+      <h2>Código Fonte</h2>
+      <div class="source-box">
+        <textarea id="source-code" rows="20" readonly spellcheck="false">#!/usr/bin/env bash
+# =============================================================================
+# aplicar-p1-travamentos.sh
+# Ajustes P1 da auditoria de travamentos — Positivo DH8BT11TV / OL9 / UEK 6.12
+#
+# O que faz:
+#   1. remove a reserva de crashkernel (somente se o kdump estiver desligado)
+#   2. aumenta o zram de 1 GiB para 2 GiB
+#   3. desativa o swap no HDD (opcional: --keep-hdd-swap)
+#   4. troca o agendador de I/O do sda para BFQ
+#   5. aplica sysctl de resposta (dirty_ratio, page-cluster, swappiness)
+#   6. coloca Transparent Huge Pages em madvise
+#   7. habilita o bool SELinux selinuxuser_execmod (elimina o AVC do llamafile)
+#   8. opcional: mascara o setroubleshootd (--mask-setroubleshoot)
+#
+# Uso:
+#   ./aplicar-p1-travamentos.sh                        # simulação (não altera nada)
+#   sudo ./aplicar-p1-travamentos.sh --apply           # aplica
+#   sudo ./aplicar-p1-travamentos.sh --apply --keep-hdd-swap
+#   sudo ./aplicar-p1-travamentos.sh --apply --mask-setroubleshoot
+#
+# Segurança:
+#   - idempotente: pode rodar de novo sem duplicar nada
+#   - backup dos arquivos alterados em /var/backups/travamentos-&lt;data&gt;/
+#   - não reinicia a máquina sozinho
+#   - não remove crashkernel se o kdump estiver ativo
+#   - não desativa o swap do HDD se ele estiver em uso (a menos que --force)
+# =============================================================================
+
+set -Eeuo pipefail
+
+APPLY=0
+KEEP_HDD_SWAP=0
+MASK_SETROUBLESHOOT=0
+FORCE=0
+
+for arg in &quot;$@&quot;; do
+    case &quot;$arg&quot; in
+        --apply)               APPLY=1 ;;
+        --keep-hdd-swap)       KEEP_HDD_SWAP=1 ;;
+        --mask-setroubleshoot) MASK_SETROUBLESHOOT=1 ;;
+        --force)               FORCE=1 ;;
+        -h|--help)             sed -n &#x27;2,30p&#x27; &quot;$0&quot; | sed &#x27;s/^# \{0,1\}//&#x27;; exit 0 ;;
+        *) echo &quot;Opção desconhecida: $arg (use --help)&quot; &gt;&amp;2; exit 2 ;;
+    esac
+done
+
+say()  { printf &#x27;\n\033[1;36m== %s\033[0m\n&#x27; &quot;$*&quot;; }
+ok()   { printf &#x27;   \033[1;32mOK\033[0m  %s\n&#x27; &quot;$*&quot;; }
+warn() { printf &#x27;   \033[1;33mAVISO\033[0m  %s\n&#x27; &quot;$*&quot; &gt;&amp;2; }
+skip() { printf &#x27;   \033[0;37m--  %s\033[0m\n&#x27; &quot;$*&quot;; }
+die()  { printf &#x27;\n\033[1;31mERRO: %s\033[0m\n&#x27; &quot;$*&quot; &gt;&amp;2; exit 1; }
+
+do_it() {
+    printf &#x27;   + %s\n&#x27; &quot;$*&quot;
+    [ &quot;$APPLY&quot; -eq 1 ] &amp;&amp; &quot;$@&quot;
+    return 0
+}
+
+TS=&quot;$(date +%Y%m%d-%H%M%S)&quot;
+BK=&quot;/var/backups/travamentos-$TS&quot;
+
+backup() {
+    local f=&quot;$1&quot;
+    [ -f &quot;$f&quot; ] || return 0
+    if [ &quot;$APPLY&quot; -eq 1 ]; then
+        mkdir -p &quot;$BK&quot;
+        cp -a &quot;$f&quot; &quot;$BK/$(basename &quot;$f&quot;).$TS&quot;
+    fi
+}
+
+if [ &quot;$APPLY&quot; -eq 1 ] &amp;&amp; [ &quot;$(id -u)&quot; -ne 0 ]; then
+    echo &quot;Precisa de root; reexecutando com sudo...&quot;
+    exec sudo -E &quot;$(readlink -f &quot;$0&quot;)&quot; &quot;$@&quot;
+fi
+
+[ -d /run/systemd/system ] || die &quot;este script assume systemd.&quot;
+
+if [ &quot;$APPLY&quot; -eq 0 ]; then
+    printf &#x27;\033[1;33mMODO SIMULAÇÃO\033[0m — nada será alterado. Use --apply para valer.\n&#x27;
+else
+    printf &#x27;\033[1;32mMODO APLICAÇÃO\033[0m — backups em %s\n&#x27; &quot;$BK&quot;
+fi
+
+# -----------------------------------------------------------------------------
+# 1. crashkernel (kdump desligado)
+# -----------------------------------------------------------------------------
+say &quot;1/7 crashkernel&quot;
+if grep -q &#x27;crashkernel=&#x27; /proc/cmdline; then
+    if systemctl is-active --quiet kdump 2&gt;/dev/null; then
+        warn &quot;kdump está ATIVO; não vou remover o crashkernel. Desative o kdump antes, se quiser o ganho.&quot;
+    else
+        CK=&quot;$(tr &#x27; &#x27; &#x27;\n&#x27; &lt; /proc/cmdline | grep &#x27;^crashkernel=&#x27; | head -1)&quot;
+        ok &quot;kdump desligado; removendo &#x27;$CK&#x27; (~448 MiB de RAM a recuperar)&quot;
+        backup /etc/default/grub
+        backup /etc/kernel/cmdline
+        # usa só a chave: o valor tem vírgula e o grubby trata --remove-args como lista
+        do_it grubby --update-kernel=ALL --remove-args=&quot;crashkernel&quot;
+        if [ -f /etc/default/grub ]; then
+            do_it sed -i -E &#x27;s/[[:space:]]*crashkernel=[^&quot;[:space:]]*//g&#x27; /etc/default/grub
+        fi
+        if [ -f /etc/kernel/cmdline ]; then
+            do_it sed -i -E &#x27;s/[[:space:]]*crashkernel=[^[:space:]]*//g&#x27; /etc/kernel/cmdline
+        fi
+        if [ &quot;$APPLY&quot; -eq 1 ]; then
+            TMPG=&quot;$(mktemp)&quot;
+            if ! grubby --info=ALL &gt;&quot;$TMPG&quot; 2&gt;/dev/null || [ ! -s &quot;$TMPG&quot; ]; then
+                warn &quot;não consegui ler as entradas do grubby; confira manualmente após o reboot&quot;
+            elif grep -q &#x27;crashkernel=&#x27; &quot;$TMPG&quot;; then
+                warn &quot;ainda há crashkernel em alguma entrada; confira: grubby --info=ALL | grep args&quot;
+            else
+                ok &quot;crashkernel removido das entradas de boot&quot;
+            fi
+            rm -f &quot;$TMPG&quot;
+        fi
+    fi
+else
+    ok &quot;já não há crashkernel na linha de comando&quot;
+fi
+
+# -----------------------------------------------------------------------------
+# 2. zram 1G -&gt; 2G
+# -----------------------------------------------------------------------------
+say &quot;2/7 zram&quot;
+UNIT=/etc/systemd/system/zram-swap.service
+if [ ! -f &quot;$UNIT&quot; ]; then
+    warn &quot;$UNIT não existe; pulando (confira como o zram é criado nesta máquina)&quot;
+elif grep -q &#x27;echo 1G &gt; /sys/block/zram0/disksize&#x27; &quot;$UNIT&quot;; then
+    backup &quot;$UNIT&quot;
+    ok &quot;zram: 1 GiB -&gt; 2 GiB (efetivo no próximo boot)&quot;
+    do_it sed -i &#x27;s|echo 1G &gt; /sys/block/zram0/disksize|echo 2G &gt; /sys/block/zram0/disksize|&#x27; &quot;$UNIT&quot;
+    do_it sed -i &#x27;s/ZRAM swap (1G/ZRAM swap (2G/&#x27; &quot;$UNIT&quot;
+    do_it systemctl daemon-reload
+else
+    ok &quot;zram já configurado para 2 GiB (ou tamanho diferente); nada a fazer&quot;
+fi
+
+# -----------------------------------------------------------------------------
+# 3. swap no HDD
+# -----------------------------------------------------------------------------
+say &quot;3/7 swap do HDD (/dev/sda3)&quot;
+if [ &quot;$KEEP_HDD_SWAP&quot; -eq 1 ]; then
+    skip &quot;mantido por --keep-hdd-swap (swappiness ficará em 60)&quot;
+elif ! swapon --show=NAME --noheadings 2&gt;/dev/null | grep -qx &#x27;/dev/sda3&#x27;; then
+    ok &quot;swap do HDD já está desativado&quot;
+elif ! swapon --show=NAME --noheadings 2&gt;/dev/null | grep -qx &#x27;/dev/zram0&#x27;; then
+    warn &quot;o zram não está ativo; NÃO vou desativar o swap do HDD (evita OOM)&quot;
+else
+    USED_BYTES=&quot;$(swapon --show=NAME,USED --noheadings --bytes --raw 2&gt;/dev/null \
+                  | awk &#x27;$1==&quot;/dev/sda3&quot;{print $2}&#x27; | tr -dc &#x27;0-9&#x27;)&quot;
+    USED_BYTES=&quot;${USED_BYTES:-0}&quot;
+    if [ &quot;$USED_BYTES&quot; -gt 0 ] &amp;&amp; [ &quot;$FORCE&quot; -ne 1 ]; then
+        warn &quot;há $((USED_BYTES / 1048576)) MiB em uso no swap do HDD; não vou mexer (use --force para forçar)&quot;
+    else
+        ok &quot;desativando e mascarando o swap do HDD (zram fica como único swap)&quot;
+        do_it swapoff /dev/sda3
+        do_it systemctl mask dev-sda3.swap
+        if [ &quot;$APPLY&quot; -eq 1 ] &amp;&amp; swapon --show=NAME --noheadings | grep -qx &#x27;/dev/sda3&#x27;; then
+            warn &quot;ainda ativo; mascare também a unit por UUID: systemctl list-units --type=swap&quot;
+        fi
+    fi
+fi
+
+# -----------------------------------------------------------------------------
+# 4. BFQ no sda
+# -----------------------------------------------------------------------------
+say &quot;4/7 agendador de I/O (BFQ)&quot;
+if [ ! -e /sys/block/sda/queue/scheduler ]; then
+    warn &quot;/sys/block/sda não encontrado; pulando&quot;
+elif grep -qw bfq /sys/block/sda/queue/scheduler; then
+    if [ &quot;$(cat /sys/block/sda/queue/scheduler | sed &#x27;s/.*\[\(.*\)\].*/\1/&#x27;)&quot; = bfq ]; then
+        ok &quot;BFQ já está ativo&quot;
+    else
+        ok &quot;ativando BFQ agora&quot;
+        do_it sh -c &#x27;echo bfq &gt; /sys/block/sda/queue/scheduler&#x27;
+    fi
+    backup /etc/udev/rules.d/60-sda-bfq.rules
+    do_it sh -c &#x27;printf &quot;%s\n&quot; &quot;ACTION==\&quot;add|change\&quot;, KERNEL==\&quot;sda\&quot;, ATTR{queue/scheduler}=\&quot;bfq\&quot;&quot; &gt; /etc/udev/rules.d/60-sda-bfq.rules&#x27;
+    do_it udevadm control --reload-rules
+    do_it udevadm trigger --name-match=sda
+else
+    warn &quot;BFQ não disponível neste kernel; mantendo o agendador atual&quot;
+fi
+
+# -----------------------------------------------------------------------------
+# 5. sysctl
+# -----------------------------------------------------------------------------
+say &quot;5/7 sysctl de resposta&quot;
+SWAPPINESS=100
+[ &quot;$KEEP_HDD_SWAP&quot; -eq 1 ] &amp;&amp; SWAPPINESS=60
+SYSCTL_FILE=/etc/sysctl.d/99-resposta.conf
+ok &quot;escrevendo $SYSCTL_FILE (swappiness=$SWAPPINESS)&quot;
+backup &quot;$SYSCTL_FILE&quot;
+if [ &quot;$APPLY&quot; -eq 1 ]; then
+    cat &gt; &quot;$SYSCTL_FILE&quot; &lt;&lt;EOF
+# Auditoria de travamentos — 24/10/2026
+# swappiness alto só vale com zram como único swap (swap no HDD desativado)
+vm.swappiness=$SWAPPINESS
+vm.dirty_ratio=10
+vm.dirty_background_ratio=3
+vm.page-cluster=0
+vm.min_free_kbytes=98304
+EOF
+    sysctl --system &gt;/dev/null
+else
+    printf &#x27;   + escrever %s\n&#x27; &quot;$SYSCTL_FILE&quot;
+fi
+
+# -----------------------------------------------------------------------------
+# 6. Transparent Huge Pages
+# -----------------------------------------------------------------------------
+say &quot;6/7 Transparent Huge Pages&quot;
+THP=/sys/kernel/mm/transparent_hugepage/enabled
+if [ -f &quot;$THP&quot; ]; then
+    if grep -q &#x27;\[madvise\]&#x27; &quot;$THP&quot;; then
+        ok &quot;THP já está em madvise&quot;
+    else
+        ok &quot;THP: always -&gt; madvise&quot;
+        do_it sh -c &#x27;echo madvise &gt; /sys/kernel/mm/transparent_hugepage/enabled&#x27;
+    fi
+fi
+if ! grep -q &#x27;transparent_hugepage=&#x27; /proc/cmdline; then
+    ok &quot;persistindo via kernel cmdline (próximo boot)&quot;
+    do_it grubby --update-kernel=ALL --args=&quot;transparent_hugepage=madvise&quot; &gt;/dev/null
+else
+    skip &quot;já há transparent_hugepage= na cmdline&quot;
+fi
+
+# -----------------------------------------------------------------------------
+# 7. SELinux execmod + setroubleshoot
+# -----------------------------------------------------------------------------
+say &quot;7/7 SELinux&quot;
+if command -v getsebool &gt;/dev/null 2&gt;&amp;1; then
+    if getsebool selinuxuser_execmod 2&gt;/dev/null | grep -q -- &#x27;--&gt; on&#x27;; then
+        ok &quot;selinuxuser_execmod já está on&quot;
+    else
+        ok &quot;habilitando selinuxuser_execmod (elimina o AVC a cada start do llamafile)&quot;
+        do_it setsebool -P selinuxuser_execmod on
+    fi
+else
+    warn &quot;getsebool não encontrado; pulando&quot;
+fi
+if [ &quot;$MASK_SETROUBLESHOOT&quot; -eq 1 ]; then
+    ok &quot;mascarando setroubleshootd (não abre o notificador a cada negação)&quot;
+    do_it systemctl mask --now setroubleshootd.service
+fi
+
+# -----------------------------------------------------------------------------
+# resumo
+# -----------------------------------------------------------------------------
+say &quot;resumo&quot;
+if [ &quot;$APPLY&quot; -eq 0 ]; then
+    echo &quot;   Simulação concluída. Para aplicar:  sudo $0 --apply&quot;
+else
+    echo &quot;   Aplicado. Backup em: $BK&quot;
+    echo
+    echo &quot;   REINICIE para valer:  sudo reboot&quot;
+    echo
+    echo &quot;   Depois do boot, confira:&quot;
+    echo &quot;     free -m                      # MemTotal deve ter subido ~448 MB&quot;
+    echo &quot;     swapon --show                # deve listar só /dev/zram0 (2G)&quot;
+    echo &quot;     cat /sys/block/sda/queue/scheduler   # deve mostrar [bfq]&quot;
+    echo &quot;     cat /sys/kernel/mm/transparent_hugepage/enabled  # [madvise]&quot;
+    echo &quot;     cat /proc/pressure/io        # full deve ficar &lt; 10%&quot;
+    echo
+    echo &quot;   Saúde do HDD (recomendado):&quot;
+    echo &quot;     sudo dnf install -y smartmontools&quot;
+    echo &quot;     sudo smartctl -a /dev/sda | grep -Ei &#x27;Reallocated|Pending|Uncorrectable|Power_On|Temperature&#x27;&quot;
+fi
+</textarea>
+        <div>
+          <button class="copy-btn" onclick="copySource()" id="copy-btn">📋 Copiar código</button>
+          <button class="copy-btn" onclick="downloadSource()" id="dl-btn">💾 Download .sh</button>
+          <a href="aplicar-p1-travamentos.desktop" class="download-btn" download>▶️ Abrir no Terminal (.desktop)</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function copySource() {
+  var textarea = document.getElementById('source-code');
+  textarea.select();
+  textarea.setSelectionRange(0, 999999);
+  document.execCommand('copy');
+  var btn = document.getElementById('copy-btn');
+  btn.textContent = '✅ Copiado!';
+  btn.classList.add('copied');
+  setTimeout(function() {
+    btn.textContent = '📋 Copiar código';
+    btn.classList.remove('copied');
+  }, 2000);
+}
+
+function downloadSource() {
+  var content = document.getElementById('source-code').value;
+  var blob = new Blob([content], {type: 'application/x-shellscript'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'aplicar-p1-travamentos.sh';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  var btn = document.getElementById('dl-btn');
+  btn.textContent = '✅ Baixado!';
+  setTimeout(function() {
+    btn.textContent = '💾 Download .sh';
+  }, 2000);
+}
+</script>
+</body>
+</html>
