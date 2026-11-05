@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=manutencao-api.sh
+Comment=manutencao-api.sh — Diagnóstico de manutenção da API (somente leitura)
+Exec=x-terminal-emulator -e bash -c '/home/runner/work/backup/backup/manutencao-api.sh; echo ""; echo "=== Script finalizado. Pressione Enter para fechar ==="; read'
+Terminal=true
+Icon=terminal
+Categories=Development;System;

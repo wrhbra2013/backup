@@ -123,284 +123,417 @@ tr:hover td { background: #f8fafc; }
 <div class="container">
   <div class="layout">
     <div class="sidebar">
-      <div class="sidebar-title">📂 Navegação</div><a href="../index.html">📊 Dashboard</a><details class="side-group"><summary><span class="g-emoji">🏗️</span>ISO & LiveCD<span class="g-count">13</span></summary><a href="../scripts/build-iso.html">build_iso.sh<span class="s-dir">raiz</span><span class="s-badge">13</span></a><a href="../scripts/build-iso-completa.html">build_iso_completa.sh<span class="s-badge">24</span></a><a href="../scripts/build-offline-from-boot.html">build_offline_from_boot.sh<span class="s-badge">26</span></a><a href="../scripts/build-offline-ol9.html">build_offline_ol9.sh<span class="s-badge">26</span></a><a href="../scripts/build-ol9-openbox-offline.html">build_ol9_openbox_offline.sh<span class="s-badge">26</span></a><a href="../scripts/oracle.html">oracle.sh<span class="s-badge">19</span></a><a href="../scripts/rebuild-ol9-xfce-offline.html">rebuild_ol9_xfce_offline.sh<span class="s-badge">22</span></a><a href="../scripts/build-backup.html">build_backup.sh<span class="s-badge">16</span></a><a href="../scripts/build-iso.html">build_iso.sh<span class="s-dir">sys</span><span class="s-badge">15</span></a><a href="../scripts/create-iso.html">create_iso.sh<span class="s-badge">13</span></a><a href="../scripts/gerar-iso.html">gerar_iso.sh<span class="s-badge">2</span></a><a href="../scripts/gerar-iso-ol10.html">gerar_iso_ol10.sh<span class="s-badge">12</span></a><a href="../scripts/gerar-iso-ol9.html">gerar_iso_ol9.sh<span class="s-badge">13</span></a></details><details class="side-group" open><summary><span class="g-emoji">⚙️</span>Configuração & Otimização<span class="g-count">22</span></summary><a href="../scripts/aplicar-p1-travamentos.html">aplicar-p1-travamentos.sh<span class="s-badge">11</span></a><a href="../scripts/build-iso.html">build-iso.sh<span class="s-badge">22</span></a><a href="../scripts/cache-guard.html">cache-guard.sh<span class="s-badge">12</span></a><a href="../scripts/fix-repos-ol9.html">fix-repos-ol9.sh<span class="s-dir">raiz</span><span class="s-badge">9</span></a><a href="../scripts/fix-boot-ol9-offline.html">fix_boot_ol9_offline.sh<span class="s-badge">8</span></a><a href="../scripts/install-llm.html" class="active">install_llm.sh<span class="s-badge">10</span></a><a href="../scripts/remove-old-kernels.html">remove_old_kernels.sh<span class="s-dir">raiz</span><span class="s-badge">6</span></a><a href="../scripts/setup-performance.html">setup-performance.sh<span class="s-dir">raiz</span><span class="s-badge">17</span></a><a href="../scripts/auto-fix-powerprofiles-selinux.html">auto_fix_powerprofiles_selinux.sh<span class="s-badge">2</span></a><a href="../scripts/fix-repos-ol9.html">fix-repos-ol9.sh<span class="s-dir">sys</span><span class="s-badge">9</span></a><a href="../scripts/llm.html">llm.sh<span class="s-badge">9</span></a><a href="../scripts/mgc.html">mgc.sh<span class="s-badge">7</span></a><a href="../scripts/ol9-audit-otimizar.html">ol9-audit-otimizar.sh<span class="s-badge">14</span></a><a href="../scripts/ol9-full-setup.html">ol9-full-setup.sh<span class="s-badge">12</span></a><a href="../scripts/oracle-config.html">oracle_config.sh<span class="s-badge">2</span></a><a href="../scripts/otimizar-gnome.html">otimizar-gnome.sh<span class="s-badge">3</span></a><a href="../scripts/otimizar-xfce.html">otimizar-xfce.sh<span class="s-badge">15</span></a><a href="../scripts/remove-old-kernels.html">remove_old_kernels.sh<span class="s-dir">sys</span><span class="s-badge">4</span></a><a href="../scripts/setup-performance.html">setup-performance.sh<span class="s-dir">sys</span><span class="s-badge">17</span></a><a href="../scripts/setup-xfce-tiling.html">setup-xfce-tiling.sh<span class="s-badge">7</span></a><a href="../scripts/setup-zram.html">setup-zram.sh<span class="s-badge">3</span></a><a href="../scripts/xrandr-config.html">xrandr-config.sh<span class="s-badge">7</span></a></details><details class="side-group"><summary><span class="g-emoji">📦</span>Empacotamento<span class="g-count">3</span></summary><a href="../scripts/create-rpm.html">create_rpm.sh<span class="s-badge">9</span></a><a href="../scripts/appimage2rpm.html">appimage2rpm.sh<span class="s-badge">9</span></a><a href="../scripts/manager-repo-sh.html">manager_repo_sh<span class="s-badge">3</span></a></details><details class="side-group"><summary><span class="g-emoji">🖥️</span>Virtualização & VM<span class="g-count">3</span></summary><a href="../scripts/control.html">control.sh<span class="s-badge">8</span></a><a href="../scripts/restore-snapshot-disable-ufw.html">restore-snapshot-disable-ufw.sh<span class="s-badge">1</span></a><a href="../scripts/setup-api-debian.html">setup-api-debian.sh<span class="s-badge">13</span></a></details><details class="side-group"><summary><span class="g-emoji">🌐</span>Servidores & Serviços<span class="g-count">3</span></summary><a href="../scripts/debian.html">debian.sh<span class="s-badge">4</span></a><a href="../scripts/manut.html">manut.sh<span class="s-badge">4</span></a><a href="../scripts/node.html">node.sh<span class="s-badge">12</span></a></details><details class="side-group"><summary><span class="g-emoji">🔵</span>Bluetooth<span class="g-count">2</span></summary><a href="../scripts/bt-auto.html">bt-auto.sh<span class="s-badge">1</span></a><a href="../scripts/bt-ctl.html">bt-ctl.sh<span class="s-badge">1</span></a></details><details class="side-group"><summary><span class="g-emoji">🔄</span>Sincronização & Docs<span class="g-count">5</span></summary><a href="../scripts/git-sync.html">git-sync.sh<span class="s-badge">3</span></a><a href="../scripts/atualizar.html">atualizar.sh<span class="s-badge">2</span></a><a href="../scripts/update-appimages.html">update-appimages.sh<span class="s-dir">sys</span><span class="s-badge">13</span></a><a href="../scripts/update-appimages.html">update-appimages.sh<span class="s-dir">raiz</span><span class="s-badge">13</span></a><a href="../scripts/update-docs.html">update-docs.sh<span class="s-badge">2</span></a></details><details class="side-group"><summary><span class="g-emoji">🛒</span>SKU & E-commerce<span class="g-count">2</span></summary><a href="../scripts/gerar-sku.html">gerar_sku.sh<span class="s-badge">1</span></a><a href="../scripts/gerar-sku-ebook.html">gerar_sku_ebook.sh<span class="s-badge">1</span></a></details>
+      <div class="sidebar-title">📂 Navegação</div><a href="../index.html">📊 Dashboard</a><details class="side-group"><summary><span class="g-emoji">🏗️</span>ISO & LiveCD<span class="g-count">13</span></summary><a href="../scripts/build-iso.html">build_iso.sh<span class="s-dir">raiz</span><span class="s-badge">13</span></a><a href="../scripts/build-iso-completa.html">build_iso_completa.sh<span class="s-badge">24</span></a><a href="../scripts/build-offline-from-boot.html">build_offline_from_boot.sh<span class="s-badge">26</span></a><a href="../scripts/build-offline-ol9.html">build_offline_ol9.sh<span class="s-badge">26</span></a><a href="../scripts/build-ol9-openbox-offline.html">build_ol9_openbox_offline.sh<span class="s-badge">26</span></a><a href="../scripts/oracle.html">oracle.sh<span class="s-badge">19</span></a><a href="../scripts/rebuild-ol9-xfce-offline.html">rebuild_ol9_xfce_offline.sh<span class="s-badge">22</span></a><a href="../scripts/build-backup.html">build_backup.sh<span class="s-badge">16</span></a><a href="../scripts/build-iso.html">build_iso.sh<span class="s-dir">sys</span><span class="s-badge">15</span></a><a href="../scripts/create-iso.html">create_iso.sh<span class="s-badge">13</span></a><a href="../scripts/gerar-iso.html">gerar_iso.sh<span class="s-badge">2</span></a><a href="../scripts/gerar-iso-ol10.html">gerar_iso_ol10.sh<span class="s-badge">12</span></a><a href="../scripts/gerar-iso-ol9.html">gerar_iso_ol9.sh<span class="s-badge">13</span></a></details><details class="side-group" open><summary><span class="g-emoji">⚙️</span>Configuração & Otimização<span class="g-count">23</span></summary><a href="../scripts/aplicar-p1-travamentos.html">aplicar-p1-travamentos.sh<span class="s-badge">11</span></a><a href="../scripts/build-iso.html">build-iso.sh<span class="s-badge">22</span></a><a href="../scripts/cache-guard.html">cache-guard.sh<span class="s-badge">12</span></a><a href="../scripts/fix-repos-ol9.html">fix-repos-ol9.sh<span class="s-dir">raiz</span><span class="s-badge">9</span></a><a href="../scripts/fix-boot-ol9-offline.html">fix_boot_ol9_offline.sh<span class="s-badge">8</span></a><a href="../scripts/install-llm.html" class="active">install_llm.sh<span class="s-badge">13</span></a><a href="../scripts/manutencao-api.html">manutencao-api.sh<span class="s-badge">8</span></a><a href="../scripts/remove-old-kernels.html">remove_old_kernels.sh<span class="s-dir">raiz</span><span class="s-badge">6</span></a><a href="../scripts/setup-performance.html">setup-performance.sh<span class="s-dir">raiz</span><span class="s-badge">17</span></a><a href="../scripts/auto-fix-powerprofiles-selinux.html">auto_fix_powerprofiles_selinux.sh<span class="s-badge">2</span></a><a href="../scripts/fix-repos-ol9.html">fix-repos-ol9.sh<span class="s-dir">sys</span><span class="s-badge">9</span></a><a href="../scripts/llm.html">llm.sh<span class="s-badge">9</span></a><a href="../scripts/mgc.html">mgc.sh<span class="s-badge">7</span></a><a href="../scripts/ol9-audit-otimizar.html">ol9-audit-otimizar.sh<span class="s-badge">14</span></a><a href="../scripts/ol9-full-setup.html">ol9-full-setup.sh<span class="s-badge">12</span></a><a href="../scripts/oracle-config.html">oracle_config.sh<span class="s-badge">2</span></a><a href="../scripts/otimizar-gnome.html">otimizar-gnome.sh<span class="s-badge">3</span></a><a href="../scripts/otimizar-xfce.html">otimizar-xfce.sh<span class="s-badge">15</span></a><a href="../scripts/remove-old-kernels.html">remove_old_kernels.sh<span class="s-dir">sys</span><span class="s-badge">4</span></a><a href="../scripts/setup-performance.html">setup-performance.sh<span class="s-dir">sys</span><span class="s-badge">17</span></a><a href="../scripts/setup-xfce-tiling.html">setup-xfce-tiling.sh<span class="s-badge">7</span></a><a href="../scripts/setup-zram.html">setup-zram.sh<span class="s-badge">3</span></a><a href="../scripts/xrandr-config.html">xrandr-config.sh<span class="s-badge">7</span></a></details><details class="side-group"><summary><span class="g-emoji">📦</span>Empacotamento<span class="g-count">3</span></summary><a href="../scripts/create-rpm.html">create_rpm.sh<span class="s-badge">9</span></a><a href="../scripts/appimage2rpm.html">appimage2rpm.sh<span class="s-badge">9</span></a><a href="../scripts/manager-repo-sh.html">manager_repo_sh<span class="s-badge">3</span></a></details><details class="side-group"><summary><span class="g-emoji">🖥️</span>Virtualização & VM<span class="g-count">3</span></summary><a href="../scripts/control.html">control.sh<span class="s-badge">8</span></a><a href="../scripts/restore-snapshot-disable-ufw.html">restore-snapshot-disable-ufw.sh<span class="s-badge">1</span></a><a href="../scripts/setup-api-debian.html">setup-api-debian.sh<span class="s-badge">13</span></a></details><details class="side-group"><summary><span class="g-emoji">🌐</span>Servidores & Serviços<span class="g-count">3</span></summary><a href="../scripts/debian.html">debian.sh<span class="s-badge">4</span></a><a href="../scripts/manut.html">manut.sh<span class="s-badge">4</span></a><a href="../scripts/node.html">node.sh<span class="s-badge">12</span></a></details><details class="side-group"><summary><span class="g-emoji">🔵</span>Bluetooth<span class="g-count">2</span></summary><a href="../scripts/bt-auto.html">bt-auto.sh<span class="s-badge">1</span></a><a href="../scripts/bt-ctl.html">bt-ctl.sh<span class="s-badge">1</span></a></details><details class="side-group"><summary><span class="g-emoji">🔄</span>Sincronização & Docs<span class="g-count">5</span></summary><a href="../scripts/git-sync.html">git-sync.sh<span class="s-badge">3</span></a><a href="../scripts/atualizar.html">atualizar.sh<span class="s-badge">2</span></a><a href="../scripts/update-appimages.html">update-appimages.sh<span class="s-dir">sys</span><span class="s-badge">13</span></a><a href="../scripts/update-appimages.html">update-appimages.sh<span class="s-dir">raiz</span><span class="s-badge">13</span></a><a href="../scripts/update-docs.html">update-docs.sh<span class="s-badge">2</span></a></details><details class="side-group"><summary><span class="g-emoji">🛒</span>SKU & E-commerce<span class="g-count">2</span></summary><a href="../scripts/gerar-sku.html">gerar_sku.sh<span class="s-badge">1</span></a><a href="../scripts/gerar-sku-ebook.html">gerar_sku_ebook.sh<span class="s-badge">1</span></a></details>
     </div>
     <div class="main-content script-page">
       <a href="../index.html" class="back-link">Voltar ao Dashboard</a>
 
       <h1>install_llm.sh</h1>
-      <p class="subtitle"><span class="badge badge-cat" style="background:rgba(14,165,233,.12);color:rgb(14,165,233)">⚙️ Configuração & Otimização</span> <span>install_llm.sh — Instalação completa (Llamafile + Fastify API + SQLite + Nginx)</span></p>
+      <p class="subtitle"><span class="badge badge-cat" style="background:rgba(14,165,233,.12);color:rgb(14,165,233)">⚙️ Configuração & Otimização</span> <span>install_sh — Instala SQLite + Integra com LLM (Llamafile)</span></p>
 
-      <div class="meta-table"><table><tr><td colspan='2'>==============================================================</td></tr><tr><td colspan='2'>install_llm.sh — Instalação completa (Llamafile + Fastify API + SQLite + Nginx)</td></tr><tr><td colspan='2'>Requer: Debian 11+, root.</td></tr><tr><td colspan='2'>==============================================================</td></tr><tr><td colspan='2'>&nbsp;</td></tr></table></div>
-      <div class="meta-table"><table><tr><td>Arquivo</td><td><code>install_llm.sh</code></td></tr><tr><td>Shebang</td><td><code></code></td></tr><tr><td>Tamanho</td><td>8.0 KB · 261 linhas</td></tr></table></div>
-      <h2>Funções</h2><div class='func-list'><span class="func-item">info() <span style="opacity:0.5">linha 15</span></span><span class="func-item">warn() <span style="opacity:0.5">linha 16</span></span><span class="func-item">error() <span style="opacity:0.5">linha 17</span></span><span class="func-item">uninstall() <span style="opacity:0.5">linha 23</span></span></div>
-      <h2>Variáveis de Configuração</h2><div class='var-list'><span class="var-item"><code>INSTALL_DIR</code> = <code>/var/www/llm</code></span><span class="var-item"><code>SRC_DIR</code> = <code>$INSTALL_DIR/api/src</code></span><span class="var-item"><code>DATA_DIR</code> = <code>$INSTALL_DIR/data</code></span><span class="var-item"><code>NGINX_CONF</code> = <code>/etc/nginx/sites-available/llm-main</code></span><span class="var-item"><code>RED</code> = <code>\033[0;31m&#x27;; GREEN=&#x27;\033[0;32m&#x27;; YELLOW=&#x27;\033[1;33m&#x27;; NC=...</code></span><span class="var-item"><code>APP_PORT</code> = <code>3004</code></span><span class="var-item"><code>LLM_PORT</code> = <code>3005</code></span><span class="var-item"><code>API_TOKEN</code> = <code>$(openssl rand -hex 16)</code></span><span class="var-item"><code>PORT</code> = <code>$APP_PORT</code></span><span class="var-item"><code>DB_PATH</code> = <code>$DATA_DIR/llm.db</code></span><span class="var-item"><code>MODEL_FILE</code> = <code>LFM2.5-230M-Q4_K_M.llamafile</code></span><span class="var-item"><code>GGUF_FILE</code> = <code>LFM2.5-230M-Q4_K_M.gguf</code></span></div>
-      <h2>Comandos Utilizados</h2><div class="cmd-group"><div class="cmd-group-title">System Service</div><div class="cmd-list"><span class="badge badge-cmd">systemctl</span></div></div><div class="cmd-group"><div class="cmd-group-title">Download</div><div class="cmd-list"><span class="badge badge-cmd">curl</span><span class="badge badge-cmd">wget</span></div></div><div class="cmd-group"><div class="cmd-group-title">File Operations</div><div class="cmd-list"><span class="badge badge-cmd">cp</span><span class="badge badge-cmd">ln</span><span class="badge badge-cmd">mkdir</span><span class="badge badge-cmd">rm</span></div></div><div class="cmd-group"><div class="cmd-group-title">Permissions</div><div class="cmd-list"><span class="badge badge-cmd">chmod</span></div></div><div class="cmd-group"><div class="cmd-group-title">Node.js</div><div class="cmd-list"><span class="badge badge-cmd">npm</span></div></div><div class="cmd-group"><div class="cmd-group-title">Web Server</div><div class="cmd-list"><span class="badge badge-cmd">nginx</span></div></div>
+      <div class="meta-table"><table><tr><td colspan='2'>==============================================================</td></tr><tr><td colspan='2'>install_sh — Instala SQLite + Integra com LLM (Llamafile)</td></tr><tr><td colspan='2'>Purpose: Baixar dependências do SQLite, integrar banco de dados</td></tr><tr><td colspan='2'>nas operações da LLM, melhorar desempenho e configurar pontes Python.</td></tr><tr><td colspan='2'>Requer: Debian/Ubuntu, root.</td></tr><tr><td colspan='2'>==============================================================</td></tr><tr><td colspan='2'>&nbsp;</td></tr></table></div>
+      <div class="meta-table"><table><tr><td>Arquivo</td><td><code>install_llm.sh</code></td></tr><tr><td>Shebang</td><td><code>#!/bin/sh</code></td></tr><tr><td>Tamanho</td><td>14.5 KB · 394 linhas</td></tr></table></div>
+      <h2>Funções</h2><div class='func-list'><span class="func-item">info() <span style="opacity:0.5">linha 12</span></span><span class="func-item">warn() <span style="opacity:0.5">linha 13</span></span><span class="func-item">error() <span style="opacity:0.5">linha 14</span></span><span class="func-item">_apt_update() <span style="opacity:0.5">linha 20</span></span></div>
+      <h2>Variáveis de Configuração</h2><div class='var-list'><span class="var-item"><code>RED</code> = <code>\033[0;31m&#x27;; GREEN=&#x27;\033[0;32m&#x27;; YELLOW=&#x27;\033[1;33m&#x27;; NC=...</code></span><span class="var-item"><code>DEB_VER</code> = <code>$(cat /etc/debian_version 2&gt;/dev/null || echo &quot;desconheci...</code></span><span class="var-item"><code>SCRIPT_DIR</code> = <code>$(cd &quot;$(dirname &quot;$0&quot;)&quot; &amp;&amp; pwd)</code></span><span class="var-item"><code>INSTALL_DIR</code> = <code>/var/www/llm</code></span><span class="var-item"><code>SRC_DIR</code> = <code>$INSTALL_DIR/api/src</code></span><span class="var-item"><code>DATA_DIR</code> = <code>$INSTALL_DIR/data</code></span><span class="var-item"><code>DB_PATH</code> = <code>$DATA_DIR/llm.db</code></span></div>
+      <h2>Comandos Utilizados</h2><div class="cmd-group"><div class="cmd-group-title">System Service</div><div class="cmd-list"><span class="badge badge-cmd">systemctl</span></div></div><div class="cmd-group"><div class="cmd-group-title">Download</div><div class="cmd-list"><span class="badge badge-cmd">curl</span><span class="badge badge-cmd">wget</span></div></div><div class="cmd-group"><div class="cmd-group-title">Text Processing</div><div class="cmd-list"><span class="badge badge-cmd">awk</span><span class="badge badge-cmd">grep</span><span class="badge badge-cmd">sed</span></div></div><div class="cmd-group"><div class="cmd-group-title">File Operations</div><div class="cmd-list"><span class="badge badge-cmd">cp</span><span class="badge badge-cmd">mkdir</span><span class="badge badge-cmd">mv</span><span class="badge badge-cmd">rm</span></div></div><div class="cmd-group"><div class="cmd-group-title">Permissions</div><div class="cmd-list"><span class="badge badge-cmd">chmod</span></div></div><div class="cmd-group"><div class="cmd-group-title">Python</div><div class="cmd-list"><span class="badge badge-cmd">python3</span></div></div><div class="cmd-group"><div class="cmd-group-title">Web Server</div><div class="cmd-list"><span class="badge badge-cmd">nginx</span></div></div>
       
 
       <h2>Código Fonte</h2>
       <div class="source-box">
-        <textarea id="source-code" rows="20" readonly spellcheck="false"> #!/bin/sh
+        <textarea id="source-code" rows="20" readonly spellcheck="false">#!/bin/sh
+# ==============================================================
+# install_sh — Instala SQLite + Integra com LLM (Llamafile)
+# Purpose: Baixar dependências do SQLite, integrar banco de dados
+# nas operações da LLM, melhorar desempenho e configurar pontes Python.
+# Requer: Debian/Ubuntu, root.
+# ==============================================================
+
 set -eu
-
-# ==============================================================
-# install_llm.sh — Instalação completa (Llamafile + Fastify API + SQLite + Nginx)
-# Requer: Debian 11+, root.
-# ==============================================================
-
-INSTALL_DIR=&quot;/var/www/llm&quot;
-SRC_DIR=&quot;$INSTALL_DIR/api/src&quot;
-DATA_DIR=&quot;$INSTALL_DIR/data&quot;
-NGINX_CONF=&quot;/etc/nginx/sites-available/llm-main&quot;
 
 RED=&#x27;\033[0;31m&#x27;; GREEN=&#x27;\033[0;32m&#x27;; YELLOW=&#x27;\033[1;33m&#x27;; NC=&#x27;\033[0m&#x27;
 info()  { printf &quot;${GREEN}[INFO]${NC} %s\n&quot; &quot;$1&quot;; }
 warn()  { printf &quot;${YELLOW}[WARN]${NC} %s\n&quot; &quot;$1&quot; &gt;&amp;2; }
 error() { printf &quot;${RED}[ERRO]${NC} %s\n&quot; &quot;$1&quot; &gt;&amp;2; exit 1; }
 
-# Verificar root
-[ &quot;$(id -u)&quot; -eq 0 ] || error &quot;Execute como root: sudo bash install_llm.sh&quot;
+[ &quot;$(id -u)&quot; -eq 0 ] || error &quot;Execute como root: sudo bash install_sh.sh&quot;
 
-# Função de desinstalação
-uninstall() {
-    info &quot;===== Iniciando desinstalação do LLM API =====&quot;
-    systemctl stop lfm-llamafile.service 2&gt;/dev/null || true
-    systemctl disable lfm-llamafile.service 2&gt;/dev/null || true
-    rm -f /etc/systemd/system/lfm-llamafile.service
-    systemctl daemon-reload
-
-    systemctl stop llm-api.service 2&gt;/dev/null || true
-    systemctl disable llm-api.service 2&gt;/dev/null || true
-    rm -f /etc/systemd/system/llm-api.service
-    systemctl daemon-reload
-
-    rm -f &quot;/etc/nginx/sites-enabled/llm-main&quot;
-    rm -f &quot;$NGINX_CONF&quot;
-    systemctl reload nginx 2&gt;/dev/null || true
-
-    rm -rf &quot;$INSTALL_DIR&quot;
-    info &quot;Desinstalação concluída com sucesso!&quot;
+# --- Detectar gerenciador de pacotes ---
+_apt_update_done=0
+_apt_update() {
+  if [ &quot;$_apt_update_done&quot; -eq 0 ]; then
+    info &quot;Executando apt-get update...&quot;
+    apt-get update -qq || error &quot;Falha ao executar apt-get update&quot;
+    _apt_update_done=1
+  fi
 }
 
-if [ &quot;${1:-}&quot; = &quot;uninstall&quot; ]; then
-    uninstall
-    exit 0
+# --- Verificar Debian/Ubuntu ---
+if [ ! -f /etc/debian_version ]; then
+  error &quot;Este script requer Debian 11+ ou Ubuntu. /etc/debian_version nao encontrado.&quot;
+fi
+DEB_VER=$(cat /etc/debian_version 2&gt;/dev/null || echo &quot;desconhecido&quot;)
+info &quot;Sistema: Debian $DEB_VER&quot;
+
+# --- curl ---
+if ! command -v curl &gt;/dev/null 2&gt;&amp;1; then
+  warn &quot;curl nao encontrado — instalando...&quot;
+  _apt_update &amp;&amp; apt-get install -y -qq curl
+  command -v curl &gt;/dev/null 2&gt;&amp;1 &amp;&amp; info &quot;curl instalado&quot; || error &quot;Falha ao instalar curl&quot;
 fi
 
-info &quot;===== Iniciando instalação da API LLM + SQLite + Llamafile =====&quot;
+# --- openssl ---
+if ! command -v openssl &gt;/dev/null 2&gt;&amp;1; then
+  warn &quot;openssl nao encontrado — instalando...&quot;
+  _apt_update &amp;&amp; apt-get install -y -qq openssl
+  command -v openssl &gt;/dev/null 2&gt;&amp;1 &amp;&amp; info &quot;openssl instalado&quot; || error &quot;Falha ao instalar openssl&quot;
+fi
 
-# Checar dependências
-apt-get update -qq
-apt-get install -y -qq curl openssl sqlite3 nginx nodejs npm wget iproute2
+# --- sqlite3 ---
+if ! command -v sqlite3 &gt;/dev/null 2&gt;&amp;1; then
+  warn &quot;sqlite3 nao encontrado — instalando...&quot;
+  _apt_update &amp;&amp; apt-get install -y -qq sqlite3
+  command -v sqlite3 &gt;/dev/null 2&gt;&amp;1 &amp;&amp; info &quot;sqlite3 instalado&quot; || error &quot;Falha ao instalar sqlite3&quot;
+fi
 
-# --------------------------------------------------------------
-# 0. Configuração de Portas
-# --------------------------------------------------------------
-APP_PORT=3004
-LLM_PORT=3005
+# --- python3-sqlite3 ---
+if ! python3 -c &quot;import sqlite3&quot; &gt;/dev/null 2&gt;&amp;1; then
+  warn &quot;python3-sqlite3 nao encontrado — instalando...&quot;
+  _apt_update &amp;&amp; apt-get install -y -qq python3-sqlite3
+  python3 -c &quot;import sqlite3; print(&#x27;python3-sqlite3 ok&#x27;)&quot; &amp;&amp; info &quot;python3-sqlite3 instalado&quot; || error &quot;Falha ao instalar python3-sqlite3&quot;
+fi
 
-info &quot;Porta selecionada para a API Fastify: $APP_PORT&quot;
-info &quot;Porta reservada para o Llamafile: $LLM_PORT&quot;
+# --- Diretórios de instalação ---
+SCRIPT_DIR=&quot;$(cd &quot;$(dirname &quot;$0&quot;)&quot; &amp;&amp; pwd)&quot;
+INSTALL_DIR=&quot;/var/www/llm&quot;
+SRC_DIR=&quot;$INSTALL_DIR/api/src&quot;
+DATA_DIR=&quot;$INSTALL_DIR/data&quot;
+mkdir -p &quot;$SRC_DIR&quot; &quot;$DATA_DIR&quot; &amp;&amp; info &quot;Diretórios criados: $SRC_DIR, $DATA_DIR&quot;
 
-# Criar diretórios
-mkdir -p &quot;$SRC_DIR&quot; &quot;$DATA_DIR&quot;
+# --- Banco de dados SQLite com performance optimizations ---
+DB_PATH=&quot;$DATA_DIR/llm.db&quot;
 
-# Gerar Token de API seguro
-API_TOKEN=$(openssl rand -hex 16)
+info &quot;Inicializando banco de dados SQLite com optimizações de desempenho...&quot;
 
-# --------------------------------------------------------------
-# 1. Criar arquivo .env
-# --------------------------------------------------------------
-info &quot;Criando arquivo .env...&quot;
-cat &gt; &quot;$INSTALL_DIR/.env&quot; &lt;&lt;ENVEOF
-PORT=$APP_PORT
-LLM_PORT=$LLM_PORT
+sqlite3 &quot;$DB_PATH&quot; &lt;&lt;SQLEOF
+PRAGMA journal_mode=WAL;
+PRAGMA synchronous=NORMAL;
+PRAGMA cache_size=-64000;         -- 64MB cache
+PRAGMA temp_store=MEMORY;
+PRAGMA foreign_keys=OFF;
+
+CREATE TABLE IF NOT EXISTS conversa (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    papel TEXT NOT NULL,
+    conteudo TEXT NOT NULL,
+    timestamp TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS interacoes (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    prompt TEXT NOT NULL,
+    resposta TEXT,
+    tokens_uso INTEGER,
+    modelo TEXT,
+    timestamp TEXT NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_interacoes_prompt ON interacoes(prompt);
+CREATE INDEX IF NOT EXISTS idx_interacoes_modelo ON interacoes(modelo);
+CREATE INDEX IF NOT EXISTS idx_interacoes_timestamp ON interacoes(timestamp);
+
+CREATE TABLE IF NOT EXISTS configuracoes (
+    chave TEXT PRIMARY KEY,
+    valor TEXT NOT NULL
+);
+SQLEOF
+
+chmod 600 &quot;$DB_PATH&quot; &amp;&amp; info &quot;Banco de dados criado: $DB_PATH com WAL e indexes&quot;
+
+# Inserir configurações padrão se nao existirem
+DEFAULT_CONTEXT_SIZE=1024
+DEFAULT_THREADS=2
+sqlite3 &quot;$DB_PATH&quot; &quot;INSERT OR IGNORE INTO configuracoes (chave, valor) VALUES (&#x27;CONTEXT_SIZE&#x27;, &#x27;$DEFAULT_CONTEXT_SIZE&#x27;);&quot;
+sqlite3 &quot;$DB_PATH&quot; &quot;INSERT OR IGNORE INTO configuracoes (chave, valor) VALUES (&#x27;THREADS&#x27;, &#x27;$DEFAULT_THREADS&#x27;);&quot;
+info &quot;Tabelas SQLite criadas com indexes de performance&quot;
+
+# --- Ponteiro Python para SQLite ---
+PY_BRIDGE_DST=&quot;$DATA_DIR/sqlite_llm_bridge.py&quot;
+
+if [ -f &quot;$SCRIPT_DIR/api/src/sqlite_llm_bridge.py&quot; ]; then
+  cp &quot;$SCRIPT_DIR/api/src/sqlite_llm_bridge.py&quot; &quot;$PY_BRIDGE_DST&quot;
+  chmod +x &quot;$PY_BRIDGE_DST&quot;
+  info &quot;Ponteiro Python copiado: $PY_BRIDGE_DST&quot;
+else
+  warn &quot;Arquivo ponteiro Python nao encontrado em $SCRIPT_DIR/api/src/sqlite_llm_bridge.py — criando versao minima&quot;
+  cat &gt; &quot;$PY_BRIDGE_DST&quot; &lt;&lt;&#x27;PYEOF&#x27;
+#!/usr/bin/env python3
+import sqlite3, os, sys, datetime
+DB=os.getenv(&quot;LLM_DB_PATH&quot;,&quot;/var/www/llm/data/llm.db&quot;)
+c=sqlite3.connect(DB)
+def log(p, t): c.execute(&quot;INSERT INTO conversa (papel,conteudo,timestamp) VALUES (?,?,?)&quot;,(p,t,datetime.now().isoformat())); c.commit()
+def hist(n=10): c.execute(&quot;SELECT papel,conteudo,timestamp FROM conversa ORDER BY id DESC LIMIT %s&quot;%(n,)); return c.fetchall()
+def get(k,df=None): r=c.execute(&quot;SELECT valor FROM configuracoes WHERE chave=%s&quot;%(k,)).fetchone(); return r[0] if r else df
+def setk(k,v): c.execute(&quot;INSERT OR REPLACE INTO configuracoes (chave,valor) VALUES (%s,%s)&quot;%(k,v)); c.commit()
+c.close()
+PYEOF
+  chmod +x &quot;$PY_BRIDGE_DST&quot;
+  info &quot;Ponteiro Python minim criado: $PY_BRIDGE_DST&quot;
+fi
+
+# --- .env ---
+if [ ! -f &quot;$INSTALL_DIR/.env&quot; ]; then
+  API_TOKEN=$(openssl rand -hex 16 2&gt;/dev/null || echo &quot;$(date +%s)$RANDOM&quot; | md5sum | head -c 32)
+  cat &gt; &quot;$INSTALL_DIR/.env&quot; &lt;&lt;ENVEOF
+# App
+PORT=8080
 API_TOKEN=$API_TOKEN
-DB_PATH=$DATA_DIR/llm.db
-MODEL_FILE=LFM2.5-230M-Q4_K_M.llamafile
+COMPOSE_PROJECT_NAME=llm
+
+# Modelo Llamafile
+MODEL_NAME=LFM2.5-230M-Q4_K_M
+MODEL_FILE=LFM2.5-Q4_K_M.llamafile
 GGUF_FILE=LFM2.5-230M-Q4_K_M.gguf
+CONTEXT_SIZE=1024
+THREADS=2
 ENVEOF
-chmod 600 &quot;$INSTALL_DIR/.env&quot;
-
-# --------------------------------------------------------------
-# 2. Baixar e preparar o Llamafile
-# --------------------------------------------------------------
-cd &quot;$INSTALL_DIR&quot;
-
-if [ ! -f &quot;LFM2.5-230M-Q4_K_M.gguf&quot; ]; then
-    info &quot;Baixando modelo GGUF...&quot;
-    wget -q --show-progress -O &quot;LFM2.5-230M-Q4_K_M.gguf&quot; &quot;https://huggingface.co/LiquidAI/LFM2.5-230M-GGUF/resolve/main/LFM2.5-230M-Q4_K_M.gguf&quot;
+  chmod 600 &quot;$INSTALL_DIR/.env&quot; &amp;&amp; info &quot;Arquivo .env criado&quot;
+else
+  info &quot;Arquivo .env ja existe: $INSTALL_DIR/.env&quot;
 fi
 
-info &quot;Baixando e configurando o runtime Llamafile...&quot;
-rm -f llamafile-0.10.6 zipalign-0.10.6 LFM2.5-230M-Q4_K_M.llamafile
+# --- Baixar modelo GGUF se nao existir ---
+GGUF_SRC=&quot;$INSTALL_DIR/LFM2.5-230M-Q4_K_M.gguf&quot;
+if [ ! -f &quot;$GGUF_SRC&quot; ]; then
+  info &quot;Modelo GGUF nao encontrado. Baixando de HuggingFace...&quot;
+  wget -c --tries=5 --timeout=60 -O &quot;$GGUF_SRC&quot; \
+    &quot;https://huggingface.co/LiquidAI/LFM2.5-230M-GGUF/resolve/main/LFM2.5-230M-Q4_K_M.gguf&quot; || \
+    error &quot;Falha ao baixar o modelo GGUF de HuggingFace&quot;
+  info &quot;Modelo baixado: $GGUF_FILE&quot;
+else
+  info &quot;Modelo GGUF ja existente: $GGUF_FILE&quot;
+fi
 
-wget -q --show-progress -O &quot;llamafile-0.10.6&quot; &quot;https://github.com/Mozilla-Ocho/llamafile/releases/download/0.10.6/llamafile-0.10.6&quot;
-wget -q --show-progress -O &quot;zipalign-0.10.6&quot; &quot;https://github.com/Mozilla-Ocho/llamafile/releases/download/0.10.6/zipalign-0.10.6&quot;
-chmod +x llamafile-0.10.6 zipalign-0.10.6
+# --- Baixar runtime llamafile ---
+LLAMAFILE_RUNTIME=&quot;llamafile-0.10.6&quot;
+LLAMAFILE_URL=&quot;https://github.com/Mozilla-Ocho/llamafile/releases/download/0.10.6/llamafile-0.10.6&quot;
+if [ -f &quot;$SCRIPT_DIR/$LLAMAFILE_RUNTIME&quot; ] &amp;&amp; [ -x &quot;$SCRIPT_DIR/$LLAMAFILE_RUNTIME&quot; ]; then
+  info &quot;Usando runtime local: $LLAMAFILE_RUNTIME&quot;
+else
+  warn &quot;$LLAMAFILE_RUNTIME nao encontrado. Baixando...&quot;
+  wget -O &quot;$SCRIPT_DIR/$LLAMAFILE_RUNTIME&quot; &quot;$LLAMAFILE_URL&quot; || error &quot;Falha ao baixar $LLAMAFILE_URL&quot;
+  chmod +x &quot;$SCRIPT_DIR/$LLAMAFILE_RUNTIME&quot;
+  info &quot;Baixado: $LLAMAFILE_RUNTIME&quot;
+fi
 
-cp llamafile-0.10.6 LFM2.5-230M-Q4_K_M.llamafile
-chmod +x LFM2.5-230M-Q4_K_M.llamafile
-./zipalign-0.10.6 -j0 LFM2.5-230M-Q4_K_M.gguf LFM2.5-230M-Q4_K_M.llamafile
-chmod +x LFM2.5-230M-Q4_K_M.llamafile
+# --- zipalign ---
+ZIPALIGN=&quot;zipalign-0.10.6&quot;
+ZIPALIGN_URL=&quot;https://github.com/Mozilla-Ocho/llamafile/releases/download/0.10.6/zipalign-0.10.6&quot;
+if [ -f &quot;$SCRIPT_DIR/$ZIPALIGN&quot; ] &amp;&amp; [ -x &quot;$SCRIPT_DIR/$ZIPALIGN&quot; ]; then
+  info &quot;Usando zipalign local: $ZIPALIGN&quot;
+else
+  warn &quot;$ZIPALIGN nao encontrado. Baixando...&quot;
+  wget -O &quot;$SCRIPT_DIR/$ZIPALIGN&quot; &quot;$ZIPALIGN_URL&quot; || error &quot;Falha ao baixar $ZIPALIGN_URL&quot;
+  chmod +x &quot;$SCRIPT_DIR/$ZIPALIGN&quot;
+  info &quot;Baixado: $ZIPALIGN&quot;
+fi
 
-# Systemd para o Llamafile (usando /bin/sh -c para evitar erro 203/EXEC)
-cat &gt; /etc/systemd/system/lfm-llamafile.service &lt;&lt;SVCEOF
+# --- Gerar .llamafile executavel via zipalign -j0 ---
+LLAMAFILE_OUT=&quot;LFM2.5-230M-Q4_K_M.llamafile&quot;
+if [ -f &quot;$INSTALL_DIR/$LLAMAFILE_OUT&quot; ]; then
+  warn &quot;${LLAMAFILE_OUT} ja existe. Serah recriado.&quot;
+  rm -f &quot;$INSTALL_DIR/$LLAMAFILE_OUT&quot;
+fi
+
+info &quot;Copiando runtime para ${LLAMAFILE_OUT}...&quot;
+cp &quot;$SCRIPT_DIR/$LLAMAFILE_RUNTIME&quot; &quot;$INSTALL_DIR/$LLAMAFILE_OUT&quot;
+chmod +x &quot;$INSTALL_DIR/$LLAMAFILE_OUT&quot;
+
+info &quot;Empacotando GGUF + .args com zipalign (-j0)...&quot;
+cat &gt; &quot;$INSTALL_DIR/.args&quot; &lt;&lt;ARGSEOF
+-m /zip/${GGUF_FILE}
+-c 1024
+--nologo
+-np 1
+ARGSEOF
+
+&quot;$SCRIPT_DIR/$ZIPALIGN&quot; -j0 &quot;$INSTALL_DIR/$LLAMAFILE_OUT&quot; &quot;$GGUF_SRC&quot; &quot;$INSTALL_DIR/.args&quot; || \
+  error &quot;Falha ao executar zipalign&quot;
+chmod +x &quot;$INSTALL_DIR/$LLAMAFILE_OUT&quot;
+SIZE_LLAMA=$(du -h &quot;$INSTALL_DIR/$LLAMAFILE_OUT&quot; | awk &#x27;{print $1}&#x27;)
+info &quot;Gerado com sucesso: ${LLAMAFILE_OUT} (${SIZE_LLAMA})&quot;
+
+# --- Systemd service (opcional) ---
+SERVICE_FILE=&quot;/etc/systemd/system/lfm-llamafile.service&quot;
+cat &gt; &quot;$SERVICE_FILE&quot; &lt;&lt;EOF
 [Unit]
-Description=LFM2.5-230M Llamafile Backend
+Description=LFM2.5-230M Llamafile Server
 After=network.target
 
 [Service]
 Type=simple
 User=root
 WorkingDirectory=${INSTALL_DIR}
-ExecStart=/bin/sh -c &#x27;${INSTALL_DIR}/LFM2.5-230M-Q4_K_M.llamafile -m LFM2.5-230M-Q4_K_M.gguf --ctx-size 1024 -t 2 --server --host 127.0.0.1 --port ${LLM_PORT}&#x27;
+ExecStart=${INSTALL_DIR}/${LLAMAFILE_OUT} --ctx-size 1024 -t 2 -tb 2 -np 1 --server --host 127.0.0.1 --port 8080
 Restart=on-failure
 RestartSec=5
 
 [Install]
 WantedBy=multi-user.target
-SVCEOF
+EOF
+systemctl daemon-reload 2&gt;/dev/null || warn &quot;Nao foi possivel recarregar systemd&quot;
+systemctl enable lfm-llamafile.service 2&gt;/dev/null || warn &quot;Nao foi possivel habilitar o service systemd&quot;
+info &quot;Servico systemd criado: $SERVICE_FILE&quot;
 
-systemctl daemon-reload
-systemctl enable --now lfm-llamafile.service
+# --- Nginx: publicar o LLM em https://api.projetosdinamicos.com.br/llm/ ---
+NGINX_SITE=&quot;/etc/nginx/sites-available/default&quot;
+NGINX_DIR=&quot;/etc/nginx/llm.d&quot;
+NGINX_LOCATIONS=&quot;$NGINX_DIR/llm.conf&quot;
+# O curinga e proposital: se o diretorio estiver vazio, o nginx ignora o
+# include em vez de falhar. Assim o vhost pode ser recarregado antes do LLM.
+NGINX_INCLUDE=&quot;include ${NGINX_DIR}/*.conf;&quot;
+info &quot;Criando configuracao nginx...&quot;
 
-# --------------------------------------------------------------
-# 3. Configurar API Node.js / Fastify + SQLite
-# --------------------------------------------------------------
-cd &quot;$INSTALL_DIR/api&quot;
-cat &gt; package.json &lt;&lt;JSONEOF
-{
-  &quot;name&quot;: &quot;llm-api&quot;,
-  &quot;version&quot;: &quot;1.0.0&quot;,
-  &quot;type&quot;: &quot;module&quot;,
-  &quot;scripts&quot;: {
-    &quot;start&quot;: &quot;node src/server.js&quot;
-  },
-  &quot;dependencies&quot;: {
-    &quot;fastify&quot;: &quot;^4.28.0&quot;,
-    &quot;dotenv&quot;: &quot;^16.4.0&quot;,
-    &quot;undici&quot;: &quot;^5.28.4&quot;,
-    &quot;sqlite3&quot;: &quot;^5.1.7&quot;
-  }
+mkdir -p &quot;$NGINX_DIR&quot;
+chmod 755 &quot;$NGINX_DIR&quot;
+
+# Heredoc com o location. O `proxy_pass` com barra final remove /llm/ antes de
+# entregar ao llamafile: /llm/v1/chat/completions -&gt; /v1/chat/completions.
+cat &gt; &quot;$NGINX_LOCATIONS&quot; &lt;&lt;&#x27;NGINXEOF&#x27;
+# /llm/ -&gt; llamafile (127.0.0.1:8080). Gerado por install_llm.sh.
+location /llm/ {
+    proxy_pass http://127.0.0.1:8080/;
+    proxy_http_version 1.1;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+
+    # Streaming (SSE): sem buffer e sem timeout curto
+    proxy_buffering off;
+    proxy_cache off;
+    proxy_read_timeout 600s;
+    proxy_send_timeout 600s;
+
+    # Prompts/contextos maiores que o default de 1M do nginx
+    client_max_body_size 25M;
+
+    # Rate limit por IP (zone definida em /etc/nginx/nginx.conf pelo instalador)
+    limit_req zone=llm burst=5 nodelay;
+    limit_req_status 429;
+
+    # CORS para a pagina estatica OpenChat (GitHub Pages / projetosdinamicos)
+    add_header Access-Control-Allow-Origin &quot;*&quot; always;
+    add_header Access-Control-Allow-Methods &quot;GET, POST, OPTIONS&quot; always;
+    add_header Access-Control-Allow-Headers &quot;Content-Type, Authorization&quot; always;
+    add_header Access-Control-Max-Age 86400 always;
+    if ($request_method = OPTIONS) { return 204; }
 }
-JSONEOF
+NGINXEOF
+info &quot;Location do LLM criada: $NGINX_LOCATIONS&quot;
 
-npm install --production
+# --- Rate limit: a zone precisa estar no contexto http do nginx.conf ---
+NGINX_MAIN=&quot;/etc/nginx/nginx.conf&quot;
+NGINX_RATE_LINE=&#x27;    limit_req_zone $binary_remote_addr zone=llm:10m rate=2r/s;&#x27;
+NGINX_MAIN_BACKUP=&quot;&quot;
+if grep -q &#x27;zone=llm:&#x27; &quot;$NGINX_MAIN&quot; 2&gt;/dev/null; then
+    info &quot;Rate limit do LLM ja presente em $NGINX_MAIN&quot;
+else
+    NGINX_MAIN_BACKUP=&quot;$NGINX_MAIN.bak.$(date +%Y%m%d-%H%M%S)&quot;
+    cp -a &quot;$NGINX_MAIN&quot; &quot;$NGINX_MAIN_BACKUP&quot;
+    TMP_MAIN=$(mktemp)
+    awk -v line=&quot;$NGINX_RATE_LINE&quot; &#x27;
+        { print }
+        !done &amp;&amp; /^[[:space:]]*http[[:space:]]*\{/ { print line; done = 1 }
+    &#x27; &quot;$NGINX_MAIN&quot; &gt; &quot;$TMP_MAIN&quot;
 
-# Criar src/server.js comunicando via HTTP com a porta 3005
-cat &gt; &quot;$SRC_DIR/server.js&quot; &lt;&lt;&#x27;SVREOF&#x27;
-import Fastify from &#x27;fastify&#x27;;
-import &#x27;dotenv/config&#x27;;
-import { request } from &#x27;undici&#x27;;
-import sqlite3 from &#x27;sqlite3&#x27;;
+    if grep -q &#x27;zone=llm:&#x27; &quot;$TMP_MAIN&quot;; then
+        chmod --reference=&quot;$NGINX_MAIN&quot; &quot;$TMP_MAIN&quot; 2&gt;/dev/null || chmod 644 &quot;$TMP_MAIN&quot;
+        mv &quot;$TMP_MAIN&quot; &quot;$NGINX_MAIN&quot;
+        info &quot;Rate limit adicionado em $NGINX_MAIN (2 req/s, burst 5)&quot;
+    else
+        rm -f &quot;$TMP_MAIN&quot;
+        NGINX_MAIN_BACKUP=&quot;&quot;
+        warn &quot;Nao encontrei o bloco &#x27;http {&#x27; em $NGINX_MAIN&quot;
+        warn &quot;Adicione manualmente: $NGINX_RATE_LINE&quot;
+        # Sem a zone, &#x27;limit_req&#x27; no location quebraria o nginx -t.
+        sed -i &#x27;/limit_req zone=llm/d; /limit_req_status 429/d&#x27; &quot;$NGINX_LOCATIONS&quot; 2&gt;/dev/null || true
+        warn &quot;Rate limit removido do location; o LLM sobe sem limite por IP&quot;
+    fi
+fi
 
-const fastify = Fastify({ logger: true });
-const PORT = process.env.PORT || 3004;
-const LLM_PORT = process.env.LLM_PORT || 3005;
-const DB_PATH = process.env.DB_PATH || &#x27;/var/www/llm/data/llm.db&#x27;;
+# Inclui o arquivo dentro do server 443 de api.projetosdinamicos.com.br.
+# Insere logo apos o marcador do bloco amoranimal (que fica nesse server),
+# de forma idempotente: se o include ja existe, nao duplica.
+NGINX_BACKUP=&quot;&quot;
+if grep -qF &quot;$NGINX_INCLUDE&quot; &quot;$NGINX_SITE&quot; 2&gt;/dev/null; then
+    info &quot;Include do LLM ja presente em $NGINX_SITE&quot;
+else
+    NGINX_BACKUP=&quot;$NGINX_SITE.bak.$(date +%Y%m%d-%H%M%S)&quot;
+    cp -a &quot;$NGINX_SITE&quot; &quot;$NGINX_BACKUP&quot;
+    TMP_CONF=$(mktemp)
+    awk -v inc=&quot;    $NGINX_INCLUDE&quot; &#x27;
+        { print }
+        /# LOCATION_END amoranimal/ { print inc }
+    &#x27; &quot;$NGINX_SITE&quot; &gt; &quot;$TMP_CONF&quot;
 
-const db = new sqlite3.Database(DB_PATH, (err) =&gt; {
-  if (err) {
-    console.error(&#x27;Erro ao conectar ao SQLite:&#x27;, err.message);
-  } else {
-    console.log(&#x27;Conectado ao banco SQLite em:&#x27;, DB_PATH);
-    db.run(`CREATE TABLE IF NOT EXISTS chat_logs (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      request TEXT,
-      response TEXT,
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-    )`);
-  }
-});
+    if grep -qF &quot;$NGINX_INCLUDE&quot; &quot;$TMP_CONF&quot;; then
+        chmod --reference=&quot;$NGINX_SITE&quot; &quot;$TMP_CONF&quot; 2&gt;/dev/null || chmod 644 &quot;$TMP_CONF&quot;
+        mv &quot;$TMP_CONF&quot; &quot;$NGINX_SITE&quot;
+        info &quot;Include do LLM adicionado em $NGINX_SITE&quot;
+    else
+        rm -f &quot;$TMP_CONF&quot;
+        warn &quot;Marcador &#x27;# LOCATION_END amoranimal&#x27; nao encontrado em $NGINX_SITE&quot;
+        warn &quot;Adicione manualmente esta linha dentro do server 443: $NGINX_INCLUDE&quot;
+    fi
+fi
 
-const authMiddleware = async (req, reply) =&gt; {
-  const token = req.headers.authorization?.replace(&#x27;Bearer &#x27;, &#x27;&#x27;);
-  const activeToken = process.env.API_TOKEN;
+# Valida e recarrega; se falhar, restaura os backups para nao derrubar a 443
+if nginx -t; then
+    systemctl reload nginx 2&gt;/dev/null || systemctl restart nginx
+    info &quot;Nginx recarregado&quot;
+else
+    if [ -n &quot;$NGINX_BACKUP&quot; ]; then
+        cp -a &quot;$NGINX_BACKUP&quot; &quot;$NGINX_SITE&quot;
+        warn &quot;Config restaurada de $NGINX_BACKUP&quot;
+    fi
+    if [ -n &quot;$NGINX_MAIN_BACKUP&quot; ]; then
+        cp -a &quot;$NGINX_MAIN_BACKUP&quot; &quot;$NGINX_MAIN&quot;
+        warn &quot;Config restaurada de $NGINX_MAIN_BACKUP&quot;
+    fi
+    error &quot;nginx -t falhou ao configurar /llm/&quot;
+fi
 
-  if (!token || token !== activeToken) {
-    reply.code(401).send({ success: false, error: &#x27;Unauthorized - Token inválido ou ausente&#x27; });
-  }
-};
+# --- Final ---
+echo &quot;&quot;
+info &quot;===== Instalacao concluida! =====&quot;
+echo &quot;&quot;
+echo &quot;  Pasta:   $INSTALL_DIR&quot;
+echo &quot;  Modelo:  $LLAMAFILE_OUT&quot;
+echo &quot;  API:     http://127.0.0.1:8080/health&quot;
+echo &quot;  Publico: https://api.projetosdinamicos.com.br/llm/health&quot;
+echo &quot;  OpenChat: https://www.projetosdinamicos.com.br/openchat.html&quot;
+echo &quot;  Banco:   $DB_PATH (SQLite com WAL e indexes)&quot;
+echo &quot;  Bridge:  $PY_BRIDGE_DST&quot;
+echo &quot;&quot;
+echo &quot;  Comandos utilis:&quot;
+echo &quot;    Logs:      $LLAMAFILE_OUT --ctx-size 1024 -t 2 -tb 2 -np 1 --server --host 127.0.0.1 --port 8080&quot;
+echo &quot;    Service:   systemctl start/stop lfm-llamafile&quot;
+echo &quot;    Stop:      pkill -f &#x27;$LLAMAFILE_OUT&#x27;&quot;
+echo &quot;&quot;
+echo &quot;  .env:    $INSTALL_DIR/.env&quot;
+echo &quot;&quot;
 
-fastify.get(&#x27;/ping&#x27;, async () =&gt; ({ pong: true, token_configurado: !!process.env.API_TOKEN, db: &#x27;ativo&#x27; }));
+info &quot;Testando API...&quot;
+resp=$(curl -s &quot;http://127.0.0.1:8080/health&quot; 2&gt;/dev/null) || resp=&quot;&quot;
+echo &quot;$resp&quot; | grep -q &#x27;&quot;status&quot;:&quot;ok&quot;&#x27; &amp;&amp; info &quot;Local:      ✓ http://127.0.0.1:8080/health&quot; || warn &quot;Local:      ✗ $resp&quot;
 
-fastify.post(&#x27;/v1/chat/completions&#x27;, { preHandler: authMiddleware }, async (req, reply) =&gt; {
-  try {
-    const llmResponse = await request(`http://127.0.0.1:${LLM_PORT}/v1/chat/completions`, {
-      method: &#x27;POST&#x27;,
-      headers: { &#x27;Content-Type&#x27;: &#x27;application/json&#x27; },
-      body: JSON.stringify(req.body)
-    });
-    
-    const data = await llmResponse.body.json();
+code=$(curl -s -o /dev/null -w &#x27;%{http_code}&#x27; \
+    &quot;https://api.projetosdinamicos.com.br/llm/health&quot; 2&gt;/dev/null) || code=000
+[ &quot;$code&quot; = &quot;200&quot; ] \
+    &amp;&amp; info &quot;Publico:    ✓ https://api.projetosdinamicos.com.br/llm/health&quot; \
+    || warn &quot;Publico:    ✗ HTTP $code (confira DNS, certificado e nginx)&quot;
 
-    const reqBodyStr = JSON.stringify(req.body);
-    const resBodyStr = JSON.stringify(data);
-    db.run(`INSERT INTO chat_logs (request, response) VALUES (?, ?)`, [reqBodyStr, resBodyStr], (err) =&gt; {
-      if (err) req.log.error(&#x27;Erro ao salvar no SQLite: &#x27; + err.message);
-    });
-
-    return reply.code(llmResponse.statusCode).send(data);
-  } catch (error) {
-    req.log.error(error);
-    return reply.code(500).send({ success: false, error: &#x27;Erro ao comunicar com o motor LLM&#x27; });
-  }
-});
-
-await fastify.listen({ port: PORT, host: &#x27;127.0.0.1&#x27; });
-console.log(`API rodando na porta ${PORT}`);
-SVREOF
-
-# Systemd para a API Fastify
-cat &gt; /etc/systemd/system/llm-api.service &lt;&lt;SVCEOF
-[Unit]
-Description=LLM Fastify API
-After=network.target lfm-llamafile.service
-
-[Service]
-Type=simple
-User=root
-WorkingDirectory=${INSTALL_DIR}/api
-ExecStart=/usr/bin/node src/server.js
-Restart=on-failure
-RestartSec=5
-EnvironmentFile=${INSTALL_DIR}/.env
-
-[Install]
-WantedBy=multi-user.target
-SVCEOF
-
-systemctl daemon-reload
-systemctl enable --now llm-api.service
-
-# --------------------------------------------------------------
-# 4. Configurar Nginx
-# --------------------------------------------------------------
-cat &gt; &quot;$NGINX_CONF&quot; &lt;&lt;NGXEOF
-server {
-    listen 80;
-    server_name api.projetosdinamicos.com.br;
-
-    location /llm/ {
-        proxy_pass http://127.0.0.1:${APP_PORT}/;
-        proxy_http_version 1.1;
-        proxy_set_header Host \$host;
-        proxy_set_header X-Real-IP \$remote_addr;
-        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto \$scheme;
-        proxy_read_timeout 300s;
-        proxy_send_timeout 300s;
-    }
-}
-NGXEOF
-
-ln -sf &quot;$NGINX_CONF&quot; /etc/nginx/sites-enabled/llm-main
-nginx -t &amp;&amp; systemctl reload nginx
-
-info &quot;===== Instalação concluída com sucesso! =====&quot;
-info &quot;Seu token de acesso gerado está em: $INSTALL_DIR/.env&quot;
-</textarea>
+echo &amp;&amp; info &quot;Testes concluidos!&quot;</textarea>
         <div>
           <button class="copy-btn" onclick="copySource()" id="copy-btn">📋 Copiar código</button>
           <button class="copy-btn" onclick="downloadSource()" id="dl-btn">💾 Download .sh</button>

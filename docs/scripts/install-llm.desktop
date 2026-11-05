@@ -1,7 +1,7 @@
 [Desktop Entry]
 Type=Application
 Name=install_llm.sh
-Comment=install_llm.sh — Instalação completa (Llamafile + Fastify API + SQLite + Nginx)
+Comment=install_sh — Instala SQLite + Integra com LLM (Llamafile)
 Exec=x-terminal-emulator -e bash -c '/home/runner/work/backup/backup/install_llm.sh; echo ""; echo "=== Script finalizado. Pressione Enter para fechar ==="; read'
 Terminal=true
 Icon=terminal
