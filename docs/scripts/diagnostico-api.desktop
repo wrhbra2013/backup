@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=diagnostico-api.sh
+Comment=Diagnóstico somente-leitura da API amor animal.
+Exec=x-terminal-emulator -e bash -c '/home/runner/work/backup/backup/diagnostico-api.sh; echo ""; echo "=== Script finalizado. Pressione Enter para fechar ==="; read'
+Terminal=true
+Icon=terminal
+Categories=Development;System;
